@@ -36,7 +36,7 @@
           <Property Name="PostID" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="PostUrl" Type="nvarchar" MaxLength="500" />
           <Property Name="PostContent" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Time" Type="datetime" Nullable="false" />
+          <Property Name="Time" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="TotalLikes" Type="int" Nullable="false" />
           <Property Name="TotalComment" Type="int" Nullable="false" />
           <Property Name="TotalShare" Type="int" Nullable="false" />
@@ -163,7 +163,7 @@
           <Property Name="PostID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="PostUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="PostContent" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Time" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="TotalLikes" Type="Int32" Nullable="false" />
           <Property Name="TotalComment" Type="Int32" Nullable="false" />
           <Property Name="TotalShare" Type="Int32" Nullable="false" />
@@ -215,7 +215,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>

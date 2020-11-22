@@ -14,7 +14,7 @@ namespace BLL_NewsManagementSystem.BLL
     public class BLL_BlackList
     {
         DAL_BlackList dalBlackList = new DAL_BlackList();
-        EntityMapper<JBlackList, BlackListDto> convertToBlackListDto = new EntityMapper<JBlackList, BlackListDto>();
+        EntityMapper<JBlackList, BlackListDto> mapToBlackListDto = new EntityMapper<JBlackList, BlackListDto>();
 
         public BLL_BlackList()
         {
@@ -25,7 +25,7 @@ namespace BLL_NewsManagementSystem.BLL
             List<BlackListDto> blackListDtos = new List<BlackListDto>();
             foreach (var item in blackLists)
             {
-                blackListDtos.Add(convertToBlackListDto.Translate(item));
+                blackListDtos.Add(mapToBlackListDto.Translate(item));
             }
             return blackListDtos;
         }
