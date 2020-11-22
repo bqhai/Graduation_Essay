@@ -31,6 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DAL_NewsManagementSystem">
+      <HintPath>..\DAL_NewsManagementSystem\bin\Debug\DAL_NewsManagementSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="Models_NewsManagementSystem">
+      <HintPath>..\Models_NewsManagementSystem\bin\Debug\Models_NewsManagementSystem.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLL\BLL_BlackList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

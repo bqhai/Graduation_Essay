@@ -34,6 +34,9 @@
     <Reference Include="AutoMapper">
       <HintPath>..\..\..\lib\AutoMapper.dll</HintPath>
     </Reference>
+    <Reference Include="DAL_NewsManagementSystem">
+      <HintPath>..\DAL_NewsManagementSystem\bin\Debug\DAL_NewsManagementSystem.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MappingClass\BlackListDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\EntityMapper.cs" />
   </ItemGroup>

@@ -15,8 +15,8 @@ namespace DAL_NewsManagementSystem.Models
     public partial class Post
     {
         public string PostID { get; set; }
-        public string Url { get; set; }
-        public string Content { get; set; }
+        public string PostUrl { get; set; }
+        public string PostContent { get; set; }
         public System.DateTime Time { get; set; }
         public int TotalLikes { get; set; }
         public int TotalComment { get; set; }

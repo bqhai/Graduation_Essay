@@ -21,8 +21,8 @@ namespace DAL_NewsManagementSystem.Models
         }
     
         public string FacebookID { get; set; }
-        public string Name { get; set; }
-        public string Url { get; set; }
+        public string FacebookName { get; set; }
+        public string FacebookUrl { get; set; }
         public string FacebookTypeID { get; set; }
     
         public virtual FacebookType FacebookType { get; set; }

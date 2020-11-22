@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using DAL_NewsManagementSystem.JoinningTable;
 using DAL_NewsManagementSystem.Models;
+using Models_NewsManagementSystem.MappingClass;
 
 namespace Models_NewsManagementSystem.Repository
 {
@@ -12,7 +14,8 @@ namespace Models_NewsManagementSystem.Repository
     {
         public EntityMapper()
         {
-            
+            Mapper.CreateMap<JBlackList, BlackListDto>();
+            Mapper.CreateMap<BlackListDto, JBlackList>();
         }
         public TDestination Translate(TSource obj)
         {
