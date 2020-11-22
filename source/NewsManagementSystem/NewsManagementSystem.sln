@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL_NewsManagementSystem", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL_NewsManagementSystem", "BLL_NewsManagementSystem\BLL_NewsManagementSystem.csproj", "{FB9A79CF-31C4-4AA1-9659-167AF366E728}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models_NewsManagementSystem", "Models_NewsManagementSystem\Models_NewsManagementSystem.csproj", "{8CB60B36-5281-4804-AE1E-5709CF13E50D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{FB9A79CF-31C4-4AA1-9659-167AF366E728}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB9A79CF-31C4-4AA1-9659-167AF366E728}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB9A79CF-31C4-4AA1-9659-167AF366E728}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CB60B36-5281-4804-AE1E-5709CF13E50D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CB60B36-5281-4804-AE1E-5709CF13E50D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CB60B36-5281-4804-AE1E-5709CF13E50D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CB60B36-5281-4804-AE1E-5709CF13E50D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

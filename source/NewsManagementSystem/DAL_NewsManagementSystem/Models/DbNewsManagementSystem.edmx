@@ -1,0 +1,298 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="NewsManagementSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BlackList">
+          <Key>
+            <PropertyRef Name="FacebookID" />
+          </Key>
+          <Property Name="FacebookID" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Url" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="FacebookTypeID" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FacebookType">
+          <Key>
+            <PropertyRef Name="FacebookTypeID" />
+          </Key>
+          <Property Name="FacebookTypeID" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="NewsLabel">
+          <Key>
+            <PropertyRef Name="NewsLabelID" />
+          </Key>
+          <Property Name="NewsLabelID" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="NewsLabelName" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Post">
+          <Key>
+            <PropertyRef Name="PostID" />
+          </Key>
+          <Property Name="PostID" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Url" Type="nvarchar" MaxLength="500" />
+          <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Time" Type="datetime" Nullable="false" />
+          <Property Name="TotalLikes" Type="int" Nullable="false" />
+          <Property Name="TotalComment" Type="int" Nullable="false" />
+          <Property Name="TotalShare" Type="int" Nullable="false" />
+          <Property Name="FacebookID" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="NewsLabelID" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SystemAccount">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Username" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__BlackList__Faceb__15502E78">
+          <End Role="FacebookType" Type="Self.FacebookType" Multiplicity="1" />
+          <End Role="BlackList" Type="Self.BlackList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FacebookType">
+              <PropertyRef Name="FacebookTypeID" />
+            </Principal>
+            <Dependent Role="BlackList">
+              <PropertyRef Name="FacebookTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Post__FacebookID__1A14E395">
+          <End Role="BlackList" Type="Self.BlackList" Multiplicity="1" />
+          <End Role="Post" Type="Self.Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BlackList">
+              <PropertyRef Name="FacebookID" />
+            </Principal>
+            <Dependent Role="Post">
+              <PropertyRef Name="FacebookID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Post__NewsLabelI__1B0907CE">
+          <End Role="NewsLabel" Type="Self.NewsLabel" Multiplicity="1" />
+          <End Role="Post" Type="Self.Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NewsLabel">
+              <PropertyRef Name="NewsLabelID" />
+            </Principal>
+            <Dependent Role="Post">
+              <PropertyRef Name="NewsLabelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="NewsManagementSystemModelStoreContainer">
+          <EntitySet Name="BlackList" EntityType="Self.BlackList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FacebookType" EntityType="Self.FacebookType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NewsLabel" EntityType="Self.NewsLabel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Post" EntityType="Self.Post" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SystemAccount" EntityType="Self.SystemAccount" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__BlackList__Faceb__15502E78" Association="Self.FK__BlackList__Faceb__15502E78">
+            <End Role="FacebookType" EntitySet="FacebookType" />
+            <End Role="BlackList" EntitySet="BlackList" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Post__FacebookID__1A14E395" Association="Self.FK__Post__FacebookID__1A14E395">
+            <End Role="BlackList" EntitySet="BlackList" />
+            <End Role="Post" EntitySet="Post" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Post__NewsLabelI__1B0907CE" Association="Self.FK__Post__NewsLabelI__1B0907CE">
+            <End Role="NewsLabel" EntitySet="NewsLabel" />
+            <End Role="Post" EntitySet="Post" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="NewsManagementSystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="BlackList">
+          <Key>
+            <PropertyRef Name="FacebookID" />
+          </Key>
+          <Property Name="FacebookID" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Url" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FacebookTypeID" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="FacebookType" Relationship="Self.FK__BlackList__Faceb__15502E78" FromRole="BlackList" ToRole="FacebookType" />
+          <NavigationProperty Name="Posts" Relationship="Self.FK__Post__FacebookID__1A14E395" FromRole="BlackList" ToRole="Post" />
+        </EntityType>
+        <EntityType Name="FacebookType">
+          <Key>
+            <PropertyRef Name="FacebookTypeID" />
+          </Key>
+          <Property Name="FacebookTypeID" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BlackLists" Relationship="Self.FK__BlackList__Faceb__15502E78" FromRole="FacebookType" ToRole="BlackList" />
+        </EntityType>
+        <EntityType Name="NewsLabel">
+          <Key>
+            <PropertyRef Name="NewsLabelID" />
+          </Key>
+          <Property Name="NewsLabelID" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NewsLabelName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Posts" Relationship="Self.FK__Post__NewsLabelI__1B0907CE" FromRole="NewsLabel" ToRole="Post" />
+        </EntityType>
+        <EntityType Name="Post">
+          <Key>
+            <PropertyRef Name="PostID" />
+          </Key>
+          <Property Name="PostID" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Url" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TotalLikes" Type="Int32" Nullable="false" />
+          <Property Name="TotalComment" Type="Int32" Nullable="false" />
+          <Property Name="TotalShare" Type="Int32" Nullable="false" />
+          <Property Name="FacebookID" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NewsLabelID" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="BlackList" Relationship="Self.FK__Post__FacebookID__1A14E395" FromRole="Post" ToRole="BlackList" />
+          <NavigationProperty Name="NewsLabel" Relationship="Self.FK__Post__NewsLabelI__1B0907CE" FromRole="Post" ToRole="NewsLabel" />
+        </EntityType>
+        <EntityType Name="SystemAccount">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Username" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__BlackList__Faceb__15502E78">
+          <End Role="FacebookType" Type="Self.FacebookType" Multiplicity="1" />
+          <End Role="BlackList" Type="Self.BlackList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FacebookType">
+              <PropertyRef Name="FacebookTypeID" />
+            </Principal>
+            <Dependent Role="BlackList">
+              <PropertyRef Name="FacebookTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Post__FacebookID__1A14E395">
+          <End Role="BlackList" Type="Self.BlackList" Multiplicity="1" />
+          <End Role="Post" Type="Self.Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BlackList">
+              <PropertyRef Name="FacebookID" />
+            </Principal>
+            <Dependent Role="Post">
+              <PropertyRef Name="FacebookID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Post__NewsLabelI__1B0907CE">
+          <End Role="NewsLabel" Type="Self.NewsLabel" Multiplicity="1" />
+          <End Role="Post" Type="Self.Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NewsLabel">
+              <PropertyRef Name="NewsLabelID" />
+            </Principal>
+            <Dependent Role="Post">
+              <PropertyRef Name="NewsLabelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="NewsManagementSystemEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BlackLists" EntityType="Self.BlackList" />
+          <EntitySet Name="FacebookTypes" EntityType="Self.FacebookType" />
+          <EntitySet Name="NewsLabels" EntityType="Self.NewsLabel" />
+          <EntitySet Name="Posts" EntityType="Self.Post" />
+          <EntitySet Name="SystemAccounts" EntityType="Self.SystemAccount" />
+          <AssociationSet Name="FK__BlackList__Faceb__15502E78" Association="Self.FK__BlackList__Faceb__15502E78">
+            <End Role="FacebookType" EntitySet="FacebookTypes" />
+            <End Role="BlackList" EntitySet="BlackLists" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Post__FacebookID__1A14E395" Association="Self.FK__Post__FacebookID__1A14E395">
+            <End Role="BlackList" EntitySet="BlackLists" />
+            <End Role="Post" EntitySet="Posts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Post__NewsLabelI__1B0907CE" Association="Self.FK__Post__NewsLabelI__1B0907CE">
+            <End Role="NewsLabel" EntitySet="NewsLabels" />
+            <End Role="Post" EntitySet="Posts" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="NewsManagementSystemModelStoreContainer" CdmEntityContainer="NewsManagementSystemEntities">
+          <EntitySetMapping Name="BlackLists">
+            <EntityTypeMapping TypeName="NewsManagementSystemModel.BlackList">
+              <MappingFragment StoreEntitySet="BlackList">
+                <ScalarProperty Name="FacebookID" ColumnName="FacebookID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="FacebookTypeID" ColumnName="FacebookTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FacebookTypes">
+            <EntityTypeMapping TypeName="NewsManagementSystemModel.FacebookType">
+              <MappingFragment StoreEntitySet="FacebookType">
+                <ScalarProperty Name="FacebookTypeID" ColumnName="FacebookTypeID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NewsLabels">
+            <EntityTypeMapping TypeName="NewsManagementSystemModel.NewsLabel">
+              <MappingFragment StoreEntitySet="NewsLabel">
+                <ScalarProperty Name="NewsLabelID" ColumnName="NewsLabelID" />
+                <ScalarProperty Name="NewsLabelName" ColumnName="NewsLabelName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Posts">
+            <EntityTypeMapping TypeName="NewsManagementSystemModel.Post">
+              <MappingFragment StoreEntitySet="Post">
+                <ScalarProperty Name="PostID" ColumnName="PostID" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="TotalLikes" ColumnName="TotalLikes" />
+                <ScalarProperty Name="TotalComment" ColumnName="TotalComment" />
+                <ScalarProperty Name="TotalShare" ColumnName="TotalShare" />
+                <ScalarProperty Name="FacebookID" ColumnName="FacebookID" />
+                <ScalarProperty Name="NewsLabelID" ColumnName="NewsLabelID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SystemAccounts">
+            <EntityTypeMapping TypeName="NewsManagementSystemModel.SystemAccount">
+              <MappingFragment StoreEntitySet="SystemAccount">
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
