@@ -33,9 +33,9 @@ namespace API_NewsManagementSystem.Controllers
                 if (!result)
                 {
                     return Json(false);
-                }
+                }             
             }
-            return Json(false);       
+            return Json(true);       
         }
     }
 }
