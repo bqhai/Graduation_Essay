@@ -2,7 +2,6 @@ from bll import load_page
 import re
 import requests
 
-
 POSTS = '/posts/'
 PAGE_URL = 'https://www.facebook.com/viettan' + POSTS
 PAGE_ID = 'viettan'
@@ -32,8 +31,10 @@ for post in listHtmlPosts:
     total_react = get_child_attribute(post, '[data-testid="UFI2ReactionsCount/root"] ._81hb', 'innerText')
     total_shares = get_child_attribute(post, '[data-testid="UFI2SharesCount/root"]', 'innerText')
     total_cmts = get_child_attribute(post, '._3hg-', 'innerText')
-    listJsonCmts = []
-    listHtmlCmts = post.find_elements_by_css_selector('._7a9a>li')
+
+    # get number in comment and shares
+    # total_cmts = [int(i) for i in total_cmts.split() if i.isdigit()]
+    # total_shares = [int(i) for i in total_shares.split() if i.isdigit()]
 
     listJsonPosts.append({
         'PostUrl': post_url,
@@ -45,9 +46,11 @@ for post in listHtmlPosts:
         'TotalShare': total_shares,
     })
 
-# load_page.stop_and_save('data/facebook_post_crawled.json', listJsonPosts)
+load_page.stop_and_save(
+    'D:\\ThucHanh\\GitHub\\Graduation_Essay\\source\\Text_Classification\\data\\facebook_post_crawled.json',
+    listJsonPosts)
 
 url = 'https://localhost:44347/api/Home/AddNewPost'
 response = requests.post(url, json=listJsonPosts, verify=False)
 print("Status code: ", response.status_code)
-
+print(response.text)
