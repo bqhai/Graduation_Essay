@@ -4,9 +4,9 @@ import pickle
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 
-from preprocessor import text_preprocess
+from bll.preprocessor import text_preprocess
 
-MODEL_PATH = "models"
+MODEL_PATH = "../models"
 test_percent = 0.2
 text = []
 label = []
@@ -14,7 +14,7 @@ label = []
 # load label
 if not os.path.exists(MODEL_PATH):
     os.makedirs(MODEL_PATH)
-for line in open('data/news_categories.prep', encoding="utf8"):
+for line in open('../data/news_categories.prep', encoding="utf8"):
     words = line.strip().split()
     label.append(words[0])
     text.append(' '.join(words[1:]))

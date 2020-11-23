@@ -1,5 +1,5 @@
 from tkinter import *
-from bll_text_classification import predict
+from bll.bll_text_classification import predict
 
 
 class TextClassification(Frame):

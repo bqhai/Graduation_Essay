@@ -1,6 +1,5 @@
 from tkinter import *
-import gui_word_tokenizer
-import gui_text_classification
+from gui import gui_text_classification, gui_word_tokenizer
 
 
 def open_word_tokenizer():

@@ -1,5 +1,5 @@
 from tkinter import *
-from preprocessor import text_preprocess
+from bll.preprocessor import text_preprocess
 
 
 class WordTokenizer(Frame):

@@ -24,11 +24,18 @@ namespace API_NewsManagementSystem.Controllers
             return Json(blackListDtos);        
         }
         [HttpPost]
-        [Route("GetAllBlackList")]
-        public JsonResult<bool> AddNewPost(PostDto postDto)
+        [Route("AddNewPost")]
+        public JsonResult<bool> AddNewPost(List<PostDto> postDtos)
         {
-            bool result = bllPost.AddNewPost(postDto);
-            return Json(result);
+            foreach (var item in postDtos)
+            {
+                bool result = bllPost.AddNewPost(item);
+                if (!result)
+                {
+                    return Json(false);
+                }
+            }
+            return Json(false);       
         }
     }
 }
