@@ -46,11 +46,9 @@ for post in listHtmlPosts:
         'TotalShare': total_shares,
     })
 
-load_page.stop_and_save(
-    'D:\\ThucHanh\\GitHub\\Graduation_Essay\\source\\Text_Classification\\data\\facebook_post_crawled.json',
-    listJsonPosts)
+load_page.stop_and_save('../data/facebook_post_crawled.json', listJsonPosts)
 
 url = 'https://localhost:44347/api/Home/AddNewPost'
 response = requests.post(url, json=listJsonPosts, verify=False)
-print("Status code: ", response.status_code)
+print('Status code: ', response.status_code)
 print(response.text)

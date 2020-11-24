@@ -3,7 +3,7 @@ import pickle
 
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
-
+from collections import Counter
 from bll.preprocessor import text_preprocess
 
 MODEL_PATH = "../models"
@@ -27,6 +27,70 @@ label_encoder.fit(y_train)
 y_train = label_encoder.transform(y_train)
 y_test = label_encoder.transform(y_test)
 
+nb_model = pickle.load(open(os.path.join(MODEL_PATH, "naive_bayes.pkl"), 'rb'))
+
+
+def predict(input_data):
+    clean_text = text_preprocess(input_data)
+    text_label = nb_model.predict([clean_text])
+    text_label_tranform = label_encoder.inverse_transform(text_label)
+    return convert_label_to_text(text_label_tranform)
+
+
+def convert_label_to_text(label):
+    if Counter(label) == Counter(['__label__công_nghệ']):
+        return 'CÔNG NGHỆ'
+    elif Counter(label) == Counter(['__label__thể_thao']):
+        return 'THỂ THAO'
+    elif Counter(label) == Counter(['__label__âm_nhạc']):
+        return 'ÂM NHẠC'
+    elif Counter(label) == Counter(['__label__nhịp_sống']):
+        return 'NHỊP SỐNG'
+    elif Counter(label) == Counter(['__label__thời_sự']):
+        return 'THỜI SỰ'
+    elif Counter(label) == Counter(['__label__thời_trang']):
+        return 'THỜI TRANG'
+    elif Counter(label) == Counter(['__label__du_lịch']):
+        return 'DU LỊCH'
+    elif Counter(label) == Counter(['__label__sống_trẻ']):
+        return 'SỐNG TRẺ'
+    elif Counter(label) == Counter(['__label__giáo_dục']):
+        return 'GIÁO DỤC'
+    elif Counter(label) == Counter(['__label__kinh_doanh']):
+        return 'KINH DOANH'
+    elif Counter(label) == Counter(['__label__pháp_luật']):
+        return 'PHÁP LUẬT'
+    elif Counter(label) == Counter(['__label__giải_trí']):
+        return 'GIẢI TRÍ'
+    elif Counter(label) == Counter(['__label__phim_ảnh']):
+        return 'PHIM ẢNH'
+    elif Counter(label) == Counter(['__label__xe_360']):
+        return 'XE'
+    elif Counter(label) == Counter(['__label__ẩm_thực']):
+        return 'ẨM THỰC'
+    elif Counter(label) == Counter(['__label__xuất_bản']):
+        return 'XUẤT BẢN'
+    elif Counter(label) == Counter(['__label__sức_khỏe']):
+        return 'SỨC KHỎE'
+
+# input_data2 = '''THEO BẠN BÊN NÀO LÀ NỤ CƯỜI ĐANG GIẢ TẠO? 😃
+# ----------------------------------------
+# Làm thế nào để chúng ta biết được nụ cười đó có chân thật hay không, khi mà có rất nhiều nụ cười giả tạo của người đối diện khiến ta hiểu sai tình huống? Bài viết dưới đây sẽ giúp bạn giải quyết vấn đề này:
+# Nụ cười là ngôn ngữ chung trên thế giới đại diện cho sự thân thiện. Nhưng làm thế nào để chúng ta biết được nụ cười đó có chân thật hay không?
+# Nhà tâm lí học Richard Wiseman đã tiến hành một cuộc nghiên cứu để chứng minh khả năng nhận biết độ “thật” của nụ cười của con người.
+# Nhiếp ảnh gia sẽ yêu cầu người được chụp tưởng tượng đang gặp một người mà họ không ưa và sau đó nở nụ cười giải tạo; tiếp theo họ sẽ tưởng tượng họ đang gặp một người bạn thân và nở một nụ cười chân thành. Tất nhiên, cả hai tình huống trên sẽ được nhiếp ảnh gia chụp lại.
+# Câu hỏi đặt ra là nhận biết nụ cười “giả” và “thật” có khó không? “Nếu bạn không có sự đồng cảm, bạn sẽ khó mà phân biệt được sự khác biệt giữa hai bức ảnh“, Wiseman cho biết.
+# Qua khảo sát ông cho biết khoảng 60% người bình thường sẽ phân biệt được sự khác nhau trên, trong khi những người hay đi tiệc tùng sẽ chiếm tỉ lệ cao hơn: 66%.
+# Ngoài ra các phóng viên và nhà khoa học xã hội là những người có tỉ lệ đoán đúng cao nhất: 73% và 80% lần lượt. Hay nói cách khác, những người làm công việc có liên quan đến con người hay tiếp xúc nhiều với con người sẽ nhận định được sự khác nhau giữa nụ cười “giả” và “thật” dễ dàng hơn.
+# ____________'''
+#
+#
+# def predict2(input_data):
+#     clean_text = text_preprocess(input_data)
+#     text_label = nb_model.predict([clean_text])
+#     return text_label
+# print(predict2(input_data2))
+
 # Naive Bayes
 # model = pickle.load(open(os.path.join(MODEL_PATH,"naive_bayes.pkl"), 'rb'))
 # y_pred = model.predict(X_test)
@@ -35,36 +99,3 @@ y_test = label_encoder.transform(y_test)
 # Print result all label
 # y_pred = nb_model.predict(X_test)
 # print(classification_report(y_test, y_pred, target_names=list(label_encoder.classes_)))
-
-
-nb_model = pickle.load(open(os.path.join(MODEL_PATH, "naive_bayes.pkl"), 'rb'))
-
-
-def predict(input_data):
-    text = text_preprocess(input_data)
-    label = nb_model.predict([text])
-    return label_encoder.inverse_transform(label)
-
-input_data2 = ["""📣📣 𝐌𝐚̣𝐧𝐡 𝐡𝐨̛𝐧 𝐢𝟕 - 𝐆𝐢𝐚́ 𝐜𝐡𝐢̉ 𝐢𝟑 📣📣
-😲 Chỉ chưa tới 𝟏𝟎 𝐭𝐫𝐢𝐞̣̂𝐮 - sở hữu ngay bộ máy mạnh hơn 𝐢𝟕 𝟕𝐭𝐡 😲
-🖥 Cấu hình phá đảo:
-💪 CPU 𝐈𝐧𝐭𝐞𝐥 𝐂𝐨𝐫𝐞 𝐢𝟑-𝟏𝟎𝟏𝟎𝟎𝐅 4 nhân 8 luồng mạnh mẽ
-💪 RAM 𝟖𝐆𝐁 𝐃𝐃𝐑𝟒 𝐁𝐮𝐬 𝟐𝟔𝟔𝟔 xịn sò
-💪 VGA 𝐆𝐢𝐠𝐚𝐛𝐲𝐭𝐞 𝐆𝐓𝐗 𝟏𝟔𝟓𝟎 𝐃𝐃𝐑𝟔 𝟒𝐆𝐁 gaming hoàn hảo
-🚀 Các gói ưu đãi siêu khủng:
-🔥 Nâng cấp lên 𝐑𝐀𝐌 𝟏𝟔𝐆𝐁 miễn phí.
-🔥 Combo 𝐁𝐚̀𝐧 𝐩𝐡𝐢́𝐦 𝐜𝐨̛ + 𝐂𝐡𝐮𝐨̣̂𝐭 𝐆𝐚𝐦𝐢𝐧𝐠 + 𝐋𝐨́𝐭 𝐜𝐡𝐮𝐨̣̂𝐭 ̣.
-🔥 Voucher 𝟓𝟎𝟎𝐤.""",
-"""Livestream Trao giải Vòng loại Đấu sĩ Coder 2020 ngày 16/11/2020
-Bốc thăm chia bảng Tứ Kết AI Game ngày 19/11""",
-"""Học lén người ta bí quyết lên Hội Chủ Shop GrabExpress bán hàng thì cũng phải biết chọn đúng đồ để bán chứ. Ghét tối cho ra sofa ngủ, Lèo vô phòng ngủ với Mén."""]
-
-for item in input_data2:
-    print(predict(item))
-
-
-
-
-
-
-
