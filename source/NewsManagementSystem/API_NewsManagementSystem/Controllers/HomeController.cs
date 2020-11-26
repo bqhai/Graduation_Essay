@@ -13,14 +13,14 @@ namespace API_NewsManagementSystem.Controllers
     [RoutePrefix("api/Home")]
     public class HomeController : ApiController
     {
-        BLL_BlackList bllBlackList = new BLL_BlackList();
-        BLL_Post bllPost = new BLL_Post();
+        private BLL_BlackList _bllBlackList = new BLL_BlackList();
+        private BLL_Post _bllPost = new BLL_Post();
 
         [HttpGet]
         [Route("GetAllBlackList")]
         public JsonResult<List<BlackListDto>> GetAllBlackList()
         {
-            List<BlackListDto> blackListDtos = bllBlackList.GetALlBlackList();
+            List<BlackListDto> blackListDtos = _bllBlackList.GetALlBlackList();
             return Json(blackListDtos);        
         }
         [HttpPost]
@@ -29,7 +29,7 @@ namespace API_NewsManagementSystem.Controllers
         {
             foreach (var item in postDtos)
             {
-                bool result = bllPost.AddNewPost(item);
+                bool result = _bllPost.AddNewPost(item);
                 if (!result)
                 {
                     return Json(false);

@@ -17,8 +17,7 @@ namespace DAL_NewsManagementSystem.DAL
         }
         public void AddNewPost(Post post)
         {
-            post.FacebookID = "viettan";
-            post.NewsLabelID = "CT";
+            post.FacebookID = "viettan";            
             db.Posts.Add(post);
             db.SaveChanges();
         }
