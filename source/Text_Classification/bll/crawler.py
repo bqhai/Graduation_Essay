@@ -1,6 +1,8 @@
 from bll import load_page
 import re
 import requests
+from bll.bll_text_classification import predict, convert_label_to_labelID
+from bll.preprocessor import text_preprocess
 
 POSTS = '/posts/'
 PAGE_URL = 'https://www.facebook.com/viettan' + POSTS
@@ -29,12 +31,21 @@ for post in listHtmlPosts:
     time = get_child_attribute(post, 'abbr', 'title')
     post_text = get_child_attribute(post, '.userContent', 'textContent')
     total_react = get_child_attribute(post, '[data-testid="UFI2ReactionsCount/root"] ._81hb', 'innerText')
-    total_shares = get_child_attribute(post, '[data-testid="UFI2SharesCount/root"]', 'innerText')
+    total_shares = get_child_attribute(post, '._3rwx', 'innerText')
     total_cmts = get_child_attribute(post, '._3hg-', 'innerText')
 
     # get number in comment and shares
-    # total_cmts = [int(i) for i in total_cmts.split() if i.isdigit()]
-    # total_shares = [int(i) for i in total_shares.split() if i.isdigit()]
+    # temp = [int(word) for word in total_react.split() if word.isdigit()]
+    # if len(temp) == 1:
+    #     total_react = temp[0] * 1000
+    # elif len(temp) == 2:
+    #     total_react = temp[0] * 1000 + temp[1] * 100
+    temp = [int(word) for word in total_shares.split() if word.isdigit()]
+    if len(temp) > 0:
+        total_shares = temp[0]
+    temp = [int(word) for word in total_cmts.split() if word.isdigit()]
+    if len(temp) > 0:
+        total_cmts = temp[0]
 
     listJsonPosts.append({
         'PostUrl': post_url,
@@ -44,6 +55,7 @@ for post in listHtmlPosts:
         'TotalLikes': total_react,
         'TotalComment': total_cmts,
         'TotalShare': total_shares,
+        'NewsLabelID': convert_label_to_labelID(predict(text_preprocess(post_text)))
     })
 
 load_page.stop_and_save('../data/facebook_post_crawled.json', listJsonPosts)

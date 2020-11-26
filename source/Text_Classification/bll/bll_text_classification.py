@@ -33,8 +33,7 @@ nb_model = pickle.load(open(os.path.join(MODEL_PATH, "naive_bayes.pkl"), 'rb'))
 def predict(input_data):
     clean_text = text_preprocess(input_data)
     text_label = nb_model.predict([clean_text])
-    text_label_tranform = label_encoder.inverse_transform(text_label)
-    return convert_label_to_text(text_label_tranform)
+    return label_encoder.inverse_transform(text_label)
 
 
 def convert_label_to_text(label):
@@ -72,6 +71,46 @@ def convert_label_to_text(label):
         return 'XUẤT BẢN'
     elif Counter(label) == Counter(['__label__sức_khỏe']):
         return 'SỨC KHỎE'
+    elif Counter(label) == Counter(['__label__thế_giới']):
+        return 'THẾ GIỚI'
+
+def convert_label_to_labelID(label):
+    if Counter(label) == Counter(['__label__công_nghệ']):
+        return 'CN'
+    elif Counter(label) == Counter(['__label__thể_thao']):
+        return 'TTH'
+    elif Counter(label) == Counter(['__label__âm_nhạc']):
+        return 'AN'
+    elif Counter(label) == Counter(['__label__nhịp_sống']):
+        return 'NS'
+    elif Counter(label) == Counter(['__label__thời_sự']):
+        return 'TS'
+    elif Counter(label) == Counter(['__label__thời_trang']):
+        return 'TTR'
+    elif Counter(label) == Counter(['__label__du_lịch']):
+        return 'DL'
+    elif Counter(label) == Counter(['__label__sống_trẻ']):
+        return 'ST'
+    elif Counter(label) == Counter(['__label__giáo_dục']):
+        return 'GD'
+    elif Counter(label) == Counter(['__label__kinh_doanh']):
+        return 'KD'
+    elif Counter(label) == Counter(['__label__pháp_luật']):
+        return 'PL'
+    elif Counter(label) == Counter(['__label__giải_trí']):
+        return 'GT'
+    elif Counter(label) == Counter(['__label__phim_ảnh']):
+        return 'PA'
+    elif Counter(label) == Counter(['__label__xe_360']):
+        return 'XE'
+    elif Counter(label) == Counter(['__label__ẩm_thực']):
+        return 'AT'
+    elif Counter(label) == Counter(['__label__xuất_bản']):
+        return 'XB'
+    elif Counter(label) == Counter(['__label__sức_khỏe']):
+        return 'SK'
+    elif Counter(label) == Counter(['__label__thế_giới']):
+        return 'TG'
 
 # input_data2 = '''THEO BẠN BÊN NÀO LÀ NỤ CƯỜI ĐANG GIẢ TẠO? 😃
 # ----------------------------------------
