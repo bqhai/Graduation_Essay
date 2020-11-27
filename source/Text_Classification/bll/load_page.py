@@ -1,20 +1,11 @@
 from helium import *
 import json
 
-POSTS_SELECTOR = '[class="_427x"] .userContentWrapper'
-COMMENTABLE_SELECTOR = POSTS_SELECTOR + ' .commentable_item'
-
 
 def load_more_posts():
     js_script = 'window.scrollTo(0, document.body.scrollHeight)'
     driver.execute_script(js_script)
     while find_all(S('.async_saving [role="progressbar"]')) != []: pass
-
-
-def click_multiple_button(selector):
-    js_script = "document.querySelectorAll('" + selector + "').forEach(btn => btn.click())"
-    driver.execute_script(js_script)
-    while find_all(S(COMMENTABLE_SELECTOR + ' [role="progressbar"]')) != []: pass
 
 
 def start(url='', scroll_down=0):

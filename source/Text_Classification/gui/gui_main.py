@@ -3,6 +3,7 @@ from tkinter import ttk, messagebox
 
 from bll.bll_text_classification import predict, convert_label_to_text
 from bll.preprocessor import text_preprocess
+from bll.crawler_page import crawl
 
 
 class MainWindow(Frame):
@@ -34,9 +35,15 @@ class MainWindow(Frame):
         ent_url_cr.grid(column=1, row=0)
         lbl_numpage_cr = Label(frm_top_cr, text='Số lần cuộn trang: ')
         lbl_numpage_cr.grid(column=2, row=0, padx=(20, 0))
-        spn_numpage_cr = ttk.Spinbox(frm_top_cr, from_=0, to=20, width=5)
+        spn_numpage_cr = ttk.Spinbox(frm_top_cr, from_=1, to=20, width=5)
         spn_numpage_cr.grid(column=3, row=0)
-        btn_crawl_cr = ttk.Button(frm_top_cr, text='Thu thập')
+
+        def start_crawl():
+            url = ent_url_cr.get()
+            scroll_down = int(spn_numpage_cr.get())
+            crawl(url, scroll_down)
+
+        btn_crawl_cr = ttk.Button(frm_top_cr, text='Thu thập', command=start_crawl)
         btn_crawl_cr.grid(column=1, row=1, sticky='w', pady=10)
 
         # Word Tokenize area
