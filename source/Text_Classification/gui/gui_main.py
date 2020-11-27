@@ -1,9 +1,10 @@
+import os
 from tkinter import *
 from tkinter import ttk, messagebox
 
 from bll.bll_text_classification import predict, convert_label_to_text
 from bll.preprocessor import text_preprocess
-from bll.crawler_page import crawl
+from bll.crawler import crawl
 
 
 class MainWindow(Frame):
@@ -27,6 +28,8 @@ class MainWindow(Frame):
         tab_control.add(frm_guild, text='   Hướng dẫn   ')
 
         # Facebook Crawler area
+        var = IntVar()
+
         frm_top_cr = ttk.Frame(frm_crawler)
         frm_top_cr.pack(fill=BOTH, padx=15, pady=15)
         lbl_url_cr = Label(frm_top_cr, text='Facebook URL: ')
@@ -37,14 +40,32 @@ class MainWindow(Frame):
         lbl_numpage_cr.grid(column=2, row=0, padx=(20, 0))
         spn_numpage_cr = ttk.Spinbox(frm_top_cr, from_=1, to=20, width=5)
         spn_numpage_cr.grid(column=3, row=0)
+        frm_fbtype_cr = ttk.Frame(frm_top_cr)
+        frm_fbtype_cr.grid(column=1, row=1, sticky='w', pady=(10, 0))
+        rad_page_cr = ttk.Radiobutton(frm_fbtype_cr, text='Page', variable=var, value=1)
+        rad_page_cr.grid(column=0, row=0, padx=(0, 15))
+        rad_group_cr = ttk.Radiobutton(frm_fbtype_cr, text='Group', variable=var, value=2)
+        rad_group_cr.grid(column=1, row=0, padx=(0, 15))
+        rad_user_cr = ttk.Radiobutton(frm_fbtype_cr, text='User', variable=var, value=3)
+        rad_user_cr.grid(column=2, row=0, padx=(0, 15))
+
+        frm_term_cr = ttk.Frame(frm_crawler)
+        frm_term_cr.pack(fill=BOTH, expand=YES)
+        txt_log_cr = Text(frm_term_cr, wrap=WORD)
+        txt_log_cr.pack(fill=BOTH, expand=True)
 
         def start_crawl():
             url = ent_url_cr.get()
+            if len(url) <= 0:
+                messagebox.showerror('Lỗi', 'Link FB không được để trống!')
+                return
+            selection = int(var.get())
             scroll_down = int(spn_numpage_cr.get())
-            crawl(url, scroll_down)
+            crawl(url, scroll_down, selection)
+            txt_log_cr.insert('1.0', 'Đang cào vlin\n')
 
         btn_crawl_cr = ttk.Button(frm_top_cr, text='Thu thập', command=start_crawl)
-        btn_crawl_cr.grid(column=1, row=1, sticky='w', pady=10)
+        btn_crawl_cr.grid(column=1, row=2, sticky='w', pady=(10, 0))
 
         # Word Tokenize area
 
@@ -99,6 +120,10 @@ class MainWindow(Frame):
         btn_tc.pack(side=RIGHT, padx=5, pady=5)
         btn_clear_tc = ttk.Button(frm_output_tc, text='Xóa text', command=clear_text)
         btn_clear_tc.pack(side=RIGHT, padx=5, pady=5)
+
+
+def gui_receive_log(log):
+    return log
 
 
 if __name__ == "__main__":

@@ -18,10 +18,8 @@ def get_child_attribute(element, selector, attr):
         return ''
 
 
-def crawl(url, scroll_down):
-    load_page.start(url, scroll_down)
+def crawl_page():
     driver = load_page.driver
-
     list_json_posts = []
     list_html_posts = driver.find_elements_by_css_selector('[class="_427x"] .userContentWrapper')
     print('Start crawling', len(list_html_posts), 'posts...')
@@ -65,3 +63,13 @@ def crawl(url, scroll_down):
     response = requests.post(url, json=list_json_posts, verify=False)
     print('Status code: ', response.status_code)
     print(response.text)
+
+
+def crawl(url, scroll_down, selection):
+    if selection == 1:
+        load_page.start(url, scroll_down)
+        crawl_page()
+    elif selection == 2:
+        print('Đang cào group')
+    else:
+        print('Đang cào trang cá nhân')
