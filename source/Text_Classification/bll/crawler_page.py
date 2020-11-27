@@ -21,11 +21,11 @@ def get_child_attribute(element, selector, attr):
 load_page.start(PAGE_URL, SCROLL_DOWN)
 driver = load_page.driver
 
-listJsonPosts = []
-listHtmlPosts = driver.find_elements_by_css_selector('[class="_427x"] .userContentWrapper')
-print('Start crawling', len(listHtmlPosts), 'posts...')
+list_json_posts = []
+list_html_posts = driver.find_elements_by_css_selector('[class="_427x"] .userContentWrapper')
+print('Start crawling', len(list_html_posts), 'posts...')
 
-for post in listHtmlPosts:
+for post in list_html_posts:
     post_url = get_child_attribute(post, '._5pcq', 'href').split('?')[0]
     post_id = re.findall('\d+', post_url)[-1]
     time = get_child_attribute(post, 'abbr', 'title')
@@ -47,7 +47,7 @@ for post in listHtmlPosts:
     if len(temp) > 0:
         total_cmts = temp[0]
 
-    listJsonPosts.append({
+    list_json_posts.append({
         'PostUrl': post_url,
         'PostID': post_id,
         'Time': time,
@@ -58,9 +58,9 @@ for post in listHtmlPosts:
         'NewsLabelID': convert_label_to_labelID(predict(text_preprocess(post_text)))
     })
 
-load_page.stop_and_save('../data/facebook_post_crawled.json', listJsonPosts)
+load_page.stop_and_save('../data/facebook_post_crawled.json', list_json_posts)
 
 url = 'https://localhost:44347/api/Home/AddNewPost'
-response = requests.post(url, json=listJsonPosts, verify=False)
+response = requests.post(url, json=list_json_posts, verify=False)
 print('Status code: ', response.status_code)
 print(response.text)
