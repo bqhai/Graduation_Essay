@@ -46,36 +46,60 @@ class MainWindow(Frame):
         frm_fbtype_cr.grid(column=1, row=1, sticky='w', pady=(10, 0))
         rad_page_cr = ttk.Radiobutton(frm_fbtype_cr, text='Page', variable=select_type, value=1)
         rad_page_cr.grid(column=0, row=0, padx=(0, 15))
+        select_type.set(1)
         rad_group_cr = ttk.Radiobutton(frm_fbtype_cr, text='Group', variable=select_type, value=2)
         rad_group_cr.grid(column=1, row=0, padx=(0, 15))
         rad_user_cr = ttk.Radiobutton(frm_fbtype_cr, text='User', variable=select_type, value=3)
         rad_user_cr.grid(column=2, row=0, padx=(0, 15))
-        prg_cr = ttk.Progressbar(frm_crawler, length=200)
-        prg_cr.pack(fill=BOTH)
-        frm_term_cr = ttk.Frame(frm_crawler)
-        frm_term_cr.pack(fill=BOTH, expand=YES)
-        txt_log_cr = Text(frm_term_cr, wrap=WORD)
-        txt_log_cr.pack(fill=BOTH, expand=True)
 
         def start_crawl():
             url = ent_url_cr.get()
             if len(url) <= 0:
+                txt_log_cr.config(state=NORMAL)
                 txt_log_cr.insert(END, 'Lỗi! Link FB không được để trống.\n')
+                txt_log_cr.config(state=DISABLED)
                 return
             try:
                 scroll_down = int(spn_numpage_cr.get())
             except:
+                txt_log_cr.config(state=NORMAL)
                 txt_log_cr.insert(END, 'Lỗi! Số lần cuộn trang không hợp lệ.\n')
+                txt_log_cr.config(state=DISABLED)
                 return
-
             selection = int(select_type.get())
-            crawl(url, scroll_down, selection)
+            try:
+                bool = crawl(url, scroll_down, selection)
+                if bool:
+                    txt_log_cr.config(state=NORMAL)
+                    txt_log_cr.insert(END, 'Xong!\n')
+                    txt_log_cr.config(state=DISABLED)
+                else:
+                    txt_log_cr.config(state=NORMAL)
+                    txt_log_cr.insert(END, 'Kết nối server thất bại!\n')
+                    txt_log_cr.config(state=DISABLED)
+            except:
+                txt_log_cr.config(state=NORMAL)
+                txt_log_cr.insert(END, 'Lỗi! Thất bại.\n')
+                txt_log_cr.config(state=DISABLED)
+
+        def clear_log():
+            txt_log_cr.config(state=NORMAL)
+            txt_log_cr.delete('1.0', END)
+            txt_log_cr.config(state=DISABLED)
 
         btn_crawl_cr = ttk.Button(frm_top_cr, text='Thu thập', command=start_crawl)
         btn_crawl_cr.grid(column=1, row=2, sticky='w', pady=(10, 0))
+        btn_clear_log_cr = ttk.Button(frm_top_cr, text='Xóa log', command=clear_log)
+        btn_clear_log_cr.grid(column=1, row=2, sticky='w', padx=(100, 0), pady=(10, 0))
+
+        prg_cr = ttk.Progressbar(frm_crawler, length=200)
+        prg_cr.pack(fill=BOTH)
+        frm_term_cr = ttk.Frame(frm_crawler)
+        frm_term_cr.pack(fill=BOTH)
+        txt_log_cr = Text(frm_term_cr, wrap=WORD, state=DISABLED)
+        txt_log_cr.pack(fill=BOTH, expand=True)
 
         # Word Tokenize area
-
         frm_input_wt = ttk.Frame(frm_word_tokenizer)
         frm_input_wt.grid(column=0, row=0)
         lbl_input_wt = Label(frm_input_wt, text='Dữ liệu đầu vào')
@@ -134,7 +158,6 @@ if __name__ == "__main__":
     # Gets the requested values of the height and widht.
     window_width = root.winfo_reqwidth()
     window_height = root.winfo_reqheight()
-    print("Width: ", window_width, "Height: ", window_height)
     # Gets both half the screen width/height and window width/height
     position_right = int(root.winfo_screenwidth() / 2 - window_width / 2)
     position_down = int(root.winfo_screenheight() / 2 - window_height / 2)

@@ -36,16 +36,10 @@ def start(url='', scroll_down=0, selection=0):
         if btn_close:
             print('Click Close button')
             click(btn_close[0])
-        btn_show_more = find_all(S('[class="oajrlxb2 g5ia77u1 qu0x051f esr5mh6w e9989ue4 r7d6kgcz rq0escxv nhd2j8a9 nc684nl6 p7hjln8o kvgmc6g5 cxmmr5t8 oygrvhab hcukyx3x jb3vyjys rz4wbd8a qt6c0cv9 a8nywdso i1ao9s8h esuyzwwr f1sip0of lzcic4wl oo9gr5id gpro0wi8 lrazzd5p"] [role="button"]'))
-        if btn_show_more:
-            for btn in btn_show_more:
-                print('Click Show more button')
-                click(btn.web_element.text)
 
     for i in range(scroll_down):
         print('Load more posts times', i + 1, '/', scroll_down)
         load_more_posts()
-
 
 # Save data crawled to json
 def stop_and_save(file_name, list_posts):

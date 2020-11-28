@@ -1,3 +1,5 @@
+from helium import *
+
 from bll import load_page
 import re
 import requests
@@ -6,8 +8,6 @@ from bll.preprocessor import text_preprocess
 
 POSTS = '/posts/'
 PAGE_URL = 'https://www.facebook.com/vnesportstv' + POSTS
-PAGE_ID = 'vnesportstv'
-SCROLL_DOWN = 2
 
 
 def get_child_attribute(element, selector, attr):
@@ -36,7 +36,13 @@ def crawl_page():
         # get number in like, comment and shares
         if total_react.find('K') != -1:
             total_react = total_react.replace('K', '')
-            temp = [int(word) for word in total_react.split() if word.isdigit()]
+            if total_react.find(',') != -1:
+                total_react = total_react.replace(',', '')
+                total_react = int(total_react[0]) * 1000 + int(total_react[1]) * 100
+            else:
+                total_react = int(total_react) * 1000
+        # convert like to int if like < 1000
+        total_react = int(total_react)
 
         temp = [int(word) for word in total_shares.split() if word.isdigit()]
         if len(temp) > 0:
@@ -58,23 +64,39 @@ def crawl_page():
 
     load_page.stop_and_save('../data/facebook_post_crawled.json', list_json_posts)
 
-    # url = 'https://localhost:44347/api/Home/AddNewPost'
-    # response = requests.post(url, json=list_json_posts, verify=False)
-    # print('Status code: ', response.status_code)
-    # print(response.text)
+    try:
+        url = 'https://localhost:44347/api/Home/AddNewPost'
+        response = requests.post(url, json=list_json_posts, verify=False)
+        print('Status code: ', response.status_code)
+        print(response.text)
+        return True
+    except:
+        return False
 
 
 def crawl_group():
     driver = load_page.driver
     list_json_posts = []
-    list_html_posts = driver.find_elements_by_css_selector('[class="du4w35lb k4urcfbm l9j0dhe7 sjgh65i0"]')
+    list_html_posts = driver.find_elements_by_css_selector('[class="j83agx80 l9j0dhe7 k4urcfbm"]')
     print('Start crawling', len(list_html_posts), 'posts...')
 
     for post in list_html_posts:
-        post_url = get_child_attribute(post, '[class="oajrlxb2 g5ia77u1 qu0x051f esr5mh6w e9989ue4 r7d6kgcz rq0escxv nhd2j8a9 nc684nl6 p7hjln8o kvgmc6g5 cxmmr5t8 oygrvhab hcukyx3x jb3vyjys rz4wbd8a qt6c0cv9 a8nywdso i1ao9s8h esuyzwwr f1sip0of lzcic4wl gmql0nx0 gpro0wi8 b1v8xokw"]', 'href').split('?')[0]
+        post_url = get_child_attribute(post,
+                                       '[class="oajrlxb2 g5ia77u1 qu0x051f esr5mh6w e9989ue4 r7d6kgcz rq0escxv nhd2j8a9 nc684nl6 p7hjln8o kvgmc6g5 cxmmr5t8 oygrvhab hcukyx3x jb3vyjys rz4wbd8a qt6c0cv9 a8nywdso i1ao9s8h esuyzwwr f1sip0of lzcic4wl py34i1dx gpro0wi8"]',
+                                       'href').split('?')[0]
         # post_id = re.findall('\d+', post_url)[-1]
-        time = get_child_attribute(post, '[class="b6zbclly myohyog2 l9j0dhe7 aenfhxwr l94mrbxd ihxqhq3m nc684nl6 t5a262vz sdhka5h4"]', 'textContent')
-        post_text = get_child_attribute(post, '[class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql rrkovp55 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d3f4x2em fe6kdd0r mau55g9w c8b282yb iv3no6db jq4qci2q a3bd9o3v knj5qynh oo9gr5id hzawbc8m"]', 'textContent')
+        time = get_child_attribute(post,
+                                   '[class="b6zbclly myohyog2 l9j0dhe7 aenfhxwr l94mrbxd ihxqhq3m nc684nl6 t5a262vz sdhka5h4"]',
+                                   'textContent')
+
+        # btn_show_more = find_all(S(
+        #     '[class="oajrlxb2 g5ia77u1 qu0x051f esr5mh6w e9989ue4 r7d6kgcz rq0escxv nhd2j8a9 nc684nl6 p7hjln8o kvgmc6g5 cxmmr5t8 oygrvhab hcukyx3x jb3vyjys rz4wbd8a qt6c0cv9 a8nywdso i1ao9s8h esuyzwwr f1sip0of lzcic4wl oo9gr5id gpro0wi8 lrazzd5p"]'))
+        # if btn_show_more:
+        #     print('Click Show more button')
+        #     click(btn_show_more[0].web_element.text)
+
+        post_text = get_child_attribute(post,
+                                        '[class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql rrkovp55 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d3f4x2em fe6kdd0r mau55g9w c8b282yb iv3no6db jq4qci2q a3bd9o3v knj5qynh oo9gr5id hzawbc8m', 'textContent')
 
         list_json_posts.append({
             'PostUrl': post_url,
@@ -89,9 +111,12 @@ def crawl_group():
 def crawl(url, scroll_down, selection):
     if selection == 1:
         load_page.start(url, scroll_down, selection)
-        crawl_page()
+        if crawl_page():
+            return True
+        else:
+            return False
     elif selection == 2:
         load_page.start(url, scroll_down, selection)
         crawl_group()
     else:
-        print('Đang cào trang cá nhân')
+        print('Chức năng này hiện đang trong giai đoạn phát triển')
