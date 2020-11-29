@@ -1,3 +1,4 @@
+__author__ = 'Hai Bui'
 from sklearn.preprocessing import LabelEncoder
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer

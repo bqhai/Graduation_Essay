@@ -1,3 +1,5 @@
+__author__ = 'Hai Bui'
+
 from helium import *
 import json
 import time

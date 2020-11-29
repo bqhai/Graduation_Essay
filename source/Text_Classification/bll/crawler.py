@@ -1,8 +1,11 @@
+__author__ = 'Hai Bui'
+
 from bll import load_page
 import re
 import requests
 from bll.text_classification import predict, convert_label_to_labelID
 from bll.preprocessor import text_preprocess
+from bll.call_api import *
 
 # global variable
 total_post_crawled = 0
@@ -77,10 +80,7 @@ def crawl_page():
 
     # call api post data to db
     try:
-        url = 'https://localhost:44347/api/Home/AddNewPost'
-        response = requests.post(url, json=list_json_posts, verify=False)
-        print('Status code: ', response.status_code)
-        print(response.text)
+        add_list_json_post(list_json_posts)
         return 0
     except:
         return -2

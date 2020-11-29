@@ -1,3 +1,5 @@
+__author__ = 'Hai Bui'
+
 import regex as re
 from underthesea import word_tokenize
 
