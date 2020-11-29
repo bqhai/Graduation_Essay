@@ -74,6 +74,7 @@ def convert_label_to_text(label):
     elif Counter(label) == Counter(['__label__thế_giới']):
         return 'THẾ GIỚI'
 
+
 def convert_label_to_labelID(label):
     if Counter(label) == Counter(['__label__công_nghệ']):
         return 'CN'

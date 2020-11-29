@@ -1,13 +1,11 @@
-from helium import *
-
 from bll import load_page
 import re
 import requests
 from bll.text_classification import predict, convert_label_to_labelID
 from bll.preprocessor import text_preprocess
 
-POSTS = '/posts/'
-PAGE_URL = 'https://www.facebook.com/vnesportstv' + POSTS
+# global variable
+total_post_crawled = 0
 
 
 def get_child_attribute(element, selector, attr):
@@ -18,11 +16,17 @@ def get_child_attribute(element, selector, attr):
         return ''
 
 
+def count_crawled_post():
+    return total_post_crawled
+
+
 def crawl_page():
     driver = load_page.driver
     list_json_posts = []
     list_html_posts = driver.find_elements_by_css_selector('[class="_427x"] .userContentWrapper')
     print('Start crawling', len(list_html_posts), 'posts...')
+    global total_post_crawled
+    total_post_crawled = len(list_html_posts)
 
     for post in list_html_posts:
         post_url = get_child_attribute(post, '._5pcq', 'href').split('?')[0]
@@ -33,7 +37,7 @@ def crawl_page():
         total_shares = get_child_attribute(post, '._3rwx', 'innerText')
         total_cmts = get_child_attribute(post, '._3hg-', 'innerText')
 
-        # get number in like, comment and shares
+        # get number of like
         if total_react.find('K') != -1:
             total_react = total_react.replace('K', '')
             if total_react.find(',') != -1:
@@ -41,9 +45,11 @@ def crawl_page():
                 total_react = int(total_react[0]) * 1000 + int(total_react[1]) * 100
             else:
                 total_react = int(total_react) * 1000
+
         # convert like to int if like < 1000
         total_react = int(total_react)
 
+        # get number of comment and shares
         temp = [int(word) for word in total_shares.split() if word.isdigit()]
         if len(temp) > 0:
             total_shares = temp[0]
@@ -64,6 +70,7 @@ def crawl_page():
 
     load_page.stop_and_save('../data/facebook_post_crawled.json', list_json_posts)
 
+    # call api post data to db
     try:
         url = 'https://localhost:44347/api/Home/AddNewPost'
         response = requests.post(url, json=list_json_posts, verify=False)
@@ -96,7 +103,8 @@ def crawl_group():
         #     click(btn_show_more[0].web_element.text)
 
         post_text = get_child_attribute(post,
-                                        '[class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql rrkovp55 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d3f4x2em fe6kdd0r mau55g9w c8b282yb iv3no6db jq4qci2q a3bd9o3v knj5qynh oo9gr5id hzawbc8m', 'textContent')
+                                        '[class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql rrkovp55 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d3f4x2em fe6kdd0r mau55g9w c8b282yb iv3no6db jq4qci2q a3bd9o3v knj5qynh oo9gr5id hzawbc8m',
+                                        'textContent')
 
         list_json_posts.append({
             'PostUrl': post_url,
