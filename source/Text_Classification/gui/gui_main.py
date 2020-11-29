@@ -1,9 +1,9 @@
 import os
 import logging
 from datetime import datetime
+import validators
 from tkinter import *
 from tkinter import ttk, messagebox
-
 from bll.text_classification import predict, convert_label_to_text
 from bll.preprocessor import text_preprocess
 from bll.crawler import crawl, count_crawled_post
@@ -40,12 +40,14 @@ class MainWindow(Frame):
         frm_top_cr.pack(fill=BOTH, padx=15, pady=15)
         lbl_url_cr = Label(frm_top_cr, text='Facebook URL: ')
         lbl_url_cr.grid(column=0, row=0)
-        ent_url_cr = ttk.Entry(frm_top_cr, width=60)
+        ent_url_cr = ttk.Entry(frm_top_cr, width=70)
         ent_url_cr.grid(column=1, row=0)
+        btn_black_list_cr = ttk.Button(frm_top_cr, text='...', width=5)  # button to open blacklist
+        btn_black_list_cr.grid(column=2, row=0, padx=(10, 0))
         lbl_numpage_cr = Label(frm_top_cr, text='Số lần cuộn trang: ')
-        lbl_numpage_cr.grid(column=2, row=0, padx=(20, 0))
+        lbl_numpage_cr.grid(column=3, row=0, padx=(20, 0))
         spn_numpage_cr = ttk.Spinbox(frm_top_cr, from_=1, to=20, width=5)
-        spn_numpage_cr.grid(column=3, row=0)
+        spn_numpage_cr.grid(column=4, row=0)
         spn_numpage_cr.insert(1, 1)
         frm_fbtype_cr = ttk.Frame(frm_top_cr)
         frm_fbtype_cr.grid(column=1, row=1, sticky='w', pady=(10, 0))
@@ -65,22 +67,32 @@ class MainWindow(Frame):
         def start_crawl():
             url = ent_url_cr.get()
             if len(url) <= 0:
-                write_log('Lỗi: Link FB không được để trống.')
+                write_log('Warning: Link FB không được để trống!')
                 return
+
+            # check valid url
+            if validators.url(url):
+                pass
+            else:
+                write_log('Error: Link FB không hợp lệ!')
+                return
+            # check valid scroll down
             try:
                 scroll_down = int(spn_numpage_cr.get())
             except:
-                write_log('Lỗi: Số lần cuộn trang không hợp lệ.')
+                write_log('Error: Số lần cuộn trang không hợp lệ.')
                 return
             selection = int(select_type.get())
             try:
-                bool = crawl(url, scroll_down, selection)
-                if bool:
-                    write_log('Thành công: Tổng số bài viết thu thập: ' + str(count_crawled_post()))
+                status = crawl(url, scroll_down, selection)
+                if status == 0:
+                    write_log('Success: Tổng số bài viết thu thập: ' + str(count_crawled_post()))
+                elif status == -1:
+                    write_log('Error: Link FB không tồn tại!')
                 else:
-                    write_log('Lỗi: Kết nối server thất bại!')
+                    write_log('Error: Kết nối server thất bại!')
             except:
-                write_log('Lỗi: Thất bại.')
+                write_log('Error: Thực thi thất bại!')
 
         def clear_log():
             txt_log_cr.config(state=NORMAL)
