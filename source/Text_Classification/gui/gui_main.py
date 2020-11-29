@@ -1,4 +1,5 @@
 __author__ = 'Hai Bui'
+
 import os
 import logging
 from datetime import datetime
@@ -35,9 +36,19 @@ class MainWindow(Frame):
         tab_control.add(frm_guild, text='   Hướng dẫn   ')
 
         # Facebook Crawler area
-        def write_log(message):
+        def write_error_log(message):
             txt_log_cr.config(state=NORMAL)
-            txt_log_cr.insert(END, time_now() + '   ' + message + '\n')
+            txt_log_cr.insert(END, time_now() + '   ' + 'Error: ' + message + '\n', 'error')
+            txt_log_cr.config(state=DISABLED)
+
+        def write_warning_log(message):
+            txt_log_cr.config(state=NORMAL)
+            txt_log_cr.insert(END, time_now() + '   ' + 'Warning: ' + message + '\n', 'warning')
+            txt_log_cr.config(state=DISABLED)
+
+        def write_success_log(message):
+            txt_log_cr.config(state=NORMAL)
+            txt_log_cr.insert(END, time_now() + '   ' + 'Success: ' + message + '\n', 'success')
             txt_log_cr.config(state=DISABLED)
 
         def clear_log():
@@ -55,34 +66,34 @@ class MainWindow(Frame):
         def start_crawl():
             url = ent_url_cr.get()
             if len(url) <= 0:
-                write_log('Warning: Link FB không được để trống!')
+                write_warning_log('Link FB không được để trống!')
                 return
             # check valid url
             if validators.url(url):
                 pass
             else:
-                write_log('Error: Link FB không hợp lệ!')
+                write_error_log('Link FB không hợp lệ!')
                 return
             # check valid scroll down
             try:
                 scroll_down = int(spn_numpage_cr.get())
                 if scroll_down > 20:
-                    write_log('Warning: Tối đa 20 lần cuộn trang')
+                    write_warning_log('Tối đa 20 lần cuộn trang')
                     return
             except:
-                write_log('Error: Số lần cuộn trang không hợp lệ.')
+                write_error_log('Số lần cuộn trang không hợp lệ.')
                 return
             selection = int(select_type.get())
             try:
                 status = crawl(url, scroll_down, selection)
                 if status == 0:
-                    write_log('Success: Tổng số bài viết thu thập: ' + str(count_crawled_post()))
+                    write_success_log('Tổng số bài viết thu thập: ' + str(count_crawled_post()))
                 elif status == -1:
-                    write_log('Error: Link FB không tồn tại!')
+                    write_error_log('Link FB không tồn tại!')
                 else:
-                    write_log('Error: Kết nối server thất bại!')
+                    write_error_log('Kết nối server thất bại!')
             except:
-                write_log('Error: Thực thi thất bại!')
+                write_error_log('Thực thi thất bại!')
 
         select_type = IntVar()
 
@@ -119,8 +130,12 @@ class MainWindow(Frame):
         prg_cr.pack(fill=BOTH)
         frm_term_cr = ttk.Frame(frm_crawler)
         frm_term_cr.pack(fill=BOTH)
-        txt_log_cr = Text(frm_term_cr, wrap=WORD, state=DISABLED)
+        txt_log_cr = Text(frm_term_cr, wrap=WORD, bg='black', state=DISABLED)
         txt_log_cr.pack(fill=BOTH, expand=True)
+        # add tag to change color at log
+        txt_log_cr.tag_config('error', foreground='red')
+        txt_log_cr.tag_config('warning', foreground='yellow')
+        txt_log_cr.tag_config('success', foreground='green')
 
         # Word Tokenize area
         def get_preprocessor_text():
