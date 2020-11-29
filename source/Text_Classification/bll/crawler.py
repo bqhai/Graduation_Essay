@@ -25,6 +25,11 @@ def crawl_page():
     list_json_posts = []
     list_html_posts = driver.find_elements_by_css_selector('[class="_427x"] .userContentWrapper')
     print('Start crawling', len(list_html_posts), 'posts...')
+
+    # page does not exit
+    if len(list_html_posts) == 0:
+        return -1
+
     global total_post_crawled
     total_post_crawled = len(list_html_posts)
 
@@ -76,9 +81,9 @@ def crawl_page():
         response = requests.post(url, json=list_json_posts, verify=False)
         print('Status code: ', response.status_code)
         print(response.text)
-        return True
+        return 0
     except:
-        return False
+        return -2
 
 
 def crawl_group():
@@ -118,11 +123,10 @@ def crawl_group():
 
 def crawl(url, scroll_down, selection):
     if selection == 1:
-        load_page.start(url, scroll_down, selection)
-        if crawl_page():
-            return True
-        else:
-            return False
+        page_url = url + 'posts/'
+        load_page.start(page_url, scroll_down, selection)
+        status = crawl_page()
+        return status
     elif selection == 2:
         load_page.start(url, scroll_down, selection)
         crawl_group()
