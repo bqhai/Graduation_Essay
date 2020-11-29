@@ -1,11 +1,16 @@
 import os
 import logging
+from datetime import datetime
 from tkinter import *
 from tkinter import ttk, messagebox
 
 from bll.text_classification import predict, convert_label_to_text
 from bll.preprocessor import text_preprocess
-from bll.crawler import crawl
+from bll.crawler import crawl, count_crawled_post
+
+
+def time_now():
+    return datetime.now().strftime("%d/%m/%Y %H:%M:%S")
 
 
 class MainWindow(Frame):
@@ -52,35 +57,30 @@ class MainWindow(Frame):
         rad_user_cr = ttk.Radiobutton(frm_fbtype_cr, text='User', variable=select_type, value=3)
         rad_user_cr.grid(column=2, row=0, padx=(0, 15))
 
+        def write_log(message):
+            txt_log_cr.config(state=NORMAL)
+            txt_log_cr.insert(END, time_now() + '   ' + message + '\n')
+            txt_log_cr.config(state=DISABLED)
+
         def start_crawl():
             url = ent_url_cr.get()
             if len(url) <= 0:
-                txt_log_cr.config(state=NORMAL)
-                txt_log_cr.insert(END, 'Lỗi! Link FB không được để trống.\n')
-                txt_log_cr.config(state=DISABLED)
+                write_log('Lỗi: Link FB không được để trống.')
                 return
             try:
                 scroll_down = int(spn_numpage_cr.get())
             except:
-                txt_log_cr.config(state=NORMAL)
-                txt_log_cr.insert(END, 'Lỗi! Số lần cuộn trang không hợp lệ.\n')
-                txt_log_cr.config(state=DISABLED)
+                write_log('Lỗi: Số lần cuộn trang không hợp lệ.')
                 return
             selection = int(select_type.get())
             try:
                 bool = crawl(url, scroll_down, selection)
                 if bool:
-                    txt_log_cr.config(state=NORMAL)
-                    txt_log_cr.insert(END, 'Xong!\n')
-                    txt_log_cr.config(state=DISABLED)
+                    write_log('Thành công: Tổng số bài viết thu thập: ' + str(count_crawled_post()))
                 else:
-                    txt_log_cr.config(state=NORMAL)
-                    txt_log_cr.insert(END, 'Kết nối server thất bại!\n')
-                    txt_log_cr.config(state=DISABLED)
+                    write_log('Lỗi: Kết nối server thất bại!')
             except:
-                txt_log_cr.config(state=NORMAL)
-                txt_log_cr.insert(END, 'Lỗi! Thất bại.\n')
-                txt_log_cr.config(state=DISABLED)
+                write_log('Lỗi: Thất bại.')
 
         def clear_log():
             txt_log_cr.config(state=NORMAL)
@@ -121,6 +121,8 @@ class MainWindow(Frame):
 
         btn_wt = ttk.Button(frm_bottom_wt, text='Tách từ', command=get_preprocessor_text)
         btn_wt.pack(side=RIGHT, padx=5, pady=5)
+        btn_clear_wt = ttk.Button(frm_bottom_wt, text='Xóa text')
+        btn_clear_wt.pack(side=RIGHT, padx=5, pady=5)
 
         # Text Classification area
         frm_input_tc = ttk.Frame(frm_text_classification)
