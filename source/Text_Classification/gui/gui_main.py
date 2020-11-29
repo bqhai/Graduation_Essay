@@ -66,6 +66,9 @@ class MainWindow(Frame):
             # check valid scroll down
             try:
                 scroll_down = int(spn_numpage_cr.get())
+                if scroll_down > 20:
+                    write_log('Warning: Tối đa 20 lần cuộn trang')
+                    return
             except:
                 write_log('Error: Số lần cuộn trang không hợp lệ.')
                 return
