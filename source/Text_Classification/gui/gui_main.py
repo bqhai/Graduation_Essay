@@ -34,42 +34,28 @@ class MainWindow(Frame):
         tab_control.add(frm_guild, text='   Hướng dẫn   ')
 
         # Facebook Crawler area
-        select_type = IntVar()
-
-        frm_top_cr = ttk.Frame(frm_crawler)
-        frm_top_cr.pack(fill=BOTH, padx=15, pady=15)
-        lbl_url_cr = Label(frm_top_cr, text='Facebook URL: ')
-        lbl_url_cr.grid(column=0, row=0)
-        ent_url_cr = ttk.Entry(frm_top_cr, width=70)
-        ent_url_cr.grid(column=1, row=0)
-        btn_black_list_cr = ttk.Button(frm_top_cr, text='...', width=5)  # button to open blacklist
-        btn_black_list_cr.grid(column=2, row=0, padx=(10, 0))
-        lbl_numpage_cr = Label(frm_top_cr, text='Số lần cuộn trang: ')
-        lbl_numpage_cr.grid(column=3, row=0, padx=(20, 0))
-        spn_numpage_cr = ttk.Spinbox(frm_top_cr, from_=1, to=20, width=5)
-        spn_numpage_cr.grid(column=4, row=0)
-        spn_numpage_cr.insert(1, 1)
-        frm_fbtype_cr = ttk.Frame(frm_top_cr)
-        frm_fbtype_cr.grid(column=1, row=1, sticky='w', pady=(10, 0))
-        rad_page_cr = ttk.Radiobutton(frm_fbtype_cr, text='Page', variable=select_type, value=1)
-        rad_page_cr.grid(column=0, row=0, padx=(0, 15))
-        select_type.set(1)
-        rad_group_cr = ttk.Radiobutton(frm_fbtype_cr, text='Group', variable=select_type, value=2)
-        rad_group_cr.grid(column=1, row=0, padx=(0, 15))
-        rad_user_cr = ttk.Radiobutton(frm_fbtype_cr, text='User', variable=select_type, value=3)
-        rad_user_cr.grid(column=2, row=0, padx=(0, 15))
-
         def write_log(message):
             txt_log_cr.config(state=NORMAL)
             txt_log_cr.insert(END, time_now() + '   ' + message + '\n')
             txt_log_cr.config(state=DISABLED)
+
+        def clear_log():
+            txt_log_cr.config(state=NORMAL)
+            txt_log_cr.delete('1.0', END)
+            txt_log_cr.config(state=DISABLED)
+
+        def open_black_list():
+            win_black_list = Toplevel(self)
+            win_black_list.title('Danh sách đen')
+            win_black_list.geometry('854x480')
+            win_black_list.resizable(False, False)
+            win_black_list.grab_set()
 
         def start_crawl():
             url = ent_url_cr.get()
             if len(url) <= 0:
                 write_log('Warning: Link FB không được để trống!')
                 return
-
             # check valid url
             if validators.url(url):
                 pass
@@ -94,10 +80,31 @@ class MainWindow(Frame):
             except:
                 write_log('Error: Thực thi thất bại!')
 
-        def clear_log():
-            txt_log_cr.config(state=NORMAL)
-            txt_log_cr.delete('1.0', END)
-            txt_log_cr.config(state=DISABLED)
+        select_type = IntVar()
+
+        frm_top_cr = ttk.Frame(frm_crawler)
+        frm_top_cr.pack(fill=BOTH, padx=15, pady=15)
+        lbl_url_cr = Label(frm_top_cr, text='Facebook URL: ')
+        lbl_url_cr.grid(column=0, row=0)
+        ent_url_cr = ttk.Entry(frm_top_cr, width=70)
+        ent_url_cr.grid(column=1, row=0)
+        btn_black_list_cr = ttk.Button(frm_top_cr, text='...', width=5,
+                                       command=open_black_list)  # button to open blacklist
+        btn_black_list_cr.grid(column=2, row=0, padx=(10, 0))
+        lbl_numpage_cr = Label(frm_top_cr, text='Số lần cuộn trang: ')
+        lbl_numpage_cr.grid(column=3, row=0, padx=(20, 0))
+        spn_numpage_cr = ttk.Spinbox(frm_top_cr, from_=1, to=20, width=5)
+        spn_numpage_cr.grid(column=4, row=0)
+        spn_numpage_cr.insert(1, 1)
+        frm_fbtype_cr = ttk.Frame(frm_top_cr)
+        frm_fbtype_cr.grid(column=1, row=1, sticky='w', pady=(10, 0))
+        rad_page_cr = ttk.Radiobutton(frm_fbtype_cr, text='Page', variable=select_type, value=1)
+        rad_page_cr.grid(column=0, row=0, padx=(0, 15))
+        select_type.set(1)
+        rad_group_cr = ttk.Radiobutton(frm_fbtype_cr, text='Group', variable=select_type, value=2)
+        rad_group_cr.grid(column=1, row=0, padx=(0, 15))
+        rad_user_cr = ttk.Radiobutton(frm_fbtype_cr, text='User', variable=select_type, value=3)
+        rad_user_cr.grid(column=2, row=0, padx=(0, 15))
 
         btn_crawl_cr = ttk.Button(frm_top_cr, text='Thu thập', command=start_crawl)
         btn_crawl_cr.grid(column=1, row=2, sticky='w', pady=(10, 0))
@@ -112,6 +119,12 @@ class MainWindow(Frame):
         txt_log_cr.pack(fill=BOTH, expand=True)
 
         # Word Tokenize area
+        def get_preprocessor_text():
+            txt_output_wt.config(state=NORMAL)
+            txt_output_wt.delete('1.0', END)
+            txt_output_wt.insert('1.0', text_preprocess(txt_input_wt.get('1.0', END)))
+            txt_output_wt.config(state=DISABLED)
+
         frm_input_wt = ttk.Frame(frm_word_tokenizer)
         frm_input_wt.grid(column=0, row=0)
         lbl_input_wt = Label(frm_input_wt, text='Dữ liệu đầu vào')
@@ -122,14 +135,10 @@ class MainWindow(Frame):
         frm_output_wt.grid(column=1, row=0)
         lbl_output_wt = Label(frm_output_wt, text='Kết quả')
         lbl_output_wt.pack(side=TOP, anchor=N, padx=5, pady=5)
-        txt_output_wt = Text(frm_output_wt, width=51, height=23, wrap=WORD)
+        txt_output_wt = Text(frm_output_wt, width=51, height=23, wrap=WORD, state=DISABLED)
         txt_output_wt.pack(expand=True, padx=5, pady=5)
         frm_bottom_wt = ttk.Frame(frm_word_tokenizer)
         frm_bottom_wt.grid(column=0, row=1, columnspan=2)
-
-        def get_preprocessor_text():
-            txt_output_wt.delete('1.0', END)
-            txt_output_wt.insert('1.0', text_preprocess(txt_input_wt.get('1.0', END)))
 
         btn_wt = ttk.Button(frm_bottom_wt, text='Tách từ', command=get_preprocessor_text)
         btn_wt.pack(side=RIGHT, padx=5, pady=5)
@@ -137,6 +146,17 @@ class MainWindow(Frame):
         btn_clear_wt.pack(side=RIGHT, padx=5, pady=5)
 
         # Text Classification area
+        def get_label():
+            if len(txt_input_tc.get('1.0', END)) <= 0:
+                messagebox.showwarning('Thông báo', 'Nội dung trống!')
+            else:
+                lbl_result_tc["text"] = convert_label_to_text(predict(txt_input_tc.get('1.0', END)))
+                messagebox.showwarning('Thông báo', 'Xong!')
+
+        def clear_text():
+            txt_input_tc.delete('1.0', END)
+            lbl_result_tc["text"] = ''
+
         frm_input_tc = ttk.Frame(frm_text_classification)
         frm_input_tc.pack(fill=BOTH, expand=True)
         lbl_input_tc = Label(frm_input_tc, text='Dữ liệu đầu vào')
@@ -149,17 +169,6 @@ class MainWindow(Frame):
         lbl_output_tc.pack(side=LEFT, anchor=N, padx=5, pady=5)
         lbl_result_tc = Label(frm_output_tc, fg='red')
         lbl_result_tc.pack(side=LEFT, anchor=N, padx=5, pady=5)
-
-        def get_label():
-            if len(txt_input_tc.get('1.0', END)) <= 0:
-                messagebox.showwarning('Thông báo', 'Nội dung trống!')
-            else:
-                lbl_result_tc["text"] = convert_label_to_text(predict(txt_input_tc.get('1.0', END)))
-                messagebox.showwarning('Thông báo', 'Xong!')
-
-        def clear_text():
-            txt_input_tc.delete('1.0', END)
-            lbl_result_tc["text"] = ''
 
         btn_tc = ttk.Button(frm_output_tc, text='Phân loại', command=get_label)
         btn_tc.pack(side=RIGHT, padx=5, pady=5)
