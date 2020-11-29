@@ -152,7 +152,7 @@ class MainWindow(Frame):
                 messagebox.showwarning('Thông báo', 'Nội dung trống!')
             else:
                 lbl_result_tc["text"] = convert_label_to_text(predict(txt_input_tc.get('1.0', END)))
-                messagebox.showwarning('Thông báo', 'Xong!')
+                messagebox.showinfo('Thông báo', 'Xong!')
 
         def clear_text():
             txt_input_tc.delete('1.0', END)

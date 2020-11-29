@@ -1,5 +1,6 @@
 import requests
 
-response = requests.get("https://localhost:44347/api/Home/GetAllBlackList", verify=False)
-print(response.status_code)
+url = 'https://localhost:44347/api/Home/GetAllBlackList'
+response = requests.get(url, verify=False)
+print('Status code: ', response.status_code)
 print(response.json())

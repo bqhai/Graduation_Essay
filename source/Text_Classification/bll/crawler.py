@@ -25,18 +25,18 @@ def count_crawled_post():
 
 def crawl_page():
     driver = load_page.driver
-    list_json_posts = []
-    list_html_posts = driver.find_elements_by_css_selector('[class="_427x"] .userContentWrapper')
-    print('Start crawling', len(list_html_posts), 'posts...')
+    list_json_post = []
+    list_html_post = driver.find_elements_by_css_selector('[class="_427x"] .userContentWrapper')
+    print('Start crawling', len(list_html_post), 'posts...')
 
     # page does not exit
-    if len(list_html_posts) == 0:
+    if len(list_html_post) == 0:
         return -1
 
     global total_post_crawled
-    total_post_crawled = len(list_html_posts)
+    total_post_crawled = len(list_html_post)
 
-    for post in list_html_posts:
+    for post in list_html_post:
         post_url = get_child_attribute(post, '._5pcq', 'href').split('?')[0]
         post_id = re.findall('\d+', post_url)[-1]
         time = get_child_attribute(post, 'abbr', 'title')
@@ -65,7 +65,7 @@ def crawl_page():
         if len(temp) > 0:
             total_cmts = temp[0]
 
-        list_json_posts.append({
+        list_json_post.append({
             'PostUrl': post_url,
             'PostID': post_id,
             'Time': time,
@@ -76,23 +76,19 @@ def crawl_page():
             'NewsLabelID': convert_label_to_labelID(predict(text_preprocess(post_text)))
         })
 
-    load_page.stop_and_save('../data/facebook_post_crawled.json', list_json_posts)
+    load_page.stop_and_save('../data/facebook_post_crawled.json', list_json_post)
 
     # call api post data to db
-    try:
-        add_list_json_post(list_json_posts)
-        return 0
-    except:
-        return -2
+    return add_list_json_post(list_json_post)
 
 
 def crawl_group():
     driver = load_page.driver
-    list_json_posts = []
-    list_html_posts = driver.find_elements_by_css_selector('[class="j83agx80 l9j0dhe7 k4urcfbm"]')
-    print('Start crawling', len(list_html_posts), 'posts...')
+    list_json_post = []
+    list_html_post = driver.find_elements_by_css_selector('[class="j83agx80 l9j0dhe7 k4urcfbm"]')
+    print('Start crawling', len(list_html_post), 'posts...')
 
-    for post in list_html_posts:
+    for post in list_html_post:
         post_url = get_child_attribute(post,
                                        '[class="oajrlxb2 g5ia77u1 qu0x051f esr5mh6w e9989ue4 r7d6kgcz rq0escxv nhd2j8a9 nc684nl6 p7hjln8o kvgmc6g5 cxmmr5t8 oygrvhab hcukyx3x jb3vyjys rz4wbd8a qt6c0cv9 a8nywdso i1ao9s8h esuyzwwr f1sip0of lzcic4wl py34i1dx gpro0wi8"]',
                                        'href').split('?')[0]
@@ -111,14 +107,14 @@ def crawl_group():
                                         '[class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql rrkovp55 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d3f4x2em fe6kdd0r mau55g9w c8b282yb iv3no6db jq4qci2q a3bd9o3v knj5qynh oo9gr5id hzawbc8m',
                                         'textContent')
 
-        list_json_posts.append({
+        list_json_post.append({
             'PostUrl': post_url,
             'Time': time.replace('=', ''),
             'PostContent': post_text,
             'NewsLabelID': convert_label_to_labelID(predict(text_preprocess(post_text)))
         })
 
-    load_page.stop_and_save('../data/facebook_group_post_crawled.json', list_json_posts)
+    load_page.stop_and_save('../data/facebook_group_post_crawled.json', list_json_post)
 
 
 def crawl(url, scroll_down, selection):
