@@ -120,11 +120,13 @@ def crawl_group():
 
 def crawl(url, scroll_down, selection):
     if selection == 1:
+        logging.info('Selection = Page ' + 'Scroll down = ' + str(scroll_down))
         page_url = url + 'posts/'
         load_page.start(page_url, scroll_down, selection)
         status = crawl_page()
         return status
     elif selection == 2:
+        logging.info('Selection = Group ' + 'Scroll down = ' + str(scroll_down))
         load_page.start(url, scroll_down, selection)
         crawl_group()
     else:

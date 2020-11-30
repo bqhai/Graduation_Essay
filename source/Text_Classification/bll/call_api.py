@@ -16,15 +16,19 @@ def add_list_json_post(data):
         print(response.text)
         return 0
     except:
-        logging.info('Call api failed')
+        logging.error('Call api failed')
         return -2
 
 
 def get_all_black_list():
     try:
         url = 'https://localhost:44347/api/Home/GetAllBlackList'
+        logging.info('Call to api ' + url)
         response = requests.get(url, verify=False)
         print('Status code: ', response.status_code)
+        logging.info('Status code: ' + str(response.status_code))
+        logging.info('Call api successfully')
         return response.json()
     except:
+        logging.error('Call api failed')
         return -2
