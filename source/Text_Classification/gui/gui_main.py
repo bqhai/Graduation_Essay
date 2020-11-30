@@ -1,15 +1,15 @@
 __author__ = 'Hai Bui'
 
-import os
-import logging
 from datetime import datetime
 from tkinter import *
 from tkinter import ttk, messagebox
 from bll.text_classification import predict, convert_label_to_text
 from bll.preprocessor import text_preprocess
 from bll.crawler import crawl, count_crawled_post
-import bll.config_log
+import subprocess
 import validators
+import bll.config_log
+import logging
 
 
 def time_now():
@@ -69,6 +69,9 @@ class MainWindow(Frame):
             win_black_list.geometry('854x480')
             win_black_list.resizable(False, False)
             win_black_list.grab_set()
+
+        def open_log():
+            subprocess.call(['notepad.exe', '../log/run_time.log'])
 
         def start_crawl():
             url = ent_url_cr.get()
@@ -130,8 +133,10 @@ class MainWindow(Frame):
 
         btn_crawl_cr = ttk.Button(frm_top_cr, text='Thu thập', command=start_crawl)
         btn_crawl_cr.grid(column=1, row=2, sticky='w', pady=(10, 0))
-        btn_clear_info_cr = ttk.Button(frm_top_cr, text='Xóa log', command=clear_info)
-        btn_clear_info_cr.grid(column=1, row=2, sticky='w', padx=(100, 0), pady=(10, 0))
+        btn_show_log_cr = ttk.Button(frm_top_cr, text='Xem log', command=open_log)
+        btn_show_log_cr.grid(column=1, row=2, sticky='w', padx=(100, 0), pady=(10, 0))
+        btn_clear_info_cr = ttk.Button(frm_top_cr, text='Xóa thông báo', command=clear_info)
+        btn_clear_info_cr.grid(column=1, row=2, sticky='w', padx=(200, 0), pady=(10, 0))
 
         prg_cr = ttk.Progressbar(frm_crawler, length=200)
         prg_cr.pack(fill=BOTH)
@@ -142,7 +147,7 @@ class MainWindow(Frame):
         # add tag to change color at log
         txt_info_cr.tag_config('error', foreground='red')
         txt_info_cr.tag_config('warning', foreground='yellow')
-        txt_info_cr.tag_config('success', foreground='green')
+        txt_info_cr.tag_config('success', foreground='#22ff00')
 
         # Word Tokenize area
         def get_preprocessor_text():

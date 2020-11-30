@@ -1,11 +1,12 @@
 __author__ = 'Hai Bui'
 
 from bll import load_page
-import re
 from bll.text_classification import predict, convert_label_to_labelID
 from bll.preprocessor import text_preprocess
 from bll.call_api import *
-
+import re
+import bll.config_log
+import logging
 # global variable
 total_post_crawled = 0
 
@@ -26,11 +27,12 @@ def crawl_page():
     driver = load_page.driver
     list_json_post = []
     list_html_post = driver.find_elements_by_css_selector('[class="_427x"] .userContentWrapper')
-    print('Start crawling', len(list_html_post), 'posts...')
-
     # page does not exit
     if len(list_html_post) == 0:
+        logging.error('Page does not exit')
         return -1
+    print('Start crawling', len(list_html_post), 'posts...')
+    logging.info('Start crawling ' + str(len(list_html_post)) + ' posts')
 
     global total_post_crawled
     total_post_crawled = len(list_html_post)
