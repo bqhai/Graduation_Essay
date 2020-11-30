@@ -11,9 +11,6 @@ import subprocess
 import validators
 import bll.config_log
 import logging
-import json
-
-black_list = []
 
 
 def time_now():
@@ -68,9 +65,14 @@ class MainWindow(Frame):
             txt_info_cr.config(state=DISABLED)
 
         def open_black_list():
+            black_list = get_all_black_list()
+            if black_list == -2:
+                write_error_info('Kết nối server thất bại!')
+                root.config(cursor='')
+                return
             win_black_list = Toplevel(self)
             win_black_list.title('Danh sách đen')
-            win_black_list.geometry('600x300')
+            win_black_list.geometry('854x480')
             win_black_list.resizable(False, False)
             win_black_list.grab_set()
             tab_control_bl = ttk.Notebook(win_black_list)
@@ -84,13 +86,15 @@ class MainWindow(Frame):
 
             txt_page_bl = Text(frm_page_bl, wrap=WORD, state=DISABLED)
             txt_page_bl.pack(fill=BOTH, expand=True)
+            txt_page_bl.tag_config('header', foreground='red', background='yellow')
             # global black_list
             # if len(black_list) <= 0:
             #     black_list = get_all_black_list()
-            for i in get_all_black_list():
-                txt_page_bl.config(state=NORMAL)
-                txt_page_bl.insert(END, i['FacebookName'] + ':\t' + i['FacebookUrl'] + '\n')
-                txt_page_bl.config(state=DISABLED)
+            txt_page_bl.config(state=NORMAL)
+            txt_page_bl.insert(END, '{:<35} \t {:<12}'.format('Tên trang', 'URL') + '\n', 'header')
+            for i in black_list:
+                txt_page_bl.insert(END, '{:<35} \t {:<12}'.format(i['FacebookName'], i['FacebookUrl']) + '\n')
+            txt_page_bl.config(state=DISABLED)
 
         def open_log():
             subprocess.call(['notepad.exe', '../log/run_time.log'])
@@ -133,9 +137,10 @@ class MainWindow(Frame):
         frm_top_cr.pack(fill=BOTH, padx=15, pady=15)
         lbl_url_cr = Label(frm_top_cr, text='Facebook URL: ')
         lbl_url_cr.grid(column=0, row=0)
-        ent_url_cr = ttk.Entry(frm_top_cr, width=70)
+        ent_url_cr = ttk.Entry(frm_top_cr, width=120)
         ent_url_cr.grid(column=1, row=0)
-        btn_black_list_cr = ttk.Button(frm_top_cr, text='...', width=5, cursor='hand2', command=open_black_list)  # button to open blacklist
+        # button to open blacklist
+        btn_black_list_cr = ttk.Button(frm_top_cr, text='...', width=5, cursor='hand2', command=open_black_list)
         btn_black_list_cr.grid(column=2, row=0, padx=(10, 0))
         lbl_numpage_cr = Label(frm_top_cr, text='Số lần cuộn trang: ')
         lbl_numpage_cr.grid(column=3, row=0, padx=(20, 0))
@@ -163,7 +168,7 @@ class MainWindow(Frame):
         prg_cr.pack(fill=BOTH)
         frm_term_cr = ttk.Frame(frm_crawler)
         frm_term_cr.pack(fill=BOTH)
-        txt_info_cr = Text(frm_term_cr, wrap=WORD, bg='black', state=DISABLED)
+        txt_info_cr = Text(frm_term_cr, height=35, wrap=WORD, bg='black', state=DISABLED)
         txt_info_cr.pack(fill=BOTH, expand=True)
         # add tag to change color at log
         txt_info_cr.tag_config('error', foreground='red')
@@ -181,13 +186,13 @@ class MainWindow(Frame):
         frm_input_wt.grid(column=0, row=0)
         lbl_input_wt = Label(frm_input_wt, text='Dữ liệu đầu vào')
         lbl_input_wt.pack(side=TOP, anchor=N, padx=5, pady=5)
-        txt_input_wt = Text(frm_input_wt, width=51, height=23, wrap=WORD)
-        txt_input_wt.pack(expand=True, padx=5, pady=5)
+        txt_input_wt = Text(frm_input_wt, width=78, height=38, wrap=WORD)
+        txt_input_wt.pack(expand=True, padx=(5, 3), pady=5)
         frm_output_wt = ttk.Frame(frm_word_tokenizer)
         frm_output_wt.grid(column=1, row=0)
         lbl_output_wt = Label(frm_output_wt, text='Kết quả')
         lbl_output_wt.pack(side=TOP, anchor=N, padx=5, pady=5)
-        txt_output_wt = Text(frm_output_wt, width=51, height=23, wrap=WORD, state=DISABLED)
+        txt_output_wt = Text(frm_output_wt, width=78, height=38, wrap=WORD, state=DISABLED)
         txt_output_wt.pack(expand=True, padx=5, pady=5)
         frm_bottom_wt = ttk.Frame(frm_word_tokenizer)
         frm_bottom_wt.grid(column=0, row=1, columnspan=2)
@@ -213,7 +218,7 @@ class MainWindow(Frame):
         frm_input_tc.pack(fill=BOTH, expand=True)
         lbl_input_tc = Label(frm_input_tc, text='Dữ liệu đầu vào')
         lbl_input_tc.pack(side=TOP, anchor=N, padx=5, pady=5)
-        txt_input_tc = Text(frm_input_tc, height=18, wrap=WORD)
+        txt_input_tc = Text(frm_input_tc, height=35, wrap=WORD)
         txt_input_tc.pack(fill=BOTH, padx=5, pady=5, expand=True)
         frm_output_tc = ttk.Frame(frm_text_classification)
         frm_output_tc.pack(fill=BOTH, expand=True)
@@ -237,7 +242,7 @@ if __name__ == "__main__":
     # Gets both half the screen width/height and window width/height
     position_right = int(root.winfo_screenwidth() / 2 - window_width / 2)
     position_down = int(root.winfo_screenheight() / 2 - window_height / 2)
-    root.geometry("850x480".format(position_right, position_down))
+    root.geometry("1280x720".format(position_right, position_down))
     root.resizable(False, False)
     root.protocol('WM_DELETE_WINDOW', on_closing)
     app = MainWindow(root)
