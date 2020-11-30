@@ -82,13 +82,15 @@ class MainWindow(Frame):
             tab_control_bl.add(frm_group_bl, text='  Group  ')
             tab_control_bl.add(frm_user_bl, text='  User  ')
 
-            txt_page_bl = Text(frm_page_bl, wrap=WORD)
+            txt_page_bl = Text(frm_page_bl, wrap=WORD, state=DISABLED)
             txt_page_bl.pack(fill=BOTH, expand=True)
             # global black_list
             # if len(black_list) <= 0:
             #     black_list = get_all_black_list()
             for i in get_all_black_list():
+                txt_page_bl.config(state=NORMAL)
                 txt_page_bl.insert(END, i['FacebookName'] + ':\t' + i['FacebookUrl'] + '\n')
+                txt_page_bl.config(state=DISABLED)
 
         def open_log():
             subprocess.call(['notepad.exe', '../log/run_time.log'])
@@ -133,8 +135,7 @@ class MainWindow(Frame):
         lbl_url_cr.grid(column=0, row=0)
         ent_url_cr = ttk.Entry(frm_top_cr, width=70)
         ent_url_cr.grid(column=1, row=0)
-        btn_black_list_cr = ttk.Button(frm_top_cr, text='...', width=5,
-                                       command=open_black_list)  # button to open blacklist
+        btn_black_list_cr = ttk.Button(frm_top_cr, text='...', width=5, cursor='hand2', command=open_black_list)  # button to open blacklist
         btn_black_list_cr.grid(column=2, row=0, padx=(10, 0))
         lbl_numpage_cr = Label(frm_top_cr, text='Số lần cuộn trang: ')
         lbl_numpage_cr.grid(column=3, row=0, padx=(20, 0))
@@ -151,11 +152,11 @@ class MainWindow(Frame):
         rad_user_cr = ttk.Radiobutton(frm_fbtype_cr, text='User', variable=select_type, value=3)
         rad_user_cr.grid(column=2, row=0, padx=(0, 15))
 
-        btn_crawl_cr = ttk.Button(frm_top_cr, text='Thu thập', command=start_crawl)
+        btn_crawl_cr = ttk.Button(frm_top_cr, text='Thu thập', cursor='hand2', command=start_crawl)
         btn_crawl_cr.grid(column=1, row=2, sticky='w', pady=(10, 0))
-        btn_show_log_cr = ttk.Button(frm_top_cr, text='Xem log', command=open_log)
+        btn_show_log_cr = ttk.Button(frm_top_cr, text='Xem log', cursor='hand2', command=open_log)
         btn_show_log_cr.grid(column=1, row=2, sticky='w', padx=(100, 0), pady=(10, 0))
-        btn_clear_info_cr = ttk.Button(frm_top_cr, text='Xóa thông báo', command=clear_info)
+        btn_clear_info_cr = ttk.Button(frm_top_cr, text='Xóa thông báo', cursor='hand2', command=clear_info)
         btn_clear_info_cr.grid(column=1, row=2, sticky='w', padx=(200, 0), pady=(10, 0))
 
         prg_cr = ttk.Progressbar(frm_crawler, length=200)
@@ -191,9 +192,9 @@ class MainWindow(Frame):
         frm_bottom_wt = ttk.Frame(frm_word_tokenizer)
         frm_bottom_wt.grid(column=0, row=1, columnspan=2)
 
-        btn_wt = ttk.Button(frm_bottom_wt, text='Tách từ', command=get_preprocessor_text)
+        btn_wt = ttk.Button(frm_bottom_wt, text='Tách từ', cursor='hand2', command=get_preprocessor_text)
         btn_wt.pack(side=RIGHT, padx=5, pady=5)
-        btn_clear_wt = ttk.Button(frm_bottom_wt, text='Xóa text')
+        btn_clear_wt = ttk.Button(frm_bottom_wt, text='Xóa text', cursor='hand2')
         btn_clear_wt.pack(side=RIGHT, padx=5, pady=5)
 
         # Text Classification area
@@ -221,9 +222,9 @@ class MainWindow(Frame):
         lbl_result_tc = Label(frm_output_tc, fg='red')
         lbl_result_tc.pack(side=LEFT, anchor=N, padx=5, pady=5)
 
-        btn_tc = ttk.Button(frm_output_tc, text='Phân loại', command=get_label)
+        btn_tc = ttk.Button(frm_output_tc, text='Phân loại', cursor='hand2', command=get_label)
         btn_tc.pack(side=RIGHT, padx=5, pady=5)
-        btn_clear_tc = ttk.Button(frm_output_tc, text='Xóa text', command=clear_text)
+        btn_clear_tc = ttk.Button(frm_output_tc, text='Xóa text', cursor='hand2', command=clear_text)
         btn_clear_tc.pack(side=RIGHT, padx=5, pady=5)
 
 
