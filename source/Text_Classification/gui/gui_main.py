@@ -3,16 +3,23 @@ __author__ = 'Hai Bui'
 import os
 import logging
 from datetime import datetime
-import validators
 from tkinter import *
 from tkinter import ttk, messagebox
 from bll.text_classification import predict, convert_label_to_text
 from bll.preprocessor import text_preprocess
 from bll.crawler import crawl, count_crawled_post
+import bll.config_log
+import validators
 
 
 def time_now():
-    return datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    return datetime.now().strftime('%d/%m/%Y %H:%M:%S')
+
+
+def on_closing():
+    if messagebox.askokcancel('Thoát', 'Bạn muốn thoát chứ?'):
+        logging.info('Exit')
+        root.destroy()
 
 
 class MainWindow(Frame):
@@ -196,6 +203,7 @@ class MainWindow(Frame):
 
 
 if __name__ == "__main__":
+    logging.info('Start up')
     root = Tk()
     # Gets the requested values of the height and widht.
     window_width = root.winfo_reqwidth()
@@ -205,5 +213,6 @@ if __name__ == "__main__":
     position_down = int(root.winfo_screenheight() / 2 - window_height / 2)
     root.geometry("850x480".format(position_right, position_down))
     root.resizable(False, False)
+    root.protocol('WM_DELETE_WINDOW', on_closing)
     app = MainWindow(root)
     app.mainloop()

@@ -2,7 +2,6 @@ __author__ = 'Hai Bui'
 
 from bll import load_page
 import re
-import requests
 from bll.text_classification import predict, convert_label_to_labelID
 from bll.preprocessor import text_preprocess
 from bll.call_api import *
