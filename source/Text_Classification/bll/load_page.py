@@ -3,6 +3,7 @@ __author__ = 'Hai Bui'
 from helium import *
 import json
 import time
+import logging
 
 
 def load_more_posts():

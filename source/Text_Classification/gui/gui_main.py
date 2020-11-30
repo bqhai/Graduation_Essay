@@ -36,25 +36,25 @@ class MainWindow(Frame):
         tab_control.add(frm_guild, text='   Hướng dẫn   ')
 
         # Facebook Crawler area
-        def write_error_log(message):
-            txt_log_cr.config(state=NORMAL)
-            txt_log_cr.insert(END, time_now() + '   ' + 'Error: ' + message + '\n', 'error')
-            txt_log_cr.config(state=DISABLED)
+        def write_error_info(message):
+            txt_info_cr.config(state=NORMAL)
+            txt_info_cr.insert(END, time_now() + '   ' + 'Error: ' + message + '\n', 'error')
+            txt_info_cr.config(state=DISABLED)
 
-        def write_warning_log(message):
-            txt_log_cr.config(state=NORMAL)
-            txt_log_cr.insert(END, time_now() + '   ' + 'Warning: ' + message + '\n', 'warning')
-            txt_log_cr.config(state=DISABLED)
+        def write_warning_info(message):
+            txt_info_cr.config(state=NORMAL)
+            txt_info_cr.insert(END, time_now() + '   ' + 'Warning: ' + message + '\n', 'warning')
+            txt_info_cr.config(state=DISABLED)
 
-        def write_success_log(message):
-            txt_log_cr.config(state=NORMAL)
-            txt_log_cr.insert(END, time_now() + '   ' + 'Success: ' + message + '\n', 'success')
-            txt_log_cr.config(state=DISABLED)
+        def write_success_info(message):
+            txt_info_cr.config(state=NORMAL)
+            txt_info_cr.insert(END, time_now() + '   ' + 'Success: ' + message + '\n', 'success')
+            txt_info_cr.config(state=DISABLED)
 
-        def clear_log():
-            txt_log_cr.config(state=NORMAL)
-            txt_log_cr.delete('1.0', END)
-            txt_log_cr.config(state=DISABLED)
+        def clear_info():
+            txt_info_cr.config(state=NORMAL)
+            txt_info_cr.delete('1.0', END)
+            txt_info_cr.config(state=DISABLED)
 
         def open_black_list():
             win_black_list = Toplevel(self)
@@ -66,34 +66,34 @@ class MainWindow(Frame):
         def start_crawl():
             url = ent_url_cr.get()
             if len(url) <= 0:
-                write_warning_log('Link FB không được để trống!')
+                write_warning_info('Link FB không được để trống!')
                 return
             # check valid url
             if validators.url(url):
                 pass
             else:
-                write_error_log('Link FB không hợp lệ!')
+                write_error_info('Link FB không hợp lệ!')
                 return
             # check valid scroll down
             try:
                 scroll_down = int(spn_numpage_cr.get())
                 if scroll_down > 20:
-                    write_warning_log('Tối đa 20 lần cuộn trang')
+                    write_warning_info('Tối đa 20 lần cuộn trang')
                     return
             except:
-                write_error_log('Số lần cuộn trang không hợp lệ.')
+                write_error_info('Số lần cuộn trang không hợp lệ.')
                 return
             selection = int(select_type.get())
             try:
                 status = crawl(url, scroll_down, selection)
                 if status == 0:
-                    write_success_log('Tổng số bài viết thu thập: ' + str(count_crawled_post()))
+                    write_success_info('Tổng số bài viết thu thập: ' + str(count_crawled_post()))
                 elif status == -1:
-                    write_error_log('Link FB không tồn tại!')
+                    write_error_info('Link FB không tồn tại!')
                 else:
-                    write_error_log('Kết nối server thất bại!')
+                    write_error_info('Kết nối server thất bại!')
             except:
-                write_error_log('Thực thi thất bại!')
+                write_error_info('Thực thi thất bại!')
 
         select_type = IntVar()
 
@@ -123,19 +123,19 @@ class MainWindow(Frame):
 
         btn_crawl_cr = ttk.Button(frm_top_cr, text='Thu thập', command=start_crawl)
         btn_crawl_cr.grid(column=1, row=2, sticky='w', pady=(10, 0))
-        btn_clear_log_cr = ttk.Button(frm_top_cr, text='Xóa log', command=clear_log)
-        btn_clear_log_cr.grid(column=1, row=2, sticky='w', padx=(100, 0), pady=(10, 0))
+        btn_clear_info_cr = ttk.Button(frm_top_cr, text='Xóa log', command=clear_info)
+        btn_clear_info_cr.grid(column=1, row=2, sticky='w', padx=(100, 0), pady=(10, 0))
 
         prg_cr = ttk.Progressbar(frm_crawler, length=200)
         prg_cr.pack(fill=BOTH)
         frm_term_cr = ttk.Frame(frm_crawler)
         frm_term_cr.pack(fill=BOTH)
-        txt_log_cr = Text(frm_term_cr, wrap=WORD, bg='black', state=DISABLED)
-        txt_log_cr.pack(fill=BOTH, expand=True)
+        txt_info_cr = Text(frm_term_cr, wrap=WORD, bg='black', state=DISABLED)
+        txt_info_cr.pack(fill=BOTH, expand=True)
         # add tag to change color at log
-        txt_log_cr.tag_config('error', foreground='red')
-        txt_log_cr.tag_config('warning', foreground='yellow')
-        txt_log_cr.tag_config('success', foreground='green')
+        txt_info_cr.tag_config('error', foreground='red')
+        txt_info_cr.tag_config('warning', foreground='yellow')
+        txt_info_cr.tag_config('success', foreground='green')
 
         # Word Tokenize area
         def get_preprocessor_text():
