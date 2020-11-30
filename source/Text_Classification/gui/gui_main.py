@@ -6,10 +6,14 @@ from tkinter import ttk, messagebox
 from bll.text_classification import predict, convert_label_to_text
 from bll.preprocessor import text_preprocess
 from bll.crawler import crawl, count_crawled_post
+from bll.call_api import get_all_black_list
 import subprocess
 import validators
 import bll.config_log
 import logging
+import json
+
+black_list = []
 
 
 def time_now():
@@ -31,16 +35,16 @@ class MainWindow(Frame):
     def init_ui(self):
         self.parent.title("Tool thu thập, phân loại tin tức")
         self.pack(fill=BOTH, expand=1)
-        tab_control = ttk.Notebook(self)
-        tab_control.pack(fill=BOTH, expand=1)
-        frm_crawler = ttk.Frame(tab_control)
-        frm_word_tokenizer = ttk.Frame(tab_control)
-        frm_text_classification = ttk.Frame(tab_control)
-        frm_guild = ttk.Frame(tab_control)
-        tab_control.add(frm_crawler, text='   Thu thập dữ liệu   ')
-        tab_control.add(frm_word_tokenizer, text='   Công cụ tách từ   ')
-        tab_control.add(frm_text_classification, text='   Phân loại văn bản   ')
-        tab_control.add(frm_guild, text='   Hướng dẫn   ')
+        tab_control_m = ttk.Notebook(self)
+        tab_control_m.pack(fill=BOTH, expand=1)
+        frm_crawler = ttk.Frame(tab_control_m)
+        frm_word_tokenizer = ttk.Frame(tab_control_m)
+        frm_text_classification = ttk.Frame(tab_control_m)
+        frm_guild = ttk.Frame(tab_control_m)
+        tab_control_m.add(frm_crawler, text='   Thu thập dữ liệu   ')
+        tab_control_m.add(frm_word_tokenizer, text='   Công cụ tách từ   ')
+        tab_control_m.add(frm_text_classification, text='   Phân loại văn bản   ')
+        tab_control_m.add(frm_guild, text='   Hướng dẫn   ')
 
         # Facebook Crawler area
         def write_error_info(message):
@@ -66,9 +70,25 @@ class MainWindow(Frame):
         def open_black_list():
             win_black_list = Toplevel(self)
             win_black_list.title('Danh sách đen')
-            win_black_list.geometry('854x480')
+            win_black_list.geometry('600x300')
             win_black_list.resizable(False, False)
             win_black_list.grab_set()
+            tab_control_bl = ttk.Notebook(win_black_list)
+            tab_control_bl.pack(fill=BOTH, expand=1)
+            frm_page_bl = Frame(tab_control_bl)
+            frm_group_bl = Frame(tab_control_bl)
+            frm_user_bl = Frame(tab_control_bl)
+            tab_control_bl.add(frm_page_bl, text='  Page  ')
+            tab_control_bl.add(frm_group_bl, text='  Group  ')
+            tab_control_bl.add(frm_user_bl, text='  User  ')
+
+            txt_page_bl = Text(frm_page_bl, wrap=WORD)
+            txt_page_bl.pack(fill=BOTH, expand=True)
+            # global black_list
+            # if len(black_list) <= 0:
+            #     black_list = get_all_black_list()
+            for i in get_all_black_list():
+                txt_page_bl.insert(END, i['FacebookName'] + ':\t' + i['FacebookUrl'] + '\n')
 
         def open_log():
             subprocess.call(['notepad.exe', '../log/run_time.log'])
