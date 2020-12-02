@@ -86,18 +86,17 @@ def crawl_page():
 def crawl_group():
     driver = load_page.driver
     list_json_post = []
-    list_html_post = driver.find_elements_by_css_selector('[class="j83agx80 l9j0dhe7 k4urcfbm"]')
+    list_html_post = driver.find_elements_by_css_selector('[class="rq0escxv l9j0dhe7 du4w35lb hybvsw6c ue3kfks5 pw54ja7n uo3d90p7 l82x9zwi ni8dbmo4 stjgntxs k4urcfbm sbcfpzgs"]')
     print('Start crawling', len(list_html_post), 'posts...')
 
     for post in list_html_post:
         post_url = get_child_attribute(post,
-                                       '[class="oajrlxb2 g5ia77u1 qu0x051f esr5mh6w e9989ue4 r7d6kgcz rq0escxv nhd2j8a9 nc684nl6 p7hjln8o kvgmc6g5 cxmmr5t8 oygrvhab hcukyx3x jb3vyjys rz4wbd8a qt6c0cv9 a8nywdso i1ao9s8h esuyzwwr f1sip0of lzcic4wl py34i1dx gpro0wi8"]',
+                                       '[class="oajrlxb2 g5ia77u1 qu0x051f esr5mh6w e9989ue4 r7d6kgcz rq0escxv nhd2j8a9 nc684nl6 p7hjln8o kvgmc6g5 cxmmr5t8 oygrvhab hcukyx3x jb3vyjys rz4wbd8a qt6c0cv9 a8nywdso i1ao9s8h esuyzwwr f1sip0of lzcic4wl gmql0nx0 gpro0wi8 b1v8xokw"]',
                                        'href').split('?')[0]
-        # post_id = re.findall('\d+', post_url)[-1]
         time = get_child_attribute(post,
                                    '[class="b6zbclly myohyog2 l9j0dhe7 aenfhxwr l94mrbxd ihxqhq3m nc684nl6 t5a262vz sdhka5h4"]',
                                    'textContent')
-
+        user = total_shares = get_child_attribute(post, '[class="oajrlxb2 g5ia77u1 qu0x051f esr5mh6w e9989ue4 r7d6kgcz rq0escxv nhd2j8a9 nc684nl6 p7hjln8o kvgmc6g5 cxmmr5t8 oygrvhab hcukyx3x jb3vyjys rz4wbd8a qt6c0cv9 a8nywdso i1ao9s8h esuyzwwr f1sip0of lzcic4wl oo9gr5id gpro0wi8 lrazzd5p"]', 'innerText')
         # btn_show_more = find_all(S(
         #     '[class="oajrlxb2 g5ia77u1 qu0x051f esr5mh6w e9989ue4 r7d6kgcz rq0escxv nhd2j8a9 nc684nl6 p7hjln8o kvgmc6g5 cxmmr5t8 oygrvhab hcukyx3x jb3vyjys rz4wbd8a qt6c0cv9 a8nywdso i1ao9s8h esuyzwwr f1sip0of lzcic4wl oo9gr5id gpro0wi8 lrazzd5p"]'))
         # if btn_show_more:
@@ -111,6 +110,7 @@ def crawl_group():
         list_json_post.append({
             'PostUrl': post_url,
             'Time': time.replace('=', ''),
+            'User': user,
             'PostContent': post_text,
             'NewsLabelID': convert_label_to_labelID(predict(text_preprocess(post_text)))
         })
