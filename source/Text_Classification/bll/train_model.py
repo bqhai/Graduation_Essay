@@ -34,11 +34,10 @@ X_train, X_test, y_train, y_test = train_test_split(text, label, test_size=test_
 #         fp.write('{} {}\n'.format(y, x))
 
 # encode label
-# label_encoder = LabelEncoder()
-# label_encoder.fit(y_train)
-# # print(list(label_encoder.classes_), '\n')
-# y_train = label_encoder.transform(y_train)
-# y_test = label_encoder.transform(y_test)
+label_encoder = LabelEncoder()
+label_encoder.fit(y_train)
+y_train = label_encoder.transform(y_train)
+y_test = label_encoder.transform(y_test)
 # --Train Naive Bayes--
 start_time = time.time()
 text_clf = Pipeline([('vect', CountVectorizer(ngram_range=(1, 1),
