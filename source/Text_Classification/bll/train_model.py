@@ -1,4 +1,5 @@
 __author__ = 'Hai Bui'
+
 from sklearn.preprocessing import LabelEncoder
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
@@ -9,15 +10,14 @@ import os
 import pickle
 import time
 
-
-MODEL_PATH = "../models"
+MODEL_PATH = '../models'
 test_percent = 0.2
 text = []
 label = []
-
 if not os.path.exists(MODEL_PATH):
     os.makedirs(MODEL_PATH)
-for line in open('../data/news_categories.prep', encoding="utf8"):
+
+for line in open('../data/news_categories.prep', encoding='utf8'):
     words = line.strip().split()
     label.append(words[0])
     text.append(' '.join(words[1:]))
@@ -53,4 +53,4 @@ train_time = time.time() - start_time
 print('Done training Naive Bayes in', train_time, 'seconds.')
 
 # Save model
-pickle.dump(text_clf, open(os.path.join(MODEL_PATH, "naive_bayes.pkl"), 'wb'))
+pickle.dump(text_clf, open(os.path.join(MODEL_PATH, 'naive_bayes.pkl'), 'wb'))
