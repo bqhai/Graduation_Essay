@@ -142,7 +142,6 @@ def remove_html(txt):
 
 
 def text_preprocess(document):
-    logging.info('Text preprocessing . . .')
     # remove html code
     document = remove_html(document)
     # standardized unicode
@@ -157,5 +156,4 @@ def text_preprocess(document):
     document = re.sub(r'[^\s\wáàảãạăắằẳẵặâấầẩẫậéèẻẽẹêếềểễệóòỏõọôốồổỗộơớờởỡợíìỉĩịúùủũụưứừửữựýỳỷỹỵđ_]', ' ', document)
     # remove unnecessary white space
     document = re.sub(r'\s+', ' ', document).strip()
-    logging.info('Done text preprocess')
     return document

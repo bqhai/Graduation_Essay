@@ -5,7 +5,6 @@ from tkinter import *
 from tkinter import ttk, messagebox
 from bll.text_classification import predict, convert_label_to_text
 from bll.preprocessor import text_preprocess
-from bll.remove_stopword_for_train import remove_stopwords
 from bll.crawler import crawl, count_crawled_post
 from bll.call_api import get_all_black_list
 import subprocess
