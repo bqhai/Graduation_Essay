@@ -12,9 +12,9 @@ namespace BLL_NewsManagementSystem.BLL
 {
     public class BLL_Post
     {
-        DAL_Post dalPost = new DAL_Post();
-        EntityMapper<Post, PostDto> mapToPostDto = new EntityMapper<Post, PostDto>();
-        EntityMapper<PostDto, Post> mapToPost = new EntityMapper<PostDto, Post>();
+        private DAL_Post _dalPost = new DAL_Post();
+        private EntityMapper<Post, PostDto> _mapToPostDto = new EntityMapper<Post, PostDto>();
+        private EntityMapper<PostDto, Post> _mapToPost = new EntityMapper<PostDto, Post>();
         public BLL_Post()
         {
 
@@ -23,8 +23,8 @@ namespace BLL_NewsManagementSystem.BLL
         {
             try
             {
-                Post post = mapToPost.Translate(postDto);
-                dalPost.AddNewPost(post);
+                Post post = _mapToPost.Translate(postDto);
+                _dalPost.AddNewPost(post);
                 return true;
             }
             catch (Exception)

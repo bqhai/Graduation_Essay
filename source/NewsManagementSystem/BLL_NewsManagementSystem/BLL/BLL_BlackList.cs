@@ -13,19 +13,19 @@ namespace BLL_NewsManagementSystem.BLL
 {
     public class BLL_BlackList
     {
-        DAL_BlackList dalBlackList = new DAL_BlackList();
-        EntityMapper<JBlackList, BlackListDto> mapToBlackListDto = new EntityMapper<JBlackList, BlackListDto>();
+        private DAL_BlackList _dalBlackList = new DAL_BlackList();
+        private EntityMapper<JBlackList, BlackListDto>_mapToBlackListDto = new EntityMapper<JBlackList, BlackListDto>();
 
         public BLL_BlackList()
         {
         }
         public List<BlackListDto> GetALlBlackList()
         {
-            IEnumerable<JBlackList> blackLists = dalBlackList.GetAllBlackList();
+            IEnumerable<JBlackList> blackLists = _dalBlackList.GetAllBlackList();
             List<BlackListDto> blackListDtos = new List<BlackListDto>();
             foreach (var item in blackLists)
             {
-                blackListDtos.Add(mapToBlackListDto.Translate(item));
+                blackListDtos.Add(_mapToBlackListDto.Translate(item));
             }
             return blackListDtos;
         }
