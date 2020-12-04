@@ -45,6 +45,8 @@ def start(url='', scroll_down=0, selection=0):
             print('Click Close button')
             click(btn_close[0])
 
+        # input_email = find_all(S('[name="email"]'))
+
     for i in range(scroll_down):
         print('Load more posts times', i + 1, '/', scroll_down)
         load_more_posts()

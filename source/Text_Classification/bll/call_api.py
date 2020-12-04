@@ -7,8 +7,8 @@ import logging
 
 def add_list_json_post(data):
     try:
-        # url = 'https://localhost:44347/api/Home/AddNewPost'
-        url = 'http://kltn26.somee.com/api/Home/AddNewPost'
+        url = 'https://localhost:44347/api/Home/AddNewPost'
+        # url = 'http://kltn26.somee.com/api/Home/AddNewPost'
         logging.info('Call to api ' + url)
         response = requests.post(url, json=data, verify=False)
         print('Status code: ', response.status_code)
@@ -23,8 +23,8 @@ def add_list_json_post(data):
 
 def get_all_black_list():
     try:
-        # url = 'https://localhost:44347/api/Home/GetAllBlackList'
-        url = 'http://kltn26.somee.com/api/Home/GetAllBlackList'
+        url = 'https://localhost:44347/api/Home/GetAllBlackList'
+        # url = 'http://kltn26.somee.com/api/Home/GetAllBlackList'
         logging.info('Call to api ' + url)
         response = requests.get(url, verify=False)
         print('Status code: ', response.status_code)
