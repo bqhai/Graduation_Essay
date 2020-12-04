@@ -45,7 +45,9 @@ def start(url='', scroll_down=0, selection=0):
             print('Click Close button')
             click(btn_close[0])
 
-        # input_email = find_all(S('[name="email"]'))
+        write('nguyenvannammmrv1@gmail.com', into='Email hoặc điện thoại')
+        write('7412325789v3', into='Mật Khẩu')
+        click('Accessible login button')
 
     for i in range(scroll_down):
         print('Load more posts times', i + 1, '/', scroll_down)

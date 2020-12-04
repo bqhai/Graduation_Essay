@@ -68,9 +68,22 @@ class MainWindow(Frame):
             if login_option.get():
                 win_login = Toplevel(self)
                 win_login.title('Đăng nhập')
-                win_login.geometry('300x200')
+                win_login.geometry('400x200')
                 win_login.resizable(False, False)
                 win_login.grab_set()
+                lbl_username_lg = Label(win_login, text='Email hoặc SĐT: ')
+                lbl_username_lg.grid(column=0, row=0, sticky='w', padx=15, pady=(15, 0))
+                lbl_password_lg = Label(win_login, text='Mật khẩu: ')
+                lbl_password_lg.grid(column=0, row=1, sticky='w', padx=15, pady=(15, 0))
+                ent_username_lg = ttk.Entry(win_login, width=40)
+                ent_username_lg.grid(column=1, row=0, pady=(15, 0))
+                ent_password_lg = ttk.Entry(win_login, width=40)
+                ent_password_lg.grid(column=1, row=1, pady=(15, 0))
+                btn_login_lg = ttk.Button(win_login, text='OK', cursor='hand2')
+                btn_login_lg.grid(column=1, row=2, pady=(15, 0))
+                btn_cancel_lg = ttk.Button(win_login, text='Hủy', cursor='hand2')
+                btn_cancel_lg.grid(column=1, row=2, pady=(15, 0))
+                login_option.set(False)
 
         def open_black_list():
             black_list = get_all_black_list()
@@ -128,16 +141,17 @@ class MainWindow(Frame):
                 write_error_info('Số lần cuộn trang không hợp lệ.')
                 return
             selection = int(select_type.get())
-            try:
-                status = crawl(url, scroll_down, selection)
-                if status == 0:
-                    write_success_info('Tổng số bài viết thu thập: ' + str(count_crawled_post()))
-                elif status == -1:
-                    write_error_info('Link FB không tồn tại!')
-                else:
-                    write_error_info('Kết nối server thất bại!')
-            except:
-                write_error_info('Thực thi thất bại!')
+            # try:
+            #     status = crawl(url, scroll_down, selection)
+            #     if status == 0:
+            #         write_success_info('Tổng số bài viết thu thập: ' + str(count_crawled_post()))
+            #     elif status == -1:
+            #         write_error_info('Link FB không tồn tại!')
+            #     else:
+            #         write_error_info('Kết nối server thất bại!')
+            # except:
+            #     write_error_info('Thực thi thất bại!')
+            status = crawl(url, scroll_down, selection)
 
         select_type = IntVar()
         login_option = BooleanVar()
