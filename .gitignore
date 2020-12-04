@@ -610,3 +610,5 @@ dmypy.json
 .prof
 
 # End of https://www.toptal.com/developers/gitignore/api/pycharm,python
+source/Text_Classification/.idea/Text_Classification.iml
+source/Text_Classification/.idea/misc.xml

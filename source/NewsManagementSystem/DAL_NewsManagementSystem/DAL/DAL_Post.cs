@@ -10,19 +10,16 @@ namespace DAL_NewsManagementSystem.DAL
 {
     public class DAL_Post
     {
+        private NewsManagementSystemEntities _db = new NewsManagementSystemEntities();
         public DAL_Post()
         {
-            
+
         }
         public void AddNewPost(Post post)
         {
-            using(var db = new NewsManagementSystemEntities())
-            {
-                post.FacebookID = "viettan";
-                db.Posts.Add(post);
-                db.SaveChanges();
-            }
-            
+            post.FacebookID = "viettan";
+            _db.Posts.Add(post);
+            _db.SaveChanges();
         }
     }
 }
