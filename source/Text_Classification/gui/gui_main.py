@@ -64,6 +64,14 @@ class MainWindow(Frame):
             txt_info_cr.delete('1.0', END)
             txt_info_cr.config(state=DISABLED)
 
+        def login():
+            if login_option.get():
+                win_login = Toplevel(self)
+                win_login.title('Đăng nhập')
+                win_login.geometry('300x200')
+                win_login.resizable(False, False)
+                win_login.grab_set()
+
         def open_black_list():
             black_list = get_all_black_list()
             if black_list == -2:
@@ -132,6 +140,7 @@ class MainWindow(Frame):
                 write_error_info('Thực thi thất bại!')
 
         select_type = IntVar()
+        login_option = BooleanVar()
 
         frm_top_cr = ttk.Frame(frm_crawler)
         frm_top_cr.pack(fill=BOTH, padx=15, pady=15)
@@ -157,12 +166,15 @@ class MainWindow(Frame):
         rad_user_cr = ttk.Radiobutton(frm_fbtype_cr, text='User', variable=select_type, value=3)
         rad_user_cr.grid(column=2, row=0, padx=(0, 15))
 
+        chk_login_cr = ttk.Checkbutton(frm_top_cr, text='Đăng nhập', variable=login_option, onvalue=True, offvalue=False, command=login)
+        chk_login_cr.grid(column=1, row=2, sticky='w', pady=(10, 0))
+
         btn_crawl_cr = ttk.Button(frm_top_cr, text='Thu thập', cursor='hand2', command=start_crawl)
-        btn_crawl_cr.grid(column=1, row=2, sticky='w', pady=(10, 0))
+        btn_crawl_cr.grid(column=1, row=3, sticky='w', pady=(10, 0))
         btn_show_log_cr = ttk.Button(frm_top_cr, text='Xem log', cursor='hand2', command=open_log)
-        btn_show_log_cr.grid(column=1, row=2, sticky='w', padx=(100, 0), pady=(10, 0))
+        btn_show_log_cr.grid(column=1, row=3, sticky='w', padx=(100, 0), pady=(10, 0))
         btn_clear_info_cr = ttk.Button(frm_top_cr, text='Xóa thông báo', cursor='hand2', command=clear_info)
-        btn_clear_info_cr.grid(column=1, row=2, sticky='w', padx=(200, 0), pady=(10, 0))
+        btn_clear_info_cr.grid(column=1, row=3, sticky='w', padx=(200, 0), pady=(10, 0))
 
         prg_cr = ttk.Progressbar(frm_crawler, length=200)
         prg_cr.pack(fill=BOTH)
