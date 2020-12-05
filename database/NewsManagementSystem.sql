@@ -63,8 +63,8 @@ INSERT INTO FacebookType VALUES(N'PGR', N'Nhóm bí mật', N'Secret groups, nơ
 INSERT INTO FacebookType VALUES(N'USER', N'Tài khoản người dùng', N'Tài khoản của người dùng thông thường')
 
 --BlackList--
-INSERT INTO BlackList VALUES(N'viettan', N'Việt Tân', N'https://www.facebook.com/viettan', N'PAGE')
-INSERT INTO BlackList VALUES(N'nhatkyyeunuoc1', N'Nhật Ký Yêu Nước', N'https://www.facebook.com/nhatkyyeunuoc1', N'PAGE')
+INSERT INTO BlackList VALUES(N'viettan', N'Việt Tân', N'https://www.facebook.com/viettan/', N'PAGE')
+INSERT INTO BlackList VALUES(N'nhatkyyeunuoc1', N'Nhật Ký Yêu Nước', N'https://www.facebook.com/nhatkyyeunuoc1/', N'PAGE')
 
 --NewsLabel--
 INSERT INTO NewsLabel VALUES(N'TTH', N'Thể thao')
