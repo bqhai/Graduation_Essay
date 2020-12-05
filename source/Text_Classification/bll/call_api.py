@@ -15,7 +15,10 @@ def add_list_json_post(data):
         logging.info('Status code: ' + str(response.status_code))
         logging.info('Call api successfully')
         print(response.text)
-        return 0
+        if response.text == 'true':
+            return 0
+        else:
+            return -4
     except:
         logging.error('Call api failed')
         return -2

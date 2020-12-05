@@ -15,7 +15,7 @@ def load_more_posts():
         pass
 
 
-def start(url='', scroll_down=0, selection=0):
+def start(url='', scroll_down=0, selection=0, login_option=False, username='', password=''):
     global driver
     print('Go to page', url)
     logging.info('Go to page ' + url)
@@ -44,11 +44,10 @@ def start(url='', scroll_down=0, selection=0):
         if btn_close:
             print('Click Close button')
             click(btn_close[0])
-
-        write('nguyenvannammmrv1@gmail.com', into='Email hoặc điện thoại')
-        write('7412325789v3', into='Mật Khẩu')
-        click('Accessible login button')
-
+        if login_option:
+            write(username, into='Email hoặc điện thoại')
+            write(password, into='Mật Khẩu')
+            click('Accessible login button')
     for i in range(scroll_down):
         print('Load more posts times', i + 1, '/', scroll_down)
         load_more_posts()

@@ -45,6 +45,7 @@ def crawl_page():
         total_react = get_child_attribute(post, '[data-testid="UFI2ReactionsCount/root"] ._81hb', 'innerText')
         total_shares = get_child_attribute(post, '._3rwx', 'innerText')
         total_cmts = get_child_attribute(post, '._3hg-', 'innerText')
+        facebook_id = post_url.split('/')[3]
 
         # get number of like
         if total_react.find('K') != -1:
@@ -68,12 +69,12 @@ def crawl_page():
 
         list_json_post.append({
             'PostUrl': post_url,
-            'PostID': post_id,
             'Time': time,
             'PostContent': post_text,
             'TotalLikes': total_react,
             'TotalComment': total_cmts,
             'TotalShare': total_shares,
+            'FacebookID': facebook_id,
             'NewsLabelID': convert_label_to_labelID(predict(text_preprocess(post_text)))
         })
 
@@ -118,7 +119,7 @@ def crawl_group():
     load_page.stop_and_save('../data/facebook_group_post_crawled.json', list_json_post)
 
 
-def crawl(url, scroll_down, selection):
+def crawl(url, scroll_down, selection, login_option, username, password):
     if selection == 1:
         logging.info('Selection = Page ' + 'Scroll down = ' + str(scroll_down))
         page_url = url + 'posts/'
@@ -127,7 +128,7 @@ def crawl(url, scroll_down, selection):
         return status
     elif selection == 2:
         logging.info('Selection = Group ' + 'Scroll down = ' + str(scroll_down))
-        load_page.start(url, scroll_down, selection)
+        load_page.start(url, scroll_down, selection, login_option, username, password)
         crawl_group()
     else:
-        print('Chức năng này hiện đang trong giai đoạn phát triển')
+        return -3
