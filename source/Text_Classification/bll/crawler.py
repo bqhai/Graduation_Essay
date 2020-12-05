@@ -119,7 +119,7 @@ def crawl_group():
     load_page.stop_and_save('../data/facebook_group_post_crawled.json', list_json_post)
 
 
-def crawl(url, scroll_down, selection, login_option, username, password):
+def crawl(url, scroll_down, selection):
     if selection == 1:
         logging.info('Selection = Page ' + 'Scroll down = ' + str(scroll_down))
         page_url = url + 'posts/'
@@ -127,8 +127,9 @@ def crawl(url, scroll_down, selection, login_option, username, password):
         status = crawl_page()
         return status
     elif selection == 2:
-        logging.info('Selection = Group ' + 'Scroll down = ' + str(scroll_down))
-        load_page.start(url, scroll_down, selection, login_option, username, password)
-        crawl_group()
+        # logging.info('Selection = Group ' + 'Scroll down = ' + str(scroll_down))
+        # load_page.start(url, scroll_down, selection, login_option, username, password)
+        # crawl_group()
+        return -3
     else:
         return -3
