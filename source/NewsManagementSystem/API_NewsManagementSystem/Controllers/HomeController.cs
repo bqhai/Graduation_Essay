@@ -24,8 +24,8 @@ namespace API_NewsManagementSystem.Controllers
             return Json(blackListDtos);        
         }
         [HttpPost]
-        [Route("AddNewPost")]
-        public JsonResult<bool> AddNewPost(List<PostDto> postDtos)
+        [Route("AddNewOrUpdateListPost")]
+        public JsonResult<bool> AddNewOrUpdateListPost(List<PostDto> postDtos)
         {
             foreach (var item in postDtos)
             {
