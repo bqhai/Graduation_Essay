@@ -7,6 +7,7 @@ using DAL_NewsManagementSystem.Models;
 using DAL_NewsManagementSystem.DAL;
 using Models_NewsManagementSystem.MappingClass;
 using Models_NewsManagementSystem.Repository;
+using BLL_NewsManagementSystem.Lib;
 
 namespace BLL_NewsManagementSystem.BLL
 {
@@ -19,12 +20,20 @@ namespace BLL_NewsManagementSystem.BLL
         {
 
         }
-        public bool AddNewPost(PostDto postDto)
-        {
+        public bool AddNewOrUpdatePost(PostDto postDto)
+        {           
             try
             {
                 Post post = _mapToPost.Translate(postDto);
-                _dalPost.AddNewPost(post);
+                if (_dalPost.CheckExistPost(postDto.PostUrl))
+                {
+                    _dalPost.UpdatePost(post);
+                }
+                else
+                {
+                    post.PostID = AutoGenerate.PostID();
+                    _dalPost.AddNewPost(post);
+                }            
                 return true;
             }
             catch (Exception)

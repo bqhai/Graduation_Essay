@@ -29,7 +29,7 @@ namespace API_NewsManagementSystem.Controllers
         {
             foreach (var item in postDtos)
             {
-                bool result = _bllPost.AddNewPost(item);
+                bool result = _bllPost.AddNewOrUpdatePost(item);
                 if (!result)
                 {
                     return Json(false);

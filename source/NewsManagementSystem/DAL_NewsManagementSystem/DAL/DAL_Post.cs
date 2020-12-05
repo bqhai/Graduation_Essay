@@ -17,9 +17,26 @@ namespace DAL_NewsManagementSystem.DAL
         }
         public void AddNewPost(Post post)
         {
-            post.FacebookID = "viettan";
             _db.Posts.Add(post);
             _db.SaveChanges();
+        }
+        public void UpdatePost(Post post)
+        {
+            Post po = _db.Posts.SingleOrDefault(p => p.PostUrl == post.PostUrl);
+            po.PostContent = post.PostContent;
+            po.TotalLikes = post.TotalLikes;
+            po.TotalComment = post.TotalComment;
+            po.TotalShare = post.TotalShare;
+            _db.SaveChanges();
+        }
+        public bool CheckExistPost(string postUrl)
+        {
+            Post po = _db.Posts.SingleOrDefault(p => p.PostUrl == postUrl);
+            if(po != null)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
