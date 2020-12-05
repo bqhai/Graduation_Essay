@@ -1,0 +1,5 @@
+0: success
+-1: url does not exit
+-2: connect server failed
+-3: feature is working on process
+-4: process failed at server
