@@ -13,8 +13,8 @@ import bll.config_log
 import logging
 
 # ---Global variable---
-username = ''
-password = ''
+# username = ''
+# password = ''
 
 
 def time_now():
@@ -27,14 +27,14 @@ def on_closing():
         root.destroy()
 
 
-def center_window(w=300, h=200):
+def center_window(window, w=300, h=200):
     # get screen width and height
-    ws = root.winfo_screenwidth()
-    hs = root.winfo_screenheight()
+    ws = window.winfo_screenwidth()
+    hs = window.winfo_screenheight()
     # calculate position x, y
     x = (ws / 2) - (w / 2)
     y = (hs / 2) - (h / 2)
-    root.geometry('%dx%d+%d+%d' % (w, h, x, y))
+    window.geometry('%dx%d+%d+%d' % (w, h, x, y))
 
 
 class MainWindow(Frame):
@@ -78,47 +78,47 @@ class MainWindow(Frame):
             txt_info_cr.delete('1.0', END)
             txt_info_cr.config(state=DISABLED)
 
-        def login():
-            if login_option.get():
-                def login_ok():
-                    global username
-                    global password
-                    username = ent_username_lg.get()
-                    password = ent_password_lg.get()
-                    if len(username) <= 0 or len(password) <= 0:
-                        messagebox.showwarning('Thông báo', 'Thông tin đăng nhập không được để trống')
-                        return
-                    login_option.set(True)
-                    win_login.destroy()
-
-                def login_cancel():
-                    login_option.set(False)
-                    win_login.destroy()
-
-                win_login = Toplevel(self)
-                win_login.title('Đăng nhập')
-                win_login.geometry('390x150')
-                win_login.resizable(False, False)
-                win_login.grab_set()
-                lbl_username_lg = Label(win_login, text='Email hoặc SĐT: ')
-                lbl_username_lg.grid(column=0, row=0, sticky='w', padx=15, pady=(15, 0))
-                lbl_password_lg = Label(win_login, text='Mật khẩu: ')
-                lbl_password_lg.grid(column=0, row=1, sticky='w', padx=15, pady=(15, 0))
-                ent_username_lg = ttk.Entry(win_login, width=40)
-                ent_username_lg.grid(column=1, row=0, pady=(15, 0))
-                ent_password_lg = ttk.Entry(win_login, width=40)
-                ent_password_lg.grid(column=1, row=1, pady=(15, 0))
-                btn_login_lg = ttk.Button(win_login, text='OK', cursor='hand2', command=login_ok)
-                btn_login_lg.grid(column=1, row=2, sticky='w', pady=(15, 0))
-                btn_cancel_lg = ttk.Button(win_login, text='Hủy', cursor='hand2', command=login_cancel)
-                btn_cancel_lg.grid(column=1, row=2, sticky='w', padx=(80, 0), pady=(15, 0))
-                login_option.set(False)
-            else:
-                global username
-                global password
-                username = ''
-                password = ''
-                login_option.set(False)
+        # def login():
+        #     if login_option.get():
+        #         def login_ok():
+        #             global username
+        #             global password
+        #             username = ent_username_lg.get()
+        #             password = ent_password_lg.get()
+        #             if len(username) <= 0 or len(password) <= 0:
+        #                 messagebox.showwarning('Thông báo', 'Thông tin đăng nhập không được để trống')
+        #                 return
+        #             login_option.set(True)
+        #             win_login.destroy()
+        #
+        #         def login_cancel():
+        #             login_option.set(False)
+        #             win_login.destroy()
+        #
+        #         win_login = Toplevel(self)
+        #         win_login.title('Đăng nhập')
+        #         win_login.geometry('390x150')
+        #         win_login.resizable(False, False)
+        #         win_login.grab_set()
+        #         lbl_username_lg = Label(win_login, text='Email hoặc SĐT: ')
+        #         lbl_username_lg.grid(column=0, row=0, sticky='w', padx=15, pady=(15, 0))
+        #         lbl_password_lg = Label(win_login, text='Mật khẩu: ')
+        #         lbl_password_lg.grid(column=0, row=1, sticky='w', padx=15, pady=(15, 0))
+        #         ent_username_lg = ttk.Entry(win_login, width=40)
+        #         ent_username_lg.grid(column=1, row=0, pady=(15, 0))
+        #         ent_password_lg = ttk.Entry(win_login, width=40)
+        #         ent_password_lg.grid(column=1, row=1, pady=(15, 0))
+        #         btn_login_lg = ttk.Button(win_login, text='OK', cursor='hand2', command=login_ok)
+        #         btn_login_lg.grid(column=1, row=2, sticky='w', pady=(15, 0))
+        #         btn_cancel_lg = ttk.Button(win_login, text='Hủy', cursor='hand2', command=login_cancel)
+        #         btn_cancel_lg.grid(column=1, row=2, sticky='w', padx=(80, 0), pady=(15, 0))
+        #         login_option.set(False)
+        #     else:
+        #         global username
+        #         global password
+        #         username = ''
+        #         password = ''
+        #         login_option.set(False)
 
         def open_black_list():
             black_list = get_all_black_list()
@@ -177,7 +177,7 @@ class MainWindow(Frame):
                 return
             selection = int(select_type.get())
             try:
-                status = crawl(url, scroll_down, selection, login_option.get(), username, password)
+                status = crawl(url, scroll_down, selection)
                 if status == 0:
                     write_success_info('Tổng số bài viết thu thập: ' + str(count_crawled_post()))
                 elif status == -1:
@@ -193,7 +193,7 @@ class MainWindow(Frame):
             # status = crawl(url, scroll_down, selection, login_option.get(), username, password)
 
         select_type = IntVar()
-        login_option = BooleanVar()
+        # login_option = BooleanVar()
 
         frm_top_cr = ttk.Frame(frm_crawler)
         frm_top_cr.pack(fill=BOTH, padx=15, pady=15)
@@ -219,9 +219,9 @@ class MainWindow(Frame):
         rad_user_cr = ttk.Radiobutton(frm_fbtype_cr, text='User', variable=select_type, value=3)
         rad_user_cr.grid(column=2, row=0, padx=(0, 15))
 
-        chk_login_cr = ttk.Checkbutton(frm_top_cr, text='Đăng nhập', variable=login_option, onvalue=True,
-                                       offvalue=False, command=login)
-        chk_login_cr.grid(column=1, row=2, sticky='w', pady=(10, 0))
+        # chk_login_cr = ttk.Checkbutton(frm_top_cr, text='Đăng nhập', variable=login_option, onvalue=True,
+        #                                offvalue=False, command=login)
+        # chk_login_cr.grid(column=1, row=2, sticky='w', pady=(10, 0))
 
         btn_crawl_cr = ttk.Button(frm_top_cr, text='Thu thập', cursor='hand2', command=start_crawl)
         btn_crawl_cr.grid(column=1, row=3, sticky='w', pady=(10, 0))
@@ -269,8 +269,28 @@ class MainWindow(Frame):
         btn_clear_wt.pack(side=RIGHT, padx=5, pady=5)
 
         # Text Classification area
+        def save_post():
+            if len(txt_input_tc.get('1.0', 'end-1c')) == 0:
+                messagebox.showwarning('Thông báo', 'Nội dung trống!')
+                return
+            if lbl_result_tc["text"] == '':
+                messagebox.showwarning('Thông báo', 'Bài viết chưa được phân loại!')
+                return
+            win_save_post = Toplevel(self)
+            win_save_post.title('Lưu bài viết')
+            center_window(win_save_post, 854, 480)
+            win_save_post.resizable(False, False)
+            win_save_post.grab_set()
+            lbl_post_url_sp = Label(win_save_post, text='Post URL: ')
+            lbl_post_url_sp.grid(column=0, row=0, sticky='w', padx=15, pady=(15, 0))
+            lbl_post_time_sp = Label(win_save_post, text='Thời gian đăng: ')
+            lbl_post_time_sp.grid(column=0, row=1, sticky='w', padx=15, pady=(15, 0))
+
+            ent_post_url_sp = ttk.Entry(win_save_post, width=100)
+            ent_post_url_sp.grid(column=1, row=0, pady=(15, 0))
+
         def get_label():
-            if len(txt_input_tc.get('1.0', END)) <= 0:
+            if len(txt_input_tc.get('1.0', 'end-1c')) == 0:
                 messagebox.showwarning('Thông báo', 'Nội dung trống!')
             else:
                 lbl_result_tc["text"] = convert_label_to_text(predict(txt_input_tc.get('1.0', END)))
@@ -293,8 +313,10 @@ class MainWindow(Frame):
         lbl_result_tc = Label(frm_output_tc, fg='red')
         lbl_result_tc.pack(side=LEFT, anchor=N, padx=5, pady=5)
 
-        btn_tc = ttk.Button(frm_output_tc, text='Phân loại', cursor='hand2', command=get_label)
-        btn_tc.pack(side=RIGHT, padx=5, pady=5)
+        btn_save_post_tc = ttk.Button(frm_output_tc, text='Lưu', cursor='hand2', command=save_post)
+        btn_save_post_tc.pack(side=RIGHT, padx=5, pady=5)
+        btn_classification_tc = ttk.Button(frm_output_tc, text='Phân loại', cursor='hand2', command=get_label)
+        btn_classification_tc.pack(side=RIGHT, padx=5, pady=5)
         btn_clear_tc = ttk.Button(frm_output_tc, text='Xóa text', cursor='hand2', command=clear_text)
         btn_clear_tc.pack(side=RIGHT, padx=5, pady=5)
 
@@ -302,7 +324,7 @@ class MainWindow(Frame):
 if __name__ == "__main__":
     logging.info('Start up')
     root = Tk()
-    center_window(1280, 720)
+    center_window(root, 1280, 720)
     root.resizable(False, False)
     root.protocol('WM_DELETE_WINDOW', on_closing)
     app = MainWindow(root)
