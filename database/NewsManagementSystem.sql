@@ -36,10 +36,17 @@ CREATE TABLE NewsLabel
 )
 GO
 
+CREATE TABLE SentimentLabel
+(
+	SentimentLabelID NVARCHAR(100) PRIMARY KEY,
+	SentimentLabelName NVARCHAR(200) NOT NULL,
+)
+
 CREATE TABLE Post
 (
 	PostID NVARCHAR(100) PRIMARY KEY,
 	PostUrl NVARCHAR(500),
+	UserUrl NVARCHAR(500),
 	PostContent NVARCHAR(MAX) NOT NULL,
 	Time NVARCHAR(500) NOT NULL,
 	TotalLikes INT NOT NULL,
@@ -47,9 +54,11 @@ CREATE TABLE Post
 	TotalShare INT NOT NULL,
 	FacebookID NVARCHAR(100) NOT NULL,
 	NewsLabelID NVARCHAR(100) NOT NULL,
+	SentimentLabelID NVARCHAR(100) NOT NULL,
 
 	FOREIGN KEY(FacebookID) REFERENCES BlackList(FacebookID),
-	FOREIGN KEY(NewsLabelID) REFERENCES NewsLabel(NewsLabelID)
+	FOREIGN KEY(NewsLabelID) REFERENCES NewsLabel(NewsLabelID),
+	FOREIGN KEY(SentimentLabelID) REFERENCES SentimentLabel(SentimentLabelID)
 
 )
 
@@ -65,6 +74,7 @@ INSERT INTO FacebookType VALUES(N'USER', N'Tài khoản người dùng', N'Tài 
 --BlackList--
 INSERT INTO BlackList VALUES(N'viettan', N'Việt Tân', N'https://www.facebook.com/viettan/', N'PAGE')
 INSERT INTO BlackList VALUES(N'nhatkyyeunuoc1', N'Nhật Ký Yêu Nước', N'https://www.facebook.com/nhatkyyeunuoc1/', N'PAGE')
+INSERT INTO BlackList VALUES(N'nhabaocongdan', N'Góc nhìn báo chí - Công dân', N'https://www.facebook.com/groups/nhabaocongdan/', N'GR')
 
 --NewsLabel--
 INSERT INTO NewsLabel VALUES(N'TTH', N'Thể thao')
@@ -86,3 +96,8 @@ INSERT INTO NewsLabel VALUES(N'AT', N'Ẩm thực')
 INSERT INTO NewsLabel VALUES(N'SK', N'Sức khỏe')
 INSERT INTO NewsLabel VALUES(N'XB', N'Xuất bản')
 INSERT INTO NewsLabel VALUES(N'CT', N'Chính trị')
+
+--SentimentLabel--
+INSERT INTO SentimentLabel VALUES(N'POS', N'Tích cực')
+INSERT INTO SentimentLabel VALUES(N'NEG', N'Tiêu cực')
+INSERT INTO SentimentLabel VALUES(N'BAL', N'Cân bằng')
