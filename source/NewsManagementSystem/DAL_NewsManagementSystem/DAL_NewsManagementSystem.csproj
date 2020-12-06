@@ -83,6 +83,9 @@
     <Compile Include="Models\Post.cs">
       <DependentUpon>DbNewsManagementSystem.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SentimentLabel.cs">
+      <DependentUpon>DbNewsManagementSystem.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SystemAccount.cs">
       <DependentUpon>DbNewsManagementSystem.tt</DependentUpon>
     </Compile>

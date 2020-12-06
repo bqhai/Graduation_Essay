@@ -29,6 +29,7 @@ namespace DAL_NewsManagementSystem.Models
         public virtual DbSet<FacebookType> FacebookTypes { get; set; }
         public virtual DbSet<NewsLabel> NewsLabels { get; set; }
         public virtual DbSet<Post> Posts { get; set; }
+        public virtual DbSet<SentimentLabel> SentimentLabels { get; set; }
         public virtual DbSet<SystemAccount> SystemAccounts { get; set; }
     }
 }

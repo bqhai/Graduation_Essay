@@ -16,6 +16,7 @@ namespace DAL_NewsManagementSystem.Models
     {
         public string PostID { get; set; }
         public string PostUrl { get; set; }
+        public string UserUrl { get; set; }
         public string PostContent { get; set; }
         public string Time { get; set; }
         public int TotalLikes { get; set; }
@@ -23,8 +24,10 @@ namespace DAL_NewsManagementSystem.Models
         public int TotalShare { get; set; }
         public string FacebookID { get; set; }
         public string NewsLabelID { get; set; }
+        public string SentimentLabelID { get; set; }
     
         public virtual BlackList BlackList { get; set; }
         public virtual NewsLabel NewsLabel { get; set; }
+        public virtual SentimentLabel SentimentLabel { get; set; }
     }
 }
