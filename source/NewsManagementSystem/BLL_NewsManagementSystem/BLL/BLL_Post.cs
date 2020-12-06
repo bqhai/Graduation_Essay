@@ -20,7 +20,7 @@ namespace BLL_NewsManagementSystem.BLL
         {
 
         }
-        public bool AddNewOrUpdatePost(PostDto postDto)
+        public bool AddNewOrUpdatePost (PostDto postDto)
         {           
             try
             {
