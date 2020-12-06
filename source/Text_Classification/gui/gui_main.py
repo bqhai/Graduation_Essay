@@ -176,21 +176,21 @@ class MainWindow(Frame):
                 write_error_info('Số lần cuộn trang không hợp lệ.')
                 return
             selection = int(select_type.get())
-            try:
-                status = crawl(url, scroll_down, selection)
-                if status == 0:
-                    write_success_info('Tổng số bài viết thu thập: ' + str(count_crawled_post()))
-                elif status == -1:
-                    write_error_info('Link FB không tồn tại!')
-                elif status == -3:
-                    write_warning_info('Chức năng này hiện đang trong giai đoạn phát triển!')
-                elif status == -4:
-                    write_error_info('Có lỗi xảy ra ở server!')
-                else:
-                    write_error_info('Kết nối server thất bại!')
-            except:
-                write_error_info('Thực thi thất bại!')
-            # status = crawl(url, scroll_down, selection, login_option.get(), username, password)
+            # try:
+            #     status = crawl(url, scroll_down, selection)
+            #     if status == 0:
+            #         write_success_info('Tổng số bài viết thu thập: ' + str(count_crawled_post()))
+            #     elif status == -1:
+            #         write_error_info('Link FB không tồn tại!')
+            #     elif status == -3:
+            #         write_warning_info('Chức năng này hiện đang trong giai đoạn phát triển!')
+            #     elif status == -4:
+            #         write_error_info('Có lỗi xảy ra ở server!')
+            #     else:
+            #         write_error_info('Kết nối server thất bại!')
+            # except:
+            #     write_error_info('Thực thi thất bại!')
+            status = crawl(url, scroll_down, selection)
 
         select_type = IntVar()
         # login_option = BooleanVar()

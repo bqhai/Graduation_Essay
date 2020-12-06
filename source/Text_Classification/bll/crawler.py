@@ -4,6 +4,7 @@ from bll import load_page
 from bll.text_classification import predict, convert_label_to_labelID
 from bll.preprocessor import text_preprocess
 from bll.call_api import *
+from facebook_scraper import *
 import re
 import bll.config_log
 import logging
@@ -84,39 +85,32 @@ def crawl_page():
     return add_list_json_post(list_json_post)
 
 
-def crawl_group():
-    driver = load_page.driver
+def crawl_group(url):
+    facebook_id = url.split('/')[4]
     list_json_post = []
-    list_html_post = driver.find_elements_by_css_selector('[class="rq0escxv l9j0dhe7 du4w35lb hybvsw6c ue3kfks5 pw54ja7n uo3d90p7 l82x9zwi ni8dbmo4 stjgntxs k4urcfbm sbcfpzgs"]')
-    print('Start crawling', len(list_html_post), 'posts...')
-
-    for post in list_html_post:
-        post_url = get_child_attribute(post,
-                                       '[class="oajrlxb2 g5ia77u1 qu0x051f esr5mh6w e9989ue4 r7d6kgcz rq0escxv nhd2j8a9 nc684nl6 p7hjln8o kvgmc6g5 cxmmr5t8 oygrvhab hcukyx3x jb3vyjys rz4wbd8a qt6c0cv9 a8nywdso i1ao9s8h esuyzwwr f1sip0of lzcic4wl gmql0nx0 gpro0wi8 b1v8xokw"]',
-                                       'href').split('?')[0]
-        time = get_child_attribute(post,
-                                   '[class="b6zbclly myohyog2 l9j0dhe7 aenfhxwr l94mrbxd ihxqhq3m nc684nl6 t5a262vz sdhka5h4"]',
-                                   'textContent')
-        user = total_shares = get_child_attribute(post, '[class="oajrlxb2 g5ia77u1 qu0x051f esr5mh6w e9989ue4 r7d6kgcz rq0escxv nhd2j8a9 nc684nl6 p7hjln8o kvgmc6g5 cxmmr5t8 oygrvhab hcukyx3x jb3vyjys rz4wbd8a qt6c0cv9 a8nywdso i1ao9s8h esuyzwwr f1sip0of lzcic4wl oo9gr5id gpro0wi8 lrazzd5p"]', 'innerText')
-        # btn_show_more = find_all(S(
-        #     '[class="oajrlxb2 g5ia77u1 qu0x051f esr5mh6w e9989ue4 r7d6kgcz rq0escxv nhd2j8a9 nc684nl6 p7hjln8o kvgmc6g5 cxmmr5t8 oygrvhab hcukyx3x jb3vyjys rz4wbd8a qt6c0cv9 a8nywdso i1ao9s8h esuyzwwr f1sip0of lzcic4wl oo9gr5id gpro0wi8 lrazzd5p"]'))
-        # if btn_show_more:
-        #     print('Click Show more button')
-        #     click(btn_show_more[0].web_element.text)
-
-        post_text = get_child_attribute(post,
-                                        '[class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql rrkovp55 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d3f4x2em fe6kdd0r mau55g9w c8b282yb iv3no6db jq4qci2q a3bd9o3v knj5qynh oo9gr5id hzawbc8m',
-                                        'textContent')
+    for post in get_posts(group=facebook_id, pages=1, extra_info=True):
+        post_url = 'https://www.facebook.com/' + str(post['post_id'])
+        time = str(post['time'])
+        user_url = 'https://www.facebook.com/' + str(post['user_id'])
+        post_text = str(post['text'])
+        total_react = post['likes']
+        total_shares = post['shares']
+        total_cmts = post['comments']
 
         list_json_post.append({
             'PostUrl': post_url,
-            'Time': time.replace('=', ''),
-            'User': user,
+            'User': user_url,
+            'Time': time,
             'PostContent': post_text,
+            'TotalLikes': total_react,
+            'TotalComment': total_cmts,
+            'TotalShare': total_shares,
+            'FacebookID': facebook_id,
             'NewsLabelID': convert_label_to_labelID(predict(text_preprocess(post_text)))
         })
 
     load_page.stop_and_save('../data/facebook_group_post_crawled.json', list_json_post)
+    return 0
 
 
 def crawl(url, scroll_down, selection):
@@ -127,9 +121,7 @@ def crawl(url, scroll_down, selection):
         status = crawl_page()
         return status
     elif selection == 2:
-        # logging.info('Selection = Group ' + 'Scroll down = ' + str(scroll_down))
-        # load_page.start(url, scroll_down, selection, login_option, username, password)
-        # crawl_group()
-        return -3
+        status = crawl_group(url)
+        return status
     else:
         return -3
