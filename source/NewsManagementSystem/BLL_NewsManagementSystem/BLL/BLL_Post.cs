@@ -32,6 +32,7 @@ namespace BLL_NewsManagementSystem.BLL
                 else
                 {
                     post.PostID = AutoGenerate.PostID();
+                    post.SentimentLabelID = "NEG";
                     _dalPost.AddNewPost(post);
                 }            
                 return true;
