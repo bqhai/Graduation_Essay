@@ -85,11 +85,15 @@ def crawl_page():
     return add_list_json_post(list_json_post)
 
 
-def crawl_group(url):
+def crawl_group(url, scroll_down):
     facebook_id = url.split('/')[4]
     list_json_post = []
-    for post in get_posts(group=facebook_id, pages=1, extra_info=True):
-        post_url = 'https://www.facebook.com/' + str(post['post_id'])
+    count = 0
+    for post in get_posts(group=facebook_id, pages=scroll_down, extra_info=True):
+        if str(post['post_id']) == 'None':
+            post_url = 'None'
+        else:
+            post_url = 'https://www.facebook.com/' + str(post['post_id'])
         time = str(post['time'])
         user_url = 'https://www.facebook.com/' + str(post['user_id'])
         post_text = str(post['text'])
@@ -99,7 +103,7 @@ def crawl_group(url):
 
         list_json_post.append({
             'PostUrl': post_url,
-            'User': user_url,
+            'UserUrl': user_url,
             'Time': time,
             'PostContent': post_text,
             'TotalLikes': total_react,
@@ -108,9 +112,11 @@ def crawl_group(url):
             'FacebookID': facebook_id,
             'NewsLabelID': convert_label_to_labelID(predict(text_preprocess(post_text)))
         })
+        count = count + 1
 
-    load_page.stop_and_save('../data/facebook_group_post_crawled.json', list_json_post)
-    return 0
+    # load_page.stop_and_save('../data/facebook_group_post_crawled.json', list_json_post)
+    logging.info('Finished crawling ' + str(count) + ' posts')
+    return add_list_json_post(list_json_post)
 
 
 def crawl(url, scroll_down, selection):
@@ -121,7 +127,7 @@ def crawl(url, scroll_down, selection):
         status = crawl_page()
         return status
     elif selection == 2:
-        status = crawl_group(url)
+        status = crawl_group(url, scroll_down)
         return status
     else:
         return -3
