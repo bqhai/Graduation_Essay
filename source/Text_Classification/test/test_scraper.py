@@ -28,5 +28,9 @@ from bll import load_page
 #
 # load_page.stop_and_save('../data/facebook_group_post_crawled.json', list_json_post)
 
-for post in get_posts('viettan', pages=2, extra_info=True):
+# for post in get_posts('viettan', pages=2, extra_info=True):
+#     print(post)
+
+for post in get_posts(group='nhabaocongdan', pages=2, extra_info=True):
     print(post)
+
