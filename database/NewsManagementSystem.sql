@@ -42,7 +42,7 @@ CREATE TABLE SentimentLabel
 	SentimentLabelName NVARCHAR(200) NOT NULL,
 )
 
-CREATE TABLE Post
+CREATE TABLE AutoCrawledPost
 (
 	PostID NVARCHAR(100) PRIMARY KEY,
 	PostUrl NVARCHAR(500),
@@ -60,6 +60,20 @@ CREATE TABLE Post
 	FOREIGN KEY(NewsLabelID) REFERENCES NewsLabel(NewsLabelID),
 	FOREIGN KEY(SentimentLabelID) REFERENCES SentimentLabel(SentimentLabelID)
 
+)
+CREATE TABLE ManualCrawledPost
+(
+	PostID NVARCHAR(100) PRIMARY KEY,
+	PostUrl NVARCHAR(500),
+	UserUrl NVARCHAR(500),
+	ProfileName NVARCHAR(200),
+	PostContent NVARCHAR(MAX) NOT NULL,
+	Time NVARCHAR(500) NOT NULL,
+	NewsLabelID NVARCHAR(100) NOT NULL,
+	SentimentLabelID NVARCHAR(100) NOT NULL,
+
+	FOREIGN KEY(NewsLabelID) REFERENCES NewsLabel(NewsLabelID),
+	FOREIGN KEY(SentimentLabelID) REFERENCES SentimentLabel(SentimentLabelID)
 )
 
 -----INSERTDATA-----
