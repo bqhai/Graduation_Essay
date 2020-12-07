@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace DAL_NewsManagementSystem.DAL
 {
-    public class DAL_Post
+    public class PostDAL
     {
         private NewsManagementSystemEntities _db = new NewsManagementSystemEntities();
-        public DAL_Post()
+        public PostDAL()
         {
 
         }

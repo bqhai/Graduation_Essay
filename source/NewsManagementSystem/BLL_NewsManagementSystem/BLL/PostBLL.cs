@@ -11,29 +11,29 @@ using BLL_NewsManagementSystem.Lib;
 
 namespace BLL_NewsManagementSystem.BLL
 {
-    public class BLL_Post
+    public class PostBLL
     {
-        private DAL_Post _dalPost = new DAL_Post();
-        private EntityMapper<AutoCrawledPost, PostDto> _mapToPostDto = new EntityMapper<AutoCrawledPost, PostDto>();
-        private EntityMapper<PostDto, AutoCrawledPost> _mapToAutoCrawledPost = new EntityMapper<PostDto, AutoCrawledPost>();
-        public BLL_Post()
+        private PostDAL _dalPost = new PostDAL();
+        private EntityMapper<AutoCrawledPost, PostDTO> _mapToPostDto = new EntityMapper<AutoCrawledPost, PostDTO>();
+        private EntityMapper<PostDTO, AutoCrawledPost> _mapToAutoCrawledPost = new EntityMapper<PostDTO, AutoCrawledPost>();
+        public PostBLL()
         {
 
         }
-        public bool AddNewOrUpdatePost (PostDto postDto)
+        public bool AddNewOrUpdatePost (PostDTO postDto)
         {           
             try
             {
                 AutoCrawledPost post = _mapToAutoCrawledPost.Translate(postDto);
-                if (_dalPost.CheckExistPost(postDto.PostUrl))
+                if (_dalPost.CheckExistAutoCrawledPost(postDto.PostUrl))
                 {
-                    _dalPost.UpdatePost(post);
+                    _dalPost.UpdateAutoCrawledPost(post);
                 }
                 else
                 {
                     post.PostID = AutoGenerate.PostID();
                     post.SentimentLabelID = "NEG";
-                    _dalPost.AddNewPost(post);
+                    _dalPost.AddNewAutoCrawledPost(post);
                 }            
                 return true;
             }
