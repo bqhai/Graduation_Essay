@@ -13,6 +13,7 @@ import validators
 import bll.config_log
 import logging
 
+
 # ---Global variable---
 # username = ''
 # password = ''
@@ -40,12 +41,12 @@ def center_window(window, w=300, h=200):
 
 class MainWindow(Frame):
     def __init__(self, parent):
-        Frame.__init__(self, parent, background="white")
+        Frame.__init__(self, parent, background='white')
         self.parent = parent
         self.init_ui()
 
     def init_ui(self):
-        self.parent.title("Tool thu thập, phân loại tin tức")
+        self.parent.title('Tool thu thập, phân loại tin tức')
         self.pack(fill=BOTH, expand=1)
         tab_control_m = ttk.Notebook(self)
         tab_control_m.pack(fill=BOTH, expand=1)
@@ -274,7 +275,7 @@ class MainWindow(Frame):
             if len(txt_input_tc.get('1.0', 'end-1c')) == 0:
                 messagebox.showwarning('Thông báo', 'Nội dung trống!')
                 return
-            if lbl_result_tc["text"] == '':
+            if lbl_result_tc['text'] == '':
                 messagebox.showwarning('Thông báo', 'Bài viết chưa được phân loại!')
                 return
             win_save_post = Toplevel(self)
@@ -311,19 +312,21 @@ class MainWindow(Frame):
             lbl_date_sp.grid(column=1, row=3, sticky='w', padx=(150, 0), pady=(15, 0))
             cal_date_sp = DateEntry(win_save_post, width=12, foreground='white', borderwidth=2)
             cal_date_sp.grid(column=1, row=3, sticky='w', padx=(200, 0), pady=(15, 0))
-
-
+            btn_ok_sp = ttk.Button(win_save_post, text='OK', cursor='hand2')
+            btn_ok_sp.grid(column=1, row=4, sticky='w', pady=(15, 0))
+            btn_cancel_sp = ttk.Button(win_save_post, text='Hủy', cursor='hand2')
+            btn_cancel_sp.grid(column=1, row=4, sticky='w', padx=(80, 0), pady=(15, 0))
 
         def get_label():
             if len(txt_input_tc.get('1.0', 'end-1c')) == 0:
                 messagebox.showwarning('Thông báo', 'Nội dung trống!')
             else:
-                lbl_result_tc["text"] = convert_label_to_text(predict(txt_input_tc.get('1.0', END)))
+                lbl_result_tc['text'] = convert_label_to_text(predict(txt_input_tc.get('1.0', END)))
                 messagebox.showinfo('Thông báo', 'Xong!')
 
         def clear_text():
             txt_input_tc.delete('1.0', END)
-            lbl_result_tc["text"] = ''
+            lbl_result_tc['text'] = ''
 
         frm_input_tc = ttk.Frame(frm_text_classification)
         frm_input_tc.pack(fill=BOTH, expand=True)
@@ -346,7 +349,7 @@ class MainWindow(Frame):
         btn_clear_tc.pack(side=RIGHT, padx=5, pady=5)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     logging.info('Start up')
     root = Tk()
     center_window(root, 1280, 720)
