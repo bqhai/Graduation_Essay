@@ -13,7 +13,7 @@ namespace API_NewsManagementSystem.Controllers
     [RoutePrefix("api/Home")]
     public class HomeController : ApiController
     {
-        private BLL_BlackList _bllBlackList = new BLL_BlackList();
+        private BlackListBLL _bllBlackList = new BlackListBLL();
         private BLL_Post _bllPost = new BLL_Post();
 
         [HttpGet]

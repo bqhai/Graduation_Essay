@@ -4,12 +4,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API_NewsManagementSystem", "API_NewsManagementSystem\API_NewsManagementSystem.csproj", "{E1A5927C-19DB-4813-9D7E-639D424F389A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8CB60B36-5281-4804-AE1E-5709CF13E50D} = {8CB60B36-5281-4804-AE1E-5709CF13E50D}
+		{FB9A79CF-31C4-4AA1-9659-167AF366E728} = {FB9A79CF-31C4-4AA1-9659-167AF366E728}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL_NewsManagementSystem", "DAL_NewsManagementSystem\DAL_NewsManagementSystem.csproj", "{E3179A93-A9CB-4918-BB80-8FA038A3C126}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL_NewsManagementSystem", "BLL_NewsManagementSystem\BLL_NewsManagementSystem.csproj", "{FB9A79CF-31C4-4AA1-9659-167AF366E728}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8CB60B36-5281-4804-AE1E-5709CF13E50D} = {8CB60B36-5281-4804-AE1E-5709CF13E50D}
+		{E3179A93-A9CB-4918-BB80-8FA038A3C126} = {E3179A93-A9CB-4918-BB80-8FA038A3C126}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models_NewsManagementSystem", "Models_NewsManagementSystem\Models_NewsManagementSystem.csproj", "{8CB60B36-5281-4804-AE1E-5709CF13E50D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E3179A93-A9CB-4918-BB80-8FA038A3C126} = {E3179A93-A9CB-4918-BB80-8FA038A3C126}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
