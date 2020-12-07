@@ -88,7 +88,8 @@ def crawl_page():
 def crawl_group(url, scroll_down):
     facebook_id = url.split('/')[4]
     list_json_post = []
-    count = 0
+    global total_post_crawled
+    total_post_crawled = 0
     for post in get_posts(group=facebook_id, pages=scroll_down, extra_info=True):
         if str(post['post_id']) == 'None':
             post_url = 'None'
@@ -112,10 +113,10 @@ def crawl_group(url, scroll_down):
             'FacebookID': facebook_id,
             'NewsLabelID': convert_label_to_labelID(predict(text_preprocess(post_text)))
         })
-        count = count + 1
+        total_post_crawled += 1
 
-    # load_page.stop_and_save('../data/facebook_group_post_crawled.json', list_json_post)
-    logging.info('Finished crawling ' + str(count) + ' posts')
+        # load_page.stop_and_save('../data/facebook_group_post_crawled.json', list_json_post)
+    logging.info('Finished crawling ' + str(total_post_crawled) + ' posts')
     return add_list_json_post(list_json_post)
 
 
