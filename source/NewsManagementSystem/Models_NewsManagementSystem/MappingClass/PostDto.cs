@@ -11,6 +11,7 @@ namespace Models_NewsManagementSystem.MappingClass
         public string PostID { get; set; }
         public string PostUrl { get; set; }
         public string UserUrl { get; set; }
+        public string ProfileName { get; set; }
         public string PostContent { get; set; }
         public string Time { get; set; }
         public int TotalLikes { get; set; }

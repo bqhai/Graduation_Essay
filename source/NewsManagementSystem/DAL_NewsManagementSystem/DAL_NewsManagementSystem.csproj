@@ -56,6 +56,9 @@
     <Compile Include="DAL\DAL_BlackList.cs" />
     <Compile Include="DAL\DAL_Post.cs" />
     <Compile Include="JoinningTable\JBlackList.cs" />
+    <Compile Include="Models\AutoCrawledPost.cs">
+      <DependentUpon>DbNewsManagementSystem.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\BlackList.cs">
       <DependentUpon>DbNewsManagementSystem.tt</DependentUpon>
     </Compile>
@@ -77,10 +80,10 @@
     <Compile Include="Models\FacebookType.cs">
       <DependentUpon>DbNewsManagementSystem.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\NewsLabel.cs">
+    <Compile Include="Models\ManualCrawledPost.cs">
       <DependentUpon>DbNewsManagementSystem.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Post.cs">
+    <Compile Include="Models\NewsLabel.cs">
       <DependentUpon>DbNewsManagementSystem.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SentimentLabel.cs">

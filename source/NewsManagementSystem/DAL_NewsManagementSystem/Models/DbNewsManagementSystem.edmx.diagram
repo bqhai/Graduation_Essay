@@ -5,16 +5,19 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="04c1392eba01410f9c52ee9235b94d24" Name="Diagram1">
-        <EntityTypeShape EntityType="NewsManagementSystemModel.BlackList" Width="1.5" PointX="3" PointY="3.25" />
-        <EntityTypeShape EntityType="NewsManagementSystemModel.FacebookType" Width="1.5" PointX="0.75" PointY="3.5" />
-        <EntityTypeShape EntityType="NewsManagementSystemModel.NewsLabel" Width="1.5" PointX="3" PointY="0.75" />
-        <EntityTypeShape EntityType="NewsManagementSystemModel.Post" Width="1.5" PointX="5.25" PointY="2.5" />
-        <EntityTypeShape EntityType="NewsManagementSystemModel.SentimentLabel" Width="1.5" PointX="3" PointY="6.375" />
-        <EntityTypeShape EntityType="NewsManagementSystemModel.SystemAccount" Width="1.5" PointX="5.75" PointY="7.25" />
+        <EntityTypeShape EntityType="NewsManagementSystemModel.AutoCrawledPost" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="NewsManagementSystemModel.BlackList" Width="1.5" PointX="5" PointY="4.875" />
+        <EntityTypeShape EntityType="NewsManagementSystemModel.FacebookType" Width="1.5" PointX="2.75" PointY="5.125" />
+        <EntityTypeShape EntityType="NewsManagementSystemModel.ManualCrawledPost" Width="1.5" PointX="3.75" PointY="0.5" />
+        <EntityTypeShape EntityType="NewsManagementSystemModel.NewsLabel" Width="1.5" PointX="0.75" PointY="1.5" />
+        <EntityTypeShape EntityType="NewsManagementSystemModel.SentimentLabel" Width="1.5" PointX="0.75" PointY="5.5" />
+        <EntityTypeShape EntityType="NewsManagementSystemModel.SystemAccount" Width="1.5" PointX="7.25" PointY="1" />
+        <AssociationConnector Association="NewsManagementSystemModel.FK__AutoCrawl__Faceb__1BFD2C07" />
+        <AssociationConnector Association="NewsManagementSystemModel.FK__AutoCrawl__NewsL__1CF15040" />
+        <AssociationConnector Association="NewsManagementSystemModel.FK__AutoCrawl__Senti__1DE57479" />
         <AssociationConnector Association="NewsManagementSystemModel.FK__BlackList__Faceb__15502E78" />
-        <AssociationConnector Association="NewsManagementSystemModel.FK__Post__FacebookID__1BFD2C07" />
-        <AssociationConnector Association="NewsManagementSystemModel.FK__Post__NewsLabelI__1CF15040" />
-        <AssociationConnector Association="NewsManagementSystemModel.FK__Post__SentimentL__1DE57479" />
+        <AssociationConnector Association="NewsManagementSystemModel.FK__ManualCra__NewsL__20C1E124" />
+        <AssociationConnector Association="NewsManagementSystemModel.FK__ManualCra__Senti__21B6055D" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
