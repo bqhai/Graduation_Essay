@@ -3,6 +3,7 @@ __author__ = 'Hai Bui'
 from datetime import datetime
 from tkinter import *
 from tkinter import ttk, messagebox
+from tkcalendar import Calendar, DateEntry
 from bll.text_classification import predict, convert_label_to_text
 from bll.preprocessor import text_preprocess
 from bll.crawler import crawl, count_crawled_post
@@ -176,21 +177,21 @@ class MainWindow(Frame):
                 write_error_info('Số lần cuộn trang không hợp lệ.')
                 return
             selection = int(select_type.get())
-            # try:
-            #     status = crawl(url, scroll_down, selection)
-            #     if status == 0:
-            #         write_success_info('Tổng số bài viết thu thập: ' + str(count_crawled_post()))
-            #     elif status == -1:
-            #         write_error_info('Link FB không tồn tại!')
-            #     elif status == -3:
-            #         write_warning_info('Chức năng này hiện đang trong giai đoạn phát triển!')
-            #     elif status == -4:
-            #         write_error_info('Có lỗi xảy ra ở server!')
-            #     else:
-            #         write_error_info('Kết nối server thất bại!')
-            # except:
-            #     write_error_info('Thực thi thất bại!')
-            status = crawl(url, scroll_down, selection)
+            try:
+                status = crawl(url, scroll_down, selection)
+                if status == 0:
+                    write_success_info('Tổng số bài viết thu thập: ' + str(count_crawled_post()))
+                elif status == -1:
+                    write_error_info('Link FB không tồn tại!')
+                elif status == -3:
+                    write_warning_info('Chức năng này hiện đang trong giai đoạn phát triển!')
+                elif status == -4:
+                    write_error_info('Có lỗi xảy ra ở server!')
+                else:
+                    write_error_info('Kết nối server thất bại!')
+            except:
+                write_error_info('Thực thi thất bại!')
+            # status = crawl(url, scroll_down, selection)
 
         select_type = IntVar()
         # login_option = BooleanVar()
@@ -281,13 +282,37 @@ class MainWindow(Frame):
             center_window(win_save_post, 854, 480)
             win_save_post.resizable(False, False)
             win_save_post.grab_set()
-            lbl_post_url_sp = Label(win_save_post, text='Post URL: ')
+            lbl_post_url_sp = Label(win_save_post, text='URL bài viết: ')
             lbl_post_url_sp.grid(column=0, row=0, sticky='w', padx=15, pady=(15, 0))
+            lbl_user_url_sp = Label(win_save_post, text='URL người đăng: ')
+            lbl_user_url_sp.grid(column=0, row=1, sticky='w', padx=15, pady=(15, 0))
+            lbl_profile_name_sp = Label(win_save_post, text='Tên người đăng: ')
+            lbl_profile_name_sp.grid(column=0, row=2, sticky='w', padx=15, pady=(15, 0))
             lbl_post_time_sp = Label(win_save_post, text='Thời gian đăng: ')
-            lbl_post_time_sp.grid(column=0, row=1, sticky='w', padx=15, pady=(15, 0))
+            lbl_post_time_sp.grid(column=0, row=3, sticky='w', padx=15, pady=(15, 0))
 
-            ent_post_url_sp = ttk.Entry(win_save_post, width=100)
+            ent_post_url_sp = ttk.Entry(win_save_post, width=110)
             ent_post_url_sp.grid(column=1, row=0, pady=(15, 0))
+            ent_user_url_sp = ttk.Entry(win_save_post, width=110)
+            ent_user_url_sp.grid(column=1, row=1, pady=(15, 0))
+            ent_profile_name_sp = ttk.Entry(win_save_post, width=110)
+            ent_profile_name_sp.grid(column=1, row=2, pady=(15, 0))
+            spn_hour_sp = ttk.Spinbox(win_save_post, from_=00, to=23, width=3)
+            spn_hour_sp.grid(column=1, row=3, sticky='w', pady=(15, 0))
+            spn_hour_sp.insert(1, 0)
+            lbl_hour_sp = Label(win_save_post, text='giờ')
+            lbl_hour_sp.grid(column=1, row=3, sticky='w', padx=(40, 0), pady=(15, 0))
+            spn_minute_sp = ttk.Spinbox(win_save_post, from_=00, to=59, width=3)
+            spn_minute_sp.grid(column=1, row=3, sticky='w', padx=(70, 0), pady=(15, 0))
+            spn_minute_sp.insert(1, 0)
+            lbl_minute_sp = Label(win_save_post, text='phút')
+            lbl_minute_sp.grid(column=1, row=3, sticky='w', padx=(110, 0), pady=(15, 0))
+            lbl_date_sp = Label(win_save_post, text='Ngày: ')
+            lbl_date_sp.grid(column=1, row=3, sticky='w', padx=(150, 0), pady=(15, 0))
+            cal_date_sp = DateEntry(win_save_post, width=12, foreground='white', borderwidth=2)
+            cal_date_sp.grid(column=1, row=3, sticky='w', padx=(200, 0), pady=(15, 0))
+
+
 
         def get_label():
             if len(txt_input_tc.get('1.0', 'end-1c')) == 0:
