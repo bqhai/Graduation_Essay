@@ -11,18 +11,18 @@ using DAL_NewsManagementSystem.JoinningTable;
 
 namespace BLL_NewsManagementSystem.BLL
 {
-    public class BLL_BlackList
+    public class BlackListBLL
     {
-        private DAL_BlackList _dalBlackList = new DAL_BlackList();
-        private EntityMapper<JBlackList, BlackListDto>_mapToBlackListDto = new EntityMapper<JBlackList, BlackListDto>();
+        private BlackListDAL _dalBlackList = new BlackListDAL();
+        private EntityMapper<JBlackList, BlackListDTO>_mapToBlackListDto = new EntityMapper<JBlackList, BlackListDTO>();
 
-        public BLL_BlackList()
+        public BlackListBLL()
         {
         }
-        public List<BlackListDto> GetALlBlackList()
+        public List<BlackListDTO> GetALlBlackList()
         {
             IEnumerable<JBlackList> blackLists = _dalBlackList.GetAllBlackList();
-            List<BlackListDto> blackListDtos = new List<BlackListDto>();
+            List<BlackListDTO> blackListDtos = new List<BlackListDTO>();
             foreach (var item in blackLists)
             {
                 blackListDtos.Add(_mapToBlackListDto.Translate(item));
