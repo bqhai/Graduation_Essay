@@ -17,8 +17,8 @@ namespace Models_NewsManagementSystem.Repository
             Mapper.CreateMap<JBlackList, BlackListDTO>();
             Mapper.CreateMap<BlackListDTO, JBlackList>();
 
-            Mapper.CreateMap<AutoCrawledPost, PostDTO>();
-            Mapper.CreateMap<PostDTO, AutoCrawledPost>();
+            Mapper.CreateMap<Post, PostDTO>();
+            Mapper.CreateMap<PostDTO, Post>();
         }
         public TDestination Translate(TSource obj)
         {

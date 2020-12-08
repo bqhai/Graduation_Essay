@@ -14,8 +14,8 @@ namespace BLL_NewsManagementSystem.BLL
     public class PostBLL
     {
         private PostDAL _dalPost = new PostDAL();
-        private EntityMapper<AutoCrawledPost, PostDTO> _mapToPostDto = new EntityMapper<AutoCrawledPost, PostDTO>();
-        private EntityMapper<PostDTO, AutoCrawledPost> _mapToAutoCrawledPost = new EntityMapper<PostDTO, AutoCrawledPost>();
+        private EntityMapper<Post, PostDTO> _mapToPostDto = new EntityMapper<Post, PostDTO>();
+        private EntityMapper<PostDTO, Post> _mapToAutoCrawledPost = new EntityMapper<PostDTO, Post>();
         public PostBLL()
         {
 
@@ -24,7 +24,7 @@ namespace BLL_NewsManagementSystem.BLL
         {           
             try
             {
-                AutoCrawledPost post = _mapToAutoCrawledPost.Translate(postDto);
+                Post post = _mapToAutoCrawledPost.Translate(postDto);
                 if (_dalPost.CheckExistAutoCrawledPost(postDto.PostUrl))
                 {
                     _dalPost.UpdateAutoCrawledPost(post);

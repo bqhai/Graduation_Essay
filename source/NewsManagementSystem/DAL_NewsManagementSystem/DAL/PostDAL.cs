@@ -15,24 +15,24 @@ namespace DAL_NewsManagementSystem.DAL
         {
 
         }
-        public void AddNewAutoCrawledPost(AutoCrawledPost acPost)
+        public void AddNewAutoCrawledPost(Post post)
         {
-            _db.AutoCrawledPosts.Add(acPost);
+            _db.Posts.Add(post);
             _db.SaveChanges();
         }
-        public void UpdateAutoCrawledPost(AutoCrawledPost acPost)
+        public void UpdateAutoCrawledPost(Post post)
         {
-            AutoCrawledPost acp = _db.AutoCrawledPosts.SingleOrDefault(p => p.PostUrl == acPost.PostUrl);
-            acp.PostContent = acPost.PostContent;
-            acp.TotalLikes = acPost.TotalLikes;
-            acp.TotalComment = acPost.TotalComment;
-            acp.TotalShare = acPost.TotalShare;
+            Post po = _db.Posts.SingleOrDefault(p => p.PostUrl == post.PostUrl);
+            po.PostContent = post.PostContent;
+            po.TotalLikes = post.TotalLikes;
+            po.TotalComment = post.TotalComment;
+            po.TotalShare = post.TotalShare;
             _db.SaveChanges();
         }
         public bool CheckExistAutoCrawledPost(string postUrl)
         {
-            AutoCrawledPost acp = _db.AutoCrawledPosts.SingleOrDefault(p => p.PostUrl == postUrl);
-            if(acp != null)
+            Post po = _db.Posts.SingleOrDefault(p => p.PostUrl == postUrl);
+            if(po != null)
             {
                 return true;
             }

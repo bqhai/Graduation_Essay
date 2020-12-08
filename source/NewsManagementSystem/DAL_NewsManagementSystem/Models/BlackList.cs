@@ -17,7 +17,7 @@ namespace DAL_NewsManagementSystem.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public BlackList()
         {
-            this.AutoCrawledPosts = new HashSet<AutoCrawledPost>();
+            this.Posts = new HashSet<Post>();
         }
     
         public string FacebookID { get; set; }
@@ -25,8 +25,8 @@ namespace DAL_NewsManagementSystem.Models
         public string FacebookUrl { get; set; }
         public string FacebookTypeID { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AutoCrawledPost> AutoCrawledPosts { get; set; }
         public virtual FacebookType FacebookType { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Post> Posts { get; set; }
     }
 }
