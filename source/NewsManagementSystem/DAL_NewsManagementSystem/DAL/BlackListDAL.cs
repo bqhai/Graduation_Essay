@@ -29,5 +29,14 @@ namespace DAL_NewsManagementSystem.DAL
                         };
             return query;
         }
+        public bool CheckExistID(string facebookID)
+        {
+            BlackList blackList = _db.BlackLists.SingleOrDefault(b => b.FacebookID == facebookID);
+            if(blackList != null)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

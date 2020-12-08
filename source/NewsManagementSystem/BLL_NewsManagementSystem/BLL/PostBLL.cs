@@ -22,37 +22,25 @@ namespace BLL_NewsManagementSystem.BLL
         }
         public bool AddNewOrUpdatePost (PostDTO postDto)
         {
-            Post post = _mapToAutoCrawledPost.Translate(postDto);
-            if (_dalPost.CheckExistPost(postDto.PostUrl))
+            try
             {
-                _dalPost.UpdatePost(post);
+                Post post = _mapToAutoCrawledPost.Translate(postDto);
+                if (_dalPost.CheckExistPost(postDto.PostUrl))
+                {
+                    _dalPost.UpdatePost(post);
+                }
+                else
+                {
+                    post.PostID = AutoGenerate.PostID();
+                    post.SentimentLabelID = "NEG";
+                    _dalPost.AddNewPost(post);
+                }
+                return true;
             }
-            else
+            catch (Exception)
             {
-                post.PostID = AutoGenerate.PostID();
-                post.SentimentLabelID = "NEG";
-                _dalPost.AddNewPost(post);
+                return false;
             }
-            return true;
-            //try
-            //{
-            //    Post post = _mapToAutoCrawledPost.Translate(postDto);
-            //    if (_dalPost.CheckExistPost(postDto.PostUrl))
-            //    {
-            //        _dalPost.UpdatePost(post);
-            //    }
-            //    else
-            //    {
-            //        post.PostID = AutoGenerate.PostID();
-            //        post.SentimentLabelID = "NEG";
-            //        _dalPost.AddNewPost(post);
-            //    }            
-            //    return true;
-            //}
-            //catch (Exception)
-            //{
-            //    return false;
-            //}
         }
 
     }

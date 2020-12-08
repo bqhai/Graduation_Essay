@@ -72,7 +72,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Post__FacebookID__1CF15040">
+        <Association Name="FK__Post__FacebookID__1BFD2C07">
           <End Role="BlackList" Type="Self.BlackList" Multiplicity="0..1" />
           <End Role="Post" Type="Self.Post" Multiplicity="*" />
           <ReferentialConstraint>
@@ -84,7 +84,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Post__NewsLabelI__1DE57479">
+        <Association Name="FK__Post__NewsLabelI__1CF15040">
           <End Role="NewsLabel" Type="Self.NewsLabel" Multiplicity="1" />
           <End Role="Post" Type="Self.Post" Multiplicity="*" />
           <ReferentialConstraint>
@@ -96,7 +96,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Post__SentimentL__1ED998B2">
+        <Association Name="FK__Post__SentimentL__1DE57479">
           <End Role="SentimentLabel" Type="Self.SentimentLabel" Multiplicity="1" />
           <End Role="Post" Type="Self.Post" Multiplicity="*" />
           <ReferentialConstraint>
@@ -119,15 +119,15 @@
             <End Role="FacebookType" EntitySet="FacebookType" />
             <End Role="BlackList" EntitySet="BlackList" />
           </AssociationSet>
-          <AssociationSet Name="FK__Post__FacebookID__1CF15040" Association="Self.FK__Post__FacebookID__1CF15040">
+          <AssociationSet Name="FK__Post__FacebookID__1BFD2C07" Association="Self.FK__Post__FacebookID__1BFD2C07">
             <End Role="BlackList" EntitySet="BlackList" />
             <End Role="Post" EntitySet="Post" />
           </AssociationSet>
-          <AssociationSet Name="FK__Post__NewsLabelI__1DE57479" Association="Self.FK__Post__NewsLabelI__1DE57479">
+          <AssociationSet Name="FK__Post__NewsLabelI__1CF15040" Association="Self.FK__Post__NewsLabelI__1CF15040">
             <End Role="NewsLabel" EntitySet="NewsLabel" />
             <End Role="Post" EntitySet="Post" />
           </AssociationSet>
-          <AssociationSet Name="FK__Post__SentimentL__1ED998B2" Association="Self.FK__Post__SentimentL__1ED998B2">
+          <AssociationSet Name="FK__Post__SentimentL__1DE57479" Association="Self.FK__Post__SentimentL__1DE57479">
             <End Role="SentimentLabel" EntitySet="SentimentLabel" />
             <End Role="Post" EntitySet="Post" />
           </AssociationSet>
