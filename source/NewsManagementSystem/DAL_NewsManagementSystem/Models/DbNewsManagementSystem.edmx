@@ -72,7 +72,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Post__FacebookID__1BFD2C07">
+        <Association Name="FK__Post__FacebookID__1CF15040">
           <End Role="BlackList" Type="Self.BlackList" Multiplicity="0..1" />
           <End Role="Post" Type="Self.Post" Multiplicity="*" />
           <ReferentialConstraint>
@@ -84,7 +84,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Post__NewsLabelI__1CF15040">
+        <Association Name="FK__Post__NewsLabelI__1DE57479">
           <End Role="NewsLabel" Type="Self.NewsLabel" Multiplicity="1" />
           <End Role="Post" Type="Self.Post" Multiplicity="*" />
           <ReferentialConstraint>
@@ -96,7 +96,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Post__SentimentL__1DE57479">
+        <Association Name="FK__Post__SentimentL__1ED998B2">
           <End Role="SentimentLabel" Type="Self.SentimentLabel" Multiplicity="1" />
           <End Role="Post" Type="Self.Post" Multiplicity="*" />
           <ReferentialConstraint>
@@ -119,15 +119,15 @@
             <End Role="FacebookType" EntitySet="FacebookType" />
             <End Role="BlackList" EntitySet="BlackList" />
           </AssociationSet>
-          <AssociationSet Name="FK__Post__FacebookID__1BFD2C07" Association="Self.FK__Post__FacebookID__1BFD2C07">
+          <AssociationSet Name="FK__Post__FacebookID__1CF15040" Association="Self.FK__Post__FacebookID__1CF15040">
             <End Role="BlackList" EntitySet="BlackList" />
             <End Role="Post" EntitySet="Post" />
           </AssociationSet>
-          <AssociationSet Name="FK__Post__NewsLabelI__1CF15040" Association="Self.FK__Post__NewsLabelI__1CF15040">
+          <AssociationSet Name="FK__Post__NewsLabelI__1DE57479" Association="Self.FK__Post__NewsLabelI__1DE57479">
             <End Role="NewsLabel" EntitySet="NewsLabel" />
             <End Role="Post" EntitySet="Post" />
           </AssociationSet>
-          <AssociationSet Name="FK__Post__SentimentL__1DE57479" Association="Self.FK__Post__SentimentL__1DE57479">
+          <AssociationSet Name="FK__Post__SentimentL__1ED998B2" Association="Self.FK__Post__SentimentL__1ED998B2">
             <End Role="SentimentLabel" EntitySet="SentimentLabel" />
             <End Role="Post" EntitySet="Post" />
           </AssociationSet>
@@ -147,15 +147,15 @@
             <End Role="FacebookType" EntitySet="FacebookTypes" />
             <End Role="BlackList" EntitySet="BlackLists" />
           </AssociationSet>
-          <AssociationSet Name="FK__Post__FacebookID__1BFD2C07" Association="NewsManagementSystemModel.FK__Post__FacebookID__1BFD2C07">
+          <AssociationSet Name="FK__Post__FacebookID__1CF15040" Association="NewsManagementSystemModel.FK__Post__FacebookID__1CF15040">
             <End Role="BlackList" EntitySet="BlackLists" />
             <End Role="Post" EntitySet="Posts" />
           </AssociationSet>
-          <AssociationSet Name="FK__Post__NewsLabelI__1CF15040" Association="NewsManagementSystemModel.FK__Post__NewsLabelI__1CF15040">
+          <AssociationSet Name="FK__Post__NewsLabelI__1DE57479" Association="NewsManagementSystemModel.FK__Post__NewsLabelI__1DE57479">
             <End Role="NewsLabel" EntitySet="NewsLabels" />
             <End Role="Post" EntitySet="Posts" />
           </AssociationSet>
-          <AssociationSet Name="FK__Post__SentimentL__1DE57479" Association="NewsManagementSystemModel.FK__Post__SentimentL__1DE57479">
+          <AssociationSet Name="FK__Post__SentimentL__1ED998B2" Association="NewsManagementSystemModel.FK__Post__SentimentL__1ED998B2">
             <End Role="SentimentLabel" EntitySet="SentimentLabels" />
             <End Role="Post" EntitySet="Posts" />
           </AssociationSet>
@@ -169,7 +169,7 @@
           <Property Name="FacebookUrl" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="FacebookTypeID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="FacebookType" Relationship="NewsManagementSystemModel.FK__BlackList__Faceb__15502E78" FromRole="BlackList" ToRole="FacebookType" />
-          <NavigationProperty Name="Posts" Relationship="NewsManagementSystemModel.FK__Post__FacebookID__1BFD2C07" FromRole="BlackList" ToRole="Post" />
+          <NavigationProperty Name="Posts" Relationship="NewsManagementSystemModel.FK__Post__FacebookID__1CF15040" FromRole="BlackList" ToRole="Post" />
         </EntityType>
         <EntityType Name="FacebookType">
           <Key>
@@ -186,7 +186,7 @@
           </Key>
           <Property Name="NewsLabelID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="NewsLabelName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Posts" Relationship="NewsManagementSystemModel.FK__Post__NewsLabelI__1CF15040" FromRole="NewsLabel" ToRole="Post" />
+          <NavigationProperty Name="Posts" Relationship="NewsManagementSystemModel.FK__Post__NewsLabelI__1DE57479" FromRole="NewsLabel" ToRole="Post" />
         </EntityType>
         <EntityType Name="Post">
           <Key>
@@ -204,9 +204,9 @@
           <Property Name="FacebookID" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="NewsLabelID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="SentimentLabelID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="BlackList" Relationship="NewsManagementSystemModel.FK__Post__FacebookID__1BFD2C07" FromRole="Post" ToRole="BlackList" />
-          <NavigationProperty Name="NewsLabel" Relationship="NewsManagementSystemModel.FK__Post__NewsLabelI__1CF15040" FromRole="Post" ToRole="NewsLabel" />
-          <NavigationProperty Name="SentimentLabel" Relationship="NewsManagementSystemModel.FK__Post__SentimentL__1DE57479" FromRole="Post" ToRole="SentimentLabel" />
+          <NavigationProperty Name="BlackList" Relationship="NewsManagementSystemModel.FK__Post__FacebookID__1CF15040" FromRole="Post" ToRole="BlackList" />
+          <NavigationProperty Name="NewsLabel" Relationship="NewsManagementSystemModel.FK__Post__NewsLabelI__1DE57479" FromRole="Post" ToRole="NewsLabel" />
+          <NavigationProperty Name="SentimentLabel" Relationship="NewsManagementSystemModel.FK__Post__SentimentL__1ED998B2" FromRole="Post" ToRole="SentimentLabel" />
         </EntityType>
         <EntityType Name="SentimentLabel">
           <Key>
@@ -214,7 +214,7 @@
           </Key>
           <Property Name="SentimentLabelID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="SentimentLabelName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Posts" Relationship="NewsManagementSystemModel.FK__Post__SentimentL__1DE57479" FromRole="SentimentLabel" ToRole="Post" />
+          <NavigationProperty Name="Posts" Relationship="NewsManagementSystemModel.FK__Post__SentimentL__1ED998B2" FromRole="SentimentLabel" ToRole="Post" />
         </EntityType>
         <EntityType Name="SystemAccount">
           <Key>
@@ -235,7 +235,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Post__FacebookID__1BFD2C07">
+        <Association Name="FK__Post__FacebookID__1CF15040">
           <End Type="NewsManagementSystemModel.BlackList" Role="BlackList" Multiplicity="0..1" />
           <End Type="NewsManagementSystemModel.Post" Role="Post" Multiplicity="*" />
           <ReferentialConstraint>
@@ -247,7 +247,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Post__NewsLabelI__1CF15040">
+        <Association Name="FK__Post__NewsLabelI__1DE57479">
           <End Type="NewsManagementSystemModel.NewsLabel" Role="NewsLabel" Multiplicity="1" />
           <End Type="NewsManagementSystemModel.Post" Role="Post" Multiplicity="*" />
           <ReferentialConstraint>
@@ -259,7 +259,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Post__SentimentL__1DE57479">
+        <Association Name="FK__Post__SentimentL__1ED998B2">
           <End Type="NewsManagementSystemModel.SentimentLabel" Role="SentimentLabel" Multiplicity="1" />
           <End Type="NewsManagementSystemModel.Post" Role="Post" Multiplicity="*" />
           <ReferentialConstraint>

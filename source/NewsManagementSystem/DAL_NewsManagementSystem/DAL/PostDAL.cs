@@ -15,12 +15,12 @@ namespace DAL_NewsManagementSystem.DAL
         {
 
         }
-        public void AddNewAutoCrawledPost(Post post)
+        public void AddNewPost(Post post)
         {
             _db.Posts.Add(post);
             _db.SaveChanges();
         }
-        public void UpdateAutoCrawledPost(Post post)
+        public void UpdatePost(Post post)
         {
             Post po = _db.Posts.SingleOrDefault(p => p.PostUrl == post.PostUrl);
             po.PostContent = post.PostContent;
@@ -29,7 +29,7 @@ namespace DAL_NewsManagementSystem.DAL
             po.TotalShare = post.TotalShare;
             _db.SaveChanges();
         }
-        public bool CheckExistAutoCrawledPost(string postUrl)
+        public bool CheckExistPost(string postUrl)
         {
             Post po = _db.Posts.SingleOrDefault(p => p.PostUrl == postUrl);
             if(po != null)

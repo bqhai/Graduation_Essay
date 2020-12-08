@@ -12,9 +12,9 @@
         <EntityTypeShape EntityType="NewsManagementSystemModel.SentimentLabel" Width="1.5" PointX="3" PointY="6.375" />
         <EntityTypeShape EntityType="NewsManagementSystemModel.SystemAccount" Width="1.5" PointX="5.75" PointY="7.125" />
         <AssociationConnector Association="NewsManagementSystemModel.FK__BlackList__Faceb__15502E78" />
-        <AssociationConnector Association="NewsManagementSystemModel.FK__Post__FacebookID__1BFD2C07" />
-        <AssociationConnector Association="NewsManagementSystemModel.FK__Post__NewsLabelI__1CF15040" />
-        <AssociationConnector Association="NewsManagementSystemModel.FK__Post__SentimentL__1DE57479" />
+        <AssociationConnector Association="NewsManagementSystemModel.FK__Post__FacebookID__1CF15040" />
+        <AssociationConnector Association="NewsManagementSystemModel.FK__Post__NewsLabelI__1DE57479" />
+        <AssociationConnector Association="NewsManagementSystemModel.FK__Post__SentimentL__1ED998B2" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
