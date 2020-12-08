@@ -19,7 +19,7 @@ CREATE TABLE FacebookType
 )
 GO
 
-CREATE TABLE BlackList
+CREATE TABLE WatchList
 (
 	FacebookID NVARCHAR(100) PRIMARY KEY,
 	FacebookName NVARCHAR(500) NOT NULL,
@@ -57,7 +57,7 @@ CREATE TABLE Post
 	NewsLabelID NVARCHAR(100) NOT NULL,
 	SentimentLabelID NVARCHAR(100) NOT NULL,
 
-	FOREIGN KEY(FacebookID) REFERENCES BlackList(FacebookID),
+	FOREIGN KEY(FacebookID) REFERENCES WatchList(FacebookID),
 	FOREIGN KEY(NewsLabelID) REFERENCES NewsLabel(NewsLabelID),
 	FOREIGN KEY(SentimentLabelID) REFERENCES SentimentLabel(SentimentLabelID)
 
