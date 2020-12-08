@@ -47,8 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MappingClass\BlackListDto.cs" />
-    <Compile Include="MappingClass\PostDto.cs" />
+    <Compile Include="MappingClass\BlackListDTO.cs" />
+    <Compile Include="MappingClass\PostDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\EntityMapper.cs" />
   </ItemGroup>

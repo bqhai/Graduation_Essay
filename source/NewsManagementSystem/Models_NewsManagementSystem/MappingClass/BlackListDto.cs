@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Models_NewsManagementSystem.MappingClass
 {
-    public class BlackListDto
+    public class BlackListDTO
     {
         public string FacebookID { get; set; }
         public string FacebookName { get; set; }

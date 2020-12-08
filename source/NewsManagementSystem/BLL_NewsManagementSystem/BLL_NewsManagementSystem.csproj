@@ -47,8 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BLL\BLL_BlackList.cs" />
-    <Compile Include="BLL\BLL_Post.cs" />
+    <Compile Include="BLL\BlackListBLL.cs" />
+    <Compile Include="BLL\PostBLL.cs" />
     <Compile Include="Lib\AutoGenerate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

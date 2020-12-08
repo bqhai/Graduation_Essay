@@ -14,11 +14,11 @@ namespace Models_NewsManagementSystem.Repository
     {
         public EntityMapper()
         {
-            Mapper.CreateMap<JBlackList, BlackListDto>();
-            Mapper.CreateMap<BlackListDto, JBlackList>();
+            Mapper.CreateMap<JBlackList, BlackListDTO>();
+            Mapper.CreateMap<BlackListDTO, JBlackList>();
 
-            Mapper.CreateMap<AutoCrawledPost, PostDto>();
-            Mapper.CreateMap<PostDto, AutoCrawledPost>();
+            Mapper.CreateMap<AutoCrawledPost, PostDTO>();
+            Mapper.CreateMap<PostDTO, AutoCrawledPost>();
         }
         public TDestination Translate(TSource obj)
         {

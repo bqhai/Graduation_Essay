@@ -53,8 +53,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DAL\DAL_BlackList.cs" />
-    <Compile Include="DAL\DAL_Post.cs" />
+    <Compile Include="DAL\BlackListDAL.cs" />
+    <Compile Include="DAL\PostDAL.cs" />
     <Compile Include="JoinningTable\JBlackList.cs" />
     <Compile Include="Models\AutoCrawledPost.cs">
       <DependentUpon>DbNewsManagementSystem.tt</DependentUpon>

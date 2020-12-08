@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Models_NewsManagementSystem.MappingClass
 {
-    public class PostDto
+    public class PostDTO
     {
         public string PostID { get; set; }
         public string PostUrl { get; set; }

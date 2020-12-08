@@ -7,10 +7,10 @@ using DAL_NewsManagementSystem.Models;
 using DAL_NewsManagementSystem.JoinningTable;
 namespace DAL_NewsManagementSystem.DAL
 {
-    public class DAL_BlackList
+    public class BlackListDAL
     {
         private NewsManagementSystemEntities _db = new NewsManagementSystemEntities();
-        public DAL_BlackList()
+        public BlackListDAL()
         {
 
         }
