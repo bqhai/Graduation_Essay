@@ -26,7 +26,7 @@ def add_list_json_post(data):
 
 def get_all_black_list():
     try:
-        url = 'https://localhost:44347/api/Home/GetAllBlackList'
+        url = 'https://localhost:44347/api/Home/GetAllWatchList'
         # url = 'http://kltn26.somee.com/api/Home/GetAllBlackList'
         logging.info('Call to api ' + url)
         response = requests.get(url, verify=False)
