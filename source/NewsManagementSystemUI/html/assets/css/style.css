@@ -1,0 +1,529 @@
+/* ------------------------------------------------------------------------------
+ *
+ *  # Customize style
+ *
+ *  Customize style file with imports of plugins and pages
+ *
+ *  Version: 1.0
+ *  Latest update: Feb 5, 2016
+ *
+ * ---------------------------------------------------------------------------- */
+.font-size-h6 {
+    font-size: 15px !important;
+}
+.font-size-2em {
+    font-size: 2em !important;
+}
+.font-size-150 {
+    font-size: 150% !important;
+}
+.font-size-xxlarge {
+    font-size: 130% !important;
+}
+.font-size-xlarge {
+    font-size: 120% !important;
+}
+.font-size-large {
+    font-size: 110% !important;
+}
+.font-size-100 {
+    font-size: 100% !important;
+}
+.font-size-90 {
+    font-size: 90% !important;
+}
+.no-padding {
+    padding: 0 !important;
+}
+.no-padding-top {
+    padding-top: 0 !important;
+}
+.no-padding-bottom {
+    padding-bottom: 0 !important;
+}
+.no-padding-right {
+    padding-right: 0 !important;
+}
+.no-padding-right-5 {
+    padding-right: 5px !important;
+}
+.no-margin-top {
+    margin-top: 0 !important;
+}
+.no-margin-bottom {
+    margin-bottom: 0 !important;
+}
+.no-margin-right {
+    margin-right: 0 !important;
+}
+.margin-bottom-5{
+    margin-bottom: 5px !important; 
+}
+.no-box-shadow
+{
+    box-shadow: none !important;
+}
+.no-border-left
+{
+    border-left: 0px !important;
+}
+.border-thin{
+    border-width: 1px !important; 
+}
+.navbar-inverse {
+    background-color: #000 !important;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+    border-color: #000 !important;
+}
+.navbar-inverse .navbar-brand:hover,
+.navbar-inverse .navbar-brand:focus {
+  background-color: #f0f0f0;
+}
+.navbar{
+    border: none;
+}
+.navbar-header
+{
+    min-width: auto;
+}
+.navbar-brand {
+    padding: 8px 13px 8px 10px;
+}
+.navbar-brand > img {
+    margin-top: 0;
+    height: 32px;
+}
+
+.navbar-default
+{
+    background-color : #8d9396;
+}
+
+.navbar-default .navbar-nav > li > a {
+    color: #fff;
+    text-align: center;
+}
+
+.navbar-default .navbar-nav > li > a span {
+    margin-top: 5px;
+    display: block;
+}
+
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus
+{
+    background-color: rgba(0, 0, 0, 0.3);
+    color: #fff;
+}
+
+.navbar-default .navbar-nav > li > ul.dropdown-menu
+{
+    background-color : #263238;
+    color: #fff;
+}
+
+.navbar-default .navbar-nav > li > ul.dropdown-menu > li > a 
+{
+    color: #fff;
+}
+
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+    background-color: #F0D062 !important;
+    color: #fff;
+}
+
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus {
+  background-color: #F0D062 !important;
+  color: #fff;
+}
+
+.navigation > li.active > a, .navigation > li.active > a:hover, .navigation > li.active > a:focus {
+    background-color: #F0D062 !important;
+    color: #fff;
+}
+
+.navigation li a:hover, .navigation li a:focus {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+.sidebar-xs .sidebar-main .navigation > li > a > span {
+    padding: 17px 20px !important;
+}
+.sidebar-xs .sidebar-main .navigation > li .has-ul > span {
+    padding: 17px 20px !important;
+}
+.sidebar-xs .sidebar-main .navigation > li > ul
+{
+    top: 56px;
+}
+.page-title {
+    padding: 2px 0px 0px 0;
+    display: block;
+    position: relative;
+}
+.form-control:focus {
+    border-color: #F0D062;
+    box-shadow: none;
+}
+
+.table-inbox tr td {
+    cursor: default !important;
+}
+
+.table > thead > tr > th {
+    padding: 2px 1px !important;
+}
+.table > thead > tr.first > th {
+    padding: 0px 10px !important;
+}
+.table > tbody > tr > td, 
+.table > tfoot > tr > td {
+    padding: 0px 5px !important;
+}
+
+.table-hover > tbody > tr:hover > th, 
+.table-hover > tbody > tr:hover > td {
+    background-color: #f0f0f0;
+}
+
+thead.grey-light,
+td.grey-light
+{
+    background-color: #f5f5f5;
+}
+
+div.grey-light-thead
+{
+    background-color: #f5f5f5 !important;
+    padding: 12px 20px !important;
+}
+
+div.table-td
+{
+    padding: 5px 20px !important;
+}
+
+.rating .popover{
+    max-width: 500px !important;
+}
+
+.dropdown-header {
+    font-size: 13px;
+    color: #000;
+    font-weight: bold;
+}
+
+.panel-header,
+.panel-white > .panel-heading
+{
+    background: transparent;
+}
+
+.btn-xs, .btn-group-xs > .btn {
+    padding: 4px 15px 5px 15px;
+    font-size: 13px;
+}
+
+.nav-tabs.nav-tabs-highlight-success > li.active > a, 
+.nav-tabs.nav-tabs-highlight-success > li.active > a:hover, 
+.nav-tabs.nav-tabs-highlight-success > li.active > a:focus {
+    border-top-color: #4CAF50;
+    border-top-width: 2px;
+}
+
+/* .media-list li.active,
+.media-list li:hover
+{
+    border-right: 2px solid #4CAF50;
+    background-color: #f8f8f8;
+} */
+
+.media-has-border-bottom {
+    border-bottom: 1px dashed #f0f0f0;
+    margin-top: 10px !important;
+} 
+
+.lyric .pd_lyric {
+    line-height: 28px;
+    background: transparent url(https://stc-id.nixcdn.com/v11/images/line_lyric.png) left -5px;
+    max-height: 250px;
+    overflow: hidden;
+    font-size: 16px;
+    font-weight: 300;
+    color: #333;
+    width: 100%;
+}
+
+.lyric .pd_name_lyric {
+    border-bottom: #dbdbdb solid 1px;
+    padding: 0px 0px 5px 0px;
+    margin-bottom: 8px;
+}
+
+.letter-nutrition {
+    width: 70px;
+    display: block;
+    font-size: 21px;
+    padding: 20px 0px;
+}
+
+/*
+* Component: modal
+* -------------------
+*/
+.modal { 
+    overflow: auto !important; 
+}
+
+.modal-full {
+    width: 100%;
+    margin: 0px;
+}
+
+.modal-child
+{
+    z-index: 1060;
+    background:  rgba(0,0,0,0.5);
+}
+
+.modal-footer {
+    padding: 15px;
+    background-color: #f0f0f0; 
+}
+
+/*
+* Component: Timeline
+* -------------------
+*/
+.timeline {
+position: relative;
+margin: 0;
+padding: 0;
+list-style: none;
+}
+.timeline:before{
+content: '';
+position: absolute;
+top: 0;
+bottom: 0;
+width: 4px;
+background: #ddd;
+left: 31px;
+margin: 0;
+border-radius: 2px;
+height: auto;
+z-index: 0 !important;
+}
+.timeline:after {
+    position: relative;
+}
+.timeline > li {
+position: relative;
+margin-right: 10px;
+margin-bottom: 15px;
+}
+.timeline > li:before,
+.timeline > li:after {
+content: " ";
+display: table;
+}
+.timeline > li:after {
+clear: both;
+}
+.timeline > li > span.icon
+{
+position: absolute;
+left: 18px;
+padding: 5px;
+}
+
+.timeline > li > .timeline-item {
+-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+border-radius: 3px;
+margin-top: 0;
+background: #fff;
+color: #444;
+margin-left: 60px;
+margin-right: 15px;
+padding: 0;
+position: relative;
+}
+.timeline > li > .timeline-item > .time {
+color: #999;
+float: right;
+padding: 10px;
+font-size: 12px;
+}
+.timeline > li > .timeline-item > .timeline-header {
+margin: 0;
+color: #555;
+border-bottom: 1px solid #f4f4f4;
+padding: 10px;
+font-size: 16px;
+line-height: 1.1;
+}
+.timeline > li > .timeline-item > .timeline-header > a {
+font-weight: 600;
+}
+.timeline > li > .timeline-item > .timeline-body,
+.timeline > li > .timeline-item > .timeline-footer {
+padding: 10px;
+}
+.timeline > li > .fa,
+.timeline > li > .glyphicon,
+.timeline > li > .ion {
+width: 30px;
+height: 30px;
+font-size: 15px;
+line-height: 30px;
+position: absolute;
+color: #666;
+background: #d2d6de;
+border-radius: 50%;
+text-align: center;
+left: 18px;
+top: 0;
+}
+.timeline > .time-label > span {
+font-weight: 600;
+padding: 5px;
+display: inline-block;
+border-radius: 4px;
+}
+.timeline-inverse > li > .timeline-item {
+background: #f0f0f0;
+border: 1px solid #ddd;
+-webkit-box-shadow: none;
+box-shadow: none;
+}
+.timeline-inverse > li > .timeline-item > .timeline-header {
+border-bottom-color: #ddd;
+}
+
+.popover {
+    z-index: 1080;
+}
+
+/*
+* Component: Carousel
+* -------------------
+*/
+
+.carousel-indicators {
+    z-index: 15;
+    margin-top: 10px;
+    list-style: none;
+    text-align: center;
+    background-color: #e0e0e0; 
+    position: relative;
+    padding: 5px 0px;
+}
+
+/*
+* Component: Media
+* -------------------
+*/
+@media (min-width: 769px) {
+    .navbar-nav {
+        margin-left: 0px; 
+    }
+    .navbar-header .popover{
+        max-width: 720px;
+        width: 720px;
+    }
+    .sidebar-xs .sidebar-main .navigation > li > a > span {
+        background-color: #F0D062;
+        border: 1px solid #F0D062;
+    }
+    .sidebar-large {
+        width: 300px !important;
+    }
+    .has-detached-left .container-detached-large {
+        float: right;
+        margin-left: -300px;
+        width: 100%;
+    }
+    .has-detached-left .content-detached-large {
+        margin-left: 320px;
+    }
+
+    .sidebar-detached-hidden .content-detached-large {
+        margin: 0;
+    }
+
+    .sidebar-detached-hidden .sidebar-detached {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .popover-content .panel{
+        padding: 10px;
+    }
+    .popover-content h6{
+        font-size: 13px;
+    }
+    .navbar-header .popover{
+        max-width: 460px !important;
+        width: 460px !important;
+    }
+
+    /* Stack rows vertically on small screens */ 
+    /* Hide column labels */ 
+    /* thead tr { 
+        position: absolute; 
+        top: -9999em; 
+        left: -9999em; 
+    } 
+    
+    /* Leave a space between table rows */ 
+    /* tr + tr { 
+        margin-top: 1.5em; 
+    }  */
+    
+    /* Get table cells to act like rows */ 
+    /* tr, td { 
+        display: block; 
+    }  */
+    
+    /* Leave a space for data labels */ 
+    /* td { 
+        padding-left: 50%; 
+    }  */
+    
+    /* Add data labels */ 
+    /* td:before { 
+        content: attr(data-label); 
+        display: inline-block; 
+        margin-left: -100%; 
+        width: 100%; 
+    }  */
+}
+
+@media (max-width: 480px) {
+    .popover-content .panel{
+        padding: 5px;
+    }
+    .popover-content h6{
+        font-size: 11px;
+    }
+    .navbar-header .popover{
+        max-width: 420px !important;
+        width: 420px !important;
+    }
+
+    /* Stack labels vertically on smaller screens 
+    td { 
+        padding-left: 0; 
+    } 
+    
+    td:before { 
+        display: block; 
+        margin-left: 0; 
+    } 
+    */ 
+}
