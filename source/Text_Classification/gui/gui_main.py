@@ -272,6 +272,9 @@ class MainWindow(Frame):
 
         # Text Classification area
         def save_post():
+            def save_post_cancel():
+                win_save_post.destroy()
+
             if len(txt_input_tc.get('1.0', 'end-1c')) == 0:
                 messagebox.showwarning('Thông báo', 'Nội dung trống!')
                 return
@@ -280,7 +283,7 @@ class MainWindow(Frame):
                 return
             win_save_post = Toplevel(self)
             win_save_post.title('Lưu bài viết')
-            center_window(win_save_post, 854, 480)
+            center_window(win_save_post, 854, 230)
             win_save_post.resizable(False, False)
             win_save_post.grab_set()
             lbl_post_url_sp = Label(win_save_post, text='URL bài viết: ')
@@ -314,7 +317,7 @@ class MainWindow(Frame):
             cal_date_sp.grid(column=1, row=3, sticky='w', padx=(200, 0), pady=(15, 0))
             btn_ok_sp = ttk.Button(win_save_post, text='OK', cursor='hand2')
             btn_ok_sp.grid(column=1, row=4, sticky='w', pady=(15, 0))
-            btn_cancel_sp = ttk.Button(win_save_post, text='Hủy', cursor='hand2')
+            btn_cancel_sp = ttk.Button(win_save_post, text='Hủy', cursor='hand2', command=save_post_cancel)
             btn_cancel_sp.grid(column=1, row=4, sticky='w', padx=(80, 0), pady=(15, 0))
 
         def get_label():
