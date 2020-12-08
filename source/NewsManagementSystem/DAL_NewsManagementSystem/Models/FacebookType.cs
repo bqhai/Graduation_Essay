@@ -17,7 +17,7 @@ namespace DAL_NewsManagementSystem.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public FacebookType()
         {
-            this.BlackLists = new HashSet<BlackList>();
+            this.WatchLists = new HashSet<WatchList>();
         }
     
         public string FacebookTypeID { get; set; }
@@ -25,6 +25,6 @@ namespace DAL_NewsManagementSystem.Models
         public string Description { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BlackList> BlackLists { get; set; }
+        public virtual ICollection<WatchList> WatchLists { get; set; }
     }
 }

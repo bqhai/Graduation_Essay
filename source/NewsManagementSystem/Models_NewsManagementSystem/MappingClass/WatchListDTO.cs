@@ -4,15 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL_NewsManagementSystem.JoinningTable
+namespace Models_NewsManagementSystem.MappingClass
 {
-    public class JBlackList
+    public class WatchListDTO
     {
         public string FacebookID { get; set; }
         public string FacebookName { get; set; }
         public string FacebookUrl { get; set; }
         public string FacebookTypeID { get; set; }
         public string FacebookTypeName { get; set; }
-        public string Description { get; set; }
     }
 }

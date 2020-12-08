@@ -25,11 +25,11 @@ namespace DAL_NewsManagementSystem.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<BlackList> BlackLists { get; set; }
         public virtual DbSet<FacebookType> FacebookTypes { get; set; }
         public virtual DbSet<NewsLabel> NewsLabels { get; set; }
         public virtual DbSet<Post> Posts { get; set; }
         public virtual DbSet<SentimentLabel> SentimentLabels { get; set; }
         public virtual DbSet<SystemAccount> SystemAccounts { get; set; }
+        public virtual DbSet<WatchList> WatchLists { get; set; }
     }
 }

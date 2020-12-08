@@ -14,8 +14,8 @@ namespace Models_NewsManagementSystem.Repository
     {
         public EntityMapper()
         {
-            Mapper.CreateMap<JBlackList, BlackListDTO>();
-            Mapper.CreateMap<BlackListDTO, JBlackList>();
+            Mapper.CreateMap<JWatchList, WatchListDTO>();
+            Mapper.CreateMap<WatchListDTO, JWatchList>();
 
             Mapper.CreateMap<Post, PostDTO>();
             Mapper.CreateMap<PostDTO, Post>();

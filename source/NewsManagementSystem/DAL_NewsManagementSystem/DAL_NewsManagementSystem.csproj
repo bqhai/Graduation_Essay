@@ -53,12 +53,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DAL\BlackListDAL.cs" />
+    <Compile Include="DAL\WatchListDAL.cs" />
     <Compile Include="DAL\PostDAL.cs" />
-    <Compile Include="JoinningTable\JBlackList.cs" />
-    <Compile Include="Models\BlackList.cs">
-      <DependentUpon>DbNewsManagementSystem.tt</DependentUpon>
-    </Compile>
+    <Compile Include="JoinningTable\JWatchList.cs" />
     <Compile Include="Models\DbNewsManagementSystem.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -87,6 +84,9 @@
       <DependentUpon>DbNewsManagementSystem.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SystemAccount.cs">
+      <DependentUpon>DbNewsManagementSystem.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\WatchList.cs">
       <DependentUpon>DbNewsManagementSystem.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

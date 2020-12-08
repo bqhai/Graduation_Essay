@@ -13,14 +13,14 @@ namespace API_NewsManagementSystem.Controllers
     [RoutePrefix("api/Home")]
     public class HomeController : ApiController
     {
-        private BlackListBLL _bllBlackList = new BlackListBLL();
+        private WatchListBLL _bllWatchList = new WatchListBLL();
         private PostBLL _bllPost = new PostBLL();
 
         [HttpGet]
-        [Route("GetAllBlackList")]
-        public JsonResult<List<BlackListDTO>> GetAllBlackList()
+        [Route("GetAllWatchList")]
+        public JsonResult<List<WatchListDTO>> GetAllWatchList()
         {
-            List<BlackListDTO> blackListDtos = _bllBlackList.GetALlBlackList();
+            List<WatchListDTO> blackListDtos = _bllWatchList.GetAllWatchList();
             return Json(blackListDtos);        
         }
         [HttpPost]
