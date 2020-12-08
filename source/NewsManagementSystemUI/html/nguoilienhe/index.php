@@ -79,7 +79,7 @@
                                 </div>
                                 <div class="col-md-4 col-xs-8">
                                     <div class="no-margin">
-                                        <div class="btn-group">
+                                        <!-- <div class="btn-group">
                                             <button class="btn btn-primary" type="button"><i class="icon-book"></i>
                                                 <div class="menu">Show Data</div>
 
@@ -95,23 +95,21 @@
                                             <button class="btn btn-primary" type="button"><i class="glyphicon glyphicon-print"></i>
                                                 <div class="menu">Print</div>
                                             </button>
-                                        </div>
+                                        </div> -->
 
                                     </div>
                                 </div>
                                 <div class="col-ms-6 col-lg-offset-9">
                                     <div class="no-margin pull-right">
                                         <div class="btn-group">
-                                        <a href="nguoilienhe_import.php" type="button" class="btn btn-primary"
+                                        <!-- <a href="nguoilienhe_import.php" type="button" class="btn btn-primary"
                                                 data-popup="tooltip" data-placement="top">
                                                 <div class="glyphicon"><i class="fa fa-download"></i></div>
                                                 <div class="menu">Import Data</div>
-                                            </a>
+                                            </a> -->
                                         </div>
                                         <div class="btn-group">
-                                            <a href="nguoilienhe_add.php" type="button" class="btn btn-primary" data-popup="tooltip" data-placement="top" data-original-title=""><i class="icon-add"></i>
-                                                <div class="menu">Add New</div>
-                                            </a>
+                                            <a href="export.php"><button type="button" class="btn btn-primary">Export Data</button></a>
                                         </div>
 
 
@@ -339,55 +337,40 @@
                                     <table class="table table-togglable table-hover table-bordered table-striped">
                                         <thead class="grey-light">
                                             <tr>
-                                                <th class="text-center" style="width:3%">STT</th>
+                                                <!-- <th class="text-center" style="width:3%">STT</th> -->
                                                 <th class="text-center" data-toggle="true">FacebookID</th>
                                                 <th class="text-center" data-toggle="true">Facebook Name</th>
-                                                <th class="text-center" data-toggle="true">Facebook URL</th>
+                                                <!-- <th class="text-center" data-toggle="true">Facebook URL</th>
                                                 <th class="text-center" data-toggle="true">FacebookTypeID</th>
                                                 
-                                                <th class="text-center"  style="width:5%">Hành Động</th>
+                                                <th class="text-center"  style="width:5%">Hành Động</th> -->
 
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="text-center">001</td>
-                                                <td data-label="Tên tổ chức">viettan</td>
-                                                <td data-label="Mã đơn hàng">Việt Tân</td>
-                                                <td data-label="PHân hệ">https://www.facebook.com/viettan/</td>
-                                                <td class="text-center" data-label="Ngày gia hạn">Page</td>
-                                                <td class="text-center" style="border-right: hidden;">
-                                                <a href="#"
-                                                                        data-toggle="modal"><i class="icon-eye"></i>
-                                                                        </a>
-                                                    <a href="#"
-                                                        data-toggle="modal"><i class="icon-pencil7"></i></a>
-                                                    <a href="#"><i class="glyphicon glyphicon-remove"></i></a>
-
-                                                    
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">002</td>
-                                                <td data-label="Tên tổ chức">nhatkyyeunuoc</td>
-                                                <td data-label="Mã đơn hàng">Nhật Ký Yêu Nước</td>
-                                                <td data-label="PHân hệ">https://www.facebook.com/nhatkyyeunuoc1</td>
-                                                <td class="text-center" data-label="Ngày gia hạn">Page</td>
-                                                <td class="text-center" style="border-right: hidden;">
-                                                <a href="#"
-                                                                        data-toggle="modal"><i class="icon-eye"></i>
-                                                                        </a>
-                                                    <a href="#"
-                                                        data-toggle="modal"><i class="icon-pencil7"></i></a>
-                                                    <a href="#"><i class="glyphicon glyphicon-remove"></i></a>
-
-                                                    
-                                                </td>
-                                            </tr>
-                                            <!--  -->
+                                        <tbody id="data">
 
                                         </tbody>
                                     </table>
+                                     <script type="text/javascript">
+                            fetch("http://cellphonesapi.somee.com/api/API_Product/GetAllProductVersion").then(
+                res=>{
+                    res.json().then(
+                        data=>{
+                            console.log(data);
+                            if(data.length>0)
+                            {
+                              var temp ="";
+                              data.forEach((u)=>{
+                                temp +="<tr>";
+                                temp +="<td>"+u.ProductVersionID+"</td>";
+                                temp +="<td>"+u.ProductVersionName+"</td>";
+                              })
+                             document.getElementById("data").innerHTML=temp;
+                            }
+                        })
+                }
+            )
+ </script>
                                 </div>
                                 <!-- /basic panel controls -->
                             </div>
