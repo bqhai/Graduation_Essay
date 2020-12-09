@@ -158,9 +158,40 @@ class MainWindow(Frame):
             subprocess.call(['notepad.exe', '../log/run_time.log'])
 
         def open_add_to_watch_list(facebook_id, url):
+            def cancel_awl():
+                write_warning_info('Đã hủy thao tác thu thập dữ liệu')
+                win_add_watch_list.destroy()
+
+            def ok_awl():
+                facebook_name = ent_facebook_name_awl.get()
+                if facebook_type.get() == 'Trang':
+                    fb_type = 'PAGE'
+                elif facebook_type.get() == 'Nhóm':
+                    fb_type = 'GR'
+
+                if len(facebook_name) <= 0:
+                    messagebox.showwarning('Lỗi', 'Tên không được để trống')
+                    return
+                watch_list_item = {
+                    'FacebookID': facebook_id,
+                    'FacebookUrl': url,
+                    'FacebookName': facebook_name,
+                    'FacebookTypeID': fb_type
+                }
+                status = add_to_watch_list(watch_list_item)
+                if status == 0:
+                    messagebox.showinfo('Thông báo', 'Đã thêm')
+                    win_add_watch_list.destroy()
+                elif status == -2:
+                    messagebox.showerror('Lỗi', 'Kết nối server thất bại')
+                    return
+                elif status == -4:
+                    messagebox.showerror('Lỗi', 'Có lỗi xảy ra phía server')
+                    return
+
             win_add_watch_list = Toplevel(self)
             win_add_watch_list.title('Thêm đối tượng vào danh sach theo dõi')
-            win_add_watch_list.geometry('480x200')
+            center_window(win_add_watch_list, 480, 200)
             win_add_watch_list.resizable(False, False)
             win_add_watch_list.grab_set()
             lbl_facebook_id_awl = Label(win_add_watch_list, text='ID: ')
@@ -172,16 +203,26 @@ class MainWindow(Frame):
             lbl_facebook_type_awl = Label(win_add_watch_list, text='Loại: ')
             lbl_facebook_type_awl.grid(column=0, row=3, sticky='w', padx=15, pady=(15, 0))
 
-            ent_facebook_id_awl = ttk.Entry(win_add_watch_list, width=55)
+            facebook_type = StringVar(win_add_watch_list)
+            choices = ['Trang', 'Nhóm']
+            facebook_type.set('Trang')
+            ent_facebook_id_awl = ttk.Entry(win_add_watch_list, width=65)
             ent_facebook_id_awl.grid(column=1, row=0, pady=(15, 0))
             ent_facebook_id_awl.insert(0, facebook_id)
             ent_facebook_id_awl.config(state='disabled')
-            ent_facebook_url_awl = ttk.Entry(win_add_watch_list, width=55)
+            ent_facebook_url_awl = ttk.Entry(win_add_watch_list, width=65)
             ent_facebook_url_awl.grid(column=1, row=1, pady=(15, 0))
             ent_facebook_url_awl.insert(0, url)
             ent_facebook_url_awl.config(state='disabled')
-            ent_facebook_name_awl = ttk.Entry(win_add_watch_list, width=55)
+            ent_facebook_name_awl = ttk.Entry(win_add_watch_list, width=65)
             ent_facebook_name_awl.grid(column=1, row=2, pady=(15, 0))
+            opm_facebook_type_awl = ttk.OptionMenu(win_add_watch_list, facebook_type, choices[0], *choices)
+            opm_facebook_type_awl.grid(column=1, row=3, sticky='w', pady=(15, 0))
+
+            btn_add_awl = ttk.Button(win_add_watch_list, text='OK', cursor='hand2', command=ok_awl)
+            btn_add_awl.grid(column=1, row=4, sticky='w', pady=(15, 0))
+            btn_cancel_awl = ttk.Button(win_add_watch_list, text='Hủy', cursor='hand2', command=cancel_awl)
+            btn_cancel_awl.grid(column=1, row=4, sticky='w', padx=(80, 0), pady=(15, 0))
 
         def start_crawl():
             url = ent_url_cr.get()
@@ -201,7 +242,7 @@ class MainWindow(Frame):
                     write_warning_info('Tối đa 20 lần cuộn trang')
                     return
             except:
-                write_error_info('Số lần cuộn trang không hợp lệ.')
+                write_error_info('Số lần cuộn trang không hợp lệ')
                 return
             selection = int(select_type.get())
 
@@ -214,8 +255,13 @@ class MainWindow(Frame):
                 messagebox.showerror('Lỗi', 'Kiểm tra thông tin thất bại, server không phản hồi!')
                 return
             else:
-                open_add_to_watch_list(facebook_id, url)
-                return
+                msg_box = messagebox.askquestion('Thông báo', 'Url này chưa có trong danh sách theo dõi. Chọn Yes để thêm')
+                if msg_box == 'yes':
+                    open_add_to_watch_list(facebook_id, url)
+                    return
+                else:
+                    write_warning_info('Đã hủy thao tác thu thập dữ liệu')
+                    return
 
             # start crawl data
             try:
