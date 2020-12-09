@@ -3,7 +3,7 @@ __author__ = 'Hai Bui'
 from datetime import datetime
 from tkinter import *
 from tkinter import ttk, messagebox
-from tkcalendar import Calendar, DateEntry
+from tkcalendar import DateEntry
 from bll.text_classification import predict, convert_label_to_text
 from bll.preprocessor import text_preprocess
 from bll.crawler import crawl, count_crawled_post
