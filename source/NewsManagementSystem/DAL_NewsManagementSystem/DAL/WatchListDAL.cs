@@ -38,7 +38,7 @@ namespace DAL_NewsManagementSystem.DAL
             }
             return false;
         }
-        public void AddObjectToWatchList(WatchList watchList)
+        public void AddToWatchList(WatchList watchList)
         {
             _db.WatchLists.Add(watchList);
             _db.SaveChanges();

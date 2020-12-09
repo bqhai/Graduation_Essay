@@ -15,7 +15,7 @@ namespace BLL_NewsManagementSystem.BLL
     {
         private WatchListDAL _dalWatchList = new WatchListDAL();
         private EntityMapper<JWatchList, WatchListDTO>_mapToWatchListDto = new EntityMapper<JWatchList, WatchListDTO>();
-
+        private EntityMapper<WatchListDTO, WatchList> _mapToWatchList = new EntityMapper<WatchListDTO, WatchList>();
         public WatchListBLL()
         {
         }
@@ -28,6 +28,23 @@ namespace BLL_NewsManagementSystem.BLL
                 watchListDtos.Add(_mapToWatchListDto.Translate(item));
             }
             return watchListDtos;
+        }
+        public bool CheckExistID(string facebookID)
+        {
+            return _dalWatchList.CheckExistID(facebookID);
+        }
+        public bool AddToWatchList(WatchListDTO watchListDto)
+        {
+            try
+            {
+                WatchList watchList = _mapToWatchList.Translate(watchListDto);
+                _dalWatchList.AddToWatchList(watchList);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

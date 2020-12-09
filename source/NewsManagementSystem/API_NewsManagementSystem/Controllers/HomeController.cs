@@ -24,6 +24,12 @@ namespace API_NewsManagementSystem.Controllers
             return Json(blackListDtos);        
         }
         [HttpPost]
+        [Route("AddToWatchList")]
+        public JsonResult<bool> AddToWatchList(WatchListDTO watchListDto)
+        {
+            return Json(_bllWatchList.AddToWatchList(watchListDto));
+        }
+        [HttpPost]
         [Route("AddNewOrUpdateListPost")]
         public JsonResult<bool> AddNewOrUpdateListPost(List<PostDTO> postDtos)
         {
