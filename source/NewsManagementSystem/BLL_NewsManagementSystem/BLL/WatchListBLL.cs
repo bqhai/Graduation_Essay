@@ -29,9 +29,9 @@ namespace BLL_NewsManagementSystem.BLL
             }
             return watchListDtos;
         }
-        public bool CheckExistID(string facebookID)
+        public bool CheckExistFacebookID(string facebookID)
         {
-            return _dalWatchList.CheckExistID(facebookID);
+            return _dalWatchList.CheckExistFacebookID(facebookID);
         }
         public bool AddToWatchList(WatchListDTO watchListDto)
         {
