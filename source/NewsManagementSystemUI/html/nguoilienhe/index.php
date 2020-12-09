@@ -5,6 +5,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <title>VCCI - Thông tin Người Liên Hệ</title>
     <script src="https://kit.fontawesome.com/5e87b6033a.js" crossorigin="anonymous"></script>
     <!-- Global stylesheets -->
@@ -273,7 +276,7 @@
 
 
                         </div>
-
+<!-- 
                         <div class="page-header page-header-default">
                             <div class="page-header-content">
                                 <div class="page-title">
@@ -319,14 +322,13 @@
 
 
 
-                                    <!-- <button class="btn btn-primary pull-right btn-sm"  type="button">Cancel</button> -->
                                 </div>
 
                             </div>
-                            <!--                   <div id="mess" role="alert"></div> -->
+                 
 
 
-                        </div>
+                        </div> -->
                         <!-- /Filter -->
 
                         <!-- Main content -->
@@ -335,23 +337,57 @@
                                 <!-- Basic panel controls -->
                                 <div class="panel panel-white border-top-lg border-top-primary-800">
                                     <table class="table table-togglable table-hover table-bordered table-striped">
-                                        <thead class="grey-light">
+                                        <thead style="font-size: 12px" class="grey-light">
                                             <tr>
-                                                <!-- <th class="text-center" style="width:3%">STT</th> -->
                                                 <th class="text-center" data-toggle="true">FacebookID</th>
                                                 <th class="text-center" data-toggle="true">Facebook Name</th>
-                                                <!-- <th class="text-center" data-toggle="true">Facebook URL</th>
-                                                <th class="text-center" data-toggle="true">FacebookTypeID</th>
-                                                
-                                                <th class="text-center"  style="width:5%">Hành Động</th> -->
-
                                             </tr>
                                         </thead>
-                                        <tbody id="data">
+                                             <?php
 
-                                        </tbody>
+        ini_set('display_errors','On');
+        error_reporting(E_ALL);
+
+        // Include the pagination class
+        include 'pagination.class.php';
+        $api_url = 'http://cellphonesapi.somee.com/api/API_Product/GetAllProductVersion';
+$json_data = file_get_contents($api_url);
+$response_data = json_decode($json_data);
+
+$user_data = $response_data;
+foreach ($user_data as $user) {
+
+}
+
+        // If we have an array with items
+        if (count($user_data)) {
+          // Create the pagination object
+          $pagination = new pagination($user_data, (isset($_GET['page']) ? $_GET['page'] : 1),10);
+          // Decide if the first and last links should show
+          $pagination->setShowFirstAndLast(false);
+          // You can overwrite the default seperator
+          $pagination->setMainSeperator(' | ');
+          // Parse through the pagination class
+          $productPages = $pagination->getResults();
+          // If we have items 
+          if (count($productPages) != 0) {
+            // Create the page numbers
+            $pageNumbers = '<div class="numbers">'.$pagination->getLinks($_GET).'</div>';
+
+            // Loop through all the items in the array
+            foreach ($productPages as $productArray) {
+              // Show the information about the item
+              echo '<tr>'.'<td>'.$productArray->ProductVersionID.'</td>'.'<br>'.'<td>'.$productArray->ProductVersionName.'</td>'.'</tr>';
+            }
+            // print out the page numbers beneath the results
+            
+          }
+          echo $pageNumbers;
+        }
+        
+      ?>
                                     </table>
-                                     <script type="text/javascript">
+                                     <!-- <script type="text/javascript">
                             fetch("http://cellphonesapi.somee.com/api/API_Product/GetAllProductVersion").then(
                 res=>{
                     res.json().then(
@@ -370,7 +406,7 @@
                         })
                 }
             )
- </script>
+ </script> -->
                                 </div>
                                 <!-- /basic panel controls -->
                             </div>
@@ -476,7 +512,27 @@
     <script>
 
     </script>
-    <script type="text/javascript" src="../assets/js/contract.js"></script>
+   <!--  <script type="text/javascript" src="../assets/js/contract.js"></script> -->
+    <style>
+
+  body {
+    font-family: Tahoma, Verdana, Arial, Sans-serif;
+    line-height:0.1;
+    font-size: 12px;
+   }
+   a:hover {
+    text-decoration: underline;
+   }
+   a.selected {
+    font-weight: bold;
+    text-decoration: underline;
+   }
+   .numbers {
+    font-size: 14px;
+    float: right;
+    line-height: 20px;
+    word-spacing: 4px;
+  </style>
 </body>
 
 </html>
