@@ -29,7 +29,7 @@ namespace DAL_NewsManagementSystem.DAL
                         };
             return query;
         }
-        public bool CheckExistID(string facebookID)
+        public bool CheckExistFacebookID(string facebookID)
         {
             WatchList watchList = _db.WatchLists.SingleOrDefault(b => b.FacebookID == facebookID);
             if(watchList != null)
