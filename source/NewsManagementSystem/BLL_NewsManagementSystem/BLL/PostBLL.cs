@@ -20,8 +20,10 @@ namespace BLL_NewsManagementSystem.BLL
         {
 
         }
-        public bool AddNewOrUpdatePost (PostDTO postDto)
+        public bool AddNewOrUpdatePost(PostDTO postDto)
         {
+            //step 1: check ID exits in Post -> update / add new
+            //step 2: if add new check FacebookID exits in WatchList -> if not then add facebookID before add post
             try
             {
                 Post post = _mapToAutoCrawledPost.Translate(postDto);
