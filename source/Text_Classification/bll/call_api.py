@@ -53,11 +53,11 @@ def check_exist_facebook_id(facebook_id):
         return -2
 
 
-def add_to_watch_list(facebook_id):
+def add_to_watch_list(watch_list):
     try:
         url = 'https://localhost:44347/api/Home/AddToWatchList/'
         logging.info('Call to api ' + url)
-        response = requests.post(url, data=facebook_id, verify=False)
+        response = requests.post(url, json=watch_list, verify=False)
         print('Status code: ', response.status_code)
         logging.info('Status code: ' + str(response.status_code))
         logging.info('Call api successfully')
