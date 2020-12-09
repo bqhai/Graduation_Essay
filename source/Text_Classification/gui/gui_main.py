@@ -122,37 +122,37 @@ class MainWindow(Frame):
         #         password = ''
         #         login_option.set(False)
 
-        def open_black_list():
+        def open_watch_list():
             black_list = get_all_black_list()
             if black_list == -2:
                 write_error_info('Kết nối server thất bại!')
                 root.config(cursor='')
                 return
-            win_black_list = Toplevel(self)
-            win_black_list.title('Danh sách đen')
-            win_black_list.geometry('854x480')
-            win_black_list.resizable(False, False)
-            win_black_list.grab_set()
-            tab_control_bl = ttk.Notebook(win_black_list)
-            tab_control_bl.pack(fill=BOTH, expand=1)
-            frm_page_bl = Frame(tab_control_bl)
-            frm_group_bl = Frame(tab_control_bl)
-            frm_user_bl = Frame(tab_control_bl)
-            tab_control_bl.add(frm_page_bl, text='  Page  ')
-            tab_control_bl.add(frm_group_bl, text='  Group  ')
-            tab_control_bl.add(frm_user_bl, text='  User  ')
+            win_watch_list = Toplevel(self)
+            win_watch_list.title('Danh sách theo dõi')
+            win_watch_list.geometry('854x480')
+            win_watch_list.resizable(False, False)
+            win_watch_list.grab_set()
+            tab_control_wl = ttk.Notebook(win_watch_list)
+            tab_control_wl.pack(fill=BOTH, expand=1)
+            frm_page_wl = Frame(tab_control_wl)
+            frm_group_wl = Frame(tab_control_wl)
+            frm_user_wl = Frame(tab_control_wl)
+            tab_control_wl.add(frm_page_wl, text='  Page  ')
+            tab_control_wl.add(frm_group_wl, text='  Group  ')
+            tab_control_wl.add(frm_user_wl, text='  User  ')
 
-            txt_page_bl = Text(frm_page_bl, wrap=WORD, state=DISABLED)
-            txt_page_bl.pack(fill=BOTH, expand=True)
-            txt_page_bl.tag_config('header', foreground='red', background='yellow')
+            txt_page_wl = Text(frm_page_wl, wrap=WORD, state=DISABLED)
+            txt_page_wl.pack(fill=BOTH, expand=True)
+            txt_page_wl.tag_config('header', foreground='red', background='yellow')
             # global black_list
             # if len(black_list) <= 0:
             #     black_list = get_all_black_list()
-            txt_page_bl.config(state=NORMAL)
-            txt_page_bl.insert(END, '{:<35} \t {:<12}'.format('Tên trang', 'URL') + '\n', 'header')
+            txt_page_wl.config(state=NORMAL)
+            txt_page_wl.insert(END, '{:<35} \t {:<12}'.format('Tên trang', 'URL') + '\n', 'header')
             for i in black_list:
-                txt_page_bl.insert(END, '{:<35} \t {:<12}'.format(i['FacebookName'], i['FacebookUrl']) + '\n')
-            txt_page_bl.config(state=DISABLED)
+                txt_page_wl.insert(END, '{:<35} \t {:<12}'.format(i['FacebookName'], i['FacebookUrl']) + '\n')
+            txt_page_wl.config(state=DISABLED)
 
         def open_log():
             subprocess.call(['notepad.exe', '../log/run_time.log'])
@@ -204,7 +204,7 @@ class MainWindow(Frame):
         ent_url_cr = ttk.Entry(frm_top_cr, width=120)
         ent_url_cr.grid(column=1, row=0)
         # button to open blacklist
-        btn_black_list_cr = ttk.Button(frm_top_cr, text='...', width=5, cursor='hand2', command=open_black_list)
+        btn_black_list_cr = ttk.Button(frm_top_cr, text='...', width=5, cursor='hand2', command=open_watch_list)
         btn_black_list_cr.grid(column=2, row=0, padx=(10, 0))
         lbl_numpage_cr = Label(frm_top_cr, text='Số lần cuộn trang: ')
         lbl_numpage_cr.grid(column=3, row=0, padx=(20, 0))
