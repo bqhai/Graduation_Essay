@@ -23,6 +23,12 @@ namespace API_NewsManagementSystem.Controllers
             List<WatchListDTO> blackListDtos = _bllWatchList.GetAllWatchList();
             return Json(blackListDtos);        
         }
+        [HttpGet]
+        [Route("CheckExistFacebookID/{facebookID}")]
+        public JsonResult<bool> CheckExistFacebookID(string facebookID)
+        {
+            return Json(_bllWatchList.CheckExistFacebookID(facebookID));
+        }
         [HttpPost]
         [Route("AddToWatchList")]
         public JsonResult<bool> AddToWatchList(WatchListDTO watchListDto)
