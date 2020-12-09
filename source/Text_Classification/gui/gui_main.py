@@ -7,7 +7,7 @@ from tkcalendar import Calendar, DateEntry
 from bll.text_classification import predict, convert_label_to_text
 from bll.preprocessor import text_preprocess
 from bll.crawler import crawl, count_crawled_post
-from bll.call_api import get_all_black_list
+from bll.call_api import *
 import subprocess
 import validators
 import bll.config_log
@@ -157,13 +157,39 @@ class MainWindow(Frame):
         def open_log():
             subprocess.call(['notepad.exe', '../log/run_time.log'])
 
+        def open_add_to_watch_list(facebook_id, url):
+            win_add_watch_list = Toplevel(self)
+            win_add_watch_list.title('Thêm đối tượng vào danh sach theo dõi')
+            win_add_watch_list.geometry('480x200')
+            win_add_watch_list.resizable(False, False)
+            win_add_watch_list.grab_set()
+            lbl_facebook_id_awl = Label(win_add_watch_list, text='ID: ')
+            lbl_facebook_id_awl.grid(column=0, row=0, sticky='w', padx=15, pady=(15, 0))
+            lbl_facebook_url_awl = Label(win_add_watch_list, text='Url: ')
+            lbl_facebook_url_awl.grid(column=0, row=1, sticky='w', padx=15, pady=(15, 0))
+            lbl_facebook_name_awl = Label(win_add_watch_list, text='Tên: ')
+            lbl_facebook_name_awl.grid(column=0, row=2, sticky='w', padx=15, pady=(15, 0))
+            lbl_facebook_type_awl = Label(win_add_watch_list, text='Loại: ')
+            lbl_facebook_type_awl.grid(column=0, row=3, sticky='w', padx=15, pady=(15, 0))
+
+            ent_facebook_id_awl = ttk.Entry(win_add_watch_list, width=55)
+            ent_facebook_id_awl.grid(column=1, row=0, pady=(15, 0))
+            ent_facebook_id_awl.insert(0, facebook_id)
+            ent_facebook_id_awl.config(state='disabled')
+            ent_facebook_url_awl = ttk.Entry(win_add_watch_list, width=55)
+            ent_facebook_url_awl.grid(column=1, row=1, pady=(15, 0))
+            ent_facebook_url_awl.insert(0, url)
+            ent_facebook_url_awl.config(state='disabled')
+            ent_facebook_name_awl = ttk.Entry(win_add_watch_list, width=55)
+            ent_facebook_name_awl.grid(column=1, row=2, pady=(15, 0))
+
         def start_crawl():
             url = ent_url_cr.get()
             if len(url) <= 0:
                 write_warning_info('Link FB không được để trống!')
                 return
             # check valid url
-            if validators.url(url):
+            if validators.url(url) and 'facebook.com' in url:
                 pass
             else:
                 write_error_info('Link FB không hợp lệ!')
@@ -178,6 +204,20 @@ class MainWindow(Frame):
                 write_error_info('Số lần cuộn trang không hợp lệ.')
                 return
             selection = int(select_type.get())
+
+            # check exit facebook id in watchlist
+            facebook_id = url.split('/')[-2]
+            status = check_exist_facebook_id(facebook_id)
+            if status:
+                pass
+            elif status == -2:
+                messagebox.showerror('Lỗi', 'Kiểm tra thông tin thất bại, server không phản hồi!')
+                return
+            else:
+                open_add_to_watch_list(facebook_id, url)
+                return
+
+            # start crawl data
             try:
                 status = crawl(url, scroll_down, selection)
                 if status == 0:
