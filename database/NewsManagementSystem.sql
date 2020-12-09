@@ -22,9 +22,9 @@ GO
 CREATE TABLE WatchList
 (
 	FacebookID NVARCHAR(100) PRIMARY KEY,
-	FacebookName NVARCHAR(500) NOT NULL,
-	FacebookUrl NVARCHAR(500) NOT NULL UNIQUE,
-	FacebookTypeID NVARCHAR(100) NOT NULL,
+	FacebookName NVARCHAR(500),
+	FacebookUrl NVARCHAR(500) UNIQUE,
+	FacebookTypeID NVARCHAR(100),
 	FOREIGN KEY(FacebookTypeID) REFERENCES FacebookType(FacebookTypeID)
 )
 GO
