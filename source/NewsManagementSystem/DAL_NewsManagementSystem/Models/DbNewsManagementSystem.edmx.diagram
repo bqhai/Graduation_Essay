@@ -6,9 +6,9 @@
     <edmx:Diagrams>
       <Diagram DiagramId="04c1392eba01410f9c52ee9235b94d24" Name="Diagram1">
         <EntityTypeShape EntityType="NewsManagementSystemModel.FacebookType" Width="1.5" PointX="0.75" PointY="3.5" />
-        <EntityTypeShape EntityType="NewsManagementSystemModel.NewsLabel" Width="1.5" PointX="3" PointY="6.375" />
+        <EntityTypeShape EntityType="NewsManagementSystemModel.NewsLabel" Width="1.5" PointX="3" PointY="0.75" />
         <EntityTypeShape EntityType="NewsManagementSystemModel.Post" Width="1.5" PointX="5.25" PointY="2.375" />
-        <EntityTypeShape EntityType="NewsManagementSystemModel.SentimentLabel" Width="1.5" PointX="3" PointY="0.75" />
+        <EntityTypeShape EntityType="NewsManagementSystemModel.SentimentLabel" Width="1.5" PointX="3" PointY="6.375" />
         <EntityTypeShape EntityType="NewsManagementSystemModel.SystemAccount" Width="1.5" PointX="5.75" PointY="7.125" />
         <EntityTypeShape EntityType="NewsManagementSystemModel.WatchList" Width="1.5" PointX="3" PointY="3.25" />
         <AssociationConnector Association="NewsManagementSystemModel.FK__WatchList__Faceb__15502E78" />

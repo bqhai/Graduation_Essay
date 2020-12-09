@@ -56,9 +56,9 @@
             <PropertyRef Name="FacebookID" />
           </Key>
           <Property Name="FacebookID" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="FacebookName" Type="nvarchar" MaxLength="500" Nullable="false" />
-          <Property Name="FacebookUrl" Type="nvarchar" MaxLength="500" Nullable="false" />
-          <Property Name="FacebookTypeID" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="FacebookName" Type="nvarchar" MaxLength="500" />
+          <Property Name="FacebookUrl" Type="nvarchar" MaxLength="500" />
+          <Property Name="FacebookTypeID" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <Association Name="FK__Post__FacebookID__1BFD2C07">
           <End Role="WatchList" Type="Self.WatchList" Multiplicity="0..1" />
@@ -97,7 +97,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__WatchList__Faceb__15502E78">
-          <End Role="FacebookType" Type="Self.FacebookType" Multiplicity="1" />
+          <End Role="FacebookType" Type="Self.FacebookType" Multiplicity="0..1" />
           <End Role="WatchList" Type="Self.WatchList" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="FacebookType">
@@ -217,14 +217,14 @@
             <PropertyRef Name="FacebookID" />
           </Key>
           <Property Name="FacebookID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="FacebookName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="FacebookUrl" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="FacebookTypeID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FacebookName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="FacebookUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="FacebookTypeID" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="FacebookType" Relationship="NewsManagementSystemModel.FK__WatchList__Faceb__15502E78" FromRole="WatchList" ToRole="FacebookType" />
           <NavigationProperty Name="Posts" Relationship="NewsManagementSystemModel.FK__Post__FacebookID__1BFD2C07" FromRole="WatchList" ToRole="Post" />
         </EntityType>
         <Association Name="FK__WatchList__Faceb__15502E78">
-          <End Type="NewsManagementSystemModel.FacebookType" Role="FacebookType" Multiplicity="1" />
+          <End Type="NewsManagementSystemModel.FacebookType" Role="FacebookType" Multiplicity="0..1" />
           <End Type="NewsManagementSystemModel.WatchList" Role="WatchList" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="FacebookType">
