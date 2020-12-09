@@ -114,10 +114,13 @@ def crawl_group(url, scroll_down):
             'NewsLabelID': convert_label_to_labelID(predict(text_preprocess(post_text)))
         })
         total_post_crawled += 1
-
-    # load_page.stop_and_save('../data/facebook_group_post_crawled.json', list_json_post)
-    logging.info('Finished crawling ' + str(total_post_crawled) + ' posts')
-    return add_list_json_post(list_json_post)
+    if not list_json_post:
+        logging.info('Group does not exits')
+        return -1
+    else:
+        # load_page.stop_and_save('../data/facebook_group_post_crawled.json', list_json_post)
+        logging.info('Finished crawling ' + str(total_post_crawled) + ' posts')
+        return add_list_json_post(list_json_post)
 
 
 def crawl(url, scroll_down, selection):
