@@ -26,9 +26,9 @@ namespace API_NewsManagementSystem.Controllers
 
         [HttpGet]
         [Route("CheckExistFacebookID/{facebookID}")]
-        public JsonResult<bool> CheckExistFacebookID(string facebookID)
+        public JsonResult<bool> CheckExistInWatchList(string facebookID)
         {
-            return Json(_bllWatchList.CheckExistFacebookID(facebookID));
+            return Json(_bllWatchList.CheckExistInWatchList(facebookID));
         }
 
         [HttpPost]
