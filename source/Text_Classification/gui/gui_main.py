@@ -130,7 +130,7 @@ class MainWindow(Frame):
                 return
             win_watch_list = Toplevel(self)
             win_watch_list.title('Danh sách theo dõi')
-            win_watch_list.geometry('854x480')
+            center_window(win_watch_list, 854, 480)
             win_watch_list.resizable(False, False)
             win_watch_list.grab_set()
             tab_control_wl = ttk.Notebook(win_watch_list)
@@ -180,8 +180,8 @@ class MainWindow(Frame):
                 }
                 status = add_to_watch_list(watch_list_item)
                 if status == 0:
-                    messagebox.showinfo('Thông báo', 'Đã thêm')
                     win_add_watch_list.destroy()
+                    messagebox.showinfo('Thông báo', 'Đã thêm')
                 elif status == -2:
                     messagebox.showerror('Lỗi', 'Kết nối server thất bại')
                     return
@@ -255,7 +255,7 @@ class MainWindow(Frame):
                 messagebox.showerror('Lỗi', 'Kiểm tra thông tin thất bại, server không phản hồi!')
                 return
             else:
-                msg_box = messagebox.askquestion('Thông báo', 'Url này chưa có trong danh sách theo dõi. Chọn Yes để thêm')
+                msg_box = messagebox.askquestion('Thông báo', 'Url này chưa có trong danh sách theo dõi. Chọn Yes để thêm!')
                 if msg_box == 'yes':
                     open_add_to_watch_list(facebook_id, url)
                     return
