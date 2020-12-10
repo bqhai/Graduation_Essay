@@ -21,33 +21,49 @@ namespace API_NewsManagementSystem.Controllers
         public JsonResult<List<WatchListDTO>> GetAllWatchList()
         {
             List<WatchListDTO> blackListDtos = _bllWatchList.GetAllWatchList();
-            return Json(blackListDtos);        
+            return Json(blackListDtos);
         }
+
         [HttpGet]
         [Route("CheckExistFacebookID/{facebookID}")]
         public JsonResult<bool> CheckExistFacebookID(string facebookID)
         {
             return Json(_bllWatchList.CheckExistFacebookID(facebookID));
         }
+
         [HttpPost]
         [Route("AddToWatchList")]
         public JsonResult<bool> AddToWatchList(WatchListDTO watchListDto)
         {
             return Json(_bllWatchList.AddToWatchList(watchListDto));
         }
+
+        [HttpGet]
+        [Route("CheckExistPost/{postUrl}")]
+        public JsonResult<bool> CheckExistPost(string postUrl)
+        {
+            return Json(_bllPost.CheckExistPost(postUrl));
+        }
+
+        [HttpPost]
+        [Route("AddNewPost")]
+        public JsonResult<bool> AddNewPost(PostDTO postDto)
+        {
+            return Json(_bllPost.AddNewPost(postDto));
+        }
+
+        [HttpPost]
+        [Route("UpdatePost")]
+        public JsonResult<bool> UpdatePost(PostDTO postDto)
+        {
+            return Json(_bllPost.UpdatePost(postDto));
+        }
+
         [HttpPost]
         [Route("AddNewOrUpdateListPost")]
         public JsonResult<bool> AddNewOrUpdateListPost(List<PostDTO> postDtos)
         {
-            foreach (var item in postDtos)
-            {
-                bool result = _bllPost.AddNewOrUpdatePost(item);
-                if (!result)
-                {
-                    return Json(false);
-                }
-            }
-            return Json(true);       
+            return Json(_bllPost.AddNewOrUpdateListPost(postDtos));
         }
     }
 }
