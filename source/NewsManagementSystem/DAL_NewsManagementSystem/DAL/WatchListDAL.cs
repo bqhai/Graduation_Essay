@@ -1,10 +1,7 @@
-﻿using System;
+﻿using DAL_NewsManagementSystem.JoinningTable;
+using DAL_NewsManagementSystem.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DAL_NewsManagementSystem.Models;
-using DAL_NewsManagementSystem.JoinningTable;
 namespace DAL_NewsManagementSystem.DAL
 {
     public class WatchListDAL
@@ -16,7 +13,6 @@ namespace DAL_NewsManagementSystem.DAL
         }
         public IEnumerable<JWatchList> GetAllWatchList()
         {
-
             var query = from wl in _db.WatchLists
                         join fbt in _db.FacebookTypes on wl.FacebookTypeID equals fbt.FacebookTypeID
                         select new JWatchList
