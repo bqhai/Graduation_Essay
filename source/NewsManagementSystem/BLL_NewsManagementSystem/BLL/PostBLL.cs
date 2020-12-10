@@ -15,28 +15,61 @@ namespace BLL_NewsManagementSystem.BLL
     {
         private PostDAL _dalPost = new PostDAL();
         private EntityMapper<Post, PostDTO> _mapToPostDto = new EntityMapper<Post, PostDTO>();
-        private EntityMapper<PostDTO, Post> _mapToAutoCrawledPost = new EntityMapper<PostDTO, Post>();
+        private EntityMapper<PostDTO, Post> _mapToPost = new EntityMapper<PostDTO, Post>();
         public PostBLL()
         {
 
         }
-        public bool AddNewOrUpdatePost(PostDTO postDto)
+        public bool CheckExistPost(string postUrl)
         {
-            //step 1: check ID exits in Post -> update / add new
-            //step 2: if add new check FacebookID exits in WatchList -> if not then add facebookID before add post
+            return _dalPost.CheckExistPost(postUrl);
+        }
+        public bool AddNewPost(PostDTO postDto)
+        {
             try
             {
-                Post post = _mapToAutoCrawledPost.Translate(postDto);
-                if (_dalPost.CheckExistPost(postDto.PostUrl))
+                Post post = _mapToPost.Translate(postDto);
+                _dalPost.AddNewPost(post);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            
+        }
+        public bool UpdatePost(PostDTO postDto)
+        {
+            try
+            {
+                Post post = _mapToPost.Translate(postDto);
+                _dalPost.UpdatePost(post);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public bool AddNewOrUpdateListPost(List<PostDTO> postDtos)
+        {
+            //step 1: check ID exits in Post -> then update / add new
+            //step 2: if add new -> check FacebookID exits in WatchList -> if not then add facebookID before add post           
+            try
+            {               
+                foreach (var item in postDtos)
                 {
-                    _dalPost.UpdatePost(post);
-                }
-                else
-                {
-                    post.PostID = AutoGenerate.PostID();
-                    post.SentimentLabelID = "NEG";
-                    _dalPost.AddNewPost(post);
-                }
+                    if (CheckExistPost(item.PostUrl))
+                    {
+                        UpdatePost(item);
+                    }
+                    else
+                    {
+                        item.PostID = AutoGenerate.PostID();
+                        item.SentimentLabelID = "NEG";
+                        AddNewPost(item);
+                    }
+                }                
                 return true;
             }
             catch (Exception)
