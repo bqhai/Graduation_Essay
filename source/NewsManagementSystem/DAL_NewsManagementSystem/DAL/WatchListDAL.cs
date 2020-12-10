@@ -27,7 +27,7 @@ namespace DAL_NewsManagementSystem.DAL
         }
         public bool CheckExistInWatchList(string facebookID)
         {
-            WatchList watchList = _db.WatchLists.SingleOrDefault(b => b.FacebookID == facebookID);
+            WatchList watchList = _db.WatchLists.SingleOrDefault(wl => wl.FacebookID == facebookID);
             if(watchList != null)
             {
                 return true;
