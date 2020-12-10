@@ -613,3 +613,5 @@ dmypy.json
 source/Text_Classification/.idea/Text_Classification.iml
 source/Text_Classification/.idea/misc.xml
 source/Text_Classification/models/naive_bayes.pkl
+source/Text_Classification/.idea/misc.xml
+source/Text_Classification/.idea/Text_Classification.iml
