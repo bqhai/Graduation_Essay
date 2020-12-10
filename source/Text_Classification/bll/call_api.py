@@ -39,9 +39,9 @@ def get_all_black_list():
         return -2
 
 
-def check_exist_facebook_id(facebook_id):
+def check_exist_in_watch_list(facebook_id):
     try:
-        url = 'https://localhost:44347/api/Home/CheckExistFacebookID/' + facebook_id + '/'
+        url = 'https://localhost:44347/api/Home/CheckExistInWatchList/' + facebook_id + '/'
         logging.info('Call to api ' + url)
         response = requests.get(url, verify=False)
         print('Status code: ', response.status_code)
