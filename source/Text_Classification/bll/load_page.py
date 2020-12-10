@@ -23,7 +23,8 @@ def start(url='', scroll_down=0, selection=0, login_option=False, username='', p
 
     # start for FB page
     if selection == 1:
-        btn_close = find_all(S('[class="autofocus  layerCancel _4jy0 _4jy3 _4jy1 _51sy selected _42ft"]'))
+        wait_until(Text('Không thể xử lý yêu cầu của bạn').exists)
+        btn_close = find_all(S('[class="autofocus _9l2h  layerCancel _4jy0 _4jy3 _4jy1 _51sy selected _42ft"]'))
         if btn_close:
             print('Click Close button')
             click(btn_close[0])
