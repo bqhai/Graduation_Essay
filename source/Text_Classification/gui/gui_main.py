@@ -248,7 +248,7 @@ class MainWindow(Frame):
 
             # check exit facebook id in watchlist
             facebook_id = url.split('/')[-2]
-            status = check_exist_facebook_id(facebook_id)
+            status = check_exist_in_watch_list(facebook_id)
             if status:
                 pass
             elif status == -2:
@@ -361,6 +361,14 @@ class MainWindow(Frame):
             def save_post_cancel():
                 win_save_post.destroy()
 
+            def save_post_ok():
+                post_url = ent_post_url_sp.get()
+                user_url = ent_user_url_sp.get()
+                profile_name = ent_profile_name_sp.get()
+                if len(post_url) <= 0 or len(user_url) <= 0 or len(profile_name) <= 0:
+                    messagebox.showwarning('Thông báo', 'Hãy nhập đầy đủ thông tin')
+                    return
+
             if len(txt_input_tc.get('1.0', 'end-1c')) == 0:
                 messagebox.showwarning('Thông báo', 'Nội dung trống!')
                 return
@@ -369,7 +377,7 @@ class MainWindow(Frame):
                 return
             win_save_post = Toplevel(self)
             win_save_post.title('Lưu bài viết')
-            center_window(win_save_post, 854, 230)
+            center_window(win_save_post, 854, 200)
             win_save_post.resizable(False, False)
             win_save_post.grab_set()
             lbl_post_url_sp = Label(win_save_post, text='URL bài viết: ')
@@ -381,11 +389,11 @@ class MainWindow(Frame):
             lbl_post_time_sp = Label(win_save_post, text='Thời gian đăng: ')
             lbl_post_time_sp.grid(column=0, row=3, sticky='w', padx=15, pady=(15, 0))
 
-            ent_post_url_sp = ttk.Entry(win_save_post, width=110)
+            ent_post_url_sp = ttk.Entry(win_save_post, width=115)
             ent_post_url_sp.grid(column=1, row=0, pady=(15, 0))
-            ent_user_url_sp = ttk.Entry(win_save_post, width=110)
+            ent_user_url_sp = ttk.Entry(win_save_post, width=115)
             ent_user_url_sp.grid(column=1, row=1, pady=(15, 0))
-            ent_profile_name_sp = ttk.Entry(win_save_post, width=110)
+            ent_profile_name_sp = ttk.Entry(win_save_post, width=115)
             ent_profile_name_sp.grid(column=1, row=2, pady=(15, 0))
             spn_hour_sp = ttk.Spinbox(win_save_post, from_=00, to=23, width=3)
             spn_hour_sp.grid(column=1, row=3, sticky='w', pady=(15, 0))
