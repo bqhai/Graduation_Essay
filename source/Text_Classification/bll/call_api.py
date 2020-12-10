@@ -1,5 +1,6 @@
 __author__ = 'Hai Bui'
 
+from bll.common import *
 import requests
 import bll.config_log
 import logging
@@ -7,8 +8,7 @@ import logging
 
 def add_list_json_post(data):
     try:
-        url = 'https://localhost:44347/api/Home/AddNewOrUpdateListPost/'
-        # url = 'http://kltn26.somee.com/api/Home/AddNewPost'
+        url = BASE_LOCAL_URL + 'api/Home/AddNewOrUpdateListPost/'
         logging.info('Call to api ' + url)
         response = requests.post(url, json=data, verify=False)
         print('Status code: ', response.status_code)
@@ -26,8 +26,7 @@ def add_list_json_post(data):
 
 def get_all_black_list():
     try:
-        url = 'https://localhost:44347/api/Home/GetAllWatchList/'
-        # url = 'http://kltn26.somee.com/api/Home/GetAllBlackList'
+        url = BASE_LOCAL_URL + 'api/Home/GetAllWatchList/'
         logging.info('Call to api ' + url)
         response = requests.get(url, verify=False)
         print('Status code: ', response.status_code)
@@ -41,7 +40,7 @@ def get_all_black_list():
 
 def check_exist_in_watch_list(facebook_id):
     try:
-        url = 'https://localhost:44347/api/Home/CheckExistInWatchList/' + facebook_id + '/'
+        url = BASE_LOCAL_URL + 'api/Home/CheckExistInWatchList/' + facebook_id + '/'
         logging.info('Call to api ' + url)
         response = requests.get(url, verify=False)
         print('Status code: ', response.status_code)
@@ -55,7 +54,7 @@ def check_exist_in_watch_list(facebook_id):
 
 def add_to_watch_list(watch_list):
     try:
-        url = 'https://localhost:44347/api/Home/AddToWatchList/'
+        url = BASE_LOCAL_URL + 'api/Home/AddToWatchList/'
         logging.info('Call to api ' + url)
         response = requests.post(url, json=watch_list, verify=False)
         print('Status code: ', response.status_code)
