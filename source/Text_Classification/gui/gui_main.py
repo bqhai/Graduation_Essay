@@ -4,7 +4,7 @@ from datetime import datetime
 from tkinter import *
 from tkinter import ttk, messagebox
 from tkcalendar import DateEntry
-from bll.text_classification import predict, convert_label_to_text
+from bll.text_classification import predict, convert_label_to_text, convert_label_to_labelID
 from bll.preprocessor import text_preprocess
 from bll.crawler import crawl, count_crawled_post
 from bll.call_api import *
@@ -27,6 +27,14 @@ def on_closing():
     if messagebox.askokcancel('Thoát', 'Bạn muốn thoát chứ?'):
         logging.info('Exit')
         root.destroy()
+
+
+def check_valid_time(minute, hour):
+    if not minute.isdigit() or not hour.isdigit():
+        return False
+    if int(minute) < 0 or int(minute) > 59 or int(hour) < 0 or int(hour) > 24:
+        return False
+    return True
 
 
 def center_window(window, w=300, h=200):
@@ -123,8 +131,8 @@ class MainWindow(Frame):
         #         login_option.set(False)
 
         def open_watch_list():
-            black_list = get_all_black_list()
-            if black_list == -2:
+            watch_list = get_all_watch_list()
+            if watch_list == -2:
                 write_error_info('Kết nối server thất bại!')
                 root.config(cursor='')
                 return
@@ -150,7 +158,7 @@ class MainWindow(Frame):
             #     black_list = get_all_black_list()
             txt_page_wl.config(state=NORMAL)
             txt_page_wl.insert(END, '{:<35} \t {:<12}'.format('Tên trang', 'URL') + '\n', 'header')
-            for i in black_list:
+            for i in watch_list:
                 txt_page_wl.insert(END, '{:<35} \t {:<12}'.format(i['FacebookName'], i['FacebookUrl']) + '\n')
             txt_page_wl.config(state=DISABLED)
 
@@ -255,7 +263,8 @@ class MainWindow(Frame):
                 messagebox.showerror('Lỗi', 'Kiểm tra thông tin thất bại, server không phản hồi!')
                 return
             else:
-                msg_box = messagebox.askquestion('Thông báo', 'Url này chưa có trong danh sách theo dõi. Chọn Yes để thêm!')
+                msg_box = messagebox.askquestion('Thông báo',
+                                                 'Url này chưa có trong danh sách theo dõi. Chọn Yes để thêm!')
                 if msg_box == 'yes':
                     open_add_to_watch_list(facebook_id, url)
                     return
@@ -363,11 +372,55 @@ class MainWindow(Frame):
 
             def save_post_ok():
                 post_url = ent_post_url_sp.get()
+                # post_url_id = post_url.split('/')[-1]  # notice: url in group and page are diference
                 user_url = ent_user_url_sp.get()
                 profile_name = ent_profile_name_sp.get()
+                post_content = txt_input_tc.get('1.0', END)
+                minute = spn_minute_sp.get()
+                hour = spn_hour_sp.get()
+                news_label_id = convert_label_to_labelID(predict(text_preprocess(post_content)))
                 if len(post_url) <= 0 or len(user_url) <= 0 or len(profile_name) <= 0:
                     messagebox.showwarning('Thông báo', 'Hãy nhập đầy đủ thông tin')
                     return
+                if not check_valid_time(minute, hour):
+                    messagebox.showwarning('Thông báo', 'Thời gian không hợp lệ')
+                    return
+
+                # facebook_id = user_url.split('/')[-2]
+                post = {
+                    'PostUrl': post_url,
+                    'UserUrl': user_url,
+                    'ProfileName': profile_name,
+                    'PostContent': post_content,
+                    'UploadTime': hour + ':' + minute + ' ' + str(cal_date_sp.get_date()),
+                    # 'FacebookID': facebook_id,
+                    'NewsLabelID': news_label_id,
+                    'SentimentLabelID': 'NEG'
+                }
+
+                if (post_url.split('/')[-1]).isdigit():
+                    post_url_id = post_url.split('/')[-1]
+                else:
+                    post_url_id = post_url.split('/')[-2]
+                status = check_exist_post(post_url_id)
+                if status:
+                    msg_box = messagebox.askquestion('Thông báo',
+                                                     'Bài viết này đã được lưu trước đó, bạn muốn cập nhật chứ?')
+                    if msg_box == 'yes':
+                        if update_json_post(post) == 0:
+                            messagebox.showinfo('Thông báo', 'Cập nhật thành công!')
+                        else:
+                            messagebox.showerror('Thông báo', 'Cập nhật thất bại')
+                            return
+                elif status == -2:
+                    messagebox.showerror('Lỗi', 'Kiểm tra thông tin thất bại, server không phản hồi!')
+                    return
+                else:
+                    if add_json_post(post) == 0:
+                        messagebox.showinfo('Thông báo', 'Đã thêm!')
+                    else:
+                        messagebox.showerror('Thông báo', 'Thêm thất bại')
+                        return
 
             if len(txt_input_tc.get('1.0', 'end-1c')) == 0:
                 messagebox.showwarning('Thông báo', 'Nội dung trống!')
@@ -409,7 +462,7 @@ class MainWindow(Frame):
             lbl_date_sp.grid(column=1, row=3, sticky='w', padx=(150, 0), pady=(15, 0))
             cal_date_sp = DateEntry(win_save_post, width=12, foreground='white', borderwidth=2)
             cal_date_sp.grid(column=1, row=3, sticky='w', padx=(200, 0), pady=(15, 0))
-            btn_ok_sp = ttk.Button(win_save_post, text='OK', cursor='hand2')
+            btn_ok_sp = ttk.Button(win_save_post, text='OK', cursor='hand2', command=save_post_ok)
             btn_ok_sp.grid(column=1, row=4, sticky='w', pady=(15, 0))
             btn_cancel_sp = ttk.Button(win_save_post, text='Hủy', cursor='hand2', command=save_post_cancel)
             btn_cancel_sp.grid(column=1, row=4, sticky='w', padx=(80, 0), pady=(15, 0))
