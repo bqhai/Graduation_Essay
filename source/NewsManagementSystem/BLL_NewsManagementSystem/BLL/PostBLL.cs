@@ -29,6 +29,7 @@ namespace BLL_NewsManagementSystem.BLL
             try
             {
                 Post post = _mapToPost.Translate(postDto);
+                post.PostID = AutoGenerate.PostID();
                 _dalPost.AddNewPost(post);
                 return true;
             }
