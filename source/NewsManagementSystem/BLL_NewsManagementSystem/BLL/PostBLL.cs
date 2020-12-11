@@ -20,9 +20,9 @@ namespace BLL_NewsManagementSystem.BLL
         {
 
         }
-        public bool CheckExistPost(string postUrl)
+        public bool CheckExistPost(string postUrlId)
         {
-            return _dalPost.CheckExistPost(postUrl);
+            return _dalPost.CheckExistPost(postUrlId);
         }
         public bool AddNewPost(PostDTO postDto)
         {

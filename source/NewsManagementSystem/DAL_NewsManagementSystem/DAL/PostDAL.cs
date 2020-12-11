@@ -29,9 +29,9 @@ namespace DAL_NewsManagementSystem.DAL
             po.TotalShare = post.TotalShare;
             _db.SaveChanges();
         }
-        public bool CheckExistPost(string postUrl)
+        public bool CheckExistPost(string postUrlId)
         {
-            Post po = _db.Posts.SingleOrDefault(p => p.PostUrl == postUrl);
+            Post po = _db.Posts.SingleOrDefault(p => p.PostUrl.Contains(postUrlId));
             if(po != null)
             {
                 return true;
