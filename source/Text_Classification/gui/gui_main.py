@@ -446,6 +446,7 @@ class MainWindow(Frame):
             center_window(win_save_post, 854, 250)
             win_save_post.resizable(False, False)
             win_save_post.grab_set()
+            # --- left ---
             lbl_post_url_sp = Label(win_save_post, text='URL bài viết: ')
             lbl_post_url_sp.grid(column=0, row=0, sticky='w', padx=15, pady=(15, 0))
             lbl_user_url_sp = Label(win_save_post, text='URL người đăng: ')
@@ -456,13 +457,14 @@ class MainWindow(Frame):
             lbl_post_time_sp.grid(column=0, row=3, sticky='w', padx=15, pady=(15, 0))
             lbl_post_interactive_sp = Label(win_save_post, text='Tương tác: ')
             lbl_post_interactive_sp.grid(column=0, row=4, sticky='w', padx=15, pady=(15, 0))
-
+            # --- right ---
             ent_post_url_sp = ttk.Entry(win_save_post, width=115)
             ent_post_url_sp.grid(column=1, row=0, pady=(15, 0))
             ent_user_url_sp = ttk.Entry(win_save_post, width=115)
             ent_user_url_sp.grid(column=1, row=1, pady=(15, 0))
             ent_profile_name_sp = ttk.Entry(win_save_post, width=115)
             ent_profile_name_sp.grid(column=1, row=2, pady=(15, 0))
+            # --- upload time ---
             spn_hour_sp = ttk.Spinbox(win_save_post, from_=00, to=23, width=3)
             spn_hour_sp.grid(column=1, row=3, sticky='w', pady=(15, 0))
             spn_hour_sp.insert(1, 0)
@@ -477,6 +479,7 @@ class MainWindow(Frame):
             lbl_date_sp.grid(column=1, row=3, sticky='w', padx=(150, 0), pady=(15, 0))
             cal_date_sp = DateEntry(win_save_post, width=12, foreground='white', borderwidth=2)
             cal_date_sp.grid(column=1, row=3, sticky='w', padx=(200, 0), pady=(15, 0))
+            # --- interaction ---
             lbl_like_sp = Label(win_save_post, text='Like: ')
             lbl_like_sp.grid(column=1, row=4, sticky='w', pady=(15, 0))
             ent_like_sp = ttk.Entry(win_save_post, width=5)
@@ -485,12 +488,11 @@ class MainWindow(Frame):
             lbl_comment_sp.grid(column=1, row=4, sticky='w', padx=(80, 0), pady=(15, 0))
             ent_comment_sp = ttk.Entry(win_save_post, width=5)
             ent_comment_sp.grid(column=1, row=4, sticky='w', padx=(150, 0), pady=(15, 0))
-
             lbl_share_sp = Label(win_save_post, text='Share: ')
             lbl_share_sp.grid(column=1, row=4, sticky='w', padx=(195, 0), pady=(15, 0))
             ent_share_sp = ttk.Entry(win_save_post, width=5)
             ent_share_sp.grid(column=1, row=4, sticky='w', padx=(240, 0), pady=(15, 0))
-
+            # --- ok/cancel button ---
             btn_ok_sp = ttk.Button(win_save_post, text='OK', cursor='hand2', command=save_post_ok)
             btn_ok_sp.grid(column=1, row=5, sticky='w', pady=(15, 0))
             btn_cancel_sp = ttk.Button(win_save_post, text='Hủy', cursor='hand2', command=save_post_cancel)
