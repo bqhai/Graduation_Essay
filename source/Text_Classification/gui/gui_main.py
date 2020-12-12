@@ -224,6 +224,7 @@ class MainWindow(Frame):
             ent_facebook_url_awl.config(state='disabled')
             ent_facebook_name_awl = ttk.Entry(win_add_watch_list, width=65)
             ent_facebook_name_awl.grid(column=1, row=2, pady=(15, 0))
+            ent_facebook_name_awl.insert(0, facebook_id)
             opm_facebook_type_awl = ttk.OptionMenu(win_add_watch_list, facebook_type, choices[0], *choices)
             opm_facebook_type_awl.grid(column=1, row=3, sticky='w', pady=(15, 0))
 
