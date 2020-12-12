@@ -383,6 +383,16 @@ class MainWindow(Frame):
                 if len(post_url) <= 0 or len(user_url) <= 0 or len(profile_name) <= 0:
                     messagebox.showwarning('Thông báo', 'Hãy nhập đầy đủ thông tin')
                     return
+                if validators.url(post_url) and 'facebook.com' in post_url:
+                    pass
+                else:
+                    messagebox.showwarning('Thông báo', 'Link bài viết không hợp lệ!')
+                    return
+                if validators.url(user_url) and 'facebook.com' in user_url:
+                    pass
+                else:
+                    messagebox.showwarning('Thông báo', 'Link người đăng không hợp lệ!')
+                    return
                 if not check_valid_time(minute, hour):
                     messagebox.showwarning('Thông báo', 'Thời gian không hợp lệ')
                     return
@@ -419,6 +429,7 @@ class MainWindow(Frame):
                 else:
                     if add_json_post(post) == 0:
                         messagebox.showinfo('Thông báo', 'Đã thêm!')
+                        win_save_post.destroy()
                     else:
                         messagebox.showerror('Thông báo', 'Thêm thất bại')
                         return
@@ -429,9 +440,10 @@ class MainWindow(Frame):
             if lbl_result_tc['text'] == '':
                 messagebox.showwarning('Thông báo', 'Bài viết chưa được phân loại!')
                 return
+            # create ui save post
             win_save_post = Toplevel(self)
             win_save_post.title('Lưu bài viết')
-            center_window(win_save_post, 854, 200)
+            center_window(win_save_post, 854, 250)
             win_save_post.resizable(False, False)
             win_save_post.grab_set()
             lbl_post_url_sp = Label(win_save_post, text='URL bài viết: ')
@@ -442,6 +454,8 @@ class MainWindow(Frame):
             lbl_profile_name_sp.grid(column=0, row=2, sticky='w', padx=15, pady=(15, 0))
             lbl_post_time_sp = Label(win_save_post, text='Thời gian đăng: ')
             lbl_post_time_sp.grid(column=0, row=3, sticky='w', padx=15, pady=(15, 0))
+            lbl_post_interactive_sp = Label(win_save_post, text='Tương tác: ')
+            lbl_post_interactive_sp.grid(column=0, row=4, sticky='w', padx=15, pady=(15, 0))
 
             ent_post_url_sp = ttk.Entry(win_save_post, width=115)
             ent_post_url_sp.grid(column=1, row=0, pady=(15, 0))
@@ -463,10 +477,24 @@ class MainWindow(Frame):
             lbl_date_sp.grid(column=1, row=3, sticky='w', padx=(150, 0), pady=(15, 0))
             cal_date_sp = DateEntry(win_save_post, width=12, foreground='white', borderwidth=2)
             cal_date_sp.grid(column=1, row=3, sticky='w', padx=(200, 0), pady=(15, 0))
+            lbl_like_sp = Label(win_save_post, text='Like: ')
+            lbl_like_sp.grid(column=1, row=4, sticky='w', pady=(15, 0))
+            ent_like_sp = ttk.Entry(win_save_post, width=5)
+            ent_like_sp.grid(column=1, row=4, sticky='w', padx=(35, 0), pady=(15, 0))
+            lbl_comment_sp = Label(win_save_post, text='Comment: ')
+            lbl_comment_sp.grid(column=1, row=4, sticky='w', padx=(80, 0), pady=(15, 0))
+            ent_comment_sp = ttk.Entry(win_save_post, width=5)
+            ent_comment_sp.grid(column=1, row=4, sticky='w', padx=(150, 0), pady=(15, 0))
+
+            lbl_share_sp = Label(win_save_post, text='Share: ')
+            lbl_share_sp.grid(column=1, row=4, sticky='w', padx=(195, 0), pady=(15, 0))
+            ent_share_sp = ttk.Entry(win_save_post, width=5)
+            ent_share_sp.grid(column=1, row=4, sticky='w', padx=(240, 0), pady=(15, 0))
+
             btn_ok_sp = ttk.Button(win_save_post, text='OK', cursor='hand2', command=save_post_ok)
-            btn_ok_sp.grid(column=1, row=4, sticky='w', pady=(15, 0))
+            btn_ok_sp.grid(column=1, row=5, sticky='w', pady=(15, 0))
             btn_cancel_sp = ttk.Button(win_save_post, text='Hủy', cursor='hand2', command=save_post_cancel)
-            btn_cancel_sp.grid(column=1, row=4, sticky='w', padx=(80, 0), pady=(15, 0))
+            btn_cancel_sp.grid(column=1, row=5, sticky='w', padx=(80, 0), pady=(15, 0))
 
         def get_label():
             if len(txt_input_tc.get('1.0', 'end-1c')) == 0:
