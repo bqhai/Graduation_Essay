@@ -386,12 +386,14 @@ class MainWindow(Frame):
 
             def save_post_ok():
                 post_url = ent_post_url_sp.get()
-                # post_url_id = post_url.split('/')[-1]  # notice: url in group and page are diference
                 user_url = ent_user_url_sp.get()
                 profile_name = ent_profile_name_sp.get()
                 post_content = txt_input_tc.get('1.0', END)
                 minute = spn_minute_sp.get()
                 hour = spn_hour_sp.get()
+                like = ent_like_sp.get()
+                comment = ent_comment_sp.get()
+                share = ent_share_sp.get()
                 news_label_id = convert_label_to_labelID(predict(text_preprocess(post_content)))
                 if len(post_url) <= 0 or len(user_url) <= 0 or len(profile_name) <= 0:
                     messagebox.showwarning('Thông báo', 'Hãy nhập đầy đủ thông tin')
@@ -417,22 +419,25 @@ class MainWindow(Frame):
                     'ProfileName': profile_name,
                     'PostContent': post_content,
                     'UploadTime': hour + ':' + minute + ' ' + str(cal_date_sp.get_date()),
+                    'TotalLikes': like,
+                    'TotalComment': comment,
+                    'TotalShare': share,
                     # 'FacebookID': facebook_id,
                     'NewsLabelID': news_label_id,
                     'SentimentLabelID': 'NEG'
                 }
 
-                if (post_url.split('/')[-1]).isdigit():
+                if (post_url.split('/')[-1]).isdigit():     # split url to take id
                     post_url_id = post_url.split('/')[-1]
                 else:
                     post_url_id = post_url.split('/')[-2]
                 status = check_exist_post(post_url_id)
                 if status:
-                    msg_box = messagebox.askquestion('Thông báo',
-                                                     'Bài viết này đã được lưu trước đó, bạn muốn cập nhật chứ?')
+                    msg_box = messagebox.askquestion('Thông báo', 'Bài viết này đã được lưu trước đó, bạn muốn cập nhật chứ?')
                     if msg_box == 'yes':
                         if update_json_post(post) == 0:
                             messagebox.showinfo('Thông báo', 'Cập nhật thành công!')
+                            win_save_post.destroy()
                         else:
                             messagebox.showerror('Thông báo', 'Cập nhật thất bại')
                             return
@@ -479,12 +484,12 @@ class MainWindow(Frame):
             ent_profile_name_sp = ttk.Entry(win_save_post, width=115)
             ent_profile_name_sp.grid(column=1, row=2, pady=(15, 0))
             # --- upload time ---
-            spn_hour_sp = ttk.Spinbox(win_save_post, from_=00, to=23, width=3)
+            spn_hour_sp = ttk.Spinbox(win_save_post, from_=00, to=23, width=3, validate='key', validatecommand=(reg, '%P'))
             spn_hour_sp.grid(column=1, row=3, sticky='w', pady=(15, 0))
             spn_hour_sp.insert(1, 0)
             lbl_hour_sp = Label(win_save_post, text='giờ')
             lbl_hour_sp.grid(column=1, row=3, sticky='w', padx=(40, 0), pady=(15, 0))
-            spn_minute_sp = ttk.Spinbox(win_save_post, from_=00, to=59, width=3)
+            spn_minute_sp = ttk.Spinbox(win_save_post, from_=00, to=59, width=3, validate='key', validatecommand=(reg, '%P'))
             spn_minute_sp.grid(column=1, row=3, sticky='w', padx=(70, 0), pady=(15, 0))
             spn_minute_sp.insert(1, 0)
             lbl_minute_sp = Label(win_save_post, text='phút')
@@ -496,15 +501,15 @@ class MainWindow(Frame):
             # --- interaction ---
             lbl_like_sp = Label(win_save_post, text='Like: ')
             lbl_like_sp.grid(column=1, row=4, sticky='w', pady=(15, 0))
-            ent_like_sp = ttk.Entry(win_save_post, width=5, validate="key", validatecommand=(reg, '%P'))
+            ent_like_sp = ttk.Entry(win_save_post, width=5, validate='key', validatecommand=(reg, '%P'))
             ent_like_sp.grid(column=1, row=4, sticky='w', padx=(35, 0), pady=(15, 0))
             lbl_comment_sp = Label(win_save_post, text='Comment: ')
             lbl_comment_sp.grid(column=1, row=4, sticky='w', padx=(80, 0), pady=(15, 0))
-            ent_comment_sp = ttk.Entry(win_save_post, width=5, validate="key", validatecommand=(reg, '%P'))
+            ent_comment_sp = ttk.Entry(win_save_post, width=5, validate='key', validatecommand=(reg, '%P'))
             ent_comment_sp.grid(column=1, row=4, sticky='w', padx=(150, 0), pady=(15, 0))
             lbl_share_sp = Label(win_save_post, text='Share: ')
             lbl_share_sp.grid(column=1, row=4, sticky='w', padx=(195, 0), pady=(15, 0))
-            ent_share_sp = ttk.Entry(win_save_post, width=5, validate="key", validatecommand=(reg, '%P'))
+            ent_share_sp = ttk.Entry(win_save_post, width=5, validate='key', validatecommand=(reg, '%P'))
             ent_share_sp.grid(column=1, row=4, sticky='w', padx=(240, 0), pady=(15, 0))
             # --- ok/cancel button ---
             btn_ok_sp = ttk.Button(win_save_post, text='OK', cursor='hand2', command=save_post_ok)
