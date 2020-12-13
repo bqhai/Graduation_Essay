@@ -60,7 +60,7 @@ def update_json_post(data):
     try:
         url = BASE_LOCAL_URL + 'api/Home/UpdatePost/'
         logging.info('Call to api ' + url)
-        response = requests.post(url, json=data, verify=False)
+        response = requests.put(url, json=data, verify=False)
         print('Status code: ', response.status_code)
         logging.info('Status code: ' + str(response.status_code))
         logging.info('Call api successfully')
