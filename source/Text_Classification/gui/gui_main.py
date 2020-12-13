@@ -37,6 +37,18 @@ def check_valid_time(minute, hour):
     return True
 
 
+def keypress_only_number(c):
+    if c.isdigit():
+        print(c)
+        return True
+    elif c is '':
+        print(c)
+        return True
+    else:
+        print(c)
+        return False
+
+
 def center_window(window, w=300, h=200):
     # get screen width and height
     ws = window.winfo_screenwidth()
@@ -196,12 +208,13 @@ class MainWindow(Frame):
                 elif status == -4:
                     messagebox.showerror('Lỗi', 'Có lỗi xảy ra phía server')
                     return
-
+            # ---create ui add to watch list ---
             win_add_watch_list = Toplevel(self)
             win_add_watch_list.title('Thêm đối tượng vào danh sach theo dõi')
             center_window(win_add_watch_list, 480, 200)
             win_add_watch_list.resizable(False, False)
             win_add_watch_list.grab_set()
+
             lbl_facebook_id_awl = Label(win_add_watch_list, text='ID: ')
             lbl_facebook_id_awl.grid(column=0, row=0, sticky='w', padx=15, pady=(15, 0))
             lbl_facebook_url_awl = Label(win_add_watch_list, text='Url: ')
@@ -440,12 +453,13 @@ class MainWindow(Frame):
             if lbl_result_tc['text'] == '':
                 messagebox.showwarning('Thông báo', 'Bài viết chưa được phân loại!')
                 return
-            # create ui save post
+            # --- create ui save post ---
             win_save_post = Toplevel(self)
             win_save_post.title('Lưu bài viết')
             center_window(win_save_post, 854, 250)
             win_save_post.resizable(False, False)
             win_save_post.grab_set()
+            reg = win_save_post.register(keypress_only_number)
             # --- left ---
             lbl_post_url_sp = Label(win_save_post, text='URL bài viết: ')
             lbl_post_url_sp.grid(column=0, row=0, sticky='w', padx=15, pady=(15, 0))
@@ -482,15 +496,15 @@ class MainWindow(Frame):
             # --- interaction ---
             lbl_like_sp = Label(win_save_post, text='Like: ')
             lbl_like_sp.grid(column=1, row=4, sticky='w', pady=(15, 0))
-            ent_like_sp = ttk.Entry(win_save_post, width=5)
+            ent_like_sp = ttk.Entry(win_save_post, width=5, validate="key", validatecommand=(reg, '%P'))
             ent_like_sp.grid(column=1, row=4, sticky='w', padx=(35, 0), pady=(15, 0))
             lbl_comment_sp = Label(win_save_post, text='Comment: ')
             lbl_comment_sp.grid(column=1, row=4, sticky='w', padx=(80, 0), pady=(15, 0))
-            ent_comment_sp = ttk.Entry(win_save_post, width=5)
+            ent_comment_sp = ttk.Entry(win_save_post, width=5, validate="key", validatecommand=(reg, '%P'))
             ent_comment_sp.grid(column=1, row=4, sticky='w', padx=(150, 0), pady=(15, 0))
             lbl_share_sp = Label(win_save_post, text='Share: ')
             lbl_share_sp.grid(column=1, row=4, sticky='w', padx=(195, 0), pady=(15, 0))
-            ent_share_sp = ttk.Entry(win_save_post, width=5)
+            ent_share_sp = ttk.Entry(win_save_post, width=5, validate="key", validatecommand=(reg, '%P'))
             ent_share_sp.grid(column=1, row=4, sticky='w', padx=(240, 0), pady=(15, 0))
             # --- ok/cancel button ---
             btn_ok_sp = ttk.Button(win_save_post, text='OK', cursor='hand2', command=save_post_ok)
