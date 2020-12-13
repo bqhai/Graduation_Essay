@@ -52,7 +52,7 @@ namespace API_NewsManagementSystem.Controllers
             return Json(_bllPost.AddNewPost(postDto));
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("UpdatePost")]
         public JsonResult<bool> UpdatePost(PostDTO postDto)
         {
