@@ -162,17 +162,25 @@ class MainWindow(Frame):
             tab_control_wl.add(frm_group_wl, text='  Group  ')
             tab_control_wl.add(frm_user_wl, text='  User  ')
 
-            txt_page_wl = Text(frm_page_wl, wrap=WORD, state=DISABLED)
+            txt_page_wl = Text(frm_page_wl, wrap=WORD)
             txt_page_wl.pack(fill=BOTH, expand=True)
-            txt_page_wl.tag_config('header', foreground='red', background='yellow')
-            # global black_list
-            # if len(black_list) <= 0:
-            #     black_list = get_all_black_list()
-            txt_page_wl.config(state=NORMAL)
-            txt_page_wl.insert(END, '{:<35} \t {:<12}'.format('Tên trang', 'URL') + '\n', 'header')
+            txt_page_wl.tag_config('pageheader', foreground='red', background='yellow')
+            txt_page_wl.insert(END, '{:<35} \t {:<12}'.format('Tên trang', 'URL') + '\n', 'pageheader')
+
+            txt_group_wl = Text(frm_group_wl, wrap=WORD)
+            txt_group_wl.pack(fill=BOTH, expand=True)
+            txt_group_wl.tag_config('groupheader', foreground='red', background='yellow')
+            txt_group_wl.insert(END, '{:<35} \t {:<12}'.format('Tên nhóm', 'URL') + '\n', 'groupheader')
+
             for i in watch_list:
-                txt_page_wl.insert(END, '{:<35} \t {:<12}'.format(i['FacebookName'], i['FacebookUrl']) + '\n')
-            txt_page_wl.config(state=DISABLED)
+                if i['FacebookTypeID'] == 'PAGE':
+                    txt_page_wl.config(state=NORMAL)
+                    txt_page_wl.insert(END, '{:<35} \t {:<12}'.format(i['FacebookName'], i['FacebookUrl']) + '\n')
+                    txt_page_wl.config(state=DISABLED)
+                elif i['FacebookTypeID'] == 'GR':
+                    txt_group_wl.config(state=NORMAL)
+                    txt_group_wl.insert(END, '{:<35} \t {:<12}'.format(i['FacebookName'], i['FacebookUrl']) + '\n')
+                    txt_group_wl.config(state=DISABLED)
 
         def open_log():
             subprocess.call(['notepad.exe', '../log/run_time.log'])
@@ -208,6 +216,7 @@ class MainWindow(Frame):
                 elif status == -4:
                     messagebox.showerror('Lỗi', 'Có lỗi xảy ra phía server')
                     return
+
             # ---create ui add to watch list ---
             win_add_watch_list = Toplevel(self)
             win_add_watch_list.title('Thêm đối tượng vào danh sach theo dõi')
@@ -426,7 +435,7 @@ class MainWindow(Frame):
                     'SentimentLabelID': 'NEG'
                 }
                 post_url_check = {
-                    'PostUrl': post_url     # to check post url exits in database or not
+                    'PostUrl': post_url  # to check post url exits in database or not
                 }
                 status = check_exist_post(post_url_check)
                 if status:
