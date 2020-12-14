@@ -292,7 +292,7 @@ class MainWindow(Frame):
                 if status == 0:
                     write_success_info('Tổng số bài viết thu thập: ' + str(count_crawled_post()))
                 elif status == -1:
-                    write_error_info('Link FB không tồn tại!')
+                    write_error_info('Link Facebook không tồn tại!')
                 elif status == -3:
                     write_warning_info('Chức năng này hiện đang trong giai đoạn phát triển!')
                 elif status == -4:
