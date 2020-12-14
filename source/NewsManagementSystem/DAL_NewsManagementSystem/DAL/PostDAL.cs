@@ -23,10 +23,14 @@ namespace DAL_NewsManagementSystem.DAL
         public void UpdatePost(Post post)
         {
             Post po = _db.Posts.SingleOrDefault(p => p.PostUrl == post.PostUrl);
+            po.UserUrl = post.UserUrl;
+            po.ProfileName = post.ProfileName;
             po.PostContent = post.PostContent;
             po.TotalLikes = post.TotalLikes;
             po.TotalComment = post.TotalComment;
             po.TotalShare = post.TotalShare;
+            po.NewsLabelID = post.NewsLabelID;
+            po.SentimentLabelID = post.SentimentLabelID;
             _db.SaveChanges();
         }
         public bool CheckExistPost(string postUrl)
