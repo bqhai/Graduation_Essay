@@ -95,10 +95,7 @@ def crawl_page(url, scroll_down):
             post_url = 'None'
         else:
             post_url = 'https://www.facebook.com/' + str(post['post_id'])
-        if str(post['user_id']) == 'None':
-            user_url = 'None'
-        else:
-            user_url = 'https://www.facebook.com/' + str(post['user_id'])
+        user_url = 'https://www.facebook.com/' + str(post['user_id'])
         time = str(post['time'])
         post_text = str(post['text'])
         total_react = post['likes']
