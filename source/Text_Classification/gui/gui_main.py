@@ -37,6 +37,16 @@ def check_valid_time(minute, hour):
     return True
 
 
+def check_valid_post_url(url):
+    if validators.url(url) and 'facebook.com' in url:
+        if 'posts' in url or 'groups' and 'permalink' in url:
+            return True
+        else:
+            return False
+    else:
+        return False
+
+
 def keypress_only_number(c):
     if c.isdigit():
         print(c)
@@ -396,6 +406,8 @@ class MainWindow(Frame):
                 post_url = ent_post_url_sp.get()
                 user_url = ent_user_url_sp.get()
                 profile_name = ent_profile_name_sp.get()
+                facebook_id = user_url.split('/')[-2]
+                facebook_type_id = ''
                 post_content = txt_input_tc.get('1.0', END)
                 minute = spn_minute_sp.get()
                 hour = spn_hour_sp.get()
@@ -406,7 +418,7 @@ class MainWindow(Frame):
                 if len(post_url) <= 0 or len(user_url) <= 0 or len(profile_name) <= 0:
                     messagebox.showwarning('Thông báo', 'Hãy nhập đầy đủ thông tin')
                     return
-                if validators.url(post_url) and 'facebook.com' in post_url:
+                if check_valid_post_url(post_url):
                     pass
                 else:
                     messagebox.showwarning('Thông báo', 'Link bài viết không hợp lệ!')
@@ -420,7 +432,6 @@ class MainWindow(Frame):
                     messagebox.showwarning('Thông báo', 'Thời gian không hợp lệ')
                     return
 
-                # facebook_id = user_url.split('/')[-2]
                 post = {
                     'PostUrl': post_url,
                     'UserUrl': user_url,
@@ -430,7 +441,8 @@ class MainWindow(Frame):
                     'TotalLikes': like,
                     'TotalComment': comment,
                     'TotalShare': share,
-                    # 'FacebookID': facebook_id,
+                    'FacebookID': facebook_id,
+                    'FacebookTypeID': 'PAGE',
                     'NewsLabelID': news_label_id,
                     'SentimentLabelID': 'NEG'
                 }
