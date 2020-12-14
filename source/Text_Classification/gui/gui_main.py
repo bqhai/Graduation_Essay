@@ -277,8 +277,7 @@ class MainWindow(Frame):
                 messagebox.showerror('Lỗi', 'Kiểm tra thông tin thất bại, server không phản hồi!')
                 return
             else:
-                msg_box = messagebox.askquestion('Thông báo',
-                                                 'Url này chưa có trong danh sách theo dõi. Chọn Yes để thêm!')
+                msg_box = messagebox.askquestion('Thông báo', 'Url này chưa có trong danh sách theo dõi. Chọn Yes để thêm!')
                 if msg_box == 'yes':
                     open_add_to_watch_list(facebook_id, url)
                     return
@@ -418,7 +417,7 @@ class MainWindow(Frame):
                     'UserUrl': user_url,
                     'ProfileName': profile_name,
                     'PostContent': post_content,
-                    'UploadTime': hour + ':' + minute + ' ' + str(cal_date_sp.get_date()),
+                    'UploadTime': str(cal_date_sp.get_date()) + ' ' + hour + ':' + minute + ':00',
                     'TotalLikes': like,
                     'TotalComment': comment,
                     'TotalShare': share,
