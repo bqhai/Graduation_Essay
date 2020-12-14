@@ -14,6 +14,7 @@ namespace BLL_NewsManagementSystem.BLL
     public class PostBLL
     {
         private PostDAL _dalPost = new PostDAL();
+        private WatchListDAL _dalWatchList = new WatchListDAL();
         private EntityMapper<Post, PostDTO> _mapToPostDto = new EntityMapper<Post, PostDTO>();
         private EntityMapper<PostDTO, Post> _mapToPost = new EntityMapper<PostDTO, Post>();
         public PostBLL()
@@ -30,7 +31,23 @@ namespace BLL_NewsManagementSystem.BLL
             {
                 Post post = _mapToPost.Translate(postDto);
                 post.PostID = AutoGenerate.PostID();
-                _dalPost.AddNewPost(post);
+                if (_dalWatchList.CheckExistInWatchList(postDto.FacebookID))
+                {              
+                    _dalPost.AddNewPost(post);
+                }
+                else
+                {
+                    WatchList watchList = new WatchList()
+                    {
+                        FacebookID = postDto.FacebookID,
+                        FacebookName = postDto.ProfileName,
+                        FacebookUrl = postDto.UserUrl,
+                        FacebookTypeID = postDto.FacebookTypeID
+                    };
+                    _dalWatchList.AddToWatchList(watchList);
+                    _dalPost.AddNewPost(post);
+                }
+               
                 return true;
             }
             catch (Exception)
