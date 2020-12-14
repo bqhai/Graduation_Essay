@@ -39,10 +39,10 @@ namespace API_NewsManagementSystem.Controllers
         }
 
         [HttpGet]
-        [Route("CheckExistPost/{postUrlId}")]
-        public JsonResult<bool> CheckExistPost(string postUrlId)
+        [Route("CheckExistPost")]
+        public JsonResult<bool> CheckExistPost(PostDTO postDto)
         {
-            return Json(_bllPost.CheckExistPost(postUrlId));
+            return Json(_bllPost.CheckExistPost(postDto.PostUrl));
         }
 
         [HttpPost]

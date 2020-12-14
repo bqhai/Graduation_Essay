@@ -426,12 +426,10 @@ class MainWindow(Frame):
                     'NewsLabelID': news_label_id,
                     'SentimentLabelID': 'NEG'
                 }
-
-                if (post_url.split('/')[-1]).isdigit():     # split url to take id
-                    post_url_id = post_url.split('/')[-1]
-                else:
-                    post_url_id = post_url.split('/')[-2]
-                status = check_exist_post(post_url_id)
+                post_url_check = {
+                    'PostUrl': post_url     # to check post url exits in database or not
+                }
+                status = check_exist_post(post_url_check)
                 if status:
                     msg_box = messagebox.askquestion('Thông báo', 'Bài viết này đã được lưu trước đó, bạn muốn cập nhật chứ?')
                     if msg_box == 'yes':

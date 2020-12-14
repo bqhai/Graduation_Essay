@@ -24,11 +24,11 @@ def add_list_json_post(data):
         return -2
 
 
-def check_exist_post(post_url_id):
+def check_exist_post(data):
     try:
-        url = BASE_LOCAL_URL + 'api/Home/CheckExistPost/' + post_url_id + '/'
+        url = BASE_LOCAL_URL + 'api/Home/CheckExistPost/'
         logging.info('Call to api ' + url)
-        response = requests.get(url,  verify=False)
+        response = requests.get(url, json=data,  verify=False)
         print('Status code: ', response.status_code)
         logging.info('Status code: ' + str(response.status_code))
         logging.info('Call api successfully')
