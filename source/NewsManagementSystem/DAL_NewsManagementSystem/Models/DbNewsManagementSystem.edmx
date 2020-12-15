@@ -27,7 +27,6 @@
           <Property Name="PostID" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="PostUrl" Type="nvarchar" MaxLength="500" />
           <Property Name="UserUrl" Type="nvarchar" MaxLength="500" />
-          <Property Name="ProfileName" Type="nvarchar" MaxLength="200" />
           <Property Name="PostContent" Type="nvarchar(max)" />
           <Property Name="UploadTime" Type="nvarchar" MaxLength="200" />
           <Property Name="TotalLikes" Type="int" />
@@ -184,7 +183,6 @@
           <Property Name="PostID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="PostUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="UserUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="ProfileName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="PostContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="UploadTime" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="TotalLikes" Type="Int32" />
@@ -305,7 +303,6 @@
                 <ScalarProperty Name="TotalLikes" ColumnName="TotalLikes" />
                 <ScalarProperty Name="UploadTime" ColumnName="UploadTime" />
                 <ScalarProperty Name="PostContent" ColumnName="PostContent" />
-                <ScalarProperty Name="ProfileName" ColumnName="ProfileName" />
                 <ScalarProperty Name="UserUrl" ColumnName="UserUrl" />
                 <ScalarProperty Name="PostUrl" ColumnName="PostUrl" />
                 <ScalarProperty Name="PostID" ColumnName="PostID" />
