@@ -11,14 +11,12 @@ namespace Models_NewsManagementSystem.MappingClass
         public string PostID { get; set; }
         public string PostUrl { get; set; }
         public string UserUrl { get; set; }
-        public string ProfileName { get; set; }
         public string PostContent { get; set; }
         public string UploadTime { get; set; }
         public Nullable<int> TotalLikes { get; set; }
         public Nullable<int> TotalComment { get; set; }
         public Nullable<int> TotalShare { get; set; }
         public string FacebookID { get; set; }
-        public string FacebookTypeID { get; set; }
         public string NewsLabelID { get; set; }
         public string SentimentLabelID { get; set; }
 
