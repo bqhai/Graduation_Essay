@@ -31,23 +31,7 @@ namespace BLL_NewsManagementSystem.BLL
             {
                 Post post = _mapToPost.Translate(postDto);
                 post.PostID = AutoGenerate.PostID();
-                if (_dalWatchList.CheckExistInWatchList(postDto.FacebookID))
-                {              
-                    _dalPost.AddNewPost(post);
-                }
-                else
-                {
-                    WatchList watchList = new WatchList()
-                    {
-                        FacebookID = postDto.FacebookID,
-                        FacebookName = postDto.ProfileName,
-                        FacebookUrl = postDto.UserUrl,
-                        FacebookTypeID = postDto.FacebookTypeID
-                    };
-                    _dalWatchList.AddToWatchList(watchList);
-                    _dalPost.AddNewPost(post);
-                }
-               
+                _dalPost.AddNewPost(post);
                 return true;
             }
             catch (Exception)
