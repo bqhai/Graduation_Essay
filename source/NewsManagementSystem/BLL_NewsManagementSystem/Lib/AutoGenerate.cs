@@ -11,7 +11,7 @@ namespace BLL_NewsManagementSystem.Lib
     {
         public static string PostID()
         {
-            Thread.Sleep(1);
+            Thread.Sleep(5);
             return DateTime.Now.ToString("ddMMyyyyHHmmssfffff");
         }
     }
