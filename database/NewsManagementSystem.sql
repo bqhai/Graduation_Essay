@@ -47,7 +47,6 @@ CREATE TABLE Post
 	PostID NVARCHAR(100) PRIMARY KEY,
 	PostUrl NVARCHAR(500),
 	UserUrl NVARCHAR(500),
-	ProfileName NVARCHAR(200),
 	PostContent NVARCHAR(MAX),
 	UploadTime NVARCHAR(200),
 	TotalLikes INT,
