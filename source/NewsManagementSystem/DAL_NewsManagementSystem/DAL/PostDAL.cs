@@ -24,7 +24,6 @@ namespace DAL_NewsManagementSystem.DAL
         {
             Post po = _db.Posts.SingleOrDefault(p => p.PostUrl == post.PostUrl);
             po.UserUrl = post.UserUrl;
-            po.ProfileName = post.ProfileName;
             po.PostContent = post.PostContent;
             po.TotalLikes = post.TotalLikes;
             po.TotalComment = post.TotalComment;
