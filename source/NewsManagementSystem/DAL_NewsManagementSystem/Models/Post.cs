@@ -17,7 +17,6 @@ namespace DAL_NewsManagementSystem.Models
         public string PostID { get; set; }
         public string PostUrl { get; set; }
         public string UserUrl { get; set; }
-        public string ProfileName { get; set; }
         public string PostContent { get; set; }
         public string UploadTime { get; set; }
         public Nullable<int> TotalLikes { get; set; }
