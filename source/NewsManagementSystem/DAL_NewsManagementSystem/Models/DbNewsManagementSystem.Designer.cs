@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'D:\Github\Graduation_Essay\source\NewsManagementSystem\DAL_NewsManagementSystem\Models\DbNewsManagementSystem.edmx'. 
+﻿// T4 code generation is enabled for model 'D:\ThucHanh\GitHub\Graduation_Essay\source\NewsManagementSystem\DAL_NewsManagementSystem\Models\DbNewsManagementSystem.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.
