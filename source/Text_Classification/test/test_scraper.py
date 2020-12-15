@@ -31,6 +31,6 @@ from bll import load_page
 # for post in get_posts('viettan', pages=2, extra_info=True):
 #     print(post)
 
-for post in get_posts('viettan', pages=5, extra_info=True):
-    print(post['user_id'])
+for post in get_posts('nhatkyyeunuoc1', pages=10, extra_info=True):
+    print(post)
 

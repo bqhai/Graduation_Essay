@@ -39,7 +39,9 @@ def check_valid_time(minute, hour):
 
 def check_valid_post_url(url):
     if validators.url(url) and 'facebook.com' in url:
-        if 'posts' in url or 'groups' and 'permalink' in url:
+        if 'posts' in url:
+            return True
+        elif 'groups' in url and 'permalink' in url:
             return True
         else:
             return False
@@ -221,7 +223,7 @@ class MainWindow(Frame):
                 status = add_to_watch_list(watch_list_item)
                 if status == 0:
                     win_add_watch_list.destroy()
-                    messagebox.showinfo('Thông báo', 'Đã thêm')
+                    write_success_info('Đã thêm ' + facebook_name + ' vào danh sách theo dõi')
                 elif status == -2:
                     messagebox.showerror('Lỗi', 'Kết nối server thất bại')
                     return
@@ -231,7 +233,7 @@ class MainWindow(Frame):
 
             # ---create ui add to watch list ---
             win_add_watch_list = Toplevel(self)
-            win_add_watch_list.title('Thêm đối tượng vào danh sach theo dõi')
+            win_add_watch_list.title('Thêm đối tượng vào danh sách theo dõi')
             center_window(win_add_watch_list, 480, 200)
             win_add_watch_list.resizable(False, False)
             win_add_watch_list.grab_set()
@@ -290,7 +292,10 @@ class MainWindow(Frame):
             selection = int(select_type.get())
 
             # check exit facebook id in watchlist
-            facebook_id = url.split('/')[-2]
+            if url.split('/')[-1] == '':
+                facebook_id = url.split('/')[-2]
+            else:
+                facebook_id = url.split('/')[-1]
             status = check_exist_in_watch_list(facebook_id)
             if status:
                 pass
@@ -312,7 +317,7 @@ class MainWindow(Frame):
                 if status == 0:
                     write_success_info('Tổng số bài viết thu thập: ' + str(count_crawled_post()))
                 elif status == -1:
-                    write_error_info('Link Facebook không tồn tại!')
+                    write_error_info('Link Facebook không hợp lệ!')
                 elif status == -3:
                     write_warning_info('Chức năng này hiện đang trong giai đoạn phát triển!')
                 elif status == -4:
@@ -407,7 +412,6 @@ class MainWindow(Frame):
             def save_post_ok():
                 post_url = ent_post_url_sp.get()
                 user_url = ent_user_url_sp.get()
-                facebook_id = user_url.split('/')[3]
                 post_content = txt_input_tc.get('1.0', END)
                 minute = spn_minute_sp.get()
                 hour = spn_hour_sp.get()
@@ -415,15 +419,18 @@ class MainWindow(Frame):
                 comment = ent_comment_sp.get()
                 share = ent_share_sp.get()
                 news_label_id = convert_label_to_labelID(predict(text_preprocess(post_content)))
-                if len(post_url) <= 0 or len(user_url) <= 0:
+                # --- check url is null
+                if not post_url or not user_url:
                     messagebox.showwarning('Thông báo', 'Hãy nhập đầy đủ thông tin')
                     return
+                # check valid post url
                 if check_valid_post_url(post_url):
                     pass
                 else:
                     messagebox.showwarning('Thông báo', 'Link bài viết không hợp lệ!')
                     return
-                if validators.url(user_url) and 'facebook.com' in user_url:
+
+                if validators.url(user_url) and 'facebook.com' in user_url and 'groups' not in user_url:
                     pass
                 else:
                     messagebox.showwarning('Thông báo', 'Link người đăng không hợp lệ!')
@@ -431,21 +438,7 @@ class MainWindow(Frame):
                 if not check_valid_time(minute, hour):
                     messagebox.showwarning('Thông báo', 'Thời gian không hợp lệ')
                     return
-                # --- check user exits in watch list ---
-                status = check_exist_in_watch_list(facebook_id)
-                if status:
-                    pass
-                elif status == -2:
-                    messagebox.showerror('Lỗi', 'Kiểm tra thông tin thất bại, server không phản hồi!')
-                    return
-                else:
-                    msg_box = messagebox.askquestion('Thông báo', 'Url này chưa có trong danh sách theo dõi. Chọn Yes để thêm!')
-                    if msg_box == 'yes':
-                        open_add_to_watch_list(facebook_id, user_url)
-                        return
-                    else:
-                        return
-
+                facebook_id = user_url.split('/')[3]
                 post = {
                     'PostUrl': post_url,
                     'UserUrl': user_url,
@@ -475,11 +468,26 @@ class MainWindow(Frame):
                     messagebox.showerror('Lỗi', 'Kiểm tra thông tin thất bại, server không phản hồi!')
                     return
                 else:
+                    # --- check user exits in watch list ---
+                    status = check_exist_in_watch_list(facebook_id)
+                    if status:
+                        pass
+                    elif status == -2:
+                        messagebox.showerror('Lỗi', 'Kiểm tra thông tin thất bại, server không phản hồi!')
+                        return
+                    else:
+                        msg_box = messagebox.askquestion('Thông báo', 'Url này chưa có trong danh sách theo dõi. Chọn Yes để thêm!')
+                        if msg_box == 'yes':
+                            open_add_to_watch_list(facebook_id, user_url)
+                            return
+                        else:
+                            return
+
                     if add_json_post(post) == 0:
-                        messagebox.showinfo('Thông báo', 'Đã thêm!')
+                        messagebox.showinfo('Thông báo', 'Đã thêm bài viết!')
                         win_save_post.destroy()
                     else:
-                        messagebox.showerror('Thông báo', 'Thêm thất bại')
+                        messagebox.showerror('Thông báo', 'Thêm bài viết thất bại')
                         return
 
             if len(txt_input_tc.get('1.0', 'end-1c')) == 0:
