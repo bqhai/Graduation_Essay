@@ -384,6 +384,12 @@ class MainWindow(Frame):
             txt_output_wt.insert('1.0', text_preprocess(txt_input_wt.get('1.0', END)))
             txt_output_wt.config(state=DISABLED)
 
+        def clear_text_wt():
+            txt_input_wt.delete('1.0', END)
+            txt_output_wt.config(state=NORMAL)
+            txt_output_wt.delete('1.0', END)
+            txt_output_wt.config(state=DISABLED)
+
         frm_input_wt = ttk.Frame(frm_word_tokenizer)
         frm_input_wt.grid(column=0, row=0)
         lbl_input_wt = Label(frm_input_wt, text='Dữ liệu đầu vào')
@@ -401,7 +407,7 @@ class MainWindow(Frame):
 
         btn_wt = ttk.Button(frm_bottom_wt, text='Tách từ', cursor='hand2', command=get_preprocessor_text)
         btn_wt.pack(side=RIGHT, padx=5, pady=5)
-        btn_clear_wt = ttk.Button(frm_bottom_wt, text='Xóa text', cursor='hand2')
+        btn_clear_wt = ttk.Button(frm_bottom_wt, text='Xóa text', cursor='hand2', command=clear_text_wt)
         btn_clear_wt.pack(side=RIGHT, padx=5, pady=5)
 
         # Text Classification area
@@ -558,7 +564,7 @@ class MainWindow(Frame):
                 lbl_result_tc['text'] = convert_label_to_text(predict(txt_input_tc.get('1.0', END)))
                 messagebox.showinfo('Thông báo', 'Xong!')
 
-        def clear_text():
+        def clear_text_tc():
             txt_input_tc.delete('1.0', END)
             lbl_result_tc['text'] = ''
 
@@ -579,7 +585,7 @@ class MainWindow(Frame):
         btn_save_post_tc.pack(side=RIGHT, padx=5, pady=5)
         btn_classification_tc = ttk.Button(frm_output_tc, text='Phân loại', cursor='hand2', command=get_label)
         btn_classification_tc.pack(side=RIGHT, padx=5, pady=5)
-        btn_clear_tc = ttk.Button(frm_output_tc, text='Xóa text', cursor='hand2', command=clear_text)
+        btn_clear_tc = ttk.Button(frm_output_tc, text='Xóa text', cursor='hand2', command=clear_text_tc)
         btn_clear_tc.pack(side=RIGHT, padx=5, pady=5)
 
 
