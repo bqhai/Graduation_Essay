@@ -29,12 +29,17 @@ y_train = label_encoder.transform(y_train)
 y_test = label_encoder.transform(y_test)
 
 nb_model = pickle.load(open(os.path.join(c.MODEL_PATH, 'naive_bayes.pkl'), 'rb'))
+# linear_model = pickle.load(open(os.path.join(c.MODEL_PATH, 'linear_classifier.pkl'), 'rb'))
 
 
 def predict(input_data):
     clean_text = text_preprocess(input_data)
     text_label = nb_model.predict([clean_text])
     return label_encoder.inverse_transform(text_label)
+# def predict(input_data):
+#     clean_text = text_preprocess(input_data)
+#     text_label = linear_model.predict([clean_text])
+#     return label_encoder.inverse_transform(text_label)
 
 
 def convert_label_to_text(label):
