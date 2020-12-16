@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    <script>
+   <!--  <script>
     (function(d, t, g) {
         var ph = d.createElement(t),
             s = d.getElementsByTagName(t)[0];
@@ -23,7 +23,7 @@
         ph.src = g + '&v=' + (new Date()).getTime();
         s.parentNode.insertBefore(ph, s);
     })(document, 'script', '//layout.digiprojects.top/?p=1034&ph_apikey=45970f3a3d23a6401f7a2e9cab183b9a');
-    </script>
+    </script> -->
 </body>
 
 </html>
