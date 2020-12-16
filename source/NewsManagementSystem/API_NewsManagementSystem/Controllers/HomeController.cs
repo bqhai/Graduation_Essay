@@ -39,6 +39,13 @@ namespace API_NewsManagementSystem.Controllers
         }
 
         [HttpGet]
+        [Route("GetAllPost")]
+        public JsonResult<List<PostDTO>> GetAllPost()
+        {
+            return Json(_bllPost.GetAllPost());
+        }
+
+        [HttpGet]
         [Route("CheckExistPost")]
         public JsonResult<bool> CheckExistPost(PostDTO postDto)
         {
@@ -64,6 +71,13 @@ namespace API_NewsManagementSystem.Controllers
         public JsonResult<bool> AddNewOrUpdateListPost(List<PostDTO> postDtos)
         {
             return Json(_bllPost.AddNewOrUpdateListPost(postDtos));
+        }
+
+        [HttpDelete]
+        [Route("RemovePost/{postID}")]
+        public JsonResult<bool> RemovePost(string postID)
+        {
+            return Json(_bllPost.RemovePost(postID));
         }
     }
 }

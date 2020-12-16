@@ -1,4 +1,5 @@
-﻿using DAL_NewsManagementSystem.Models;
+﻿using DAL_NewsManagementSystem.JoinningTable;
+using DAL_NewsManagementSystem.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -14,6 +15,32 @@ namespace DAL_NewsManagementSystem.DAL
         public PostDAL()
         {
 
+        }
+        public IEnumerable<JPost> GetAllPost()
+        {
+            var query = from po in _db.Posts
+                        join wl in _db.WatchLists on po.FacebookID equals wl.FacebookID
+                        join nlb in _db.NewsLabels on po.NewsLabelID equals nlb.NewsLabelID
+                        join slb in _db.SentimentLabels on po.SentimentLabelID equals slb.SentimentLabelID
+                        select new JPost
+                        {
+                            PostID = po.PostID,
+                            PostUrl = po.PostUrl,
+                            UserUrl = po.UserUrl,
+                            PostContent = po.PostContent,
+                            Image = po.Image,
+                            UploadTime = po.UploadTime,
+                            TotalLikes = po.TotalLikes,
+                            TotalComment = po.TotalComment,
+                            TotalShare = po.TotalShare,
+                            FacebookID = po.FacebookID,
+                            FacebookName = wl.FacebookName,
+                            NewsLabelID = po.NewsLabelID,
+                            NewsLabelName = nlb.NewsLabelName,
+                            SentimentLabelID = po.SentimentLabelID,
+                            SentimentLabelName = slb.SentimentLabelName
+                        };
+            return query;
         }
         public void AddNewPost(Post post)
         {
@@ -41,6 +68,12 @@ namespace DAL_NewsManagementSystem.DAL
                 return true;
             }
             return false;
+        }
+        public void RemovePost(string postID)
+        {
+            Post post = _db.Posts.SingleOrDefault(p => p.PostID == postID);
+            _db.Posts.Remove(post);
+            _db.SaveChanges();
         }
     }
 }

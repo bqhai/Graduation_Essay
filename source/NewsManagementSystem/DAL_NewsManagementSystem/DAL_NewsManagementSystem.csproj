@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="DAL\WatchListDAL.cs" />
     <Compile Include="DAL\PostDAL.cs" />
+    <Compile Include="JoinningTable\JPost.cs" />
     <Compile Include="JoinningTable\JWatchList.cs" />
     <Compile Include="Models\DbNewsManagementSystem.Context.cs">
       <AutoGen>True</AutoGen>

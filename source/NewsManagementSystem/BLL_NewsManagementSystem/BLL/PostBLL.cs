@@ -8,17 +8,28 @@ using DAL_NewsManagementSystem.DAL;
 using Models_NewsManagementSystem.MappingClass;
 using Models_NewsManagementSystem.Repository;
 using BLL_NewsManagementSystem.Lib;
+using DAL_NewsManagementSystem.JoinningTable;
 
 namespace BLL_NewsManagementSystem.BLL
 {
     public class PostBLL
     {
         private PostDAL _dalPost = new PostDAL();
-        private EntityMapper<Post, PostDTO> _mapToPostDto = new EntityMapper<Post, PostDTO>();
+        private EntityMapper<JPost, PostDTO> _mapToPostDto = new EntityMapper<JPost, PostDTO>();
         private EntityMapper<PostDTO, Post> _mapToPost = new EntityMapper<PostDTO, Post>();
         public PostBLL()
         {
 
+        }
+        public List<PostDTO> GetAllPost()
+        {
+            IEnumerable<JPost> posts = _dalPost.GetAllPost();
+            List<PostDTO> postDTOs = new List<PostDTO>();
+            foreach (var item in posts)
+            {
+                postDTOs.Add(_mapToPostDto.Translate(item));
+            }
+            return postDTOs;
         }
         public bool CheckExistPost(string postUrl)
         {
@@ -37,7 +48,6 @@ namespace BLL_NewsManagementSystem.BLL
             {
                 return false;
             }
-            
         }
         public bool UpdatePost(PostDTO postDto)
         {
@@ -79,6 +89,17 @@ namespace BLL_NewsManagementSystem.BLL
                 return false;
             }
         }
-
+        public bool RemovePost(string postID)
+        {
+            try
+            {
+                _dalPost.RemovePost(postID);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }

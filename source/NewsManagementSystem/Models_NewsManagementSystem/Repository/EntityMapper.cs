@@ -20,6 +20,9 @@ namespace Models_NewsManagementSystem.Repository
             Mapper.CreateMap<WatchList, WatchListDTO>();
             Mapper.CreateMap<WatchListDTO, WatchList>();
 
+            Mapper.CreateMap<JPost, PostDTO>();
+            Mapper.CreateMap<PostDTO, JPost>();
+
             Mapper.CreateMap<Post, PostDTO>();
             Mapper.CreateMap<PostDTO, Post>();
         }

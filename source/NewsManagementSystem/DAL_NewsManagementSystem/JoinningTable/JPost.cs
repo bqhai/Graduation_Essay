@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Models_NewsManagementSystem.MappingClass
+namespace DAL_NewsManagementSystem.JoinningTable
 {
-    public class PostDTO
+    public class JPost
     {
         public string PostID { get; set; }
         public string PostUrl { get; set; }
@@ -23,6 +23,5 @@ namespace Models_NewsManagementSystem.MappingClass
         public string FacebookName { get; set; }
         public string NewsLabelName { get; set; }
         public string SentimentLabelName { get; set; }
-
     }
 }
