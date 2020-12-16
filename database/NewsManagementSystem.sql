@@ -48,6 +48,7 @@ CREATE TABLE Post
 	PostUrl NVARCHAR(500),
 	UserUrl NVARCHAR(500),
 	PostContent NVARCHAR(MAX),
+	Image NVARCHAR(MAX),
 	UploadTime NVARCHAR(200),
 	TotalLikes INT,
 	TotalComment INT,
