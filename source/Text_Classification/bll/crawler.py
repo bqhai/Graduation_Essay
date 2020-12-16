@@ -98,6 +98,7 @@ def crawl_page(url, scroll_down):
         user_url = 'https://www.facebook.com/' + str(post['user_id'])
         time = str(post['time'])
         post_text = str(post['text'])
+        image = str(post['image'])
         total_react = post['likes']
         total_shares = post['shares']
         total_cmts = post['comments']
@@ -107,6 +108,7 @@ def crawl_page(url, scroll_down):
             'UserUrl': user_url,
             'UploadTime': time,
             'PostContent': post_text,
+            'Image': image,
             'TotalLikes': total_react,
             'TotalComment': total_cmts,
             'TotalShare': total_shares,
@@ -137,6 +139,7 @@ def crawl_group(url, scroll_down):
         time = str(post['time'])
         user_url = 'https://www.facebook.com/' + str(post['user_id'])
         post_text = str(post['text'])
+        image = str(post['image'])
         total_react = post['likes']
         total_shares = post['shares']
         total_cmts = post['comments']
@@ -146,6 +149,7 @@ def crawl_group(url, scroll_down):
             'UserUrl': user_url,
             'UploadTime': time,
             'PostContent': post_text,
+            'Image': image,
             'TotalLikes': total_react,
             'TotalComment': total_cmts,
             'TotalShare': total_shares,
