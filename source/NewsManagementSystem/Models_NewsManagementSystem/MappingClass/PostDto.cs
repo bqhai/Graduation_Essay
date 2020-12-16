@@ -12,6 +12,7 @@ namespace Models_NewsManagementSystem.MappingClass
         public string PostUrl { get; set; }
         public string UserUrl { get; set; }
         public string PostContent { get; set; }
+        public string Image { get; set; }
         public string UploadTime { get; set; }
         public Nullable<int> TotalLikes { get; set; }
         public Nullable<int> TotalComment { get; set; }

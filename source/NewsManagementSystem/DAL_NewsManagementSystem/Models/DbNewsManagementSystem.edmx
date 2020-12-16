@@ -28,6 +28,7 @@
           <Property Name="PostUrl" Type="nvarchar" MaxLength="500" />
           <Property Name="UserUrl" Type="nvarchar" MaxLength="500" />
           <Property Name="PostContent" Type="nvarchar(max)" />
+          <Property Name="Image" Type="nvarchar" MaxLength="500" />
           <Property Name="UploadTime" Type="nvarchar" MaxLength="200" />
           <Property Name="TotalLikes" Type="int" />
           <Property Name="TotalComment" Type="int" />
@@ -194,6 +195,7 @@
           <NavigationProperty Name="NewsLabel" Relationship="NewsManagementSystemModel.FK__Post__NewsLabelI__1CF15040" FromRole="Post" ToRole="NewsLabel" />
           <NavigationProperty Name="WatchList" Relationship="NewsManagementSystemModel.FK__Post__FacebookID__1BFD2C07" FromRole="Post" ToRole="WatchList" />
           <NavigationProperty Name="SentimentLabel" Relationship="NewsManagementSystemModel.FK__Post__SentimentL__1DE57479" FromRole="Post" ToRole="SentimentLabel" />
+          <Property Name="Image" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="SentimentLabel">
           <Key>
@@ -295,6 +297,7 @@
           <EntitySetMapping Name="Posts">
             <EntityTypeMapping TypeName="NewsManagementSystemModel.Post">
               <MappingFragment StoreEntitySet="Post">
+                <ScalarProperty Name="Image" ColumnName="Image" />
                 <ScalarProperty Name="SentimentLabelID" ColumnName="SentimentLabelID" />
                 <ScalarProperty Name="NewsLabelID" ColumnName="NewsLabelID" />
                 <ScalarProperty Name="FacebookID" ColumnName="FacebookID" />
