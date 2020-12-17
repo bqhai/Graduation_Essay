@@ -14,5 +14,7 @@ namespace DAL_NewsManagementSystem.JoinningTable
         public string FacebookTypeID { get; set; }
         public string FacebookTypeName { get; set; }
         public string Description { get; set; }
+        public bool Status { get; set; }
+        public bool InBlackList { get; set; }
     }
 }
