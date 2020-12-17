@@ -21,7 +21,9 @@ namespace DAL_NewsManagementSystem.DAL
                             FacebookName = wl.FacebookName,
                             FacebookUrl = wl.FacebookUrl,
                             FacebookTypeID = wl.FacebookTypeID,
-                            FacebookTypeName = fbt.FacebookTypeName
+                            FacebookTypeName = fbt.FacebookTypeName,
+                            Status = wl.Status,
+                            InBlackList = wl.InBlackList
                         };
             return query;
         }
