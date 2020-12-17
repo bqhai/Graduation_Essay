@@ -41,5 +41,13 @@ namespace DAL_NewsManagementSystem.DAL
             _db.WatchLists.Add(watchList);
             _db.SaveChanges();
         }
+        public void UpdateToWatchList(WatchList watchList)
+        {
+            WatchList wl = _db.WatchLists.SingleOrDefault(w => w.FacebookID == watchList.FacebookID);
+            wl.FacebookName = watchList.FacebookName;
+            wl.Status = watchList.Status;
+            wl.InBlackList = watchList.InBlackList;
+            _db.SaveChanges();
+        }
     }
 }
