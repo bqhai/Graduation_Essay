@@ -38,6 +38,13 @@ namespace API_NewsManagementSystem.Controllers
             return Json(_bllWatchList.AddToWatchList(watchListDto));
         }
 
+        [HttpPut]
+        [Route("UpdateToWatchList")]
+        public JsonResult<bool> UpdateToWatchList(WatchListDTO watchListDto)
+        {
+            return Json(_bllWatchList.UpdateToWatchList(watchListDto));
+        }
+
         [HttpGet]
         [Route("GetAllPost")]
         public JsonResult<List<PostDTO>> GetAllPost()
