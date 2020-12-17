@@ -28,7 +28,7 @@
           <Property Name="PostUrl" Type="nvarchar" MaxLength="500" />
           <Property Name="UserUrl" Type="nvarchar" MaxLength="500" />
           <Property Name="PostContent" Type="nvarchar(max)" />
-          <Property Name="Image" Type="nvarchar" MaxLength="500" />
+          <Property Name="Image" Type="nvarchar(max)" />
           <Property Name="UploadTime" Type="nvarchar" MaxLength="200" />
           <Property Name="TotalLikes" Type="int" />
           <Property Name="TotalComment" Type="int" />
@@ -59,6 +59,8 @@
           <Property Name="FacebookName" Type="nvarchar" MaxLength="500" />
           <Property Name="FacebookUrl" Type="nvarchar" MaxLength="500" />
           <Property Name="FacebookTypeID" Type="nvarchar" MaxLength="100" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="InBlackList" Type="bit" Nullable="false" />
         </EntityType>
         <Association Name="FK__Post__FacebookID__1BFD2C07">
           <End Role="WatchList" Type="Self.WatchList" Multiplicity="0..1" />
@@ -96,7 +98,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__WatchList__Faceb__15502E78">
+        <Association Name="FK__WatchList__InBla__15502E78">
           <End Role="FacebookType" Type="Self.FacebookType" Multiplicity="0..1" />
           <End Role="WatchList" Type="Self.WatchList" Multiplicity="*" />
           <ReferentialConstraint>
@@ -127,7 +129,7 @@
             <End Role="SentimentLabel" EntitySet="SentimentLabel" />
             <End Role="Post" EntitySet="Post" />
           </AssociationSet>
-          <AssociationSet Name="FK__WatchList__Faceb__15502E78" Association="Self.FK__WatchList__Faceb__15502E78">
+          <AssociationSet Name="FK__WatchList__InBla__15502E78" Association="Self.FK__WatchList__InBla__15502E78">
             <End Role="FacebookType" EntitySet="FacebookType" />
             <End Role="WatchList" EntitySet="WatchList" />
           </AssociationSet>
@@ -143,7 +145,7 @@
           <EntitySet Name="SentimentLabels" EntityType="NewsManagementSystemModel.SentimentLabel" />
           <EntitySet Name="SystemAccounts" EntityType="NewsManagementSystemModel.SystemAccount" />
           <EntitySet Name="WatchLists" EntityType="NewsManagementSystemModel.WatchList" />
-          <AssociationSet Name="FK__WatchList__Faceb__15502E78" Association="NewsManagementSystemModel.FK__WatchList__Faceb__15502E78">
+          <AssociationSet Name="FK__WatchList__InBla__15502E78" Association="NewsManagementSystemModel.FK__WatchList__InBla__15502E78">
             <End Role="FacebookType" EntitySet="FacebookTypes" />
             <End Role="WatchList" EntitySet="WatchLists" />
           </AssociationSet>
@@ -167,7 +169,7 @@
           <Property Name="FacebookTypeID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="FacebookTypeName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="WatchLists" Relationship="NewsManagementSystemModel.FK__WatchList__Faceb__15502E78" FromRole="FacebookType" ToRole="WatchList" />
+          <NavigationProperty Name="WatchLists" Relationship="NewsManagementSystemModel.FK__WatchList__InBla__15502E78" FromRole="FacebookType" ToRole="WatchList" />
         </EntityType>
         <EntityType Name="NewsLabel">
           <Key>
@@ -185,6 +187,7 @@
           <Property Name="PostUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="UserUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="PostContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="UploadTime" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="TotalLikes" Type="Int32" />
           <Property Name="TotalComment" Type="Int32" />
@@ -195,7 +198,6 @@
           <NavigationProperty Name="NewsLabel" Relationship="NewsManagementSystemModel.FK__Post__NewsLabelI__1CF15040" FromRole="Post" ToRole="NewsLabel" />
           <NavigationProperty Name="WatchList" Relationship="NewsManagementSystemModel.FK__Post__FacebookID__1BFD2C07" FromRole="Post" ToRole="WatchList" />
           <NavigationProperty Name="SentimentLabel" Relationship="NewsManagementSystemModel.FK__Post__SentimentL__1DE57479" FromRole="Post" ToRole="SentimentLabel" />
-          <Property Name="Image" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="SentimentLabel">
           <Key>
@@ -220,10 +222,12 @@
           <Property Name="FacebookName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="FacebookUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="FacebookTypeID" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="FacebookType" Relationship="NewsManagementSystemModel.FK__WatchList__Faceb__15502E78" FromRole="WatchList" ToRole="FacebookType" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="InBlackList" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="FacebookType" Relationship="NewsManagementSystemModel.FK__WatchList__InBla__15502E78" FromRole="WatchList" ToRole="FacebookType" />
           <NavigationProperty Name="Posts" Relationship="NewsManagementSystemModel.FK__Post__FacebookID__1BFD2C07" FromRole="WatchList" ToRole="Post" />
         </EntityType>
-        <Association Name="FK__WatchList__Faceb__15502E78">
+        <Association Name="FK__WatchList__InBla__15502E78">
           <End Type="NewsManagementSystemModel.FacebookType" Role="FacebookType" Multiplicity="0..1" />
           <End Type="NewsManagementSystemModel.WatchList" Role="WatchList" Multiplicity="*" />
           <ReferentialConstraint>
@@ -297,7 +301,6 @@
           <EntitySetMapping Name="Posts">
             <EntityTypeMapping TypeName="NewsManagementSystemModel.Post">
               <MappingFragment StoreEntitySet="Post">
-                <ScalarProperty Name="Image" ColumnName="Image" />
                 <ScalarProperty Name="SentimentLabelID" ColumnName="SentimentLabelID" />
                 <ScalarProperty Name="NewsLabelID" ColumnName="NewsLabelID" />
                 <ScalarProperty Name="FacebookID" ColumnName="FacebookID" />
@@ -305,6 +308,7 @@
                 <ScalarProperty Name="TotalComment" ColumnName="TotalComment" />
                 <ScalarProperty Name="TotalLikes" ColumnName="TotalLikes" />
                 <ScalarProperty Name="UploadTime" ColumnName="UploadTime" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
                 <ScalarProperty Name="PostContent" ColumnName="PostContent" />
                 <ScalarProperty Name="UserUrl" ColumnName="UserUrl" />
                 <ScalarProperty Name="PostUrl" ColumnName="PostUrl" />
@@ -331,6 +335,8 @@
           <EntitySetMapping Name="WatchLists">
             <EntityTypeMapping TypeName="NewsManagementSystemModel.WatchList">
               <MappingFragment StoreEntitySet="WatchList">
+                <ScalarProperty Name="InBlackList" ColumnName="InBlackList" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="FacebookTypeID" ColumnName="FacebookTypeID" />
                 <ScalarProperty Name="FacebookUrl" ColumnName="FacebookUrl" />
                 <ScalarProperty Name="FacebookName" ColumnName="FacebookName" />
