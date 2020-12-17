@@ -38,7 +38,22 @@ namespace BLL_NewsManagementSystem.BLL
             try
             {
                 WatchList watchList = _mapToWatchList.Translate(watchListDto);
+                watchList.Status = true;
+                watchList.InBlackList = false;
                 _dalWatchList.AddToWatchList(watchList);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public bool UpdateToWatchList(WatchListDTO watchListDto)
+        {
+            try
+            {
+                WatchList watchList = _mapToWatchList.Translate(watchListDto);
+                _dalWatchList.UpdateToWatchList(watchList);
                 return true;
             }
             catch (Exception)
