@@ -3,6 +3,11 @@
 	+ Param: None
 	+ Return: list json 
 
+1.1.api/Home/GetWatchListItemByID/{facebookID}
+- Get record in WatchList table by facebookID
+	+ Param: facebookID
+	+ Return: json 
+
 2.api/Home/CheckExistInWatchList/{facebookID}
 - Use to check url exits in watchlist or not.
 	+ Param: facebookID
