@@ -29,6 +29,11 @@ namespace BLL_NewsManagementSystem.BLL
             }
             return watchListDtos;
         }
+        public WatchListDTO GetWatchListItemByID(string facebookID)
+        {
+            JWatchList jWatchList = _dalWatchList.GetWatchListItemByID(facebookID);
+            return _mapToWatchListDto.Translate(jWatchList);
+        }
         public bool CheckExistInWatchList(string facebookID)
         {
             return _dalWatchList.CheckExistInWatchList(facebookID);
