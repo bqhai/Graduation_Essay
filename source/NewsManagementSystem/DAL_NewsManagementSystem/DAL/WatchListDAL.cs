@@ -27,6 +27,23 @@ namespace DAL_NewsManagementSystem.DAL
                         };
             return query;
         }
+        public JWatchList GetWatchListItemByID(string facebookID)
+        {
+            var query = (from wl in _db.WatchLists
+                        join fbt in _db.FacebookTypes on wl.FacebookTypeID equals fbt.FacebookTypeID
+                        where wl.FacebookID == facebookID
+                        select new JWatchList
+                        {
+                            FacebookID = wl.FacebookID,
+                            FacebookName = wl.FacebookName,
+                            FacebookUrl = wl.FacebookUrl,
+                            FacebookTypeID = wl.FacebookTypeID,
+                            FacebookTypeName = fbt.FacebookTypeName,
+                            Status = wl.Status,
+                            InBlackList = wl.InBlackList
+                        }).SingleOrDefault();
+            return query;
+        }
         public bool CheckExistInWatchList(string facebookID)
         {
             WatchList watchList = _db.WatchLists.SingleOrDefault(wl => wl.FacebookID == facebookID);
