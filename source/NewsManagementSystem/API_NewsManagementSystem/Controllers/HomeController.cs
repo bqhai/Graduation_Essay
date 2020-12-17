@@ -20,8 +20,14 @@ namespace API_NewsManagementSystem.Controllers
         [Route("GetAllWatchList")]
         public JsonResult<List<WatchListDTO>> GetAllWatchList()
         {
-            List<WatchListDTO> blackListDtos = _bllWatchList.GetAllWatchList();
-            return Json(blackListDtos);
+            return Json(_bllWatchList.GetAllWatchList());
+        }
+
+        [HttpGet]
+        [Route("GetWatchListItemByID/{facebookID}")]
+        public JsonResult<WatchListDTO> GetWatchListItemByID(string facebookID)
+        {
+            return Json(_bllWatchList.GetWatchListItemByID(facebookID));
         }
 
         [HttpGet]
