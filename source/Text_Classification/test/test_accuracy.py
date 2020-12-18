@@ -11,7 +11,7 @@ text = []
 label = []
 if not os.path.exists(c.MODEL_PATH):
     os.makedirs(c.MODEL_PATH)
-for line in open('../data/news_categories_v2.prep', encoding='utf8'):
+for line in open('../data/news_categories_v4.prep', encoding='utf8'):
     words = line.strip().split()
     label.append(words[0])
     text.append(' '.join(words[1:]))
@@ -24,6 +24,6 @@ label_encoder.fit(y_train)
 y_train = label_encoder.transform(y_train)
 y_test = label_encoder.transform(y_test)
 
-nb_model = pickle.load(open(os.path.join(c.MODEL_PATH, 'naive_bayes_v2.pkl'), 'rb'))
+nb_model = pickle.load(open(os.path.join(c.MODEL_PATH, 'naive_bayes_v4.pkl'), 'rb'))
 y_pred = nb_model.predict(X_test)
 print(classification_report(y_test, y_pred, target_names=list(label_encoder.classes_)))
