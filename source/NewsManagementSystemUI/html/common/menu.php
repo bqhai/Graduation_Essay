@@ -40,9 +40,6 @@
                             <span>CHĂM SÓC HỘI VIÊN</span></a>
 
                     </li>
-
-
-
                     <li class="navigation-header"><span>Danh sách các tính năng</span> <i class="icon-menu" title=""
                             data-original-title="Các tính năng"></i>
                     </li>
@@ -61,10 +58,10 @@
                     <!-- Danh nghiệp & hội viên -->
                     <li>
                         <a href="#"><img src="../assets/images/icons/sys/school.svg" style="width: 32px;" />
-                            <span>DOANH NGHIỆP & HỘI VIÊN</span></a>
+                            <span>Quản Lý</span></a>
                         <ul>
 
-                            <li><a href="#"><i class="fas fa-archway"></i>Doanh nghiệp</i></a>
+                            <!-- <li><a href="#"><i class="fas fa-archway"></i>Doanh nghiệp</i></a>
                                 <ul>
                                     <a href="../doanhnghiep/index.php" class="tieu_de"><i
                                             class="far fa-list-alt"></i>Danh sách
@@ -73,13 +70,13 @@
                                             class="fas fa-plus"></i>Thêm
                                         mới</a>
                                 </ul>
-                            </li>
-                            <li><a href="../hoivien/index.php" class="tieu_de"><i class="fas fa-user-friends"></i>Hội Viên</a>
-                            <li><a href="#"><i class="fas fa-user-friends"></i>Người liên hệ</a>
+                            </li> -->
+                            <li><!-- <a href="../hoivien/index.php" class="tieu_de"><i class="fas fa-user-friends"></i>Hội Viên</a> -->
+                            <li><a href="#"><i class="fas fa-user-friends"></i>ListFacebook</a>
                                 <ul>
                                     <a id="1" onClick="GFG_click(this.id)" href="../nguoilienhe/index.php"
                                         class="tieu_de"><i class="far fa-list-alt"></i>Danh sách
-                                        người liên hệ</a>
+                                        Faccbook</a>
                                     <a id="1" onClick="GFG_click(this.id)" href="../nguoilienhe/nguoilienhe_add.php"
                                         class="tieu_de"><i class="fas fa-plus"></i>Thêm mới</a>
                                 </ul>
@@ -87,7 +84,7 @@
                         </ul>
                     </li>
                     <!-- Chăm sóc hội viên -->
-                    <li>
+                   <!--  <li>
                         <a href="#"><img src="../assets/images/icons/sys/users.svg" style="width: 32px;" />
                             <span>CHĂM SÓC HỘI VIÊN</span></a>
                         <ul>
@@ -130,9 +127,9 @@
 
                             </li>
                         </ul>
-                    </li>
+                    </li> -->
                     <!-- Sự kiện -->
-                    <li>
+                 <!--    <li>
                         <a href="#"><img src="../assets/images/icons/sys/voucher_1332606.svg" style="width: 32px;" />
                             <span>SỰ KIỆN</span></a>
                         <ul>
@@ -156,9 +153,9 @@
                                 </ul>
                             </li>
                         </ul>
-                    </li>
+                    </li> -->
                     <!-- Báo cáo thông kê -->
-                    <li>
+                   <!--  <li>
                         <a href="#"><img src="../assets/images/icons/ic/finance.svg" style="width: 32px;" />
                             <span>BÁO CÁO & THỐNG KÊ</span></a>
                         <ul>
@@ -173,9 +170,9 @@
                                     Marketing</a>
                             </li>
                         </ul>
-                    </li>
+                    </li> -->
                     <!-- Danh mục -->
-                    <li>
+                   <!--  <li>
                         <a href="#"><img src="../assets/images/icons/ep/files.svg" style="width: 32px;" />
                             <span>DANH MỤC</span></a>
                         <ul>
@@ -196,9 +193,9 @@
                                 </ul>
                             </li>
                         </ul>
-                    </li>
+                    </li> -->
                     <!-- quản trị hệ thống -->
-                    <li>
+                   <!--  <li>
                         <a href="#"><img src="../assets/images/icons/sys/help.svg" style="width: 32px;" />
                             <span>QUẢN TRỊ HỆ THỐNG</span></a>
                         <ul>
@@ -209,7 +206,7 @@
                                 </ul>
                             </li>
                         </ul>
-                    </li>
+                    </li> -->
                     <a href="../doanhnghiep/doanhnghiep_view.php" class="tieu_de" hidden="true"></a>
                     <a href="../doanhnghiep/doanhnghiep_edit.php" class="tieu_de" hidden="true"></a>
                     <a href="../doanhnghiep/doanhnghiep_import.php" class="tieu_de" hidden="true"></a>
