@@ -1,8 +1,8 @@
 <?php
-if(isset($_POST["ProductVersionID"]))
+if(isset($_POST["FacebookID"]))
 {
-	$id = $_POST["ProductVersionID"];
-$api_url ='http://cellphonesapi.somee.com/api/API_Product/GetProductVersionByID/'.$id;
+	$id = $_POST["FacebookID"];
+$api_url ='http://www.kltn26.somee.com/api/Home/GetWatchListItemByID/'.$id;
 // Read JSON file
 $json_data = file_get_contents($api_url);
 
@@ -11,19 +11,17 @@ $response_data = json_decode($json_data);
 
 // All user data exists in 'data' object
 $user_data = $response_data;
-
-// Cut long data into small & select only first 10 records
-// Print data if need to debug
-//print_r($user_data);
-
-// Traverse array and display user data
-  // echo "name: ".$user_data->ProductVersionID;
-  // echo "name: ".$user_data->ProductVersionName;
   $output= '
-  <h2>'.$user_data->ProductVersionID.'</h2>
-  <p><label>'.$user_data->ProductVersionName.'</label></p>';
+  <h2>FacebookID:' .$user_data->FacebookID.'</h2>
+  <p><label>FacebookName: ' .$user_data->FacebookName.'</label></p>
+  <p><label>FacebookURL: ' .$user_data->FacebookUrl.'</label></p>
+  <p><label>FacebookTypeID: ' .$user_data->FacebookTypeID.'</label></p>
+  <p><label>FacebookTypeName: ' .$user_data->FacebookTypeName.'</label></p>
+  <p><label>Status: ' .$user_data->Status.'</label></p>
+  <p><label>InBlackList: ' .$user_data->InBlackList.'</label></p>
+  ';
 
-   echo $output;
+	echo $output;
 }
 ?>
 

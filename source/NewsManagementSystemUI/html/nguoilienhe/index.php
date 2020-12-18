@@ -8,12 +8,12 @@
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
       <title>VCCI - Thông tin Người Liên Hệ</title>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
       <script src="https://kit.fontawesome.com/5e87b6033a.js" crossorigin="anonymous"></script>
       <!-- Global stylesheets -->
       <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
@@ -72,14 +72,12 @@
                            </div>
                            <div class="col-md-4 col-xs-8">
                               <div class="no-margin">
-                                 
-                                   <!--  <div class="btn-group">
-                                            <button href="javascript:void(0)" id='btn_export_data' data-url-parameter='' title='Export Data' class="btn btn-primary btn-export-data">
-                                                <i class="icon-book"></i>
-                                                <div class="menu">Show Data</div>
-                                            </button>
+                                 <!--  <div class="btn-group">
+                                    <button href="javascript:void(0)" id='btn_export_data' data-url-parameter='' title='Export Data' class="btn btn-primary btn-export-data">
+                                        <i class="icon-book"></i>
+                                        <div class="menu">Show Data</div>
+                                    </button>
                                     </div> -->
-                                    
                               </div>
                            </div>
                            <div class="col-ms-6 col-lg-offset-9">
@@ -87,7 +85,7 @@
                                  <div class="btn-group">
                                  </div>
                                  <div class="btn-group">
-                                    <a href="nguoilienhe_add.php"><button type="button" class="btn btn-primary">Add New Data</button></a>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Open Modal</button>
                                  </div>
                                  <div class="btn-group">
                                     <a href="export.php"><button type="button" class="btn btn-primary">Export Data</button></a>
@@ -222,26 +220,33 @@
                         </div>
                         <!-- /.modal-dialog -->
                      </div>
-                    
                      <div class="row">
                         <div class="col-lg-12">
                            <!-- Basic panel controls -->
                            <div class="panel panel-white border-top-lg border-top-primary-800">
-                                <table class="table table-togglable table-hover table-bordered table-striped">
+                              <table class="table table-togglable table-hover table-bordered table-striped">
                                  <thead style="font-size: 12px" class="grey-light">
                                     <tr>
-                                       <th class="text-center" data-toggle="true">FacebookID</th>
-                                       <th class="text-center" data-toggle="true">Facebook Name</th>
+                                       <!-- <th class="text-center" data-toggle="true">FacebookID</th> -->
+                                       <th class="text-center" data-toggle="true">FacebookName</th>
+                                       <th class="text-center" data-toggle="true">FacebookURL</th>
+                                       <!-- <th class="text-center" data-toggle="true">FacebookTypeID</th> -->
+                                       <th class="text-center" data-toggle="true">FacebookTypeName</th>
+                                       <!-- <th class="text-center" data-toggle="true">Status</th>
+                                       <th class="text-center" data-toggle="true">InBlackList</th> -->
                                        <th class="text-center"  style="width:5%">Hành Động</th>
                                     </tr>
                                  </thead>
-                                 <?php
+                                 <tbody id="data">
+                                    
+                                 </tbody>
+                              <?php
                                     ini_set('display_errors','On');
                                     error_reporting(E_ALL);
                                     
                                     // Include the pagination class
                                     include 'pagination.class.php';
-                                    $api_url = 'http://cellphonesapi.somee.com/api/API_Product/GetAllProductVersion';
+                                    $api_url = 'http://www.kltn26.somee.com/api/Home/GetAllWatchList';
                                     $json_data = file_get_contents($api_url);
                                     $response_data = json_decode($json_data);
                                     
@@ -268,17 +273,23 @@
                                         // Loop through all the items in the array
                                         foreach ($productPages as $productArray) {
                                           // Show the information about the item
-                                          echo '<tr>'.'<td>'.$productArray->ProductVersionID.'</td>'.'<td>'.$productArray->ProductVersionName.'</td>'.'<td class="text-center" style="border-right: hidden;">'
-                                          .'<a target="_blank" name="view" class="view" id="'.$productArray->ProductVersionID.'" >'.'<i class="icon-eye"></i>'.'</a>'
-                                          .'<a href="#" target="_blank">'.'<i class="icon-pencil7"></i>'.'</a>'
-                                          .'<a href="#" target="_blank">'.'<i class="glyphicon glyphicon-remove"></i>'.'</a>'
-                                          .'</td>'.'</tr>';                                       
+                                          echo '<tr>'
+                                          // .'<td>'.$productArray->FacebookID.'</td>'
+                                          .'<td>'.$productArray->FacebookName.'</td>'
+                                          .'<td>'.$productArray->FacebookUrl.'</td>'
+                                          // .'<td>'.$productArray->FacebookTypeID.'</td>'
+                                          .'<td>'.$productArray->FacebookTypeName.'</td>'
+                                          // .'<td>'.$productArray->Status.'</td>'
+                                          // .'<td>'.$productArray->InBlackList.'</td>'
+                                          .'<td class="text-center" style="border-right: hidden;">'
+                                          .'<a target="_blank" name="view" class="view" id="'.$productArray->FacebookID.'" >'.'<i class="icon-eye"></i>'.'</a>'
+                                          .'<a data-toggle="modal" data-target="#myModal1" id="'.$productArray->FacebookID.'">'.'<i class="icon-pencil7"></i>'.'</a>'
+                                          // .'<a href="#" target="_blank">'.'<i class="glyphicon glyphicon-remove"></i>'.'</a>'
+                                          .'</td>'
+                                          .'</tr>';                                       
                                         }
-  
                                       }
-                                      
                                       echo $pageNumbers;
-                                      
                                     }
                                     
                                     ?>
@@ -301,6 +312,7 @@
          </div>
          <!-- /page content -->
       </div>
+   
       <!-- /page container -->
       <!-- <script>
          var ops = {
@@ -314,7 +326,7 @@
          $(".styled, .multiselect-container input").uniform({
              radioClass: 'choice'
          });
-
+         
          if (Array.prototype.forEach) {
              var elems = Array.prototype.slice.call(document.querySelectorAll('.switchery'));
              elems.forEach(function(html) {
@@ -327,9 +339,9 @@
              }
          }
          
-     
+         
          $('.table-togglable').footable();
-      </script> -->
+         </script> -->
       <!-- <script type="text/javascript">
          fetch("https://jsonplaceholder.typicode.com/todos").then(
                  res=>{
@@ -341,33 +353,32 @@
              )
          </script> -->
       <!-- <script>
-        $(document).ready(function(){
-         $(function() {
-             $('.btn-filter-data').click(function() {
-                 $('#filter-data').modal('show');
-             })
-         
-             $('.btn-export-data').click(function() {
-                 $('#export-data').modal('show');
-             })
-         
-             var toggle_advanced_report_boolean = 1;
-             $(".toggle_advanced_report").click(function() {
-         
-                 if (toggle_advanced_report_boolean == 1) {
-                     $("#advanced_export").slideDown();
-                     $(this).html("<i class='fa fa-minus-square-o'></i> Show Advanced Export");
-                     toggle_advanced_report_boolean = 0;
-                 } else {
-                     $("#advanced_export").slideUp();
-                     $(this).html("<i class='fa fa-plus-square-o'></i> Show Advanced Export");
-                     toggle_advanced_report_boolean = 1;
-                 }
-         
-             })
-         })
-      </script> -->
-   
+         $(document).ready(function(){
+          $(function() {
+              $('.btn-filter-data').click(function() {
+                  $('#filter-data').modal('show');
+              })
+          
+              $('.btn-export-data').click(function() {
+                  $('#export-data').modal('show');
+              })
+          
+              var toggle_advanced_report_boolean = 1;
+              $(".toggle_advanced_report").click(function() {
+          
+                  if (toggle_advanced_report_boolean == 1) {
+                      $("#advanced_export").slideDown();
+                      $(this).html("<i class='fa fa-minus-square-o'></i> Show Advanced Export");
+                      toggle_advanced_report_boolean = 0;
+                  } else {
+                      $("#advanced_export").slideUp();
+                      $(this).html("<i class='fa fa-plus-square-o'></i> Show Advanced Export");
+                      toggle_advanced_report_boolean = 1;
+                  }
+          
+              })
+          })
+         </script> -->
       <!--  <script type="text/javascript" src="../assets/js/contract.js"></script> -->
       <style>
          a.hover {
@@ -382,46 +393,136 @@
          float: right;
          line-height: 20px;
          word-spacing: 4px;
+         }
       </style>
-     
    </body>
+
 </html>
-
- <div id="post_modal" class="modal fade">
- <div class="modal-dialog">
-  <div class="modal-content"> 
-   <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal">&times;</button>
-    <h4 class="modal-title">Post Details</h4>
+<div id="post_modal" class="modal fade">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">ListFacebook Details</h4>
+         </div>
+         <div class="modal-body" id="post_detail">
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+         </div>
+      </div>
    </div>
-   <div class="modal-body" id="post_detail">
-
-   </div>
-   <div class="modal-footer">
-    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-   </div>
-  </div>
- </div>
 </div>
+
+<div class="modal fade" id="myModal1" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Edit ListFacebook</h4>
+        </div>
+        <div class="modal-body">
+           <form action="editlistfb.php" method="post" enctype="multipart/form-data">
+               <!-- <th scope="row"><b>FacebookID</b></th> -->
+               <label>FacebookName</label>
+               <input  type="text"  class="form-control" id="FacebookID" name="FacebookID"  placeholder="FacebookID">
+               <br />
+               <label>Select Status</label>
+                 <select name="Status" id="Status" class="form-control">
+                  <option value="true">True</option>  
+                  <option value="false">False</option>
+                 </select>
+                 <br /> 
+               <label>Select InBlackList</label>
+                 <select name="InBlackListInBlackList" id="InBlackList" class="form-control">
+                  <option value="true">True</option>  
+                  <option value="false">False</option>
+                 </select>
+                 <br /> 
+               <div class="modal-footer">
+                  <button type="submit" onclick="myFunction()" class="btn btn-xs btn-primary bg-primary-800 btn-labeled"><b><i class="icon-floppy-disk"></i></b> Lưu</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+               </div>
+            </form>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+<div class="modal fade" id="myModal" role="dialog">
+   <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Insert ListFacebook</h4>
+         </div>
+         <div class="modal-body">
+            <form action="listfb.php" method="post" enctype="multipart/form-data">
+               <!-- <th scope="row"><b>FacebookID</b></th> -->
+               <label>FacebookID</label>
+               <input  type="text"  class="form-control" id="FacebookID" name="FacebookID"  placeholder="FacebookID">
+               <br />
+               <label>FacebookName</label>
+               <input type="text" class="form-control"  id="FacebookName" name="FacebookName"  placeholder="FacebookName">
+               <br />
+               <label>FacebookUrl</label>
+               <input  type="text" class="form-control"  id="FacebookUrl" name="FacebookUrl"  placeholder="FacebookUrl">
+               <br />
+               <label>FacebookTypeID</label>
+               <input  type="text" class="form-control"  id="FacebookTypeID" name="FacebookTypeID"  placeholder="FacebookTypeID">
+               <br />
+               <div class="modal-footer">
+                  <button type="submit" onclick="myFunction()" class="btn btn-xs btn-primary bg-primary-800 btn-labeled"><b><i class="icon-floppy-disk"></i></b> Lưu</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
+
+
 <script>
-$(document).ready(function(){
- 
- function fetch_post_data(ProductVersionID)
- {
-  $.ajax({
-   url:"pageName_export.php",
-    method:"POST",
-   data:{ProductVersionID:ProductVersionID},
-   success:function(data)
-   {
-    $('#post_modal').modal('show');
-    $('#post_detail').html(data);
-   }
-  });
- }
- $(document).on('click', '.view', function(){
-  var ProductVersionID = $(this).attr("id");
-  fetch_post_data(ProductVersionID);
- });
-});
+   $(document).ready(function(){
+    
+    function fetch_post_data(FacebookID)
+    {
+     $.ajax({
+      url:"pageName_export.php",
+       method:"POST",
+      data:{FacebookID:FacebookID},
+      success:function(data)
+      {
+       $('#post_modal').modal('show');
+       $('#post_detail').html(data);
+      }
+     });
+    }
+    $(document).on('click', '.view', function(){
+     var FacebookID = $(this).attr("id");
+     fetch_post_data(FacebookID);
+    });
+   });
 </script>
+
+
+
+<!-- <script>
+  $(function() {
+        $.ajax({
+        url: "http://www.kltn26.somee.com/api/Home/GetAllWatchList",
+       method: "GET",
+        dataType: "json",
+        success: function(data) {
+            var str = "";          
+           for(var i= 0; i < data.jobsBreakdown.length; i++){
+
+             str +='Job Title : '+data.jobsBreakdown[i].description+' and Related Trades <br> Percentage of Occupancies in Area : '+data.jobsBreakdown[i].percentage.toPrecision(2)+'% <br><br>';
+           }
+          $("body").html(str);
+        }
+        });
+    });
+</script> -->
