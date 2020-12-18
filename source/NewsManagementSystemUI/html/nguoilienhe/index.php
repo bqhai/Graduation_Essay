@@ -56,7 +56,7 @@
             <?php include "../common/menu.php" ?>
             <!-- /Menu -->
             <!-- Left sidebar -->
-            <?php include "nguoilienhe_leftSideBar.php" ?>
+          
             <!-- /Left sidebar -->
             <!-- Main content -->
             <div class="content-wrapper">
@@ -85,7 +85,7 @@
                                  <div class="btn-group">
                                  </div>
                                  <div class="btn-group">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Open Modal</button>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Add New Data</button>
                                  </div>
                                  <div class="btn-group">
                                     <a href="export.php"><button type="button" class="btn btn-primary">Export Data</button></a>
@@ -276,14 +276,14 @@
                                           echo '<tr>'
                                           // .'<td>'.$productArray->FacebookID.'</td>'
                                           .'<td>'.$productArray->FacebookName.'</td>'
-                                          .'<td>'.$productArray->FacebookUrl.'</td>'
+                                          .'<td>'.'<a target="_blank" href="'.$productArray->FacebookUrl.'">'.$productArray->FacebookUrl.'</a></td>'
                                           // .'<td>'.$productArray->FacebookTypeID.'</td>'
                                           .'<td>'.$productArray->FacebookTypeName.'</td>'
                                           // .'<td>'.$productArray->Status.'</td>'
                                           // .'<td>'.$productArray->InBlackList.'</td>'
                                           .'<td class="text-center" style="border-right: hidden;">'
                                           .'<a target="_blank" name="view" class="view" id="'.$productArray->FacebookID.'" >'.'<i class="icon-eye"></i>'.'</a>'
-                                          .'<a data-toggle="modal" data-target="#myModal1" id="'.$productArray->FacebookID.'">'.'<i class="icon-pencil7"></i>'.'</a>'
+                                          .'<a target="_blank" name="view1" class="view1" id="'.$productArray->FacebookID.'">'.'<i class="icon-pencil7"></i>'.'</a>'
                                           // .'<a href="#" target="_blank">'.'<i class="glyphicon glyphicon-remove"></i>'.'</a>'
                                           .'</td>'
                                           .'</tr>';                                       
@@ -307,7 +307,7 @@
             </div>
             <!-- /Main content -->
             <!-- Right sidebar -->
-            <?php include "nguoilienhe_rightSideBar.php" ?>
+            
             <!-- /Right sidebar -->
          </div>
          <!-- /page content -->
@@ -422,9 +422,9 @@
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title">Edit ListFacebook</h4>
         </div>
-        <div class="modal-body">
-           <form action="editlistfb.php" method="post" enctype="multipart/form-data">
-               <!-- <th scope="row"><b>FacebookID</b></th> -->
+        <div class="modal-body" id="edit_list">
+           <!-- <form action="editlistfb.php" method="post" enctype="multipart/form-data">
+         
                <label>FacebookName</label>
                <input  type="text"  class="form-control" id="FacebookID" name="FacebookID"  placeholder="FacebookID">
                <br />
@@ -444,7 +444,10 @@
                   <button type="submit" onclick="myFunction()" class="btn btn-xs btn-primary bg-primary-800 btn-labeled"><b><i class="icon-floppy-disk"></i></b> Lưu</button>
                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                </div>
-            </form>
+            </form> -->
+            <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+         </div>
         </div>
       </div>
       
@@ -503,6 +506,30 @@
     $(document).on('click', '.view', function(){
      var FacebookID = $(this).attr("id");
      fetch_post_data(FacebookID);
+    });
+   });
+</script>
+
+
+<script>
+   $(document).ready(function(){
+    
+    function fetch_post_data1(FacebookID)
+    {
+     $.ajax({
+      url:"editlistfb.php",
+       method:"POST",
+      data:{FacebookID:FacebookID},
+      success:function(data)
+      {
+       $('#myModal1').modal('show');
+       $('#edit_list').html(data);
+      }
+     });
+    }
+    $(document).on('click', '.view1', function(){
+     var FacebookID = $(this).attr("id");
+     fetch_post_data1(FacebookID);
     });
    });
 </script>
