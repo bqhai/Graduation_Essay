@@ -4,7 +4,7 @@ from datetime import datetime
 from tkinter import *
 from tkinter import ttk, messagebox
 from tkcalendar import DateEntry
-from bll.text_classification import predict, convert_label_to_text, convert_label_to_labelID
+from bll.text_classification import predict, convert_label_to_text
 from bll.preprocessor import text_preprocess
 from bll.crawler import crawl, count_crawled_post
 from bll.call_api import *
@@ -424,7 +424,7 @@ class MainWindow(Frame):
                 like = ent_like_sp.get()
                 comment = ent_comment_sp.get()
                 share = ent_share_sp.get()
-                news_label_id = convert_label_to_labelID(predict(text_preprocess(post_content)))
+                news_label_id = convert_label_to_text(predict(text_preprocess(post_content)))[0]
                 # --- check url is null
                 if not post_url or not user_url:
                     messagebox.showwarning('Thông báo', 'Hãy nhập đầy đủ thông tin')
@@ -499,7 +499,7 @@ class MainWindow(Frame):
             if len(txt_input_tc.get('1.0', 'end-1c')) == 0:
                 messagebox.showwarning('Thông báo', 'Nội dung trống!')
                 return
-            if lbl_result_tc['text'] == '':
+            if lbl_result1_tc['text'] == '' or lbl_result2_tc['text'] == '':
                 messagebox.showwarning('Thông báo', 'Bài viết chưa được phân loại!')
                 return
             # --- create ui save post ---
@@ -561,12 +561,14 @@ class MainWindow(Frame):
             if len(txt_input_tc.get('1.0', 'end-1c')) == 0:
                 messagebox.showwarning('Thông báo', 'Nội dung trống!')
             else:
-                lbl_result_tc['text'] = convert_label_to_text(predict(txt_input_tc.get('1.0', END)))
+                lbl_result1_tc['text'] = convert_label_to_text(predict(txt_input_tc.get('1.0', END)))[1]
+                lbl_result2_tc['text'] = convert_label_to_text(predict(txt_input_tc.get('1.0', END)))[3]
                 messagebox.showinfo('Thông báo', 'Xong!')
 
         def clear_text_tc():
             txt_input_tc.delete('1.0', END)
-            lbl_result_tc['text'] = ''
+            lbl_result1_tc['text'] = ''
+            lbl_result2_tc['text'] = ''
 
         frm_input_tc = ttk.Frame(frm_text_classification)
         frm_input_tc.pack(fill=BOTH, expand=True)
@@ -576,17 +578,21 @@ class MainWindow(Frame):
         txt_input_tc.pack(fill=BOTH, padx=5, pady=5, expand=True)
         frm_output_tc = ttk.Frame(frm_text_classification)
         frm_output_tc.pack(fill=BOTH, expand=True)
-        lbl_output_tc = Label(frm_output_tc, text='Kết quả:')
-        lbl_output_tc.pack(side=LEFT, anchor=N, padx=5, pady=5)
-        lbl_result_tc = Label(frm_output_tc, fg='red')
-        lbl_result_tc.pack(side=LEFT, anchor=N, padx=5, pady=5)
+        lbl_output1_tc = Label(frm_output_tc, text='Chủ đề:')
+        lbl_output1_tc.grid(column=0, row=0, padx=5, pady=5)
+        lbl_output2_tc = Label(frm_output_tc, text='Mức độ:')
+        lbl_output2_tc.grid(column=0, row=1, padx=5, pady=5)
+        lbl_result1_tc = Label(frm_output_tc, fg='red', width=134, justify=LEFT, anchor='w')
+        lbl_result1_tc.grid(column=1, row=0, sticky='w', padx=5, pady=5)
+        lbl_result2_tc = Label(frm_output_tc, fg='red', width=134, justify=LEFT, anchor='w')
+        lbl_result2_tc.grid(column=1, row=1, sticky='w', padx=5, pady=5)
 
         btn_save_post_tc = ttk.Button(frm_output_tc, text='Lưu', cursor='hand2', command=save_post)
-        btn_save_post_tc.pack(side=RIGHT, padx=5, pady=5)
+        btn_save_post_tc.grid(column=2, row=1, padx=5, pady=5)
         btn_classification_tc = ttk.Button(frm_output_tc, text='Phân loại', cursor='hand2', command=get_label)
-        btn_classification_tc.pack(side=RIGHT, padx=5, pady=5)
+        btn_classification_tc.grid(column=3, row=1, padx=5, pady=5)
         btn_clear_tc = ttk.Button(frm_output_tc, text='Xóa text', cursor='hand2', command=clear_text_tc)
-        btn_clear_tc.pack(side=RIGHT, padx=5, pady=5)
+        btn_clear_tc.grid(column=4, row=1, padx=5, pady=5)
 
 
 if __name__ == '__main__':
