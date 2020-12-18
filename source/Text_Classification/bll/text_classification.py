@@ -15,7 +15,7 @@ label = []
 # load label
 if not os.path.exists(c.MODEL_PATH):
     os.makedirs(c.MODEL_PATH)
-for line in open('../data/news_categories_v2.prep', encoding='utf8'):
+for line in open('../data/news_categories_v4.prep', encoding='utf8'):
     words = line.strip().split()
     label.append(words[0])
     text.append(' '.join(words[1:]))
@@ -28,7 +28,7 @@ label_encoder.fit(y_train)
 y_train = label_encoder.transform(y_train)
 y_test = label_encoder.transform(y_test)
 
-nb_model = pickle.load(open(os.path.join(c.MODEL_PATH, 'naive_bayes_v2.pkl'), 'rb'))
+nb_model = pickle.load(open(os.path.join(c.MODEL_PATH, 'naive_bayes_v4.pkl'), 'rb'))
 # linear_model = pickle.load(open(os.path.join(c.MODEL_PATH, 'linear_classifier.pkl'), 'rb'))
 
 
@@ -44,72 +44,33 @@ def predict(input_data):
 
 def convert_label_to_text(label):
     if Counter(label) == Counter(['__label__công_nghệ']):
-        return 'CÔNG NGHỆ'
+        return ['CN', 'CÔNG NGHỆ', 'NEU', 'BÌNH THƯỜNG']
     elif Counter(label) == Counter(['__label__thể_thao']):
-        return 'THỂ THAO'
+        return ['TT', 'THỂ THAO', 'NEU', 'BÌNH THƯỜNG']
     elif Counter(label) == Counter(['__label__âm_nhạc']):
-        return 'ÂM NHẠC'
+        return ['AM', 'ÂM NHẠC', 'NEU', 'BÌNH THƯỜNG']
     elif Counter(label) == Counter(['__label__thời_sự']):
-        return 'THỜI SỰ'
+        return ['TS', 'THỜI SỰ', 'NEU', 'BÌNH THƯỜNG']
     elif Counter(label) == Counter(['__label__thời_trang']):
-        return 'THỜI TRANG'
-    elif Counter(label) == Counter(['__label__du_lịch']):
-        return 'DU LỊCH'
+        return ['TTR', 'THỜI TRANG', 'NEU', 'BÌNH THƯỜNG']
     elif Counter(label) == Counter(['__label__giáo_dục']):
-        return 'GIÁO DỤC'
+        return ['GG', 'GIÁO DỤC', 'NEU', 'BÌNH THƯỜNG']
     elif Counter(label) == Counter(['__label__kinh_doanh']):
-        return 'KINH DOANH'
-    elif Counter(label) == Counter(['__label__an_ninh_trật_tự']):
-        return 'AN NINH TRẬT TỰ'
+        return ['KD', 'KINH DOANH', 'NEU', 'BÌNH THƯỜNG']
     elif Counter(label) == Counter(['__label__phim_ảnh']):
-        return 'PHIM ẢNH'
-    elif Counter(label) == Counter(['__label__xe_360']):
-        return 'XE'
+        return ['PA', 'PHIM ẢNH', 'NEU', 'BÌNH THƯỜNG']
+    elif Counter(label) == Counter(['__label__xe']):
+        return ['XE', 'XE', 'NEU', 'BÌNH THƯỜNG']
     elif Counter(label) == Counter(['__label__ẩm_thực']):
-        return 'ẨM THỰC'
-    elif Counter(label) == Counter(['__label__xuất_bản']):
-        return 'XUẤT BẢN'
+        return ['AT', 'ẨM THỰC', 'NEU', 'BÌNH THƯỜNG']
     elif Counter(label) == Counter(['__label__sức_khỏe']):
-        return 'SỨC KHỎE'
-    elif Counter(label) == Counter(['__label__thế_giới']):
-        return 'THẾ GIỚI'
-    elif Counter(label) == Counter(['__label__chính_trị']):
-        return 'CHÍNH TRỊ'
-
-
-def convert_label_to_labelID(label):
-    if Counter(label) == Counter(['__label__công_nghệ']):
-        return 'CN'
-    elif Counter(label) == Counter(['__label__thể_thao']):
-        return 'TTH'
-    elif Counter(label) == Counter(['__label__âm_nhạc']):
-        return 'AN'
-    elif Counter(label) == Counter(['__label__thời_sự']):
-        return 'TS'
-    elif Counter(label) == Counter(['__label__thời_trang']):
-        return 'TTR'
-    elif Counter(label) == Counter(['__label__du_lịch']):
-        return 'DL'
-    elif Counter(label) == Counter(['__label__giáo_dục']):
-        return 'GD'
-    elif Counter(label) == Counter(['__label__kinh_doanh']):
-        return 'KD'
+        return ['SK', 'SỨC KHỎE', 'NEU', 'BÌNH THƯỜNG']
     elif Counter(label) == Counter(['__label__an_ninh_trật_tự']):
-        return 'ANTT'
-    elif Counter(label) == Counter(['__label__phim_ảnh']):
-        return 'PA'
-    elif Counter(label) == Counter(['__label__xe_360']):
-        return 'XE'
-    elif Counter(label) == Counter(['__label__ẩm_thực']):
-        return 'AT'
-    elif Counter(label) == Counter(['__label__xuất_bản']):
-        return 'XB'
-    elif Counter(label) == Counter(['__label__sức_khỏe']):
-        return 'SK'
-    elif Counter(label) == Counter(['__label__thế_giới']):
-        return 'TG'
-    elif Counter(label) == Counter(['__label__chính_trị']):
-        return 'CT'
+        return ['ANTT', 'AN NINH TRẬT TỰ', 'NEU', 'BÌNH THƯỜNG']
+    elif Counter(label) == Counter(['__label__an_ninh_quốc_gia_neg']):
+        return ['ANQG', 'AN NINH QUỐC GIA', 'NEG', 'TIÊU CỰC']
+    elif Counter(label) == Counter(['__label__an_ninh_quốc_gia_pos']):
+        return ['ANQG', 'AN NINH QUỐC GIA', 'POS', 'TÍCH CỰC']
 
 # input_data2 = '''THEO BẠN BÊN NÀO LÀ NỤ CƯỜI ĐANG GIẢ TẠO? 😃
 # ----------------------------------------
