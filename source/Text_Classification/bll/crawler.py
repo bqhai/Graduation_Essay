@@ -92,7 +92,7 @@ def crawl_page(url, scroll_down):
     total_post_crawled = 0
     for post in get_posts(facebook_id, pages=scroll_down, extra_info=True):
         if str(post['post_id']) == 'None':
-            post_url = 'None'
+            post_url = None
         else:
             post_url = 'https://www.facebook.com/' + facebook_id + '/posts/' + str(post['post_id'])
         user_url = 'https://www.facebook.com/' + str(post['user_id'])
@@ -114,7 +114,7 @@ def crawl_page(url, scroll_down):
             'TotalShare': total_shares,
             'FacebookID': facebook_id,
             'NewsLabelID': convert_label_to_text(predict(text_preprocess(post_text)))[0],
-            'SentimentLabelID': 'NEG'
+            'SentimentLabelID': convert_label_to_text(predict(text_preprocess(post_text)))[2]
         })
         total_post_crawled += 1
     if not list_json_post:
@@ -133,7 +133,7 @@ def crawl_group(url, scroll_down):
     total_post_crawled = 0
     for post in get_posts(group=facebook_id, pages=scroll_down, extra_info=True):
         if str(post['post_id']) == 'None':
-            post_url = 'None'
+            post_url = None
         else:
             post_url = 'https://www.facebook.com/groups/' + facebook_id + '/permalink/' + str(post['post_id']) + '/'
         time = str(post['time'])
@@ -154,8 +154,8 @@ def crawl_group(url, scroll_down):
             'TotalComment': total_cmts,
             'TotalShare': total_shares,
             'FacebookID': facebook_id,
-            'NewsLabelID': convert_label_to_labelID(predict(text_preprocess(post_text))),
-            'SentimentLabelID': 'NEG'
+            'NewsLabelID': convert_label_to_text(predict(text_preprocess(post_text)))[0],
+            'SentimentLabelID': convert_label_to_text(predict(text_preprocess(post_text)))[2]
         })
         total_post_crawled += 1
     if not list_json_post:
