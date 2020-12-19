@@ -99,9 +99,10 @@ INSERT INTO NewsLabel VALUES(N'XE', N'Xe')
 INSERT INTO NewsLabel VALUES(N'AT', N'Ẩm thực')
 INSERT INTO NewsLabel VALUES(N'SK', N'Sức khỏe')
 INSERT INTO NewsLabel VALUES(N'XB', N'Xuất bản')
-INSERT INTO NewsLabel VALUES(N'CT', N'Chính trị')
+INSERT INTO NewsLabel VALUES(N'ANTT', N'An ninh trật tự')
+INSERT INTO NewsLabel VALUES(N'ANQG', N'An ninh quốc gia')
 
 --SentimentLabel--
 INSERT INTO SentimentLabel VALUES(N'POS', N'Tích cực')
 INSERT INTO SentimentLabel VALUES(N'NEG', N'Tiêu cực')
-INSERT INTO SentimentLabel VALUES(N'BAL', N'Cân bằng')
+INSERT INTO SentimentLabel VALUES(N'NEU', N'Bình thường')
