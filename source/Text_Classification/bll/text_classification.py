@@ -46,15 +46,15 @@ def convert_label_to_text(label):
     if Counter(label) == Counter(['__label__công_nghệ']):
         return ['CN', 'CÔNG NGHỆ', 'NEU', 'BÌNH THƯỜNG']
     elif Counter(label) == Counter(['__label__thể_thao']):
-        return ['TT', 'THỂ THAO', 'NEU', 'BÌNH THƯỜNG']
+        return ['TTH', 'THỂ THAO', 'NEU', 'BÌNH THƯỜNG']
     elif Counter(label) == Counter(['__label__âm_nhạc']):
-        return ['AM', 'ÂM NHẠC', 'NEU', 'BÌNH THƯỜNG']
+        return ['AN', 'ÂM NHẠC', 'NEU', 'BÌNH THƯỜNG']
     elif Counter(label) == Counter(['__label__thời_sự']):
         return ['TS', 'THỜI SỰ', 'NEU', 'BÌNH THƯỜNG']
     elif Counter(label) == Counter(['__label__thời_trang']):
         return ['TTR', 'THỜI TRANG', 'NEU', 'BÌNH THƯỜNG']
     elif Counter(label) == Counter(['__label__giáo_dục']):
-        return ['GG', 'GIÁO DỤC', 'NEU', 'BÌNH THƯỜNG']
+        return ['GD', 'GIÁO DỤC', 'NEU', 'BÌNH THƯỜNG']
     elif Counter(label) == Counter(['__label__kinh_doanh']):
         return ['KD', 'KINH DOANH', 'NEU', 'BÌNH THƯỜNG']
     elif Counter(label) == Counter(['__label__phim_ảnh']):
