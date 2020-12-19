@@ -31,6 +31,6 @@ from bll import load_page
 # for post in get_posts('viettan', pages=2, extra_info=True):
 #     print(post)
 
-for post in get_posts('nhatkyyeunuoc1', pages=10, extra_info=True):
+for post in get_posts(group='nhabaocongdan', pages=6, extra_info=True):
     print(post)
 
