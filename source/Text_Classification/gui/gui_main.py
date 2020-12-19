@@ -177,22 +177,45 @@ class MainWindow(Frame):
             txt_page_wl = Text(frm_page_wl, wrap=WORD)
             txt_page_wl.pack(fill=BOTH, expand=True)
             txt_page_wl.tag_config('pageheader', foreground='red', background='yellow')
-            txt_page_wl.insert(END, '{:<35} \t {:<12}'.format('Tên trang', 'URL') + '\n', 'pageheader')
+            txt_page_wl.insert(END, '{:<35} \t {:<63}'.format('Tên trang', 'URL') + 'Chọn' + '\n', 'pageheader')
 
             txt_group_wl = Text(frm_group_wl, wrap=WORD)
             txt_group_wl.pack(fill=BOTH, expand=True)
             txt_group_wl.tag_config('groupheader', foreground='red', background='yellow')
-            txt_group_wl.insert(END, '{:<35} \t {:<12}'.format('Tên nhóm', 'URL') + '\n', 'groupheader')
+            txt_group_wl.insert(END, '{:<35} \t {:<63}'.format('Tên nhóm', 'URL') + 'Chọn' + '\n', 'groupheader')
+
+            txt_user_wl = Text(frm_user_wl, wrap=WORD)
+            txt_user_wl.pack(fill=BOTH, expand=True)
+            txt_user_wl.tag_config('userheader', foreground='red', background='yellow')
+            txt_user_wl.insert(END, '{:<35} \t {:<63}'.format('Tên facebook cá nhân', 'URL') + 'Chọn' + '\n', 'userheader')
+
+            def choose_url(url):
+                ent_url_cr.delete(0, END)
+                ent_url_cr.insert(0, url)
+                win_watch_list.destroy()
 
             for i in watch_list:
                 if i['FacebookTypeID'] == 'PAGE':
                     txt_page_wl.config(state=NORMAL)
-                    txt_page_wl.insert(END, '{:<35} \t {:<12}'.format(i['FacebookName'], i['FacebookUrl']) + '\n')
+                    txt_page_wl.insert(END, '{:<35} \t {:<65}'.format(i['FacebookName'], i['FacebookUrl']))
+                    btn_choose_url = ttk.Button(txt_page_wl, text='^', width=2, cursor='hand2', command=lambda url=i['FacebookUrl']: choose_url(url))
+                    txt_page_wl.window_create(txt_page_wl.index('end'), window=btn_choose_url)
+                    txt_page_wl.insert(END, '\n')
                     txt_page_wl.config(state=DISABLED)
                 elif i['FacebookTypeID'] == 'GR':
                     txt_group_wl.config(state=NORMAL)
-                    txt_group_wl.insert(END, '{:<35} \t {:<12}'.format(i['FacebookName'], i['FacebookUrl']) + '\n')
+                    txt_group_wl.insert(END, '{:<35} \t {:<65}'.format(i['FacebookName'], i['FacebookUrl']))
+                    btn_choose_url = ttk.Button(txt_group_wl, text='^', width=2, cursor='hand2', command=lambda url=i['FacebookUrl']: choose_url(url))
+                    txt_group_wl.window_create(txt_group_wl.index('end'), window=btn_choose_url)
+                    txt_group_wl.insert(END, '\n')
                     txt_group_wl.config(state=DISABLED)
+                else:
+                    txt_user_wl.config(state=NORMAL)
+                    txt_user_wl.insert(END, '{:<35} \t {:<65}'.format(i['FacebookName'], i['FacebookUrl']))
+                    btn_choose_url = ttk.Button(txt_user_wl, text='^', width=2, cursor='hand2', command=lambda url=i['FacebookUrl']: choose_url(url))
+                    txt_user_wl.window_create(txt_user_wl.index('end'), window=btn_choose_url)
+                    txt_user_wl.insert(END, '\n')
+                    txt_user_wl.config(state=DISABLED)
 
         def open_log():
             subprocess.call(['notepad.exe', '../log/run_time.log'])
@@ -425,6 +448,7 @@ class MainWindow(Frame):
                 comment = ent_comment_sp.get()
                 share = ent_share_sp.get()
                 news_label_id = convert_label_to_text(predict(text_preprocess(post_content)))[0]
+                sentiment_label_id = convert_label_to_text(predict(text_preprocess(post_content)))[2]
                 # --- check url is null
                 if not post_url or not user_url:
                     messagebox.showwarning('Thông báo', 'Hãy nhập đầy đủ thông tin')
@@ -455,7 +479,7 @@ class MainWindow(Frame):
                     'TotalShare': share,
                     'FacebookID': facebook_id,
                     'NewsLabelID': news_label_id,
-                    'SentimentLabelID': 'NEG'
+                    'SentimentLabelID': sentiment_label_id
                 }
                 post_url_check = {
                     'PostUrl': post_url  # to check post url exits in database or not
