@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <meta http-equiv="refresh" content="0; url=html/nguoilienhe/index.php">
+    <meta http-equiv="refresh" content="0; url=html/listfacebook/index.php">
 
 
     <title>Document</title>

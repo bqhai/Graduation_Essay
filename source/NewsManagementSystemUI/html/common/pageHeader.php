@@ -1,5 +1,5 @@
  <!-- MODAL FOR EXPORT DATA-->
- <?php include "pageName_export.php"?>
+ <?php include "detailsfacebook.php"?>
 <div class="page-header-content" style="height:32px;">
     <div class="page-title">
         <div class="text-center pull-right" style="padding-top: 6px;">

@@ -74,13 +74,14 @@
                             <li><!-- <a href="../hoivien/index.php" class="tieu_de"><i class="fas fa-user-friends"></i>Hội Viên</a> -->
                             <li><a href="#"><i class="fas fa-user-friends"></i>ListFacebook</a>
                                 <ul>
-                                    <a id="1" onClick="GFG_click(this.id)" href="../nguoilienhe/index.php"
+                                    <a id="1" onClick="GFG_click(this.id)" href="../listfacebook/index.php"
                                         class="tieu_de"><i class="far fa-list-alt"></i>Danh sách
                                         Faccbook</a>
-                                    <a id="1" onClick="GFG_click(this.id)" href="../nguoilienhe/nguoilienhe_add.php"
+                                    <a id="1" onClick="GFG_click(this.id)" href="../listfacebook/nguoilienhe_add.php"
                                         class="tieu_de"><i class="fas fa-plus"></i>Thêm mới</a>
                                 </ul>
                             </li>
+
                         </ul>
                     </li>
                     <!-- Chăm sóc hội viên -->
