@@ -27,6 +27,12 @@
 	+ Param: None
 	+ Return: list json 
 
+5.1.api/Home/GetPostByID/{postID}
+- Get post by ID
+	+ Param: postID
+	+ Return: json
+-Ex: api/Home/GetPostByID/2012202000041566375
+
 6.api/Home/CheckExistPost
 - Use to check post exits in Post table or not.
 	+ Param: json object
@@ -36,15 +42,15 @@
 	+ Param: json object
 	+ Return: true or false 
 
-8.api/Home/UpdatePost
+9.api/Home/UpdatePost
 	+ Param: json object
 	+ Return: true or false 
 
-9.api/Home/AddNewOrUpdateListPost
+10.api/Home/AddNewOrUpdateListPost
 	+ Param: list json object
 	+ Return: true or false 
 
-10.api/Home/RemovePost/{postID}
+11.api/Home/RemovePost/{postID}
 	+ Param: postID
 	+ Return: true or false 
 - Ex: api/Home/RemovePost/20201211125403123456
