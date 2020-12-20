@@ -15,7 +15,7 @@ CREATE TABLE FacebookType
 (
 	FacebookTypeID NVARCHAR(100) PRIMARY KEY,
 	FacebookTypeName NVARCHAR(200) NOT NULL,
-	Description NVARCHAR(500),
+	Description NVARCHAR(500),	
 )
 GO
 
