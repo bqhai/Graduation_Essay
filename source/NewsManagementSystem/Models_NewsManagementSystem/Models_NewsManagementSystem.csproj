@@ -47,8 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MappingClass\WatchListDTO.cs" />
-    <Compile Include="MappingClass\PostDTO.cs" />
+    <Compile Include="DTO\WatchListDTO.cs" />
+    <Compile Include="DTO\PostDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\EntityMapper.cs" />
   </ItemGroup>
