@@ -460,9 +460,9 @@
          <div class="modal-body">
             <form action="listfb.php" method="post" enctype="multipart/form-data">
                <!-- <th scope="row"><b>FacebookID</b></th> -->
-               <label>FacebookID</label>
+               <!-- <label>FacebookID</label>
                <input  type="text"  class="form-control" id="FacebookID" name="FacebookID"  placeholder="FacebookID">
-               <br />
+               <br /> -->
                <label>FacebookName</label>
                <input type="text" class="form-control"  id="FacebookName" name="FacebookName"  placeholder="FacebookName">
                <br />
@@ -470,7 +470,11 @@
                <input  type="text" class="form-control"  id="FacebookUrl" name="FacebookUrl"  placeholder="FacebookUrl">
                <br />
                <label>FacebookTypeID</label>
-               <input  type="text" class="form-control"  id="FacebookTypeID" name="FacebookTypeID"  placeholder="FacebookTypeID">
+               <select class="form-control"  id="FacebookTypeID" name="FacebookTypeID">
+                                                <option value="PAGE">Trang</option>
+                                                <option value="GR">Nhóm Công Khai</option>
+                                                <option value="USER">Cá Nhân</option>
+                                            </select>
                <br />
                <div class="modal-footer">
                   <button type="submit" onclick="myFunction()" class="btn btn-xs btn-primary bg-primary-800 btn-labeled"><b><i class="icon-floppy-disk"></i></b> Lưu</button>
