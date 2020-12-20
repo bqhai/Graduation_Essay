@@ -42,6 +42,33 @@ namespace DAL_NewsManagementSystem.DAL
                         };
             return query;
         }
+        public JPost GetPostByID(string postID)
+        {
+            var query = (from po in _db.Posts
+                        join wl in _db.WatchLists on po.FacebookID equals wl.FacebookID
+                        join nlb in _db.NewsLabels on po.NewsLabelID equals nlb.NewsLabelID
+                        join slb in _db.SentimentLabels on po.SentimentLabelID equals slb.SentimentLabelID
+                        where po.PostID == postID
+                        select new JPost
+                        {
+                            PostID = po.PostID,
+                            PostUrl = po.PostUrl,
+                            UserUrl = po.UserUrl,
+                            PostContent = po.PostContent,
+                            Image = po.Image,
+                            UploadTime = po.UploadTime,
+                            TotalLikes = po.TotalLikes,
+                            TotalComment = po.TotalComment,
+                            TotalShare = po.TotalShare,
+                            FacebookID = po.FacebookID,
+                            FacebookName = wl.FacebookName,
+                            NewsLabelID = po.NewsLabelID,
+                            NewsLabelName = nlb.NewsLabelName,
+                            SentimentLabelID = po.SentimentLabelID,
+                            SentimentLabelName = slb.SentimentLabelName
+                        }).SingleOrDefault();
+            return query;
+        }
         public void AddNewPost(Post post)
         {
             _db.Posts.Add(post);
