@@ -365,7 +365,7 @@ class MainWindow(Frame):
         btn_black_list_cr.grid(column=2, row=0, padx=(10, 0))
         lbl_numpage_cr = Label(frm_top_cr, text='Số lần cuộn trang: ')
         lbl_numpage_cr.grid(column=3, row=0, padx=(20, 0))
-        spn_numpage_cr = ttk.Spinbox(frm_top_cr, from_=1, to=20, width=5)
+        spn_numpage_cr = ttk.Spinbox(frm_top_cr, from_=1, to=20, width=3)
         spn_numpage_cr.grid(column=4, row=0)
         spn_numpage_cr.insert(1, 1)
         frm_fbtype_cr = ttk.Frame(frm_top_cr)
