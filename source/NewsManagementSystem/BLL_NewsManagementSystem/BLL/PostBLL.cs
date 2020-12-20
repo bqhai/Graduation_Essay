@@ -31,6 +31,10 @@ namespace BLL_NewsManagementSystem.BLL
             }
             return postDTOs;
         }
+        public PostDTO GetPostByID(string postID)
+        {
+            return _mapToPostDto.Translate(_dalPost.GetPostByID(postID));
+        }
         public bool CheckExistPost(string postUrl)
         {
             return _dalPost.CheckExistPost(postUrl);
