@@ -59,6 +59,13 @@ namespace API_NewsManagementSystem.Controllers
         }
 
         [HttpGet]
+        [Route("GetPostByID/{postID}")]
+        public JsonResult<PostDTO> GetPostByID(string postID)
+        {
+            return Json(_bllPost.GetPostByID(postID));
+        }
+
+        [HttpGet]
         [Route("CheckExistPost")]
         public JsonResult<bool> CheckExistPost(PostDTO postDto)
         {
