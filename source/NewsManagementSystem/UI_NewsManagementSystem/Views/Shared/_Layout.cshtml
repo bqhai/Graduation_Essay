@@ -1,9 +1,10 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
+    @*<meta name="viewport" content="width=device-width" />*@
     <link href="~/Content/css/layout.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
@@ -12,13 +13,13 @@
     <div id="view-port">
         <div id="side-bar">
             <header>
-                <a href="#">
+                <a href="@Url.Action("Index", "Home")">
                     Hệ thống phân loại, đánh giá tin tức
                 </a>
             </header>
             <ul class="nav">
                 <li>
-                    <a href="#"><i class="fa fa-th-list" aria-hidden="true"></i>Danh sách theo dõi</a>
+                    <a href="@Url.Action("WatchList", "Home")"><i class="fa fa-th-list" aria-hidden="true"></i>Danh sách theo dõi</a>
                 </li>
                 <li>
                     <a href="#"><i class="fa fa-newspaper-o" aria-hidden="true"></i>Danh sách bài viết</a>
@@ -50,7 +51,7 @@
                     </li>
                 </ul>
             </div>
-            <div>
+            <div id="main">
                 @RenderBody()
             </div>
         </div>
