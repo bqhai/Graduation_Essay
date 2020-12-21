@@ -53,10 +53,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAL\AccountDAL.cs" />
     <Compile Include="DAL\WatchListDAL.cs" />
     <Compile Include="DAL\PostDAL.cs" />
     <Compile Include="JoinningTable\JPost.cs" />
     <Compile Include="JoinningTable\JWatchList.cs" />
+    <Compile Include="Models\Account.cs">
+      <DependentUpon>DbNewsManagementSystem.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DbNewsManagementSystem.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -82,9 +86,6 @@
       <DependentUpon>DbNewsManagementSystem.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SentimentLabel.cs">
-      <DependentUpon>DbNewsManagementSystem.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\SystemAccount.cs">
       <DependentUpon>DbNewsManagementSystem.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\WatchList.cs">

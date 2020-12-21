@@ -26,7 +26,7 @@ namespace DAL_NewsManagementSystem.Models
         public string FacebookID { get; set; }
         public string NewsLabelID { get; set; }
         public string SentimentLabelID { get; set; }
-
+    
         public virtual NewsLabel NewsLabel { get; set; }
         public virtual WatchList WatchList { get; set; }
         public virtual SentimentLabel SentimentLabel { get; set; }

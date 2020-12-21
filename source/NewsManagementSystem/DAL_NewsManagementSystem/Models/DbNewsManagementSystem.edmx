@@ -5,6 +5,14 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="NewsManagementSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Username" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="AccountType" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="FacebookType">
           <Key>
             <PropertyRef Name="FacebookTypeID" />
@@ -43,13 +51,6 @@
           </Key>
           <Property Name="SentimentLabelID" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="SentimentLabelName" Type="nvarchar" MaxLength="200" Nullable="false" />
-        </EntityType>
-        <EntityType Name="SystemAccount">
-          <Key>
-            <PropertyRef Name="Username" />
-          </Key>
-          <Property Name="Username" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="Password" Type="nvarchar" MaxLength="200" Nullable="false" />
         </EntityType>
         <EntityType Name="WatchList">
           <Key>
@@ -111,11 +112,11 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="NewsManagementSystemModelStoreContainer">
+          <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FacebookType" EntityType="Self.FacebookType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NewsLabel" EntityType="Self.NewsLabel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Post" EntityType="Self.Post" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SentimentLabel" EntityType="Self.SentimentLabel" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="SystemAccount" EntityType="Self.SystemAccount" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WatchList" EntityType="Self.WatchList" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__Post__FacebookID__1BFD2C07" Association="Self.FK__Post__FacebookID__1BFD2C07">
             <End Role="WatchList" EntitySet="WatchList" />
@@ -139,11 +140,11 @@
     <edmx:ConceptualModels>
       <Schema Namespace="NewsManagementSystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="NewsManagementSystemEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Accounts" EntityType="NewsManagementSystemModel.Account" />
           <EntitySet Name="FacebookTypes" EntityType="NewsManagementSystemModel.FacebookType" />
           <EntitySet Name="NewsLabels" EntityType="NewsManagementSystemModel.NewsLabel" />
           <EntitySet Name="Posts" EntityType="NewsManagementSystemModel.Post" />
           <EntitySet Name="SentimentLabels" EntityType="NewsManagementSystemModel.SentimentLabel" />
-          <EntitySet Name="SystemAccounts" EntityType="NewsManagementSystemModel.SystemAccount" />
           <EntitySet Name="WatchLists" EntityType="NewsManagementSystemModel.WatchList" />
           <AssociationSet Name="FK__WatchList__InBla__15502E78" Association="NewsManagementSystemModel.FK__WatchList__InBla__15502E78">
             <End Role="FacebookType" EntitySet="FacebookTypes" />
@@ -162,6 +163,14 @@
             <End Role="Post" EntitySet="Posts" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="AccountType" Type="Int32" Nullable="false" />
+        </EntityType>
         <EntityType Name="FacebookType">
           <Key>
             <PropertyRef Name="FacebookTypeID" />
@@ -206,13 +215,6 @@
           <Property Name="SentimentLabelID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="SentimentLabelName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Posts" Relationship="NewsManagementSystemModel.FK__Post__SentimentL__1DE57479" FromRole="SentimentLabel" ToRole="Post" />
-        </EntityType>
-        <EntityType Name="SystemAccount">
-          <Key>
-            <PropertyRef Name="Username" />
-          </Key>
-          <Property Name="Username" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="WatchList">
           <Key>
@@ -281,6 +283,15 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="NewsManagementSystemModelStoreContainer" CdmEntityContainer="NewsManagementSystemEntities">
+          <EntitySetMapping Name="Accounts">
+            <EntityTypeMapping TypeName="NewsManagementSystemModel.Account">
+              <MappingFragment StoreEntitySet="Account">
+                <ScalarProperty Name="AccountType" ColumnName="AccountType" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="FacebookTypes">
             <EntityTypeMapping TypeName="NewsManagementSystemModel.FacebookType">
               <MappingFragment StoreEntitySet="FacebookType">
@@ -321,14 +332,6 @@
               <MappingFragment StoreEntitySet="SentimentLabel">
                 <ScalarProperty Name="SentimentLabelName" ColumnName="SentimentLabelName" />
                 <ScalarProperty Name="SentimentLabelID" ColumnName="SentimentLabelID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SystemAccounts">
-            <EntityTypeMapping TypeName="NewsManagementSystemModel.SystemAccount">
-              <MappingFragment StoreEntitySet="SystemAccount">
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Username" ColumnName="Username" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
