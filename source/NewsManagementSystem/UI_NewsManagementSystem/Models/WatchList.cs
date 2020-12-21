@@ -16,4 +16,3 @@ namespace UI_NewsManagementSystem.Models
         public bool InBlackList { get; set; }
     }
 }
-}
