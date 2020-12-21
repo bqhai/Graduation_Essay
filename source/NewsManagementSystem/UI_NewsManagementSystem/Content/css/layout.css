@@ -104,3 +104,8 @@
 .fa {
     width: 15px;
 }
+#error-message {
+    z-index: 1000;
+    position: fixed;
+    height: 80px;
+}
