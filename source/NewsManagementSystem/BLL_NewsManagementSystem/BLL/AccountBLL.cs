@@ -1,6 +1,5 @@
 ﻿using DAL_NewsManagementSystem.DAL;
 using DAL_NewsManagementSystem.Models;
-using Models_NewsManagementSystem.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
