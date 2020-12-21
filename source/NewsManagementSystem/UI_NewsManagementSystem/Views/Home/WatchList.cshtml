@@ -1,0 +1,213 @@
+﻿@{
+    ViewBag.Title = "WatchList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using PagedList.Mvc
+@model PagedList.IPagedList<UI_NewsManagementSystem.Models.WatchList>
+@*<script>
+        $(document).ready(function () {
+            $('#watch-list').DataTable();
+        });
+    </script>*@
+<div class="row">
+    <div class="col-lg-12">
+        <h2 class="page-header">Danh sách theo dõi</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">         
+                <div class="row">
+                    <div class="col-sm-6">
+                        Table
+                    </div>
+                    <div class="col-sm-6" style="text-align:right">
+                        <a href="#add-to-watch-list" data-toggle="modal"><input type="button" class="btn btn-sm btn-primary" value="Thêm mới" /></a>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label>
+                                Hiển thị theo:
+                                <select class="form-control input-sm">
+                                    <option value="All">Tất cả</option>
+                                    <option value="PAGE">Trang</option>
+                                    <option value="GR">Nhóm</option>
+                                    <option value="USER">Cá nhân</option>
+                                </select>
+                                <a href="#"><input type="button" class="btn btn-sm btn-primary" value="OK" /></a>
+                            </label>
+                            <a href="#"><input type="button" class="btn btn-sm btn-danger btn-dark" value="Danh sách đen" /></a>
+                        </div>
+                        <div class="col-sm-6">
+                            <div id="dataTables-examble_filter" class="dataTables_filter">
+                                <form>
+                                    <label>
+                                        Tìm kiếm:
+                                        <input type="search" class="form-control input-sm" name="keyWord" required aria-controls="dataTables-example"/>
+                                        <button class="btn btn-sm btn-primary" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                    </label>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
+                            <thead>
+                                <tr role="row">
+                                    <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 200px">ID</th>
+                                    <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 350px">Tên</th>
+                                    <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 650px">URL</th>
+                                    <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 150px; text-align: center">Loại</th>
+                                    <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 150px; text-align: center">Trạng thái</th>
+                                    <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="text-align: center">Sửa</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr role="row">
+                                        <td>@item.FacebookID</td>
+                                        <td>@item.FacebookName</td>
+                                        <td>
+                                            <a href="@item.FacebookUrl">@item.FacebookUrl</a>                                       
+                                        </td>
+                                        <td style="text-align: center">@item.FacebookTypeName</td>
+                                        @if (item.Status)
+                                        {
+                                            <td style="text-align: center"><span class="label label-success">Đang theo dõi</span></td>
+                                        }
+                                        else
+                                        {
+                                            <td style="text-align: center"><span class="label label-default">Hủy theo dõi</span></td>
+                                        }
+                                        <td style="text-align: center">
+                                            <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#edit-item-watch-list" onclick="editItemInWatchList('@item.FacebookID')">
+                                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                                            </button>                                          
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="dataTables_paginate paging_simple_numbers">
+                            <ul class="pagination">
+                                <li class="paginate_button active" aria-controls="dataTables-example" tabindex="0">
+                                    @Html.PagedListPager(Model, pageIndex => Url.Action("WatchList", "Home", new { pageIndex }))
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="add-to-watch-list" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <h4 class="modal-title">Thêm đối tượng mới</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Tên</label>
+                        <input type="text" class="form-control" name="FacebookName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>URL</label>
+                        <input type="text" class="form-control" name="FacebookUrl" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Loại</label>
+                        <select class="form-control">
+                            <option value="PAGE">Trang</option>
+                            <option value="GR">Nhóm</option>
+                            <option value="USER">Cá nhân</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Hủy">
+                    <input type="submit" class="btn btn-primary" value="Thêm">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div id="edit-item-watch-list" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <h4 class="modal-title">Sửa thông tin đối tượng</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Tên</label>
+                        <input type="text" class="form-control" id="facebook-name" name="FacebookName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>URL</label>
+                        <input type="text" class="form-control" name="FacebookUrl" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Loại</label>
+                        <select class="form-control">
+                            <option value="PAGE">Trang</option>
+                            <option value="GR">Nhóm</option>
+                            <option value="USER">Cá nhân</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Trạng thái</label>
+                        <div class="form-inline">
+                            <label class="radio-inline">
+                                <input type="radio" class="radio-inline" name="Status" value="1" />Đang theo dõi
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" class="radio-inline" name="Status" value="0" />Bỏ theo dõi
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Hủy">
+                    <input type="submit" class="btn btn-primary" value="Lưu">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    function editItemInWatchList(facebookID) {
+        $.ajax({
+            url: 'https://localhost:44347/api/Home/GetWatchListItemByID/' + facebookID,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                console.log(data);
+                $("#facebook-name").val(data.FacebookName);
+            },
+            error: function () {
+                alert('Lỗi kết nối');
+            }
+        });
+    }
+</script>
