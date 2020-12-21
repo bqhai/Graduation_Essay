@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Results;
 
 namespace API_NewsManagementSystem.Controllers
 {
@@ -14,9 +15,9 @@ namespace API_NewsManagementSystem.Controllers
         private AccountBLL _bllAccount = new AccountBLL();
         [HttpGet]
         [Route("ProcessLogin/{username}/{password}")]
-        public bool ProcessLogin(string username, string password)
+        public JsonResult<bool> ProcessLogin(string username, string password)
         {
-            return _bllAccount.ProcessLogin(username, password);
+            return Json(_bllAccount.ProcessLogin(username, password));
         }
     }
 }
