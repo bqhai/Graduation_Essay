@@ -4,11 +4,6 @@
 }
 @using PagedList.Mvc
 @model PagedList.IPagedList<UI_NewsManagementSystem.Models.WatchList>
-@*<script>
-        $(document).ready(function () {
-            $('#watch-list').DataTable();
-        });
-    </script>*@
 <div class="row">
     <div class="col-lg-12">
         <h2 class="page-header">Danh sách theo dõi</h2>
@@ -17,13 +12,13 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
-            <div class="panel-heading">         
+            <div class="panel-heading">
                 <div class="row">
                     <div class="col-sm-6">
-                        Table
+                        
                     </div>
                     <div class="col-sm-6" style="text-align:right">
-                        <a href="#add-to-watch-list" data-toggle="modal"><input type="button" class="btn btn-sm btn-primary" value="Thêm mới" /></a>
+                        <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#add-to-watch-list">Thêm mới&nbsp;<i class="fa fa-plus" aria-hidden="true"></i></button>
                     </div>
                 </div>
             </div>
@@ -36,19 +31,21 @@
                                 <select class="form-control input-sm">
                                     <option value="All">Tất cả</option>
                                     <option value="PAGE">Trang</option>
-                                    <option value="GR">Nhóm</option>
+                                    <option value="GR">Nhóm công khai</option>
+                                    <option value="CGR">Nhóm kín</option>
                                     <option value="USER">Cá nhân</option>
                                 </select>
                                 <a href="#"><input type="button" class="btn btn-sm btn-primary" value="OK" /></a>
                             </label>
-                            <a href="#"><input type="button" class="btn btn-sm btn-danger btn-dark" value="Danh sách đen" /></a>
+                            @*<a href="#"><input type="button" class="btn btn-sm btn-danger btn-dark" value="Danh sách đen" /></a>*@
+                            <button class="btn btn-sm btn-danger btn-dark"><i class="fa fa-list-alt" aria-hidden="true"></i>&nbsp;Danh sách đen</button>
                         </div>
                         <div class="col-sm-6">
                             <div id="dataTables-examble_filter" class="dataTables_filter">
                                 <form>
                                     <label>
                                         Tìm kiếm:
-                                        <input type="search" class="form-control input-sm" name="keyWord" required aria-controls="dataTables-example"/>
+                                        <input type="search" class="form-control input-sm" name="keyWord" required aria-controls="dataTables-example" />
                                         <button class="btn btn-sm btn-primary" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                                     </label>
                                 </form>
@@ -76,7 +73,7 @@
                                         <td>@item.FacebookID</td>
                                         <td>@item.FacebookName</td>
                                         <td>
-                                            <a href="@item.FacebookUrl">@item.FacebookUrl</a>                                       
+                                            <a href="@item.FacebookUrl" target="_blank">@item.FacebookUrl</a>
                                         </td>
                                         <td style="text-align: center">@item.FacebookTypeName</td>
                                         @if (item.Status)
@@ -90,7 +87,7 @@
                                         <td style="text-align: center">
                                             <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#edit-item-watch-list" onclick="editItemInWatchList('@item.FacebookID')">
                                                 <i class="fa fa-pencil" aria-hidden="true"></i>
-                                            </button>                                          
+                                            </button>
                                         </td>
                                     </tr>
                                 }
@@ -100,7 +97,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
-
+                        <strong>Tổng cộng: @ViewBag.Count</strong>
                     </div>
                     <div class="col-sm-6">
                         <div class="dataTables_paginate paging_simple_numbers">
@@ -119,7 +116,7 @@
 <div id="add-to-watch-list" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form>
+            <form method="post" action="@Url.Action("AddToWatchList", "Home")">
                 <div class="modal-header">
                     <h4 class="modal-title">Thêm đối tượng mới</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -127,24 +124,25 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Tên</label>
-                        <input type="text" class="form-control" name="FacebookName" required>
+                        <input type="text" class="form-control" name="FacebookName" maxlength="100" required>
                     </div>
                     <div class="form-group">
                         <label>URL</label>
-                        <input type="text" class="form-control" name="FacebookUrl" required>
+                        <input type="text" class="form-control" id="add-facebook-url" name="FacebookUrl" onkeypress="clearValidate()" maxlength="200" required>
                     </div>
                     <div class="form-group">
                         <label>Loại</label>
-                        <select class="form-control">
+                        <select class="form-control" name="FacebookTypeID">
                             <option value="PAGE">Trang</option>
-                            <option value="GR">Nhóm</option>
+                            <option value="GR">Nhóm công khai</option>
+                            <option value="CGR">Nhóm kín</option>
                             <option value="USER">Cá nhân</option>
                         </select>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Hủy">
-                    <input type="submit" class="btn btn-primary" value="Thêm">
+                    <button type="submit" class="btn btn-primary" onclick="checkValidUrl()">Thêm</button>
                 </div>
             </form>
         </div>
@@ -153,25 +151,26 @@
 <div id="edit-item-watch-list" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form>
+            <form method="post", action="@Url.Action("UpdateToWatchList", "Home")">
                 <div class="modal-header">
                     <h4 class="modal-title">Sửa thông tin đối tượng</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label>Tên</label>
-                        <input type="text" class="form-control" id="facebook-name" name="FacebookName" required>
+                        <label>ID</label>
+                        <input type="text" class="form-control" id="facebook-id" name="FacebookID" readonly>
                     </div>
                     <div class="form-group">
-                        <label>URL</label>
-                        <input type="text" class="form-control" name="FacebookUrl" required>
+                        <label>Tên</label>
+                        <input type="text" class="form-control" id="facebook-name" name="FacebookName" maxlength="100" required>
                     </div>
                     <div class="form-group">
                         <label>Loại</label>
-                        <select class="form-control">
+                        <select class="form-control" id="facebook-type-id" name="FacebookTypeID">
                             <option value="PAGE">Trang</option>
-                            <option value="GR">Nhóm</option>
+                            <option value="GR">Nhóm công khai</option>
+                            <option value="CGR">Nhóm kín</option>
                             <option value="USER">Cá nhân</option>
                         </select>
                     </div>
@@ -179,11 +178,14 @@
                         <label>Trạng thái</label>
                         <div class="form-inline">
                             <label class="radio-inline">
-                                <input type="radio" class="radio-inline" name="Status" value="1" />Đang theo dõi
+                                <input type="radio" class="radio-inline" id="status1" name="Status" value="true" />Đang theo dõi
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" class="radio-inline" name="Status" value="0" />Bỏ theo dõi
+                                <input type="radio" class="radio-inline" id="status0" name="Status" value="false" />Bỏ theo dõi
                             </label>
+                        </div>
+                        <div class="checkbox">
+                            <label><input type="checkbox" class="checkbox" id="black-list" name="InBlackList" value="true"/>Thêm vào danh sách đen?</label>
                         </div>
                     </div>
                 </div>
@@ -202,12 +204,68 @@
             type: 'GET',
             dataType: 'json',
             success: function (data) {
-                console.log(data);
+                //console.log(data);
+                $("#facebook-id").val(data.FacebookID)
                 $("#facebook-name").val(data.FacebookName);
+                $("#facebook-type-id").val(data.FacebookTypeID);
+                if (data.Status) {
+                    $("#status1").prop('checked', true);
+                }
+                else {
+                    $("#status0").prop('checked', true);
+                }
+                if (data.InBlackList) {
+                    $("#black-list").prop('checked', true);
+                }
+                else {
+                    $("#black-list").prop('checked', false);
+                }
             },
             error: function () {
-                alert('Lỗi kết nối');
+                alert('Lỗi kết nối đến server!');
             }
         });
+    }
+    function clearValidate() {
+        $("#add-facebook-url")[0].setCustomValidity('');
+    }
+    function checkValidUrl() {
+        var facebookUrl = $("#add-facebook-url");
+        var pattern = /^(https?:\/\/)?((w{3}\.)?)facebook.com\/.*/i;
+        var dangerChar = ['*', '<', '>', '%', ':'];
+        if (!pattern.test(facebookUrl.val()) || facebookUrl.val().includes('*') || facebookUrl.val().includes('<') || facebookUrl.val().includes('>') || facebookUrl.val().includes('%') || facebookUrl.val().includes(':')) {           
+            facebookUrl[0].setCustomValidity('Link facebook không hợp lệ');
+        }
+        else {
+            facebookUrl[0].setCustomValidity('');
+            //var arr = facebookUrl.val().split('/');
+            //console.log(arr);
+            //if (arr[arr.length - 1] === '') {
+            //    var facebookID = arr[arr.length - 2];
+            //    console.log(facebookID);
+            //}
+            //else {
+            //    var facebookID = arr[arr.length - 1];
+            //    console.log(facebookID);
+            //}  
+            //$.ajax({
+            //    url: 'https://localhost:44347/api/Home/CheckExistInWatchList/' + facebookID,
+            //    type: 'GET',
+            //    dataType: 'json',
+            //    contentType: 'application/json',
+            //    success: function (data) {
+            //        if (data) {
+            //            console.log(data);
+            //            facebookUrl[0].setCustomValidity('Link facebook đã tồn tại');
+            //        }
+            //        else {
+            //            facebookUrl[0].setCustomValidity('');
+            //        }
+            //    },
+            //    error: function () {
+            //        alert('Lỗi kết nối đến server!');
+            //    }
+            //});               
+        }
     }
 </script>
