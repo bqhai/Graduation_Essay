@@ -5,16 +5,35 @@
     <link href="~/Content/css/layout.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="~/Content/js/alert-message.js"></script>
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
+    @if (TempData["DangerMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade in custom-alert">
+            <strong>Lỗi!</strong> @TempData["DangerMessage"]
+        </div>
+    }
+    else if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade in custom-alert">
+            <strong>Thông báo!</strong> @TempData["SuccessMessage"]
+        </div>
+    }
+    else if (TempData["WarningMessage"] != null)
+    {
+        <div class="alert alert-warning alert-dismissible fade in custom-alert">
+            <strong>Thông báo!</strong> @TempData["WarningMessage"]
+        </div>
+    }
     <div id="view-port">
         <div id="side-bar">
             <header>
                 <a href="@Url.Action("Index", "Home")">
-                    Hệ thống phân loại, đánh giá tin tức
+                    Hệ thống thu thập, phân loại, đánh giá tin tức
                 </a>
             </header>
             <ul class="nav">
@@ -22,7 +41,7 @@
                     <a href="@Url.Action("WatchList", "Home")"><i class="fa fa-th-list" aria-hidden="true"></i>Danh sách theo dõi</a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-newspaper-o" aria-hidden="true"></i>Danh sách bài viết</a>
+                    <a href="@Url.Action("Post", "Home")"><i class="fa fa-newspaper-o" aria-hidden="true"></i>Danh sách bài viết</a>
                 </li>
                 <li>
                     <a href="#"><i class="fa fa-pie-chart" aria-hidden="true"></i>Thống kê - Đánh giá</a>
@@ -51,6 +70,7 @@
                     </li>
                 </ul>
             </div>
+
             <div id="main">
                 @RenderBody()
             </div>
