@@ -3,7 +3,12 @@
     padding-top: 0px !important;
     min-width: 1280px !important;
 }
-
+.custom-alert {
+    z-index: 2000;
+    position: fixed;
+    width: 30%;
+    margin-left: 35%;
+}
 #view-port {
     padding-left: 270px;
     padding-right: 20px;
@@ -63,13 +68,13 @@
         background: none;
         border-bottom: 1px solid #455A64;
         color: #CFD8DC;
-        font-size: 14px;
+        font-size: 18px;
         padding: 16px 24px;
     }
 
         #side-bar .nav a:hover {
             background: none;
-            color: orangered;
+            color: #337ab7;
         }
 
         #side-bar .nav a i {
@@ -85,18 +90,19 @@
 #header {
     z-index: 1000;
     height: 80px;
-    background-color: #263238;
+    background-color: #37474F;
     margin-left: -20px;
-    margin-right: -20px;
+    padding-right: 250px;
     border-left: 1px solid #455A64;
-    width: 87%;
-    position:fixed;
+    width: 100%;
+    position: fixed;
 }
 
     #header ul {
         float: right;
         margin-right: 30px;
         margin-top: 25px;
+        list-style: none;
     }
         #header ul a {
             font-size: 20px;
@@ -104,7 +110,7 @@
             color: #CFD8DC;
         }
             #header ul a:hover {
-                color: orangered;
+                color: #337ab7;
             }
 #main{
     padding-top: 80px;
@@ -116,11 +122,6 @@
     background: #171717 !important;
     border-color: #000000 !important;
     margin-left: 30px;
-}
-#error-message {
-    z-index: 1000;
-    position: fixed;
-    height: 80px;
 }
 .dataTables_filter{
     text-align:right;
