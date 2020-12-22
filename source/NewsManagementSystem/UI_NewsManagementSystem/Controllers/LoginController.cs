@@ -29,11 +29,11 @@ namespace UI_NewsManagementSystem.Controllers
                 }
                 else
                 {
-                    TempData["DangerMessage"] = Message.AuthenticateFail();
+                    TempData["DangerMessage"] = Message.AuthenticateFailed();
                     return Redirect(this.Request.UrlReferrer.ToString());
                 }
             }
-            TempData["DangerMessage"] = Message.ConnectFail();
+            TempData["DangerMessage"] = Message.ConnectFailed();
             return Redirect(this.Request.UrlReferrer.ToString());
         }
     }
