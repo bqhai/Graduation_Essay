@@ -76,8 +76,7 @@ INSERT INTO Account VALUES(N'bqhai03', N'123456', 0)
 INSERT INTO FacebookType VALUES(N'PAGE', N'Trang', NULL)
 INSERT INTO FacebookType VALUES(N'GR', N'Nhóm công khai', N'Public groups, nơi mọi người có thể xem tất cả nội dung và các thành viên.')
 INSERT INTO FacebookType VALUES(N'CGR', N'Nhóm kín', N'Closed groups, nơi mọi người có thể xem tên nhóm và thành viên, nhưng không xem được nội dung của nhóm.')
-INSERT INTO FacebookType VALUES(N'PGR', N'Nhóm bí mật', N'Secret groups, nơi bạn phải được mời để có thể tham gia vào nhóm.')
-INSERT INTO FacebookType VALUES(N'USER', N'Tài khoản người dùng', N'Tài khoản của người dùng thông thường')
+INSERT INTO FacebookType VALUES(N'USER', N'Cá nhân', N'Tài khoản của người dùng thông thường')
 
 --BlackList--
 INSERT INTO WatchList VALUES(N'viettan', N'Việt Tân', N'https://www.facebook.com/viettan', N'PAGE', 1, 0)
@@ -108,6 +107,8 @@ INSERT INTO WatchList VALUES(N'nhabaocongdan22', N'Góc nhìn báo chí - Công 
 INSERT INTO WatchList VALUES(N'nhabaocongdan23', N'Góc nhìn báo chí - Công dân', N'https://www.facebook.com/groups/nhabaocongdan23/', N'GR', 1, 0)
 INSERT INTO WatchList VALUES(N'nhabaocongdan24', N'Góc nhìn báo chí - Công dân', N'https://www.facebook.com/groups/nhabaocongdan24/', N'GR', 1, 0)
 INSERT INTO WatchList VALUES(N'nhabaocongdan25', N'Góc nhìn báo chí - Công dân', N'https://www.facebook.com/groups/nhabaocongdan25/', N'GR', 1, 0)
+INSERT INTO WatchList VALUES(N'nhabaocongdan26', N'Góc nhìn báo chí - Công dân', N'https://www.facebook.com/groups/nhabaocongdan26/', N'GR', 0, 0)
+INSERT INTO WatchList VALUES(N'nhabaocongdan27', N'Góc nhìn báo chí - Công dân', N'https://www.facebook.com/groups/nhabaocongdan27/', N'GR', 0, 1)
 --NewsLabel--
 INSERT INTO NewsLabel VALUES(N'TTH', N'Thể thao')
 INSERT INTO NewsLabel VALUES(N'AN', N'Âm nhạc')
