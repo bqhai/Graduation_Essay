@@ -62,6 +62,7 @@ namespace DAL_NewsManagementSystem.DAL
         {
             WatchList wl = _db.WatchLists.SingleOrDefault(w => w.FacebookID == watchList.FacebookID);
             wl.FacebookName = watchList.FacebookName;
+            wl.FacebookTypeID = watchList.FacebookTypeID;
             wl.Status = watchList.Status;
             wl.InBlackList = watchList.InBlackList;
             _db.SaveChanges();
