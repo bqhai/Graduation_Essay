@@ -3,7 +3,9 @@
     font-size: 14px;
     color: #fff;
 }
-
+.login{
+    margin-top: 100px;
+}
 .simple-login-container {
     width: 300px;
     max-width: 100%;
@@ -22,4 +24,11 @@
 
 a {
     color: #fff;
+}
+.custom-alert {
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    width: 30%;
+    margin-left: 35%;
 }
