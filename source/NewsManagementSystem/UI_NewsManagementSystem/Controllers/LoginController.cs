@@ -36,5 +36,9 @@ namespace UI_NewsManagementSystem.Controllers
             TempData["DangerMessage"] = Message.ConnectFailed();
             return Redirect(this.Request.UrlReferrer.ToString());
         }
+        public ActionResult ProcessLogout()
+        {
+            return RedirectToAction("Login", "Login");
+        }
     }
 }
