@@ -42,17 +42,30 @@ namespace UI_NewsManagementSystem.Controllers
                 return arr[arr.Length - 1];
             }
         }
-        public bool CheckExistInWatchList(string facebookUrl)
+        public int CheckExistInWatchList(string facebookUrl)
         {
             string facebookID = GetIdFromUrl(facebookUrl);
             var response = _apiService.GetResponse("api/Home/CheckExistInWatchList/" + facebookID + "/");
-            return response.Content.ReadAsAsync<bool>().Result; //true: exits -- false: ok we can add now
+            if (response.IsSuccessStatusCode)
+            {
+                if (response.Content.ReadAsAsync<bool>().Result) //true: exits -- false: ok we can add now
+                    return 1;
+                else
+                    return -1;
+            }
+            return 404;
         }
         public ActionResult AddToWatchList(WatchList watchList)
         {
-            if (CheckExistInWatchList(watchList.FacebookUrl))
+            int check = CheckExistInWatchList(watchList.FacebookUrl);
+            if (check == 1)
             {
                 TempData["WarningMessage"] = "Link facebook đã tồn tại";
+                return Redirect(Request.UrlReferrer.ToString());
+            }
+            else if (check == 404)
+            {
+                TempData["WarningMessage"] = "Link facebook không được chưa ký tự đặc biệt";
                 return Redirect(Request.UrlReferrer.ToString());
             }
             watchList.FacebookID = GetIdFromUrl(watchList.FacebookUrl);
