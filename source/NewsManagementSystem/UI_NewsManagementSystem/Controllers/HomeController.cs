@@ -27,6 +27,7 @@ namespace UI_NewsManagementSystem.Controllers
                 ViewBag.Count = result.Count;
                 return View(result.ToPagedList(pageIndex, pageSize));
             }
+            TempData["DangerMessage"] = Message.ConnectFailed();
             return RedirectToAction("Index", "Home");
         }
         public string GetIdFromUrl(string url)
@@ -88,9 +89,17 @@ namespace UI_NewsManagementSystem.Controllers
         #endregion
 
         #region Post
-        public ActionResult Post()
+        public ActionResult Post(int pageIndex = 1, int pageSize = 11)
         {
-            return View();
+            var response = _apiService.GetResponse("api/Home/GetAllPost");
+            if (response.IsSuccessStatusCode)
+            {
+                var result = response.Content.ReadAsAsync<List<Post>>().Result;
+                ViewBag.Count = result.Count;
+                return View(result.ToPagedList(pageIndex, pageSize));
+            }
+            TempData["DangerMessage"] = Message.ConnectFailed();
+            return RedirectToAction("Index", "Home");
         }
         #endregion
     }
