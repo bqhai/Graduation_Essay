@@ -172,3 +172,20 @@
 .modal textarea.form-control {
     resize: vertical;
 }
+
+.ellipsis {
+    position: relative;
+}
+
+.ellipsis:before {
+    content: '&nbsp;';
+    visibility: hidden;
+}
+    .ellipsis span {
+        position: absolute;
+        left: 8px;
+        right: 8px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
