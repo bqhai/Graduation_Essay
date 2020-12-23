@@ -35,6 +35,7 @@ namespace DAL_NewsManagementSystem.DAL
                             TotalShare = po.TotalShare,
                             FacebookID = po.FacebookID,
                             FacebookName = wl.FacebookName,
+                            FacebookUrl = wl.FacebookUrl,
                             NewsLabelID = po.NewsLabelID,
                             NewsLabelName = nlb.NewsLabelName,
                             SentimentLabelID = po.SentimentLabelID,
@@ -63,6 +64,7 @@ namespace DAL_NewsManagementSystem.DAL
                             FacebookID = po.FacebookID,
                             FacebookName = wl.FacebookName,
                             NewsLabelID = po.NewsLabelID,
+                            FacebookUrl = wl.FacebookUrl,
                             NewsLabelName = nlb.NewsLabelName,
                             SentimentLabelID = po.SentimentLabelID,
                             SentimentLabelName = slb.SentimentLabelName
