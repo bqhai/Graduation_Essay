@@ -148,6 +148,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\layout.css" />
     <Content Include="Content\css\login.css" />
+    <Content Include="Content\img\No_image_available.png" />
     <Content Include="Content\js\alert-message.js" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
