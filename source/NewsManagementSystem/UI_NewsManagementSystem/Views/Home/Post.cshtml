@@ -19,7 +19,7 @@
 
                     </div>
                     <div class="col-sm-6" style="text-align:right">
-                        <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#add-to-watch-list">Xóa&nbsp;<i class="fa fa-trash" aria-hidden="true"></i></button>
+                        <button id="delete-post" class="btn btn-sm btn-danger" disabled>Xóa&nbsp;<i class="fa fa-trash" aria-hidden="true"></i></button>
                     </div>
                 </div>
             </div>
@@ -69,7 +69,7 @@
                                     <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 300px">URL bài viết</th>
                                     <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 500px">Nội dung</th>
                                     <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 150px">Ngày đăng</th>
-                                    <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 250px">Người đăng</th>
+                                    <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 250px">Nơi thu thập</th>
                                     <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 140px; text-align: center">Nhãn</th>
                                     <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 150px; text-align: center">Mức độ</th>
                                     <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 60px; text-align: center">Xem</th>
@@ -80,7 +80,7 @@
                                 {
                                     <tr role="row">
                                         <td>                                          
-                                            <input type="checkbox" id="@item.PostID" class="checkbox" style="margin-bottom: 3px; cursor: pointer" />
+                                            <input type="checkbox" class="checkbox" name="SelectPost" value="@item.PostID" style="margin-bottom: 3px; cursor: pointer" />
                                         </td>
                                         <td class="ellipsis">
                                             <span><a href="@item.PostUrl" target="_blank">@item.PostUrl</a></span>                                           
@@ -104,7 +104,7 @@
                                             <td style="text-align: center"><span class="label label-primary">@item.SentimentLabelName</span></td>
                                         }
                                         <td style="text-align: center">
-                                            <button class="btn btn-sm btn-primary">
+                                            <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#view-post-detail" onclick="viewPostDetail('@item.PostID')">
                                                 <i class="fa fa-eye" aria-hidden="true"></i>
                                             </button>
                                         </td>
@@ -132,9 +132,127 @@
         </div>
     </div>
 </div>
+<div id="view-post-detail" class="modal fade">
+    <div class="modal-dialog" id="md-view-post-detail">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Thông tin bài viết</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="clearLabelColor()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Url bài viết</label>
+                    <a href="#" id="post-url" target="_blank">
+                        <p>Url bài viết</p>
+                    </a>
+                </div>
+                <div class="form-group">
+                    <label>Url người đăng</label>
+                    <a href="#" id="user-url" target="_blank">
+                        <p>Url người đăng</p>
+                    </a>
+                </div>
+                <div class="form-group">
+                    <label>Thời gian đăng</label>
+                    <p id="upload-time">Thời gian đăng</p>
+                </div>
+                <div class="form-group">
+                    <label>Nội dung bài viết</label>
+                    <textarea id="post-content" class="form-control" rows="10" style="max-width:850px !important;" readonly></textarea>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Hình ảnh</label>
+                            <br />
+                            <a href="#" id="image">
+                                <img src="https://lh3.googleusercontent.com/proxy/LRGVbwUNPcDNvzbkY6wSsvsyrjA6rsyhlou972nq9RdG1MVNAxjAlwZXi0pRV8JLZJTVWnuz024gQkKMbh_4kSWBsxjA2EgABWnEVpmSoi-CHD1JlN7Q6WOS7UbGW77INw" width="400" height="200" />
+                            </a>                         
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Tương tác</label>
+                            <br />
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <strong><i class="fa fa-thumbs-up" aria-hidden="true"></i>&nbsp;Thích:&nbsp;</strong><span id="like">15</span>
+                                </div>
+                                <div class="col-sm-4">
+                                    <strong><i class="fa fa-comment" aria-hidden="true"></i>&nbsp;Bình luận:&nbsp;</strong><span id="comment">20</span>
+                                </div>
+                                <div class="col-sm-4">
+                                    <strong><i class="fa fa-share" aria-hidden="true"></i>&nbsp;Chia sẻ:&nbsp;</strong><span id="share">30</span>
+                                </div>
+                            </div>                   
+                        </div>
+                        <div class="form-group">
+                            <label>Nhãn bài viết</label>
+                            <p id="news-label" style="font-size: 20px; color: red">Nhãn bài viết</p>
+                        </div>
+                        <div class="form-group">
+                            <label>Mức độ</label>
+                            <br />
+                            <span id="sentiment-label" class="label" style="font-size: 20px;">Mức độ</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clearLabelColor()">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     $('#select-all-post').click(function (e) {
         var table = $(e.target).closest('table');
         $('td input:checkbox', table).prop('checked', this.checked);
     });
+    //$('input[name="SelectPost"]').change(function () {
+    //    if (this.checked)
+    //        $('#delete-post').prop('disabled', false);
+    //    else
+    //        $('#delete-post').prop('disabled', true);
+    //});
+    function viewPostDetail(postID) {
+        $.ajax({
+            url: 'https://localhost:44347/api/Home/GetPostByID/' + postID,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                //console.log(data);
+                $('#post-url').attr('href', data.PostUrl).children('p').html(data.PostUrl);
+                $('#user-url').attr('href', data.UserUrl).children('p').html(data.UserUrl);
+                $('#upload-time').html(data.UploadTime);
+                $('#post-content').html(data.PostContent);
+                $('#like').html(data.TotalLikes);
+                $('#comment').html(data.TotalComment);
+                $('#share').html(data.TotalShare);
+                $('#news-label').html(data.NewsLabelName);
+                if (data.Image != 'None') {
+                    $('#image').attr('href', data.Image).children('img').attr('src', data.Image);
+                }             
+                if (data.SentimentLabelID == 'NEG') {
+                    $('#sentiment-label').html(data.SentimentLabelName).addClass('label-danger');
+                }
+                else if (data.SentimentLabelID == 'POS') {
+                    $('#sentiment-label').html(data.SentimentLabelName).addClass('label-success');
+                }
+                else {
+                    $('#sentiment-label').html(data.SentimentLabelName).addClass('label-primary');
+                }
+                
+            },
+            error: function () {
+                alert('Lỗi kết nối đến server!');
+            }
+        });
+    }
+    function clearLabelColor() {
+        $('#sentiment-label').removeClass('label-danger');
+        $('#sentiment-label').removeClass('label-success');
+        $('#sentiment-label').removeClass('label-primary');
+        $('#image').attr('href', '#').children('img').attr('src', 'https://lh3.googleusercontent.com/proxy/LRGVbwUNPcDNvzbkY6wSsvsyrjA6rsyhlou972nq9RdG1MVNAxjAlwZXi0pRV8JLZJTVWnuz024gQkKMbh_4kSWBsxjA2EgABWnEVpmSoi-CHD1JlN7Q6WOS7UbGW77INw');
+    }
 </script>
