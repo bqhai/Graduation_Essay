@@ -17,6 +17,7 @@ namespace UI_NewsManagementSystem.Models
         public Nullable<int> TotalComment { get; set; }
         public Nullable<int> TotalShare { get; set; }
         public string FacebookID { get; set; }
+        public string FacebookUrl { get; set; }
         public string NewsLabelID { get; set; }
         public string SentimentLabelID { get; set; }
         public string FacebookName { get; set; }
