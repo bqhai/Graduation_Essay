@@ -19,7 +19,7 @@
 
                     </div>
                     <div class="col-sm-6" style="text-align:right">
-                        <button id="delete-post" class="btn btn-sm btn-danger" disabled>Xóa&nbsp;<i class="fa fa-trash" aria-hidden="true"></i></button>
+                        <button id="delete-post" class="btn btn-sm btn-danger" onclick="deletePost()" disabled>Xóa&nbsp;<i class="fa fa-trash" aria-hidden="true"></i></button>
                     </div>
                 </div>
             </div>
@@ -37,7 +37,7 @@
                                 &nbsp;
                                 Mức độ:
                                 <select class="form-control input-sm">
-                                    <option value="ALL">Tất cả</option>
+                                    <option value="ALL">Tất cả</option>                                  
                                     <option value="POS">Tích cực</option>
                                     <option value="NEU">Bình thường</option>
                                     <option value="NEG">Tiêu cực</option>
@@ -50,7 +50,7 @@
                                 <form>
                                     <label>
                                         Tìm kiếm:
-                                        <input type="search" class="form-control input-sm" name="keyWord" required aria-controls="dataTables-example" />
+                                        <input type="search" class="form-control input-sm" name="keyWord" required />
                                         <button class="btn btn-sm btn-primary" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                                     </label>
                                 </form>
@@ -60,11 +60,11 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
-                        <table class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
+                        <table class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" id="dataTables-post">
                             <thead>
                                 <tr role="row">
                                     <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 30px">
-                                        <input type="checkbox" id="select-all-post" class="checkbox" style="margin-bottom: 3px; cursor: pointer" />
+                                        @*<input type="checkbox" id="select-all-post" class="checkbox" style="margin-bottom: 3px; cursor: pointer" />*@
                                     </th>
                                     <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 300px">URL bài viết</th>
                                     <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 500px">Nội dung</th>
@@ -80,7 +80,7 @@
                                 {
                                     <tr role="row">
                                         <td>                                          
-                                            <input type="checkbox" class="checkbox" name="SelectPost" value="@item.PostID" style="margin-bottom: 3px; cursor: pointer" />
+                                            <input type="checkbox" id="@item.PostID" class="checkbox" onchange="addPostIDToArray('@item.PostID')" style="margin-bottom: 3px; cursor: pointer" />
                                         </td>
                                         <td class="ellipsis">
                                             <span><a href="@item.PostUrl" target="_blank">@item.PostUrl</a></span>                                           
@@ -166,7 +166,7 @@
                             <label>Hình ảnh</label>
                             <br />
                             <a href="#" id="image">
-                                <img src="https://lh3.googleusercontent.com/proxy/LRGVbwUNPcDNvzbkY6wSsvsyrjA6rsyhlou972nq9RdG1MVNAxjAlwZXi0pRV8JLZJTVWnuz024gQkKMbh_4kSWBsxjA2EgABWnEVpmSoi-CHD1JlN7Q6WOS7UbGW77INw" width="400" height="200" />
+                                <img src="~/Content/img/No_image_available.png" width="400" height="200" />
                             </a>                         
                         </div>
                     </div>
@@ -205,16 +205,56 @@
     </div>
 </div>
 <script>
+    var listPostID = []; //list postID for delete button
+
     $('#select-all-post').click(function (e) {
         var table = $(e.target).closest('table');
         $('td input:checkbox', table).prop('checked', this.checked);
     });
-    //$('input[name="SelectPost"]').change(function () {
-    //    if (this.checked)
-    //        $('#delete-post').prop('disabled', false);
-    //    else
-    //        $('#delete-post').prop('disabled', true);
-    //});
+    function addPostIDToArray(postID) {
+        if ($('#' + postID).is(':checked')) {
+            listPostID.push(postID);
+        }
+        else {
+            for (var i = 0; i < listPostID.length; i++) {
+                if (listPostID[i] === postID) {
+                    listPostID.splice(i, 1);
+                    i--;
+                }
+            }
+        }
+        if (checkEmptyArray()) {
+            $('#delete-post').prop('disabled', true);
+        }
+        else {
+            $('#delete-post').prop('disabled', false);
+        }
+        console.log(listPostID);         
+    }
+    function checkEmptyArray() {
+        if (listPostID.length == 0) {
+            return true;
+        }
+        return false;
+    }
+    function deletePost() {
+        for (var i = 0; i < listPostID.length; i++) {
+            console.log(i);
+            $.ajax({
+                url: 'https://localhost:44347/api/Home/RemovePost/' + listPostID[i],
+                type: 'delete',
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    location.reload();
+                },
+                error: function () {
+                    alert('Lỗi kết nối đến server!');
+                }
+            });
+        }
+        
+    }
     function viewPostDetail(postID) {
         $.ajax({
             url: 'https://localhost:44347/api/Home/GetPostByID/' + postID,
@@ -253,6 +293,6 @@
         $('#sentiment-label').removeClass('label-danger');
         $('#sentiment-label').removeClass('label-success');
         $('#sentiment-label').removeClass('label-primary');
-        $('#image').attr('href', '#').children('img').attr('src', 'https://lh3.googleusercontent.com/proxy/LRGVbwUNPcDNvzbkY6wSsvsyrjA6rsyhlou972nq9RdG1MVNAxjAlwZXi0pRV8JLZJTVWnuz024gQkKMbh_4kSWBsxjA2EgABWnEVpmSoi-CHD1JlN7Q6WOS7UbGW77INw');
+        $('#image').attr('href', '#').children('img').attr('src', '');
     }
 </script>
