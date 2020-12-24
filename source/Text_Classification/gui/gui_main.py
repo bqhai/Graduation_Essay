@@ -85,7 +85,6 @@ class MainWindow(Frame):
         frm_crawler = ttk.Frame(tab_control_m)
         frm_word_tokenizer = ttk.Frame(tab_control_m)
         frm_text_classification = ttk.Frame(tab_control_m)
-        frm_guild = ttk.Frame(tab_control_m)
         tab_control_m.add(frm_crawler, text='   Thu thập dữ liệu   ')
         tab_control_m.add(frm_word_tokenizer, text='   Công cụ tách từ   ')
         tab_control_m.add(frm_text_classification, text='   Phân loại văn bản   ')
