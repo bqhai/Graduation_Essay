@@ -23,67 +23,6 @@ def count_crawled_post():
     return total_post_crawled
 
 
-# def crawl_page():
-#     driver = load_page.driver
-#     list_json_post = []
-#     list_html_post = driver.find_elements_by_css_selector('[class="_427x"] .userContentWrapper')
-#     # page does not exit
-#     if len(list_html_post) == 0:
-#         logging.error('Page does not exit')
-#         return -1
-#     print('Start crawling', len(list_html_post), 'posts...')
-#     logging.info('Start crawling ' + str(len(list_html_post)) + ' posts')
-#
-#     global total_post_crawled
-#     total_post_crawled = len(list_html_post)
-#
-#     for post in list_html_post:
-#         post_url = get_child_attribute(post, '._5pcq', 'href').split('?')[0]
-#         post_id = re.findall('\d+', post_url)[-1]
-#         time = get_child_attribute(post, 'abbr', 'title')
-#         post_text = get_child_attribute(post, '.userContent', 'textContent')
-#         total_react = get_child_attribute(post, '._81hb', 'innerText')
-#         total_shares = get_child_attribute(post, '._3rwx', 'innerText')
-#         total_cmts = get_child_attribute(post, '._3hg-', 'innerText')
-#         facebook_id = post_url.split('/')[3]
-#
-#         # get number of like
-#         if total_react.find('K') != -1:
-#             total_react = total_react.replace('K', '')
-#             if total_react.find(',') != -1:
-#                 total_react = total_react.replace(',', '')
-#                 total_react = int(total_react[0]) * 1000 + int(total_react[1]) * 100
-#             else:
-#                 total_react = int(total_react) * 1000
-#         elif len(total_react) <= 0:
-#             total_react = 0
-#         else:
-#             # convert like to int if like < 1000
-#             total_react = int(total_react)
-#
-#         # get number of comment and shares
-#         temp = [int(word) for word in total_shares.split() if word.isdigit()]
-#         if len(temp) > 0:
-#             total_shares = temp[0]
-#         temp = [int(word) for word in total_cmts.split() if word.isdigit()]
-#         if len(temp) > 0:
-#             total_cmts = temp[0]
-#
-#         list_json_post.append({
-#             'PostUrl': post_url,
-#             'UploadTime': time,
-#             'PostContent': post_text,
-#             'TotalLikes': total_react,
-#             'TotalComment': total_cmts,
-#             'TotalShare': total_shares,
-#             'FacebookID': facebook_id,
-#             'NewsLabelID': convert_label_to_labelID(predict(text_preprocess(post_text)))
-#         })
-#
-#     load_page.stop_and_save('../data/facebook_post_crawled.json', list_json_post)
-#     logging.info('Finished crawling ' + str(len(list_html_post)) + ' posts')
-#     # call api post data to db
-#     return add_list_json_post(list_json_post)
 def crawl_page(url, scroll_down):
     facebook_id = url.split('/')[3]
     list_json_post = []

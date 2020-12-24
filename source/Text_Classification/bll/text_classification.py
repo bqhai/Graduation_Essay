@@ -1,7 +1,6 @@
 __author__ = 'Hai Bui'
 import os
 import pickle
-import bll.common as c
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from collections import Counter
@@ -13,8 +12,8 @@ text = []
 label = []
 
 # load label
-if not os.path.exists(c.MODEL_PATH):
-    os.makedirs(c.MODEL_PATH)
+if not os.path.exists('../models'):
+    os.makedirs('../models')
 for line in open('../data/news_categories_v4.prep', encoding='utf8'):
     words = line.strip().split()
     label.append(words[0])
@@ -28,7 +27,7 @@ label_encoder.fit(y_train)
 y_train = label_encoder.transform(y_train)
 y_test = label_encoder.transform(y_test)
 
-nb_model = pickle.load(open(os.path.join(c.MODEL_PATH, 'naive_bayes_v4.pkl'), 'rb'))
+nb_model = pickle.load(open(os.path.join('../models', 'naive_bayes_v4.pkl'), 'rb'))
 # linear_model = pickle.load(open(os.path.join(c.MODEL_PATH, 'linear_classifier.pkl'), 'rb'))
 
 
