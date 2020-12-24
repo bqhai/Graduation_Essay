@@ -89,7 +89,7 @@ class MainWindow(Frame):
         tab_control_m.add(frm_crawler, text='   Thu thập dữ liệu   ')
         tab_control_m.add(frm_word_tokenizer, text='   Công cụ tách từ   ')
         tab_control_m.add(frm_text_classification, text='   Phân loại văn bản   ')
-        tab_control_m.add(frm_guild, text='   Hướng dẫn   ')
+        # tab_control_m.add(frm_guild, text='   Hướng dẫn   ')
 
         # Facebook Crawler area
         def write_error_info(message):
