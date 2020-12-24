@@ -13,7 +13,6 @@ import validators
 import bll.config_log
 import logging
 
-
 # ---Global variable---
 # username = ''
 # password = ''
