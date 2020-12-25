@@ -12,7 +12,7 @@ text = []
 label = []
 
 # load label
-for line in open('../data/news_categories_v4.prep', encoding='utf8'):
+for line in open('data/news_categories_v4.prep', encoding='utf8'):
     words = line.strip().split()
     label.append(words[0])
     text.append(' '.join(words[1:]))
@@ -25,7 +25,7 @@ label_encoder.fit(y_train)
 y_train = label_encoder.transform(y_train)
 y_test = label_encoder.transform(y_test)
 
-nb_model = pickle.load(open('../models/naive_bayes_v4.pkl', 'rb'))
+nb_model = pickle.load(open('models/naive_bayes_v4.pkl', 'rb'))
 # linear_model = pickle.load(open(os.path.join(c.MODEL_PATH, 'linear_classifier.pkl'), 'rb'))
 
 
