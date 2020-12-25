@@ -77,10 +77,10 @@
                             </thead>
                             <tbody>
                                 @foreach (var item in Model)
-                                {
+                                {                                   
                                     <tr role="row">
                                         <td>                                          
-                                            <input type="checkbox" id="@item.PostID" class="checkbox" onchange="addPostIDToArray('@item.PostID')" style="margin-bottom: 3px; cursor: pointer" />
+                                            <input type="checkbox" id="@item.PostID" name="SelectPost" class="checkbox" onchange="addPostIDToArray('@item.PostID')" style="margin-bottom: 3px; cursor: pointer" />
                                         </td>
                                         <td class="ellipsis">
                                             <span><a href="@item.PostUrl" target="_blank">@item.PostUrl</a></span>                                           
@@ -206,29 +206,44 @@
 </div>
 <script>
     var listPostID = []; //list postID for delete button
-
-    $('#select-all-post').click(function (e) {
-        var table = $(e.target).closest('table');
-        $('td input:checkbox', table).prop('checked', this.checked);
-    });
-    function addPostIDToArray(postID) {
-        if ($('#' + postID).is(':checked')) {
-            listPostID.push(postID);
-        }
-        else {
-            for (var i = 0; i < listPostID.length; i++) {
-                if (listPostID[i] === postID) {
-                    listPostID.splice(i, 1);
-                    i--;
-                }
+    function deleteItemInArray(arr, item) {
+        for (var i = 0; i < arr.length; i++) {
+            if (arr[i] === item) {
+                arr.splice(i, 1);
+                i--;
             }
         }
+    };
+    function toggleDeleteButton() {
         if (checkEmptyArray()) {
             $('#delete-post').prop('disabled', true);
         }
         else {
             $('#delete-post').prop('disabled', false);
         }
+    };
+    $('#select-all-post').click(function (e) {
+        var table = $(e.target).closest('table');
+        $('td input:checkbox', table).prop('checked', this.checked);
+        $('td input:checkbox', table).each(function () {
+            if (this.checked) {
+                listPostID.push($(this).attr('id'));
+            }
+            else {
+                deleteItemInArray(listPostID, $(this).attr('id'));
+            }
+        });
+        toggleDeleteButton();
+        console.log(listPostID);   
+    });
+    function addPostIDToArray(postID) {
+        if ($('#' + postID).is(':checked')) {
+            listPostID.push(postID);
+        }
+        else {
+            deleteItemInArray(listPostID, postID);
+        }
+        toggleDeleteButton();
         console.log(listPostID);         
     }
     function checkEmptyArray() {
@@ -294,5 +309,5 @@
         $('#sentiment-label').removeClass('label-success');
         $('#sentiment-label').removeClass('label-primary');
         $('#image').attr('href', '#').children('img').attr('src', '');
-    }
+    }  
 </script>
