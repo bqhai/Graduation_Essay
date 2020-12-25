@@ -172,7 +172,7 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Tương tác</label>
+                            <label>Tương tác</label>&nbsp;&nbsp;&nbsp;&nbsp;
                             <br />
                             <div class="row">
                                 <div class="col-sm-4">
@@ -184,7 +184,9 @@
                                 <div class="col-sm-4">
                                     <strong><i class="fa fa-share" aria-hidden="true"></i>&nbsp;Chia sẻ:&nbsp;</strong><span id="share">30</span>
                                 </div>
-                            </div>                   
+                            </div>
+                            (Cập nhật lúc: <span id="crawled-time">25/12/2020 21:16:13</span>)
+                            <br />
                         </div>
                         <div class="form-group">
                             <label>Nhãn bài viết</label>
@@ -281,6 +283,7 @@
                 $('#user-url').attr('href', data.UserUrl).children('p').html(data.UserUrl);
                 $('#upload-time').html(data.UploadTime);
                 $('#post-content').html(data.PostContent);
+                $('#crawled-time').html(data.CrawledTime);
                 $('#like').html(data.TotalLikes);
                 $('#comment').html(data.TotalComment);
                 $('#share').html(data.TotalShare);
