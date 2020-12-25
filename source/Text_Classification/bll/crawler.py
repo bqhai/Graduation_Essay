@@ -1,7 +1,6 @@
 __author__ = 'Hai Bui'
 
 from bll.text_classification import predict, convert_label_to_text
-from bll.preprocessor import text_preprocess
 from bll.call_api import *
 from facebook_scraper import *
 import re
@@ -51,8 +50,8 @@ def crawl_page(url, scroll_down):
             'TotalComment': total_cmts,
             'TotalShare': total_shares,
             'FacebookID': facebook_id,
-            'NewsLabelID': convert_label_to_text(predict(text_preprocess(post_text)))[0],
-            'SentimentLabelID': convert_label_to_text(predict(text_preprocess(post_text)))[2]
+            'NewsLabelID': convert_label_to_text(predict(post_text))[0],
+            'SentimentLabelID': convert_label_to_text(predict(post_text))[2]
         })
         total_post_crawled += 1
     if not list_json_post:
@@ -92,8 +91,8 @@ def crawl_group(url, scroll_down):
             'TotalComment': total_cmts,
             'TotalShare': total_shares,
             'FacebookID': facebook_id,
-            'NewsLabelID': convert_label_to_text(predict(text_preprocess(post_text)))[0],
-            'SentimentLabelID': convert_label_to_text(predict(text_preprocess(post_text)))[2]
+            'NewsLabelID': convert_label_to_text(predict(post_text))[0],
+            'SentimentLabelID': convert_label_to_text(predict(post_text))[2]
         })
         total_post_crawled += 1
     if not list_json_post:
