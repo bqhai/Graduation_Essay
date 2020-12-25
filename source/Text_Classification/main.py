@@ -472,6 +472,7 @@ class MainWindow(Frame):
                     'UserUrl': user_url,
                     'PostContent': post_content,
                     'UploadTime': str(cal_date_sp.get_date()) + ' ' + hour + ':' + minute + ':00',
+                    'CrawledTime': (datetime.now()).strftime("%Y/%m/%d %H:%M:%S"),
                     'TotalLikes': like,
                     'TotalComment': comment,
                     'TotalShare': share,
