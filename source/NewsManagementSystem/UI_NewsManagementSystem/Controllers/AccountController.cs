@@ -17,6 +17,10 @@ namespace UI_NewsManagementSystem.Controllers
         {
             return View();
         }
+        public ActionResult AccessManagerment()
+        {
+            return View();
+        }
         public ActionResult ProcessLogin(Account account)
         {
             var response = _apiService.GetResponse("api/Login/ProcessLogin/" + account.Username + "/" + account.Password + "/");
