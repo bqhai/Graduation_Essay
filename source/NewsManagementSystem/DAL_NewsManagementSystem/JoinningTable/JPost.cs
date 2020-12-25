@@ -14,6 +14,7 @@ namespace DAL_NewsManagementSystem.JoinningTable
         public string PostContent { get; set; }
         public string Image { get; set; }
         public string UploadTime { get; set; }
+        public string CrawledTime { get; set; }
         public Nullable<int> TotalLikes { get; set; }
         public Nullable<int> TotalComment { get; set; }
         public Nullable<int> TotalShare { get; set; }

@@ -30,6 +30,7 @@ namespace DAL_NewsManagementSystem.DAL
                             PostContent = po.PostContent,
                             Image = po.Image,
                             UploadTime = po.UploadTime,
+                            CrawledTime = po.CrawledTime,
                             TotalLikes = po.TotalLikes,
                             TotalComment = po.TotalComment,
                             TotalShare = po.TotalShare,
@@ -58,6 +59,7 @@ namespace DAL_NewsManagementSystem.DAL
                             PostContent = po.PostContent,
                             Image = po.Image,
                             UploadTime = po.UploadTime,
+                            CrawledTime = po.CrawledTime,
                             TotalLikes = po.TotalLikes,
                             TotalComment = po.TotalComment,
                             TotalShare = po.TotalShare,
@@ -82,6 +84,7 @@ namespace DAL_NewsManagementSystem.DAL
             po.UserUrl = post.UserUrl;
             po.PostContent = post.PostContent;
             po.Image = post.Image;
+            po.CrawledTime = post.CrawledTime;
             po.TotalLikes = post.TotalLikes;
             po.TotalComment = post.TotalComment;
             po.TotalShare = post.TotalShare;
