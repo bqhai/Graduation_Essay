@@ -5,6 +5,7 @@ from bll.call_api import *
 from facebook_scraper import *
 import re
 import bll.config_log
+from datetime import datetime
 import logging
 # global variable
 total_post_crawled = 0
@@ -44,6 +45,7 @@ def crawl_page(url, scroll_down):
             'PostUrl': post_url,
             'UserUrl': user_url,
             'UploadTime': time,
+            'CrawledTime': (datetime.now()).strftime("%Y/%m/%d %H:%M:%S"),
             'PostContent': post_text,
             'Image': image,
             'TotalLikes': total_react,
@@ -85,6 +87,7 @@ def crawl_group(url, scroll_down):
             'PostUrl': post_url,
             'UserUrl': user_url,
             'UploadTime': time,
+            'CrawledTime': (datetime.now()).strftime("%Y/%m/%d %H:%M:%S"),
             'PostContent': post_text,
             'Image': image,
             'TotalLikes': total_react,
