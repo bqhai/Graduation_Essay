@@ -16,11 +16,11 @@ import pycrfsuite._logparser
 class ViTokenizer:
     bi_grams = set()
     tri_grams = set()
-    model_file = '../models/pyvi.pkl'
+    model_file = 'models/pyvi.pkl'
     if sys.version_info[0] == 3:
-        model_file = '../models/pyvi3.pkl'
+        model_file = 'models/pyvi3.pkl'
 
-    with open('../data/Viet32K.txt', 'r', encoding='utf-8') as fin:
+    with open('data/Viet32K.txt', 'r', encoding='utf-8') as fin:
         for token in fin.read().split('\n'):
             tmp = token.split(' ')
             if len(tmp) == 2:
