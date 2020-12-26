@@ -17,10 +17,6 @@ namespace UI_NewsManagementSystem.Controllers
         {
             return View();
         }
-        public ActionResult AccessManagerment()
-        {
-            return View();
-        }
         public ActionResult ProcessLogin(Account account)
         {
             var response = _apiService.GetResponse("api/Login/ProcessLogin/" + account.Username + "/" + account.Password + "/");
@@ -29,6 +25,7 @@ namespace UI_NewsManagementSystem.Controllers
                 var resultLogin = response.Content.ReadAsAsync<bool>().Result;
                 if (resultLogin)
                 {
+                    Session["Account"] = account;
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -42,6 +39,7 @@ namespace UI_NewsManagementSystem.Controllers
         }
         public ActionResult ProcessLogout()
         {
+            Session.Remove("Account");
             return RedirectToAction("Login", "Account");
         }
     }

@@ -15,6 +15,8 @@ namespace UI_NewsManagementSystem.Controllers
         private ApiService _apiService = new ApiService();
         public ActionResult Index()
         {
+            if (Session["Account"] == null)
+                return RedirectToAction("Login", "Account");
             return View();
         }
         #region WatchList
@@ -38,6 +40,8 @@ namespace UI_NewsManagementSystem.Controllers
         }
         public ActionResult WatchList(int pageIndex = 1, int pageSize = 11)
         {
+            if(Session["Account"] == null)
+                return RedirectToAction("Login", "Account");
             var watchList = GetWatchList();
             if (watchList != null)
             {
@@ -50,6 +54,8 @@ namespace UI_NewsManagementSystem.Controllers
         }
         public ActionResult FilterWatchList(string facebookTypeID, string status, int pageIndex = 1, int pageSize = 11)
         {
+            if (Session["Account"] == null)
+                return RedirectToAction("Login", "Account");
             var watchList = GetFilterWatchList(facebookTypeID, status);
             if (watchList != null)
             {
@@ -64,6 +70,8 @@ namespace UI_NewsManagementSystem.Controllers
         }
         public ActionResult SearchWatchList(string keyword, int pageIndex = 1, int pageSize = 11)
         {
+            if (Session["Account"] == null)
+                return RedirectToAction("Login", "Account");
             var response = _apiService.GetResponse("api/Home/SearchWatchList/" + keyword + "/");
             if (response.IsSuccessStatusCode)
             {
@@ -103,6 +111,8 @@ namespace UI_NewsManagementSystem.Controllers
         }
         public ActionResult AddToWatchList(WatchList watchList)
         {
+            if (Session["Account"] == null)
+                return RedirectToAction("Login", "Account");
             int check = CheckExistInWatchList(watchList.FacebookUrl);
             if (check == 1)
             {
@@ -131,6 +141,8 @@ namespace UI_NewsManagementSystem.Controllers
         }
         public ActionResult UpdateToWatchList(WatchList watchList)
         {
+            if (Session["Account"] == null)
+                return RedirectToAction("Login", "Account");
             var response = _apiService.PutResponse("api/Home/UpdateToWatchList", watchList);
             if (response.IsSuccessStatusCode)
             {
@@ -150,6 +162,8 @@ namespace UI_NewsManagementSystem.Controllers
         #region Post
         public ActionResult Post(int pageIndex = 1, int pageSize = 11)
         {
+            if (Session["Account"] == null)
+                return RedirectToAction("Login", "Account");
             var response = _apiService.GetResponse("api/Home/GetAllPost");
             if (response.IsSuccessStatusCode)
             {
@@ -163,6 +177,8 @@ namespace UI_NewsManagementSystem.Controllers
         }
         public ActionResult FilterPost(string newsLabelID, string sentimentLabelID, int pageIndex = 1, int pageSize = 11)
         {
+            if (Session["Account"] == null)
+                return RedirectToAction("Login", "Account");
             var response = _apiService.GetResponse("api/Home/FilterPost/" + newsLabelID + "/" + sentimentLabelID + "/");
             if (response.IsSuccessStatusCode)
             {
@@ -178,6 +194,8 @@ namespace UI_NewsManagementSystem.Controllers
         }
         public ActionResult SearchPost(string keyword, int pageIndex = 1, int pageSize = 11)
         {
+            if (Session["Account"] == null)
+                return RedirectToAction("Login", "Account");
             var response = _apiService.GetResponse("api/Home/SearchPost/" + keyword + "/");
             if (response.IsSuccessStatusCode)
             {
