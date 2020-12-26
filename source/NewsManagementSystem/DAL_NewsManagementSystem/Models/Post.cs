@@ -20,13 +20,13 @@ namespace DAL_NewsManagementSystem.Models
         public string PostContent { get; set; }
         public string Image { get; set; }
         public string UploadTime { get; set; }
+        public string CrawledTime { get; set; }
         public Nullable<int> TotalLikes { get; set; }
         public Nullable<int> TotalComment { get; set; }
         public Nullable<int> TotalShare { get; set; }
         public string FacebookID { get; set; }
         public string NewsLabelID { get; set; }
         public string SentimentLabelID { get; set; }
-        public string CrawledTime { get; set; }
     
         public virtual NewsLabel NewsLabel { get; set; }
         public virtual WatchList WatchList { get; set; }
