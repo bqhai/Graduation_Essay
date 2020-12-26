@@ -193,27 +193,30 @@ class MainWindow(Frame):
                 win_watch_list.destroy()
 
             for i in watch_list:
-                if i['FacebookTypeID'] == 'PAGE':
-                    txt_page_wl.config(state=NORMAL)
-                    txt_page_wl.insert(END, '{:<35} \t {:<65}'.format(i['FacebookName'], i['FacebookUrl']))
-                    btn_choose_url = ttk.Button(txt_page_wl, text='⮜', width=2, cursor='hand2', command=lambda url=i['FacebookUrl']: choose_url(url))
-                    txt_page_wl.window_create(txt_page_wl.index('end'), window=btn_choose_url)
-                    txt_page_wl.insert(END, '\n')
-                    txt_page_wl.config(state=DISABLED)
-                elif i['FacebookTypeID'] == 'GR':
-                    txt_group_wl.config(state=NORMAL)
-                    txt_group_wl.insert(END, '{:<35} \t {:<65}'.format(i['FacebookName'], i['FacebookUrl']))
-                    btn_choose_url = ttk.Button(txt_group_wl, text='⮜', width=2, cursor='hand2', command=lambda url=i['FacebookUrl']: choose_url(url))
-                    txt_group_wl.window_create(txt_group_wl.index('end'), window=btn_choose_url)
-                    txt_group_wl.insert(END, '\n')
-                    txt_group_wl.config(state=DISABLED)
+                if not i['Status']:
+                    pass
                 else:
-                    txt_user_wl.config(state=NORMAL)
-                    txt_user_wl.insert(END, '{:<35} \t {:<65}'.format(i['FacebookName'], i['FacebookUrl']))
-                    btn_choose_url = ttk.Button(txt_user_wl, text='⮜', width=2, cursor='hand2', command=lambda url=i['FacebookUrl']: choose_url(url))
-                    txt_user_wl.window_create(txt_user_wl.index('end'), window=btn_choose_url)
-                    txt_user_wl.insert(END, '\n')
-                    txt_user_wl.config(state=DISABLED)
+                    if i['FacebookTypeID'] == 'PAGE':
+                        txt_page_wl.config(state=NORMAL)
+                        txt_page_wl.insert(END, '{:<35} \t {:<65}'.format(i['FacebookName'], i['FacebookUrl']))
+                        btn_choose_url = ttk.Button(txt_page_wl, text='⮜', width=2, cursor='hand2', command=lambda url=i['FacebookUrl']: choose_url(url))
+                        txt_page_wl.window_create(txt_page_wl.index('end'), window=btn_choose_url)
+                        txt_page_wl.insert(END, '\n')
+                        txt_page_wl.config(state=DISABLED)
+                    elif i['FacebookTypeID'] == 'GR':
+                        txt_group_wl.config(state=NORMAL)
+                        txt_group_wl.insert(END, '{:<35} \t {:<65}'.format(i['FacebookName'], i['FacebookUrl']))
+                        btn_choose_url = ttk.Button(txt_group_wl, text='⮜', width=2, cursor='hand2', command=lambda url=i['FacebookUrl']: choose_url(url))
+                        txt_group_wl.window_create(txt_group_wl.index('end'), window=btn_choose_url)
+                        txt_group_wl.insert(END, '\n')
+                        txt_group_wl.config(state=DISABLED)
+                    else:
+                        txt_user_wl.config(state=NORMAL)
+                        txt_user_wl.insert(END, '{:<35} \t {:<65}'.format(i['FacebookName'], i['FacebookUrl']))
+                        btn_choose_url = ttk.Button(txt_user_wl, text='⮜', width=2, cursor='hand2', command=lambda url=i['FacebookUrl']: choose_url(url))
+                        txt_user_wl.window_create(txt_user_wl.index('end'), window=btn_choose_url)
+                        txt_user_wl.insert(END, '\n')
+                        txt_user_wl.config(state=DISABLED)
 
         def open_log():
             subprocess.call(['notepad.exe', 'log/run_time.log'])
