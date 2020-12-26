@@ -24,6 +24,20 @@ namespace API_NewsManagementSystem.Controllers
         }
 
         [HttpGet]
+        [Route("FilterWatchList/{facebookTypeID}/{status}")]
+        public JsonResult<List<WatchListDTO>> FilterWatchList(string facebookTypeID, string status)
+        {
+            return Json(_bllWatchList.FilterWatchList(facebookTypeID, status));
+        }
+
+        [HttpGet]
+        [Route("SearchWatchList/{keyword}")]
+        public JsonResult<List<WatchListDTO>> SearchWatchList(string keyword)
+        {
+            return Json(_bllWatchList.SearchWatchList(keyword));
+        }
+
+        [HttpGet]
         [Route("GetWatchListItemByID/{facebookID}")]
         public JsonResult<WatchListDTO> GetWatchListItemByID(string facebookID)
         {
@@ -51,11 +65,32 @@ namespace API_NewsManagementSystem.Controllers
             return Json(_bllWatchList.UpdateToWatchList(watchListDto));
         }
 
+        [HttpPut]
+        [Route("Unfollow/{facebookID}")]
+        public JsonResult<bool> Unfollow(string facebookID)
+        {
+            return Json(_bllWatchList.Unfollow(facebookID));
+        }
+
         [HttpGet]
         [Route("GetAllPost")]
         public JsonResult<List<PostDTO>> GetAllPost()
         {
             return Json(_bllPost.GetAllPost());
+        }
+
+        [HttpGet]
+        [Route("FilterPost/{newsLabelID}/{sentimentLabelID}")]
+        public JsonResult<List<PostDTO>> FilterPost(string newsLabelID, string sentimentLabelID)
+        {
+            return Json(_bllPost.FilterPost(newsLabelID, sentimentLabelID));
+        }
+
+        [HttpGet]
+        [Route("SearchPost/{keyword}")]
+        public JsonResult<List<PostDTO>> SearchPost(string keyword)
+        {
+            return Json(_bllPost.SearchPost(keyword));
         }
 
         [HttpGet]
@@ -85,6 +120,7 @@ namespace API_NewsManagementSystem.Controllers
         {
             return Json(_bllPost.UpdatePost(postDto));
         }
+
 
         [HttpPost]
         [Route("AddNewOrUpdateListPost")]

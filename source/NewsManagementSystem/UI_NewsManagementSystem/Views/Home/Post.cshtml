@@ -27,30 +27,32 @@
                 <div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                     <div class="row">
                         <div class="col-sm-6">
-                            <label>
-                                Nhãn:
-                                <select class="form-control input-sm">
-                                    <option value="ALL">Tất cả</option>
-                                    <option value="ANQG">An ninh quốc gia</option>
-                                    <option value="ANTT">An ninh trật tự</option>
-                                </select>
-                                &nbsp;
-                                Mức độ:
-                                <select class="form-control input-sm">
-                                    <option value="ALL">Tất cả</option>                                  
-                                    <option value="POS">Tích cực</option>
-                                    <option value="NEU">Bình thường</option>
-                                    <option value="NEG">Tiêu cực</option>
-                                </select>
-                                <a href="#"><input type="button" class="btn btn-sm btn-primary" value="OK" /></a>
-                            </label>
+                            <form method="post" action="@Url.Action("FilterPost", "Home")">
+                                <label>
+                                    Nhãn:
+                                    <select class="form-control input-sm" name="newsLabelID">
+                                        <option value="ALL">Tất cả</option>
+                                        <option value="ANQG">An ninh quốc gia</option>
+                                        <option value="ANTT">An ninh trật tự</option>
+                                    </select>
+                                    &nbsp;
+                                    Mức độ:
+                                    <select class="form-control input-sm" name="sentimentLabelID">
+                                        <option value="ALL">Tất cả</option>
+                                        <option value="POS">Tích cực</option>
+                                        <option value="NEU">Bình thường</option>
+                                        <option value="NEG">Tiêu cực</option>
+                                    </select>
+                                    <input type="submit" class="btn btn-sm btn-primary" value="OK" />
+                                </label>
+                            </form>                  
                         </div>
                         <div class="col-sm-6">
                             <div id="dataTables-examble_filter" class="dataTables_filter">
-                                <form>
+                                <form method="post" action="@Url.Action("SearchPost", "Home")">
                                     <label>
                                         Tìm kiếm:
-                                        <input type="search" class="form-control input-sm" name="keyWord" required />
+                                        <input type="search" class="form-control input-sm" name="keyword" required />
                                         <button class="btn btn-sm btn-primary" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                                     </label>
                                 </form>
@@ -122,7 +124,20 @@
                         <div class="dataTables_paginate paging_simple_numbers">
                             <ul class="pagination">
                                 <li class="paginate_button active" aria-controls="dataTables-example" tabindex="0">
-                                    @Html.PagedListPager(Model, pageIndex => Url.Action("Post", "Home", new { pageIndex }))
+                                    @if (ViewBag.State.Equals("All"))
+                                    {
+                                        @Html.PagedListPager(Model, pageIndex => Url.Action("Post", "Home", new { pageIndex }))
+
+                                    }
+                                    else if (ViewBag.State.Equals("Filter"))
+                                    {
+                                        @Html.PagedListPager(Model, pageIndex => Url.Action("FilterPost", "Home", new { pageIndex, newsLabelID = ViewBag.NewsLabelID, sentimentLabelID = ViewBag.SentimentLabelID }))
+                                    }
+                                    else
+                                    {
+                                        @Html.PagedListPager(Model, pageIndex => Url.Action("SearchPost", "Home", new { pageIndex, keyword = ViewBag.Keyword}))
+                                    }
+
                                 </li>
                             </ul>
                         </div>
@@ -266,11 +281,10 @@
                     location.reload();
                 },
                 error: function () {
-                    alert('Lỗi kết nối đến server!');
+                    console.log('Connect failled');
                 }
             });
         }
-        
     }
     function viewPostDetail(postID) {
         $.ajax({

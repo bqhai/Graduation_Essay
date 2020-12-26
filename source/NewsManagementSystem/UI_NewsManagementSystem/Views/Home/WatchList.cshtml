@@ -15,10 +15,11 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-sm-6">
-                        
+
                     </div>
                     <div class="col-sm-6" style="text-align:right">
                         <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#add-to-watch-list">Thêm mới&nbsp;<i class="fa fa-plus" aria-hidden="true"></i></button>
+                        <button class="btn btn-sm btn-danger" id="unfollow" onclick="unfollow()" disabled>Hủy theo dõi&nbsp;<i class="fa fa-minus" aria-hidden="true"></i></button>
                     </div>
                 </div>
             </div>
@@ -26,28 +27,30 @@
                 <div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                     <div class="row">
                         <div class="col-sm-6">
-                            <label>
-                                Loại:
-                                <select class="form-control input-sm">
-                                    <option value="ALL">Tất cả</option>
-                                    <option value="PAGE">Trang</option>
-                                    <option value="GR">Nhóm công khai</option>
-                                    <option value="USER">Cá nhân</option>
-                                </select>
-                                &nbsp;
-                                Trạng thái
-                                <select class="form-control input-sm">
-                                    <option value="ALL">Tất cả</option>
-                                    <option value="true">Đang theo dõi</option>
-                                    <option value="false">Hủy theo dõi</option>
-                                </select>
-                                <a href="#"><input type="button" class="btn btn-sm btn-primary" value="OK" /></a>
-                            </label>                            
+                            <form method="post" action="@Url.Action("FilterWatchList", "Home")">
+                                <label>
+                                    Loại:
+                                    <select class="form-control input-sm" name="facebookTypeID">
+                                        <option value="ALL">Tất cả</option>
+                                        <option value="PAGE">Trang</option>
+                                        <option value="GR">Nhóm công khai</option>
+                                        <option value="USER">Cá nhân</option>
+                                    </select>
+                                    &nbsp;
+                                    Trạng thái
+                                    <select class="form-control input-sm" name="status">
+                                        <option value="ALL">Tất cả</option>
+                                        <option value="true">Đang theo dõi</option>
+                                        <option value="false">Hủy theo dõi</option>
+                                    </select>
+                                    <input type="submit" class="btn btn-sm btn-primary" value="OK" />
+                                </label>
+                            </form>
                             @*<button class="btn btn-sm btn-danger btn-dark"><i class="fa fa-list-alt" aria-hidden="true"></i>&nbsp;Danh sách đen</button>*@
                         </div>
                         <div class="col-sm-6">
                             <div id="dataTables-examble_filter" class="dataTables_filter">
-                                <form>
+                                <form method="post" action="@Url.Action("SearchWatchList", "Home")">
                                     <label>
                                         Tìm kiếm:
                                         <input type="search" class="form-control input-sm" name="keyWord" required aria-controls="dataTables-example" />
@@ -63,6 +66,7 @@
                         <table class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
                             <thead>
                                 <tr role="row">
+                                    <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 30px"></th>
                                     <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 200px">ID</th>
                                     <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 350px">Tên</th>
                                     <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 650px">URL</th>
@@ -75,6 +79,9 @@
                                 @foreach (var item in Model)
                                 {
                                     <tr role="row">
+                                        <td>
+                                            <input type="checkbox" id="@item.FacebookID" name="SelectPost" class="checkbox" onchange="addFacebookIDToArray('@item.FacebookID')" style="margin-bottom: 3px; cursor: pointer" />
+                                        </td>
                                         <td>@item.FacebookID</td>
                                         <td>@item.FacebookName</td>
                                         <td>
@@ -108,7 +115,20 @@
                         <div class="dataTables_paginate paging_simple_numbers">
                             <ul class="pagination">
                                 <li class="paginate_button active" aria-controls="dataTables-example" tabindex="0">
-                                    @Html.PagedListPager(Model, pageIndex => Url.Action("WatchList", "Home", new { pageIndex }))
+                                    @if (ViewBag.State.Equals("All"))
+                                    {
+                                        @Html.PagedListPager(Model, pageIndex => Url.Action("WatchList", "Home", new { pageIndex }))
+
+                                    }
+                                    else if (ViewBag.State.Equals("Filter"))
+                                    {
+                                        @Html.PagedListPager(Model, pageIndex => Url.Action("FilterWatchList", "Home", new { pageIndex, facebookTypeID = ViewBag.FacebookTypeID, status = ViewBag.Status }))
+
+                                    }
+                                    else
+                                    {
+                                        @Html.PagedListPager(Model, pageIndex => Url.Action("FilterWatchList", "Home", new { pageIndex, keyword = ViewBag.Keyword }))
+                                    }
                                 </li>
                             </ul>
                         </div>
@@ -156,7 +176,7 @@
 <div id="edit-item-watch-list" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="post", action="@Url.Action("UpdateToWatchList", "Home")">
+            <form method="post" , action="@Url.Action("UpdateToWatchList", "Home")">
                 <div class="modal-header">
                     <h4 class="modal-title">Sửa thông tin đối tượng</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -200,9 +220,54 @@
     </div>
 </div>
 <script>
+    listFacebookID = [];
+    function deleteItemInArray(arr, item) {
+        for (var i = 0; i < arr.length; i++) {
+            if (arr[i] === item) {
+                arr.splice(i, 1);
+                i--;
+            }
+        }
+    };
+    function toggleUnfollowButton() {
+        if (listFacebookID.length == 0) {
+            $('#unfollow').prop('disabled', true);
+        }
+        else {
+            $('#unfollow').prop('disabled', false);
+        }
+    };
+    function addFacebookIDToArray(facebookID) {
+        if ($('#' + facebookID).is(':checked')) {
+            listFacebookID.push(facebookID);
+        }
+        else {
+            deleteItemInArray(listFacebookID, facebookID);
+        }
+        toggleUnfollowButton();
+        console.log(listFacebookID);
+    }
+    function unfollow() {
+        for (var i = 0; i < listFacebookID.length; i++) {
+            console.log(i);
+            $.ajax({
+                url: 'https://localhost:44347/api/Home/Unfollow/' + listFacebookID[i],
+                type: 'put',
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    location.reload();
+                },
+                error: function () {
+                    console.log('Connect failled');
+                },
+            });
+        }
+    }
+
     function editItemInWatchList(facebookID) {
         $.ajax({
-            url: 'https://localhost:44347/api/Home/GetWatchListItemByID/' + facebookID,
+            url: 'https://localhost:44347/api/Home/GetWatchListItemByID/' + facebookID + "/",
             type: 'GET',
             dataType: 'json',
             success: function (data) {
@@ -230,7 +295,7 @@
         var pattern = /^(https?:\/\/)?((w{3}\.)?)facebook.com\/.*/i;
         if (!pattern.test(facebookUrl.val())) {
             facebookUrl[0].setCustomValidity('Link facebook không hợp lệ');
-        }             
+        }
         else {
             facebookUrl[0].setCustomValidity('');
             //var arr = facebookUrl.val().split('/');
@@ -242,7 +307,7 @@
             //else {
             //    var facebookID = arr[arr.length - 1];
             //    console.log(facebookID);
-            //}  
+            //}
             //$.ajax({
             //    url: 'https://localhost:44347/api/Home/CheckExistInWatchList/' + facebookID,
             //    type: 'GET',
@@ -253,14 +318,14 @@
             //            console.log(data);
             //            facebookUrl[0].setCustomValidity('Link facebook đã tồn tại');
             //        }
-            //        else {
+            //     FacebFacebookIDookID   else {
             //            facebookUrl[0].setCustomValidity('');
             //        }
             //    },
             //    error: function () {
             //        alert('Lỗi kết nối đến server!');
             //    }
-            //});               
+            //});
         }
     }
     function cancelAdd() {

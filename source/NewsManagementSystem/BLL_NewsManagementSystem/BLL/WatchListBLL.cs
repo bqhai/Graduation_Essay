@@ -29,6 +29,26 @@ namespace BLL_NewsManagementSystem.BLL
             }
             return watchListDtos;
         }
+        public List<WatchListDTO> FilterWatchList(string facebookTypeID, string status)
+        {
+            IEnumerable<JWatchList> watchLists = _dalWatchList.FilterWatchList(facebookTypeID, status);
+            List<WatchListDTO> watchListDtos = new List<WatchListDTO>();
+            foreach (var item in watchLists)
+            {
+                watchListDtos.Add(_mapToWatchListDto.Translate(item));
+            }
+            return watchListDtos;
+        }
+        public List<WatchListDTO> SearchWatchList(string keyword)
+        {
+            IEnumerable<JWatchList> watchLists = _dalWatchList.SearchWatchList(keyword);
+            List<WatchListDTO> watchListDtos = new List<WatchListDTO>();
+            foreach (var item in watchLists)
+            {
+                watchListDtos.Add(_mapToWatchListDto.Translate(item));
+            }
+            return watchListDtos;
+        }
         public WatchListDTO GetWatchListItemByID(string facebookID)
         {
             JWatchList jWatchList = _dalWatchList.GetWatchListItemByID(facebookID);
@@ -58,6 +78,18 @@ namespace BLL_NewsManagementSystem.BLL
             {
                 WatchList watchList = _mapToWatchList.Translate(watchListDto);
                 _dalWatchList.UpdateToWatchList(watchList);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public bool Unfollow(string facebookID)
+        {
+            try
+            {
+                _dalWatchList.Unfollow(facebookID);
                 return true;
             }
             catch (Exception)

@@ -31,6 +31,26 @@ namespace BLL_NewsManagementSystem.BLL
             }
             return postDTOs;
         }
+        public List<PostDTO> FilterPost(string newsLabelID, string sentimentLabelID)
+        {
+            IEnumerable<JPost> posts = _dalPost.FilterPost(newsLabelID, sentimentLabelID);
+            List<PostDTO> postDTOs = new List<PostDTO>();
+            foreach (var item in posts)
+            {
+                postDTOs.Add(_mapToPostDto.Translate(item));
+            }
+            return postDTOs;
+        }
+        public List<PostDTO> SearchPost(string keyword)
+        {
+            IEnumerable<JPost> posts = _dalPost.SearchPost(keyword);
+            List<PostDTO> postDTOs = new List<PostDTO>();
+            foreach (var item in posts)
+            {
+                postDTOs.Add(_mapToPostDto.Translate(item));
+            }
+            return postDTOs;
+        }
         public PostDTO GetPostByID(string postID)
         {
             return _mapToPostDto.Translate(_dalPost.GetPostByID(postID));
