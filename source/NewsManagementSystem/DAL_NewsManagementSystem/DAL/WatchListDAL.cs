@@ -22,8 +22,7 @@ namespace DAL_NewsManagementSystem.DAL
                             FacebookUrl = wl.FacebookUrl,
                             FacebookTypeID = wl.FacebookTypeID,
                             FacebookTypeName = fbt.FacebookTypeName,
-                            Status = wl.Status,
-                            InBlackList = wl.InBlackList
+                            Status = wl.Status
                         };
             return query;
         }
@@ -39,8 +38,7 @@ namespace DAL_NewsManagementSystem.DAL
                             FacebookUrl = wl.FacebookUrl,
                             FacebookTypeID = wl.FacebookTypeID,
                             FacebookTypeName = fbt.FacebookTypeName,
-                            Status = wl.Status,
-                            InBlackList = wl.InBlackList
+                            Status = wl.Status
                         }).SingleOrDefault();
             return query;
         }
@@ -64,7 +62,6 @@ namespace DAL_NewsManagementSystem.DAL
             wl.FacebookName = watchList.FacebookName;
             wl.FacebookTypeID = watchList.FacebookTypeID;
             wl.Status = watchList.Status;
-            wl.InBlackList = watchList.InBlackList;
             _db.SaveChanges();
         }
     }

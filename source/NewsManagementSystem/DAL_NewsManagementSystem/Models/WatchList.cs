@@ -25,7 +25,6 @@ namespace DAL_NewsManagementSystem.Models
         public string FacebookUrl { get; set; }
         public string FacebookTypeID { get; set; }
         public bool Status { get; set; }
-        public bool InBlackList { get; set; }
     
         public virtual FacebookType FacebookType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -44,7 +44,6 @@ namespace BLL_NewsManagementSystem.BLL
             {
                 WatchList watchList = _mapToWatchList.Translate(watchListDto);
                 watchList.Status = true;
-                watchList.InBlackList = false;
                 _dalWatchList.AddToWatchList(watchList);
                 return true;
             }

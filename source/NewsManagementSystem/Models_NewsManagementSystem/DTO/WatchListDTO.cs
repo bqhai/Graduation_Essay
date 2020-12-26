@@ -14,6 +14,5 @@ namespace Models_NewsManagementSystem.MappingClass
         public string FacebookTypeID { get; set; }
         public string FacebookTypeName { get; set; }
         public bool Status { get; set; }
-        public bool InBlackList { get; set; }
     }
 }

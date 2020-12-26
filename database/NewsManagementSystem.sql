@@ -26,8 +26,7 @@ CREATE TABLE WatchList
 	FacebookName NVARCHAR(500),
 	FacebookUrl NVARCHAR(500) UNIQUE,
 	FacebookTypeID NVARCHAR(100),
-	Status BIT NOT NULL,
-	InBlackList BIT NOT NULL
+	Status BIT NOT NULL
 	FOREIGN KEY(FacebookTypeID) REFERENCES FacebookType(FacebookTypeID)
 )
 GO
@@ -80,27 +79,27 @@ INSERT INTO FacebookType VALUES(N'CGR', N'Nhóm kín', N'Closed groups, nơi m�
 INSERT INTO FacebookType VALUES(N'USER', N'Cá nhân', N'Tài khoản của người dùng thông thường')
 
 --BlackList--
-INSERT INTO WatchList VALUES(N'viettan', N'Việt Tân', N'https://www.facebook.com/viettan', N'PAGE', 1, 0)
-INSERT INTO WatchList VALUES(N'nhatkyyeunuoc1', N'Nhật Ký Yêu Nước', N'https://www.facebook.com/nhatkyyeunuoc1', N'PAGE', 1, 0)
-INSERT INTO WatchList VALUES(N'nhabaocongdan', N'Góc nhìn báo chí - Công dân', N'https://www.facebook.com/groups/nhabaocongdan/', N'GR', 1, 0)
-INSERT INTO WatchList VALUES(N'DuaLeo.Stand.up.comedian', N'Dưa Leo - Stand up comedian', N'https://www.facebook.com/DuaLeo.Stand.up.comedian', N'PAGE', 1, 0)
-INSERT INTO WatchList VALUES(N'1752456318197543', N'Xây Dựng Đảng', N'https://www.facebook.com/groups/1752456318197543', N'GR', 1, 0)
-INSERT INTO WatchList VALUES(N'phapluatvacuocsong.vn', N'Pháp luật & Cuộc sống', N'https://www.facebook.com/phapluatvacuocsong.vn', N'PAGE', 1, 0)
-INSERT INTO WatchList VALUES(N'cafekubua2', N'Cafe Ku Búa + Friends', N'https://www.facebook.com/cafekubua2', N'PAGE', 1, 0)
-INSERT INTO WatchList VALUES(N'TamConXuyenDiep', N'Tam Côn Xuyên Diệp', N'https://www.facebook.com/groups/TamConXuyenDiep', N'GR', 1, 0)
-INSERT INTO WatchList VALUES(N'187530275233978', N'BÀN LUẬN về KINH TẾ - CHÍNH TRỊ 2', N'https://www.facebook.com/groups/187530275233978', N'GR', 1, 0)
-INSERT INTO WatchList VALUES(N'kinhtechinhtrixahoivn', N'Bàn Luận về Kinh Tế - Chính Trị - Xã hội', N'https://www.facebook.com/groups/kinhtechinhtrixahoivn', N'GR', 1, 0)
-INSERT INTO WatchList VALUES(N'1648199831900386', N'Triệt Hạ Bò Đỏ', N'https://www.facebook.com/groups/1648199831900386/', N'GR', 1, 0)
-INSERT INTO WatchList VALUES(N'didoicongly', N'Lê Chí Thành', N'https://www.facebook.com/didoicongly/', N'PAGE', 1, 0)
-INSERT INTO WatchList VALUES(N'bao.luong.5011516', N'Luong Quang Bao', N'https://www.facebook.com/bao.luong.5011516', N'USER', 1, 0)
-INSERT INTO WatchList VALUES(N'thuc.tranhuynhduy', N'Trần Huỳnh Duy Thức', N'https://www.facebook.com/thuc.tranhuynhduy', N'USER', 1, 0)
-INSERT INTO WatchList VALUES(N'BinhLuanVeDangCongSan', N'Bình Luận Về Đảng Cộng Sản', N'https://www.facebook.com/BinhLuanVeDangCongSan', N'PAGE', 1, 0)
-INSERT INTO WatchList VALUES(N'vietnamconghoa123', N'Việt Nam Cộng Hòa', N'https://www.facebook.com/vietnamconghoa123', N'PAGE', 1, 0)
-INSERT INTO WatchList VALUES(N'90trieunguoi', N'VIỆT NAM DÂN CHỦ', N'https://www.facebook.com/90trieunguoi', N'PAGE', 1, 0)
-INSERT INTO WatchList VALUES(N'HuyFreedomSaigon', N'Huỳnh Quốc Huy (John Whale)', N'https://www.facebook.com/HuyFreedomSaigon', N'USER', 1, 0)
-INSERT INTO WatchList VALUES(N'mothermushroom', N'Mẹ Nấm', N'https://www.facebook.com/mothermushroom/', N'USER', 1, 0)
-INSERT INTO WatchList VALUES(N'lukhach', N'Nguyen Huy Vu', N'https://www.facebook.com/lukhach', N'USER', 1, 0)
-INSERT INTO WatchList VALUES(N'thong.luan.1', N'Tập Hợp Dân Chủ Đa Nguyên', N'https://www.facebook.com/thong.luan.1', N'PAGE', 1, 0)
+INSERT INTO WatchList VALUES(N'viettan', N'Việt Tân', N'https://www.facebook.com/viettan', N'PAGE', 1)
+INSERT INTO WatchList VALUES(N'nhatkyyeunuoc1', N'Nhật Ký Yêu Nước', N'https://www.facebook.com/nhatkyyeunuoc1', N'PAGE', 1)
+INSERT INTO WatchList VALUES(N'nhabaocongdan', N'Góc nhìn báo chí - Công dân', N'https://www.facebook.com/groups/nhabaocongdan/', N'GR', 1)
+INSERT INTO WatchList VALUES(N'DuaLeo.Stand.up.comedian', N'Dưa Leo - Stand up comedian', N'https://www.facebook.com/DuaLeo.Stand.up.comedian', N'PAGE', 1)
+INSERT INTO WatchList VALUES(N'1752456318197543', N'Xây Dựng Đảng', N'https://www.facebook.com/groups/1752456318197543', N'GR', 1)
+INSERT INTO WatchList VALUES(N'phapluatvacuocsong.vn', N'Pháp luật & Cuộc sống', N'https://www.facebook.com/phapluatvacuocsong.vn', N'PAGE', 1)
+INSERT INTO WatchList VALUES(N'cafekubua2', N'Cafe Ku Búa + Friends', N'https://www.facebook.com/cafekubua2', N'PAGE', 1)
+INSERT INTO WatchList VALUES(N'TamConXuyenDiep', N'Tam Côn Xuyên Diệp', N'https://www.facebook.com/groups/TamConXuyenDiep', N'GR', 1)
+INSERT INTO WatchList VALUES(N'187530275233978', N'BÀN LUẬN về KINH TẾ - CHÍNH TRỊ 2', N'https://www.facebook.com/groups/187530275233978', N'GR', 1)
+INSERT INTO WatchList VALUES(N'kinhtechinhtrixahoivn', N'Bàn Luận về Kinh Tế - Chính Trị', N'https://www.facebook.com/groups/kinhtechinhtrixahoivn', N'GR', 1)
+INSERT INTO WatchList VALUES(N'1648199831900386', N'Triệt Hạ Bò Đỏ', N'https://www.facebook.com/groups/1648199831900386/', N'GR', 1)
+INSERT INTO WatchList VALUES(N'didoicongly', N'Lê Chí Thành', N'https://www.facebook.com/didoicongly/', N'PAGE', 1)
+INSERT INTO WatchList VALUES(N'bao.luong.5011516', N'Luong Quang Bao', N'https://www.facebook.com/bao.luong.5011516', N'USER', 1)
+INSERT INTO WatchList VALUES(N'thuc.tranhuynhduy', N'Trần Huỳnh Duy Thức', N'https://www.facebook.com/thuc.tranhuynhduy', N'USER', 1)
+INSERT INTO WatchList VALUES(N'BinhLuanVeDangCongSan', N'Bình Luận Về Đảng Cộng Sản', N'https://www.facebook.com/BinhLuanVeDangCongSan', N'PAGE', 1)
+INSERT INTO WatchList VALUES(N'vietnamconghoa123', N'Việt Nam Cộng Hòa', N'https://www.facebook.com/vietnamconghoa123', N'PAGE', 1)
+INSERT INTO WatchList VALUES(N'90trieunguoi', N'VIỆT NAM DÂN CHỦ', N'https://www.facebook.com/90trieunguoi', N'PAGE', 1)
+INSERT INTO WatchList VALUES(N'HuyFreedomSaigon', N'Huỳnh Quốc Huy (John Whale)', N'https://www.facebook.com/HuyFreedomSaigon', N'USER', 1)
+INSERT INTO WatchList VALUES(N'mothermushroom', N'Mẹ Nấm', N'https://www.facebook.com/mothermushroom/', N'USER', 1)
+INSERT INTO WatchList VALUES(N'lukhach', N'Nguyen Huy Vu', N'https://www.facebook.com/lukhach', N'USER', 1)
+INSERT INTO WatchList VALUES(N'thong.luan.1', N'Tập Hợp Dân Chủ Đa Nguyên', N'https://www.facebook.com/thong.luan.1', N'PAGE', 1)
 
 --NewsLabel--
 INSERT INTO NewsLabel VALUES(N'TTH', N'Thể thao')

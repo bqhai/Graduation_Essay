@@ -32,7 +32,6 @@
                                     <option value="ALL">Tất cả</option>
                                     <option value="PAGE">Trang</option>
                                     <option value="GR">Nhóm công khai</option>
-                                    <option value="CGR">Nhóm kín</option>
                                     <option value="USER">Cá nhân</option>
                                 </select>
                                 &nbsp;
@@ -44,7 +43,7 @@
                                 </select>
                                 <a href="#"><input type="button" class="btn btn-sm btn-primary" value="OK" /></a>
                             </label>                            
-                            <button class="btn btn-sm btn-danger btn-dark"><i class="fa fa-list-alt" aria-hidden="true"></i>&nbsp;Danh sách đen</button>
+                            @*<button class="btn btn-sm btn-danger btn-dark"><i class="fa fa-list-alt" aria-hidden="true"></i>&nbsp;Danh sách đen</button>*@
                         </div>
                         <div class="col-sm-6">
                             <div id="dataTables-examble_filter" class="dataTables_filter">
@@ -190,9 +189,6 @@
                                 <input type="radio" class="radio-inline" id="status0" name="Status" value="false" />Bỏ theo dõi
                             </label>
                         </div>
-                        <div class="checkbox">
-                            <label><input type="checkbox" class="checkbox" id="edit-black-list" name="InBlackList" value="true"/>Thêm vào danh sách đen?</label>
-                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -219,12 +215,6 @@
                 }
                 else {
                     $("#status0").prop('checked', true);
-                }
-                if (data.InBlackList) {
-                    $("#black-list").prop('checked', true);
-                }
-                else {
-                    $("#edit-black-list").prop('checked', false);
                 }
             },
             error: function () {
