@@ -47,7 +47,7 @@ namespace UI_NewsManagementSystem.Controllers
             {
                 ViewBag.Count = watchList.Count;
                 ViewBag.State = "All";
-                return View(watchList.ToPagedList(pageIndex, pageSize));
+                return View(watchList.Where(wl => wl.Status == true).ToPagedList(pageIndex, pageSize));
             }
             TempData["DangerMessage"] = Message.ConnectFailed();
             return RedirectToAction("Index", "Home");
@@ -207,6 +207,13 @@ namespace UI_NewsManagementSystem.Controllers
             }
             TempData["DangerMessage"] = Message.ConnectFailed();
             return RedirectToAction("Index", "Home");
+        }
+        #endregion
+
+        #region Analysis
+        public ActionResult Analysis()
+        {
+            return View();
         }
         #endregion
     }
