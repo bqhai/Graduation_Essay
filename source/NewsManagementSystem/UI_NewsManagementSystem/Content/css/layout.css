@@ -193,3 +193,6 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
+.huge{
+    font-size: 40px;
+}
