@@ -15,11 +15,11 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-sm-6">
-
+                        <i class="fa fa-table fa-2x"></i>
                     </div>
                     <div class="col-sm-6" style="text-align:right">
-                        <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#add-to-watch-list">Thêm mới&nbsp;<i class="fa fa-plus" aria-hidden="true"></i></button>
-                        <button class="btn btn-sm btn-danger" id="unfollow" onclick="unfollow()" disabled>Hủy theo dõi&nbsp;<i class="fa fa-minus" aria-hidden="true"></i></button>
+                        <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#add-to-watch-list">Thêm mới&nbsp;<i class="fa fa-plus"></i></button>
+                        <button class="btn btn-sm btn-danger" id="unfollow" onclick="unfollow()" disabled>Hủy theo dõi&nbsp;<i class="fa fa-minus"></i></button>
                     </div>
                 </div>
             </div>
@@ -54,7 +54,7 @@
                                     <label>
                                         Tìm kiếm:
                                         <input type="search" class="form-control input-sm" name="keyWord" required aria-controls="dataTables-example" />
-                                        <button class="btn btn-sm btn-primary" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                        <button class="btn btn-sm btn-primary" type="submit"><i class="fa fa-search"></i></button>
                                     </label>
                                 </form>
                             </div>
@@ -98,7 +98,7 @@
                                         }
                                         <td style="text-align: center">
                                             <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#edit-item-watch-list" onclick="editItemInWatchList('@item.FacebookID')">
-                                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                                                <i class="fa fa-pencil"></i>
                                             </button>
                                         </td>
                                     </tr>
@@ -144,7 +144,7 @@
             <form method="post" action="@Url.Action("AddToWatchList", "Home")">
                 <div class="modal-header">
                     <h4 class="modal-title">Thêm đối tượng mới</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="cancelAdd()">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal" onclick="cancelAdd()">&times;</button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
@@ -179,7 +179,7 @@
             <form method="post" , action="@Url.Action("UpdateToWatchList", "Home")">
                 <div class="modal-header">
                     <h4 class="modal-title">Sửa thông tin đối tượng</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
