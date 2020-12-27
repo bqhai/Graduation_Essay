@@ -220,6 +220,7 @@
     <Content Include="Views\Home\WatchList.cshtml" />
     <Content Include="Views\Home\Post.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Home\Analysis.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
