@@ -160,17 +160,25 @@ namespace UI_NewsManagementSystem.Controllers
         #endregion
 
         #region Post
+        public List<Post> GetAllPost()
+        {
+            var response = _apiService.GetResponse("api/Home/GetAllPost");
+            if (response.IsSuccessStatusCode)
+            {
+                 return response.Content.ReadAsAsync<List<Post>>().Result;               
+            }
+            return null;
+        }
         public ActionResult Post(int pageIndex = 1, int pageSize = 11)
         {
             if (Session["Account"] == null)
                 return RedirectToAction("Login", "Account");
-            var response = _apiService.GetResponse("api/Home/GetAllPost");
-            if (response.IsSuccessStatusCode)
+            var listPost = GetAllPost();
+            if (listPost != null)
             {
-                var result = response.Content.ReadAsAsync<List<Post>>().Result;
-                ViewBag.Count = result.Count;
+                ViewBag.Count = listPost.Count;
                 ViewBag.State = "All";
-                return View(result.ToPagedList(pageIndex, pageSize));
+                return View(listPost.ToPagedList(pageIndex, pageSize));
             }
             TempData["DangerMessage"] = Message.ConnectFailed();
             return RedirectToAction("Index", "Home");
@@ -213,7 +221,16 @@ namespace UI_NewsManagementSystem.Controllers
         #region Analysis
         public ActionResult Analysis()
         {
-            return View();
+            var watchlist = GetWatchList();
+            var listPost = GetAllPost();
+            Analysis analysis = new Analysis()
+            {
+                NumberOfWatchList = watchlist.Count,
+                NumberOfPost = listPost.Count,
+                NumberOfPositivePost = listPost.Where(po => po.SentimentLabelID == "POS").ToList().Count,
+                NumberOfNegativePost = listPost.Where(po => po.SentimentLabelID == "NEG").ToList().Count
+            };
+            return View(analysis);
         }
         #endregion
     }
