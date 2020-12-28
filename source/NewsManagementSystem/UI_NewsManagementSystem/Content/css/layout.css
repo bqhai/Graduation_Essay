@@ -196,6 +196,9 @@
 .huge{
     font-size: 40px;
 }
+.panel-primary a:hover {
+    color: #337ab7;
+}
 .panel-yellow {
     border-color: #f0ad4e !important;
 }
@@ -205,6 +208,9 @@
         background-color: #f0ad4e;
     }
     .panel-yellow a {
+        color: #f0ad4e;
+    }
+    .panel-yellow a:hover {
         color: #f0ad4e;
     }
 .panel-red {
@@ -218,6 +224,9 @@
     .panel-red a {
         color: #d9534f;
     }
+    .panel-red a:hover {
+        color: #d9534f;
+    }
 .panel-green {
     border-color: #5cb85c !important;
 }
@@ -229,3 +238,6 @@
     .panel-green a {
         color: #5cb85c;
     }
+        .panel-green a:hover {
+            color: #5cb85c;
+        }
