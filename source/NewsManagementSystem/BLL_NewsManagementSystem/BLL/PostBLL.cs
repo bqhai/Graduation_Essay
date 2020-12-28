@@ -51,6 +51,10 @@ namespace BLL_NewsManagementSystem.BLL
             }
             return postDTOs;
         }
+        public List<PostDTO> GetListPostByFacebookID(string facebookID)
+        {
+            return GetAllPost().Where(po => po.FacebookID == facebookID).ToList();
+        }
         public PostDTO GetPostByID(string postID)
         {
             return _mapToPostDto.Translate(_dalPost.GetPostByID(postID));
