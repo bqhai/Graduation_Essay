@@ -219,7 +219,16 @@ namespace UI_NewsManagementSystem.Controllers
         #endregion
 
         #region Analysis
-        public ActionResult Analysis()
+        public List<Post> GetListPostByFacebookID(string facebookID)
+        {
+            var response = _apiService.GetResponse("api/Home/GetListPostByFacebookID/" + facebookID + "/");
+            if (response.IsSuccessStatusCode)
+            {
+                return response.Content.ReadAsAsync<List<Post>>().Result;
+            }
+            return null;
+        }
+        public ActionResult Analysis(string facebookID)
         {
             var watchlist = GetWatchList();
             var listPost = GetAllPost();
@@ -230,8 +239,11 @@ namespace UI_NewsManagementSystem.Controllers
                 NumberOfPositivePost = listPost.Where(po => po.SentimentLabelID == "POS").ToList().Count,
                 NumberOfNegativePost = listPost.Where(po => po.SentimentLabelID == "NEG").ToList().Count
             };
+            if (facebookID != null)
+                ViewBag.ListPost = GetListPostByFacebookID(facebookID);
             return View(analysis);
         }
+        
         #endregion
     }
 }
