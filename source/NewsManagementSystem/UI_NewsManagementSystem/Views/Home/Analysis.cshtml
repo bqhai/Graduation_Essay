@@ -4,6 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@model UI_NewsManagementSystem.Models.Analysis
 <div class="row">
     <div class="col-lg-12">
         <h2 class="page-header">Thống kê - Đánh giá</h2>
@@ -19,7 +20,7 @@
                     </div>
                     <div class="col-xs-9 text-right">
                         <div class="huge">
-                            26
+                            <span>@Model.NumberOfWatchList</span>
                         </div>
                         <div>
                             Đối tượng đang theo dõi
@@ -39,12 +40,137 @@
         </div>
     </div>
     <div class="col-lg-3 col-md-6">
-
+        <div class="panel panel-yellow">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-file-text fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">
+                            <span>@Model.NumberOfPost</span>
+                        </div>
+                        <div>
+                            Bài viết đã thu thập
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a href="#">
+                <div class="panel-footer">
+                    <span class="pull-left">Xem chi tiết</span>
+                    <span class="pull-right">
+                        <i class="fa fa-arrow-circle-right"></i>
+                    </span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
     </div>
     <div class="col-lg-3 col-md-6">
-
+        <div class="panel panel-red">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-times-circle fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">
+                            <span>@Model.NumberOfNegativePost</span>
+                        </div>
+                        <div>
+                            Bài viết có nội dung tiêu cực
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a href="#">
+                <div class="panel-footer">
+                    <span class="pull-left">Xem chi tiết</span>
+                    <span class="pull-right">
+                        <i class="fa fa-arrow-circle-right"></i>
+                    </span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
     </div>
     <div class="col-lg-3 col-md-6">
+        <div class="panel panel-green">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-check-circle fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">
+                            <span>@Model.NumberOfPositivePost</span>
+                        </div>
+                        <div>
+                            Bài viết có nội dung tích cực
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a href="#">
+                <div class="panel-footer">
+                    <span class="pull-left">Xem chi tiết</span>
+                    <span class="pull-right">
+                        <i class="fa fa-arrow-circle-right"></i>
+                    </span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <i class="fa fa-bar-chart fa-2x"></i>
+                    </div>
+                    <div class="col-sm-6" style="text-align: right">
+                        <label>Đối tượng: </label>
+                        <label>
+                            <select class="form-control" id="watch-list" style="width: 280px"></select>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+
+            </div>
+        </div>
+    </div>
+    <div class="col=lg-4">
 
     </div>
 </div>
+<script>
+    $('#watch-list').select2({       
+        allowClear: true
+    });
+    $(document).ready(function () {
+        var watchlist = $('#watch-list');
+        watchlist.append($('<option></option>').val('').html('Chọn đối tượng'));
+        $.ajax({
+            url: 'https://localhost:44347/api/Home/GetAllWatchList/',
+            type: 'get',
+            dataType: 'json',
+            success: function (data) {
+                $.each(data, function (key, value) {
+                    watchlist.append($('<option></option>').val(value.FacebookID).html(value.FacebookName));
+                });
+            },
+            error: function () {
+                console.log('Error');
+            }
+        });           
+    });
+    $('#watch-list').change(function () {
+        
+    });
+</script>
