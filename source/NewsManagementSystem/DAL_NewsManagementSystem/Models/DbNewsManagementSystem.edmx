@@ -37,8 +37,8 @@
           <Property Name="UserUrl" Type="nvarchar" MaxLength="500" />
           <Property Name="PostContent" Type="nvarchar(max)" />
           <Property Name="Image" Type="nvarchar(max)" />
-          <Property Name="UploadTime" Type="nvarchar" MaxLength="200" />
-          <Property Name="CrawledTime" Type="nvarchar" MaxLength="200" />
+          <Property Name="UploadTime" Type="datetime" />
+          <Property Name="CrawledTime" Type="datetime" />
           <Property Name="TotalLikes" Type="int" />
           <Property Name="TotalComment" Type="int" />
           <Property Name="TotalShare" Type="int" />
@@ -197,8 +197,8 @@
           <Property Name="UserUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="PostContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="UploadTime" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="CrawledTime" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="UploadTime" Type="DateTime" Precision="3" />
+          <Property Name="CrawledTime" Type="DateTime" Precision="3" />
           <Property Name="TotalLikes" Type="Int32" />
           <Property Name="TotalComment" Type="Int32" />
           <Property Name="TotalShare" Type="Int32" />
