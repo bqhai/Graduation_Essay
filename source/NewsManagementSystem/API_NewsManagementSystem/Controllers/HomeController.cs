@@ -94,6 +94,13 @@ namespace API_NewsManagementSystem.Controllers
         }
 
         [HttpGet]
+        [Route("GetListPostByFacebookID/{facebookID}")]
+        public JsonResult<List<PostDTO>> GetListPostByFacebookID(string facebookID)
+        {
+            return Json(_bllPost.GetListPostByFacebookID(facebookID));
+        }
+
+        [HttpGet]
         [Route("GetPostByID/{postID}")]
         public JsonResult<PostDTO> GetPostByID(string postID)
         {
