@@ -75,7 +75,7 @@ def crawl_group(url, scroll_down):
             post_url = None
         else:
             post_url = 'https://www.facebook.com/groups/' + facebook_id + '/permalink/' + str(post['post_id']) + '/'
-        time = str(post['time'])
+        time = post['time']
         user_url = 'https://www.facebook.com/' + str(post['user_id'])
         post_text = str(post['text'])
         image = str(post['image'])
