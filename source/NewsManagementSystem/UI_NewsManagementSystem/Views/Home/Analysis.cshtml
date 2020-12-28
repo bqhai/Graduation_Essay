@@ -130,32 +130,56 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-sm-6">
-                        <i class="fa fa-bar-chart fa-2x"></i>
+                        <i class="fa fa-bar-chart fa-2x"></i>     
                     </div>
-                    <div class="col-sm-6" style="text-align: right">
-                        <label>Đối tượng: </label>
-                        <label>
-                            <select class="form-control" id="watch-list" style="width: 280px"></select>
-                        </label>
+                    <div class="col-sm-6" style="text-align: right">                       
+                        <form method="post" action="@Url.Action("Analysis", "Home")">
+                            <label>
+                                Đối tượng:
+                                <select class="form-control" id="watch-list" name="facebookID" style="width: 280px"></select>
+                                <button type="submit" class="btn btn-sm btn-primary">Thống kê</button>
+                            </label>
+                        </form>               
                     </div>
                 </div>
+            </div>
+            <div class="panel-body">
+                <div id="chart" style="height: 470px; width: 100%;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-pie-chart fa-2x"></i>
             </div>
             <div class="panel-body">
 
             </div>
         </div>
     </div>
-    <div class="col=lg-4">
-
-    </div>
 </div>
 <script>
-    $('#watch-list').select2({       
+    var anqgPost = 0;
+    var anttPost = 0;
+    var anotherPost = 0;
+    var listPost = @Html.Raw(Json.Encode(ViewBag.ListPost));
+    if (listPost != null) {
+        for (var i = 0; i < listPost.length; i++) {
+            if (listPost[i].NewsLabelID == 'ANQG')
+                anqgPost++;
+            else if (listPost[i].NewsLabelID == 'ANTT')
+                anttPost++;
+            else
+                anotherPost++;
+        }
+    }
+
+    $('#watch-list').select2({
         allowClear: true
     });
     $(document).ready(function () {
         var watchlist = $('#watch-list');
-        watchlist.append($('<option></option>').val('').html('Chọn đối tượng'));
         $.ajax({
             url: 'https://localhost:44347/api/Home/GetAllWatchList/',
             type: 'get',
@@ -166,11 +190,25 @@
                 });
             },
             error: function () {
-                console.log('Error');
+                console.log('ajax error');
             }
-        });           
+        });
     });
-    $('#watch-list').change(function () {
-        
-    });
+    var option = {
+        animationEnabled: true,
+        axisY: {
+            suffix: ''
+        },
+        data: [{
+            type: "column",
+            yValueFormatString: "#,##0.0#" % "",
+            dataPoints: [
+                { label: 'An ninh quốc gia', y: anqgPost },
+                { label: 'An ninh trật tự', y: anttPost },
+                { label: 'Khác', y: anotherPost },
+            ]
+        }]
+    }
+    $('#chart').CanvasJSChart(option);
+
 </script>
