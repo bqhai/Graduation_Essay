@@ -156,6 +156,7 @@
     <Content Include="Content\icon\font-awesome-4.7.0\HELP-US-OUT.txt" />
     <Content Include="Content\img\No_image_available.png" />
     <Content Include="Content\js\alert-message.js" />
+    <Content Include="Content\js\jquery.canvasjs.min.js" />
     <Content Include="Content\js\select2.min.js" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
