@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Post";
+    ViewBag.Title = "Danh sách bài viết";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @using PagedList.Mvc
@@ -52,7 +52,12 @@
                                 <form method="post" action="@Url.Action("SearchPost", "Home")">
                                     <label>
                                         Tìm kiếm:
-                                        <input type="search" class="form-control input-sm" name="keyword" required />
+                                        <input type="search" class="form-control input-sm" name="keyword" placeholder="Nhập từ khóa cần tìm" required />
+                                        theo&nbsp;
+                                        <select class="form-control input-sm" name="searchOption">
+                                            <option value="post">Nội dung bài viết</option>
+                                            <option value="place">Nơi thu thập</option>
+                                        </select>
                                         <button class="btn btn-sm btn-primary" type="submit"><i class="fa fa-search"></i></button>
                                     </label>
                                 </form>
@@ -68,13 +73,13 @@
                                     <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 30px">
                                         <input type="checkbox" id="select-all-post" class="checkbox" style="margin-bottom: 3px; cursor: pointer" />
                                     </th>
-                                    <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 300px">URL bài viết</th>
-                                    <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 500px">Nội dung</th>
-                                    <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 150px">Ngày đăng</th>
-                                    <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 250px">Nơi thu thập</th>
-                                    <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 140px; text-align: center">Nhãn</th>
-                                    <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 150px; text-align: center">Mức độ</th>
-                                    <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 60px; text-align: center">Xem</th>
+                                    <th rowspan="1" colspan="1" style="width: 300px">URL bài viết</th>
+                                    <th rowspan="1" colspan="1" style="width: 500px">Nội dung bài viết</th>
+                                    <th rowspan="1" colspan="1" style="width: 150px">Ngày đăng</th>
+                                    <th rowspan="1" colspan="1" style="width: 250px">Nơi thu thập</th>
+                                    <th rowspan="1" colspan="1" style="width: 140px; text-align: center">Nhãn</th>
+                                    <th rowspan="1" colspan="1" style="width: 150px; text-align: center">Mức độ</th>
+                                    <th rowspan="1" colspan="1" style="width: 60px; text-align: center">Xem</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -135,7 +140,7 @@
                                     }
                                     else
                                     {
-                                        @Html.PagedListPager(Model, pageIndex => Url.Action("SearchPost", "Home", new { pageIndex, keyword = ViewBag.Keyword}))
+                                        @Html.PagedListPager(Model, pageIndex => Url.Action("SearchPost", "Home", new { pageIndex, keyword = ViewBag.Keyword, searchOption = ViewBag.SearchOption}))
                                     }
 
                                 </li>
