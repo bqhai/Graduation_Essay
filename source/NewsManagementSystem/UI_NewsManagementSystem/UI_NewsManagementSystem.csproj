@@ -159,10 +159,10 @@
     <Content Include="Content\js\jquery.canvasjs.min.js" />
     <Content Include="Content\js\select2.min.js" />
     <Content Include="Content\PagedList.css" />
-    <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="iconfinder_analysis.ico" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\icon\font-awesome-4.7.0\fonts\fontawesome-webfont.eot" />
