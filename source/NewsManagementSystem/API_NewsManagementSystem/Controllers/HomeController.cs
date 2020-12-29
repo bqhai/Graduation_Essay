@@ -87,10 +87,10 @@ namespace API_NewsManagementSystem.Controllers
         }
 
         [HttpGet]
-        [Route("SearchPost/{keyword}")]
-        public JsonResult<List<PostDTO>> SearchPost(string keyword)
+        [Route("SearchPost/{keyword}/{searchOption}")]
+        public JsonResult<List<PostDTO>> SearchPost(string keyword, string searchOption)
         {
-            return Json(_bllPost.SearchPost(keyword));
+            return Json(_bllPost.SearchPost(keyword, searchOption));
         }
 
         [HttpGet]
