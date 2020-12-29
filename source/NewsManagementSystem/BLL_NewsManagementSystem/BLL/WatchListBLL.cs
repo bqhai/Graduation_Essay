@@ -31,23 +31,31 @@ namespace BLL_NewsManagementSystem.BLL
         }
         public List<WatchListDTO> FilterWatchList(string facebookTypeID, string status)
         {
-            IEnumerable<JWatchList> watchLists = _dalWatchList.FilterWatchList(facebookTypeID, status);
-            List<WatchListDTO> watchListDtos = new List<WatchListDTO>();
-            foreach (var item in watchLists)
+            bool st;
+            if (status == "true")
+                st = true;
+            else
+                st = false;
+            if (facebookTypeID == "ALL" && status == "ALL")
             {
-                watchListDtos.Add(_mapToWatchListDto.Translate(item));
+                return GetAllWatchList();
             }
-            return watchListDtos;
+            if (facebookTypeID == "ALL")
+            {
+                return GetAllWatchList().Where(wl => wl.FacebookTypeID == wl.FacebookTypeID && wl.Status == st).ToList();
+            }
+            else if (status == "ALL")
+            {
+                return GetAllWatchList().Where(wl => wl.FacebookTypeID == facebookTypeID && wl.Status == wl.Status).ToList();
+            }
+            else
+            {
+                return GetAllWatchList().Where(wl => wl.FacebookTypeID == facebookTypeID && wl.Status == st).ToList();
+            }
         }
         public List<WatchListDTO> SearchWatchList(string keyword)
         {
-            IEnumerable<JWatchList> watchLists = _dalWatchList.SearchWatchList(keyword);
-            List<WatchListDTO> watchListDtos = new List<WatchListDTO>();
-            foreach (var item in watchLists)
-            {
-                watchListDtos.Add(_mapToWatchListDto.Translate(item));
-            }
-            return watchListDtos;
+            return GetAllWatchList().Where(wl => wl.FacebookName.IndexOf(keyword, StringComparison.CurrentCultureIgnoreCase) != -1).ToList();
         }
         public WatchListDTO GetWatchListItemByID(string facebookID)
         {
