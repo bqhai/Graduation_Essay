@@ -27,34 +27,6 @@ namespace DAL_NewsManagementSystem.DAL
                         };
             return query;
         }
-        public IEnumerable<JWatchList> FilterWatchList(string facebookTypeID, string status)
-        {
-            bool st;
-            if (status == "true")
-                st = true;
-            else
-                st = false;
-            if (facebookTypeID == "ALL" && status == "ALL")
-            {
-                return GetAllWatchList();
-            }
-            if (facebookTypeID == "ALL")
-            {             
-                return GetAllWatchList().Where(wl => wl.FacebookTypeID == wl.FacebookTypeID && wl.Status == st);
-            }
-            else if(status == "ALL")
-            {               
-                return GetAllWatchList().Where(wl => wl.FacebookTypeID == facebookTypeID && wl.Status == wl.Status); ;
-            }
-            else
-            {
-                return GetAllWatchList().Where(wl => wl.FacebookTypeID == facebookTypeID && wl.Status == st); ;
-            }
-        }
-        public IEnumerable<JWatchList> SearchWatchList(string keyword)
-        {
-            return GetAllWatchList().Where(wl => wl.FacebookName.Contains(keyword)); ;
-        }
         public JWatchList GetWatchListItemByID(string facebookID)
         {
             var query = (from wl in _db.WatchLists
