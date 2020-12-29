@@ -200,16 +200,17 @@ namespace UI_NewsManagementSystem.Controllers
             TempData["DangerMessage"] = Message.ConnectFailed();
             return RedirectToAction("Index", "Home");
         }
-        public ActionResult SearchPost(string keyword, int pageIndex = 1, int pageSize = 11)
+        public ActionResult SearchPost(string keyword, string searchOption, int pageIndex = 1, int pageSize = 11)
         {
             if (Session["Account"] == null)
                 return RedirectToAction("Login", "Account");
-            var response = _apiService.GetResponse("api/Home/SearchPost/" + keyword + "/");
+            var response = _apiService.GetResponse("api/Home/SearchPost/" + keyword + "/" + searchOption + "/");
             if (response.IsSuccessStatusCode)
             {
                 var result = response.Content.ReadAsAsync<List<Post>>().Result;
                 ViewBag.Count = result.Count;
                 ViewBag.Keyword = keyword;
+                ViewBag.SearchOption = searchOption;
                 ViewBag.State = "Search";
                 return View("~/Views/Home/Post.cshtml", result.ToPagedList(pageIndex, pageSize));
             }
@@ -230,6 +231,8 @@ namespace UI_NewsManagementSystem.Controllers
         }
         public ActionResult Analysis(string facebookID)
         {
+            if (Session["Account"] == null)
+                return RedirectToAction("Login", "Account");
             var watchlist = GetWatchList();
             var listPost = GetAllPost();
             Analysis analysis = new Analysis()
@@ -240,10 +243,19 @@ namespace UI_NewsManagementSystem.Controllers
                 NumberOfNegativePost = listPost.Where(po => po.SentimentLabelID == "NEG").ToList().Count
             };
             if (facebookID != null)
-                ViewBag.ListPost = GetListPostByFacebookID(facebookID);
+            {
+                var listPostByID = GetListPostByFacebookID(facebookID);
+                if (listPostByID.Count > 0)
+                {
+                    ViewBag.ListPost = listPostByID;
+                    ViewBag.TopInteractive = listPostByID.OrderByDescending(po => po.TotalLikes + po.TotalComment + po.TotalShare).Take(5).ToList();
+                    ViewBag.FacebookName = listPostByID.Select(po => po.FacebookName).Take(1).ToList()[0];
+                }                  
+                else
+                    TempData["WarningMessage"] = "Đối tượng này chưa có dữ liệu";
+            }                          
             return View(analysis);
         }
-        
         #endregion
     }
 }
