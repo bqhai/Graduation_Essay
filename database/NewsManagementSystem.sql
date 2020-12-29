@@ -69,9 +69,6 @@ CREATE TABLE Post
 -----INSERTDATA-----
 --SystemAccount--
 INSERT INTO Account VALUES(N'admin', N'123456', 1)
-INSERT INTO Account VALUES(N'bqhai01', N'123456', 0)
-INSERT INTO Account VALUES(N'bqhai02', N'123456', 0)
-INSERT INTO Account VALUES(N'bqhai03', N'123456', 0)
 --FacebookType--
 INSERT INTO FacebookType VALUES(N'PAGE', N'Trang', NULL)
 INSERT INTO FacebookType VALUES(N'GR', N'Nhóm công khai', N'Public groups, nơi mọi người có thể xem tất cả nội dung và các thành viên.')
