@@ -33,23 +33,29 @@ namespace BLL_NewsManagementSystem.BLL
         }
         public List<PostDTO> FilterPost(string newsLabelID, string sentimentLabelID)
         {
-            IEnumerable<JPost> posts = _dalPost.FilterPost(newsLabelID, sentimentLabelID);
-            List<PostDTO> postDTOs = new List<PostDTO>();
-            foreach (var item in posts)
+            if (newsLabelID.Equals("ALL", StringComparison.InvariantCultureIgnoreCase) && sentimentLabelID.Equals("ALL", StringComparison.InvariantCultureIgnoreCase))
             {
-                postDTOs.Add(_mapToPostDto.Translate(item));
+                return GetAllPost();
             }
-            return postDTOs;
+            if (newsLabelID.Equals("ALL", StringComparison.InvariantCultureIgnoreCase))
+            {
+                return GetAllPost().Where(po => po.NewsLabelID == po.NewsLabelID && po.SentimentLabelID == sentimentLabelID).ToList();
+            }
+            else if (sentimentLabelID.Equals("ALL", StringComparison.InvariantCultureIgnoreCase))
+            {
+                return GetAllPost().Where(po => po.NewsLabelID == newsLabelID && po.SentimentLabelID == po.SentimentLabelID).ToList();
+            }
+            else
+            {
+                return GetAllPost().Where(po => po.NewsLabelID == newsLabelID && po.SentimentLabelID == sentimentLabelID).ToList();
+            }
         }
-        public List<PostDTO> SearchPost(string keyword)
+        public List<PostDTO> SearchPost(string keyword, string searchOption)
         {
-            IEnumerable<JPost> posts = _dalPost.SearchPost(keyword);
-            List<PostDTO> postDTOs = new List<PostDTO>();
-            foreach (var item in posts)
-            {
-                postDTOs.Add(_mapToPostDto.Translate(item));
-            }
-            return postDTOs;
+            if(searchOption.Equals("post", StringComparison.InvariantCultureIgnoreCase) || searchOption.Equals(string.Empty))
+                return GetAllPost().Where(po => po.PostContent.IndexOf(keyword, StringComparison.CurrentCultureIgnoreCase) != -1).ToList();
+            else
+                return GetAllPost().Where(po => po.FacebookName.IndexOf(keyword, StringComparison.CurrentCultureIgnoreCase) != -1).ToList();
         }
         public List<PostDTO> GetListPostByFacebookID(string facebookID)
         {
