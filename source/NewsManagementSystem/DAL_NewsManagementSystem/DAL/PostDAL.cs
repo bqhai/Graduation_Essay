@@ -44,29 +44,6 @@ namespace DAL_NewsManagementSystem.DAL
                         };
             return query;
         }
-        public IEnumerable<JPost> FilterPost(string newsLabelID, string sentimentLabelID)
-        {
-            if(newsLabelID.Equals("ALL") && sentimentLabelID.Equals("ALL"))
-            {
-                return GetAllPost();
-            }
-            if (newsLabelID.Equals("ALL"))
-            {
-                return GetAllPost().Where(po => po.NewsLabelID == po.NewsLabelID && po.SentimentLabelID == sentimentLabelID);
-            }
-            else if (sentimentLabelID.Equals("ALL"))
-            {                
-                return GetAllPost().Where(po => po.NewsLabelID == newsLabelID && po.SentimentLabelID == po.SentimentLabelID);
-            }
-            else
-            {               
-                return GetAllPost().Where(po => po.NewsLabelID == newsLabelID && po.SentimentLabelID == sentimentLabelID);
-            }
-        }
-        public IEnumerable<JPost> SearchPost(string keyword)
-        {
-            return GetAllPost().Where(po => po.PostContent.Contains(keyword));
-        }
         public JPost GetPostByID(string postID)
         {
             var query = (from po in _db.Posts
