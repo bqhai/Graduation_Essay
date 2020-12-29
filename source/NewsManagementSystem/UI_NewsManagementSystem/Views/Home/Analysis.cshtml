@@ -1,13 +1,13 @@
 ﻿
 @{
-    ViewBag.Title = "Analysis";
+    ViewBag.Title = "Thống kê - Đánh giá";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @model UI_NewsManagementSystem.Models.Analysis
 <div class="row">
     <div class="col-lg-12">
-        <h2 class="page-header">Thống kê - Đánh giá</h2>
+        <h2 class="page-header">Thống kê chung</h2>
     </div>
 </div>
 <div class="row">
@@ -28,7 +28,7 @@
                     </div>
                 </div>
             </div>
-            <a href="#">
+            <a href="@Url.Action("WatchList", "Home")">
                 <div class="panel-footer">
                     <span class="pull-left">Xem chi tiết</span>
                     <span class="pull-right">
@@ -51,12 +51,12 @@
                             <span>@Model.NumberOfPost</span>
                         </div>
                         <div>
-                            Bài viết đã thu thập
+                            Tổng bài viết đã thu thập
                         </div>
                     </div>
                 </div>
             </div>
-            <a href="#">
+            <a href="@Url.Action("Post", "Home")">
                 <div class="panel-footer">
                     <span class="pull-left">Xem chi tiết</span>
                     <span class="pull-right">
@@ -84,7 +84,7 @@
                     </div>
                 </div>
             </div>
-            <a href="#">
+            <a href="@Url.Action("FilterPost", "Home", new { newsLabelID = "ALL", sentimentLabelID = "NEG" })">
                 <div class="panel-footer">
                     <span class="pull-left">Xem chi tiết</span>
                     <span class="pull-right">
@@ -112,7 +112,7 @@
                     </div>
                 </div>
             </div>
-            <a href="#">
+            <a href="@Url.Action("FilterPost", "Home", new { newsLabelID = "ALL", sentimentLabelID = "POS" })">
                 <div class="panel-footer">
                     <span class="pull-left">Xem chi tiết</span>
                     <span class="pull-right">
@@ -125,18 +125,25 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-8">
+    <div class="col-lg-12">
+        <h2 class="page-header" style="margin-top: 20px;">Thống kê - Đánh giá trên từng đối tượng</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-sm-6">
-                        <i class="fa fa-bar-chart fa-2x"></i>     
+                        <i class="fa fa-bar-chart fa-2x"></i>&emsp;&emsp;<label>@ViewBag.FacebookName</label>   
                     </div>
                     <div class="col-sm-6" style="text-align: right">                       
                         <form method="post" action="@Url.Action("Analysis", "Home")">
                             <label>
                                 Đối tượng:
-                                <select class="form-control" id="watch-list" name="facebookID" style="width: 280px"></select>
+                                <select class="form-control" id="watch-list" name="facebookID" style="width: 280px">
+                                    <option value="" disabled selected>Chọn đối tượng</option>
+                                </select>
                                 <button type="submit" class="btn btn-sm btn-primary">Thống kê</button>
                             </label>
                         </form>               
@@ -144,17 +151,45 @@
                 </div>
             </div>
             <div class="panel-body">
-                <div id="chart" style="height: 470px; width: 100%;"></div>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <i class="fa fa-pie-chart fa-2x"></i>
-            </div>
-            <div class="panel-body">
-
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div style="text-align: center"><strong style="font-size: 18px">Số lượng bài viết / nhãn</strong></div>
+                        <div id="bar-chart" style="height: 390px; width: 100%;"></div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div style="text-align: center"><strong style="font-size: 18px">Tỉ lệ mức độ</strong></div>
+                        <div id="pie-chart" style="height: 390px; width: 100%;"></div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div style="text-align: center"><strong style="font-size: 18px">Top bài viết có tương tác cao nhất</strong></div>
+                        <table class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th style="width: 25%">URL</th>
+                                    <th style="width: 25%">Thích</th>
+                                    <th style="width: 25%">Bình luận</th>
+                                    <th style="width: 25%">Chia sẻ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (ViewBag.TopInteractive != null)
+                                {
+                                    foreach (var item in ViewBag.TopInteractive)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <a href="@item.PostUrl" target="_blank">Link</a>                                                
+                                            </td>
+                                            <td>@item.TotalLikes</td>
+                                            <td>@item.TotalComment</td>
+                                            <td>@item.TotalShare</td>
+                                        </tr>
+                                    }
+                                }                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>             
             </div>
         </div>
     </div>
@@ -163,6 +198,9 @@
     var anqgPost = 0;
     var anttPost = 0;
     var anotherPost = 0;
+    var posPost = 0;
+    var negPost = 0;
+    var neuPost = 0;
     var listPost = @Html.Raw(Json.Encode(ViewBag.ListPost));
     if (listPost != null) {
         for (var i = 0; i < listPost.length; i++) {
@@ -172,7 +210,18 @@
                 anttPost++;
             else
                 anotherPost++;
+
+            if (listPost[i].SentimentLabelID == 'POS')
+                posPost++;
+            else if (listPost[i].SentimentLabelID == 'NEG')
+                negPost++;
+            else
+                neuPost++;
         }
+        posPost = (posPost * 100) / listPost.length;
+        negPost = (negPost * 100) / listPost.length;
+        neuPost = 100 - posPost - negPost;
+        //console.log(posPost.toFixed(2), negPost.toFixed(2), neuPost.toFixed(2));
     }
 
     $('#watch-list').select2({
@@ -194,9 +243,10 @@
             }
         });
     });
-    var option = {
+    var barChart = {
         animationEnabled: true,
         axisY: {
+            title: 'Số lượng bài viết',
             suffix: ''
         },
         data: [{
@@ -209,6 +259,25 @@
             ]
         }]
     }
-    $('#chart').CanvasJSChart(option);
+    var pieChart = {
+        theme: 'light2',
+        animationEnabled: true,
+        data: [{
+            type: 'pie',
+            startAngle: 25,
+            toolTipContent: '<b>{label}</b>: {y}%',
+            showInLegend: 'true',
+            legendText: '{label}',
+            indexLabelFontSize: 16,
+            indexLabel: '{label} - {y}%',
+            dataPoints: [
+                { y: neuPost.toFixed(2), label: 'Bình thường' },
+                { y: posPost.toFixed(2), label: 'Tích cực' },
+                { y: negPost.toFixed(2), label: 'Tiêu cực' },
+            ]
+        }]
+    }
+    $('#bar-chart').CanvasJSChart(barChart);
+    $('#pie-chart').CanvasJSChart(pieChart);
 
 </script>
