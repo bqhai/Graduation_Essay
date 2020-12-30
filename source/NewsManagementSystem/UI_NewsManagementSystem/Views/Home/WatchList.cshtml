@@ -220,6 +220,7 @@
     </div>
 </div>
 <script>
+    var baseUrl = 'http://kltn262020api.somee.com/';
     listFacebookID = [];
     function deleteItemInArray(arr, item) {
         for (var i = 0; i < arr.length; i++) {
@@ -252,6 +253,7 @@
             console.log(i);
             $.ajax({
                 url: 'https://localhost:44347/api/Home/Unfollow/' + listFacebookID[i],
+                //url: baseUrl + 'api/Home/Unfollow/' + listFacebookID[i],
                 type: 'put',
                 dataType: 'json',
                 success: function (data) {
@@ -268,6 +270,7 @@
     function editItemInWatchList(facebookID) {
         $.ajax({
             url: 'https://localhost:44347/api/Home/GetWatchListItemByID/' + facebookID + "/",
+            //url: baseUrl + 'api/Home/GetWatchListItemByID/' + facebookID + "/",
             type: 'GET',
             dataType: 'json',
             success: function (data) {

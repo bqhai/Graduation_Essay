@@ -227,6 +227,7 @@
     </div>
 </div>
 <script>
+    var baseUrl = 'http://kltn262020api.somee.com/';
     var listPostID = []; //list postID for delete button
     function deleteItemInArray(arr, item) {
         for (var i = 0; i < arr.length; i++) {
@@ -256,7 +257,7 @@
             }
         });
         toggleDeleteButton();
-        console.log(listPostID);   
+        //console.log(listPostID);   
     });
     function addPostIDToArray(postID) {
         if ($('#' + postID).is(':checked')) {
@@ -266,7 +267,7 @@
             deleteItemInArray(listPostID, postID);
         }
         toggleDeleteButton();
-        console.log(listPostID);         
+        //console.log(listPostID);         
     }
     function checkEmptyArray() {
         if (listPostID.length == 0) {
@@ -276,9 +277,10 @@
     }
     function deletePost() {
         for (var i = 0; i < listPostID.length; i++) {
-            console.log(i);
+            //console.log(i);
             $.ajax({
-                url: 'https://localhost:44347/api/Home/RemovePost/' + listPostID[i],
+                url: 'https://localhost:44347/api/Home/RemovePost/' + listPostID[i] + '/',
+                //url: baseUrl + 'api/Home/RemovePost/' + listPostID[i] + '/',
                 type: 'delete',
                 dataType: 'json',
                 success: function (data) {
@@ -293,7 +295,8 @@
     }
     function viewPostDetail(postID) {
         $.ajax({
-            url: 'https://localhost:44347/api/Home/GetPostByID/' + postID,
+            url: 'https://localhost:44347/api/Home/GetPostByID/' + postID + '/',
+            //url: baseUrl + 'api/Home/GetPostByID/' + postID + '/',
             type: 'GET',
             dataType: 'json',
             success: function (data) {
