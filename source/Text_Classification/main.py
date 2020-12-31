@@ -92,6 +92,7 @@ class MainWindow(Frame):
         tab_control_m.add(frm_crawler, text='   Thu thập dữ liệu   ')
         tab_control_m.add(frm_word_tokenizer, text='   Công cụ tách từ   ')
         tab_control_m.add(frm_text_classification, text='   Phân loại văn bản   ')
+
         # tab_control_m.add(frm_guild, text='   Hướng dẫn   ')
 
         # Facebook Crawler area
@@ -219,8 +220,10 @@ class MainWindow(Frame):
                     if i['FacebookTypeID'] == 'PAGE':
                         txt_page_wl.config(state=NORMAL)
                         txt_page_wl.insert(END, '{:<50} \t {:<89}'.format(i['FacebookName'], i['FacebookUrl']))
-                        chk_select_page_wl = Checkbutton(txt_page_wl, cursor='hand2', variable=i['FacebookUrl'], command=lambda url=i['FacebookUrl']: select_url(url))
-                        btn_choose_url = ttk.Button(txt_page_wl, text='⮜', width=2, cursor='hand2', command=lambda url=i['FacebookUrl']: choose_url(url))
+                        chk_select_page_wl = Checkbutton(txt_page_wl, cursor='hand2', variable=i['FacebookUrl'],
+                                                         command=lambda url=i['FacebookUrl']: select_url(url))
+                        btn_choose_url = ttk.Button(txt_page_wl, text='⮜', width=2, cursor='hand2',
+                                                    command=lambda url=i['FacebookUrl']: choose_url(url))
                         txt_page_wl.window_create(txt_page_wl.index('end'), window=chk_select_page_wl)
                         txt_page_wl.window_create(txt_page_wl.index('end'), window=btn_choose_url)
                         txt_page_wl.insert(END, '\n')
@@ -228,8 +231,10 @@ class MainWindow(Frame):
                     elif i['FacebookTypeID'] == 'GR':
                         txt_group_wl.config(state=NORMAL)
                         txt_group_wl.insert(END, '{:<50} \t {:<89}'.format(i['FacebookName'], i['FacebookUrl']))
-                        chk_select_gr_wl = Checkbutton(txt_group_wl, cursor='hand2', variable=i['FacebookUrl'], command=lambda url=i['FacebookUrl']: select_url(url))
-                        btn_choose_url = ttk.Button(txt_group_wl, text='⮜', width=2, cursor='hand2', command=lambda url=i['FacebookUrl']: choose_url(url))
+                        chk_select_gr_wl = Checkbutton(txt_group_wl, cursor='hand2', variable=i['FacebookUrl'],
+                                                       command=lambda url=i['FacebookUrl']: select_url(url))
+                        btn_choose_url = ttk.Button(txt_group_wl, text='⮜', width=2, cursor='hand2',
+                                                    command=lambda url=i['FacebookUrl']: choose_url(url))
                         txt_group_wl.window_create(txt_group_wl.index('end'), window=chk_select_gr_wl)
                         txt_group_wl.window_create(txt_group_wl.index('end'), window=btn_choose_url)
                         txt_group_wl.insert(END, '\n')
@@ -238,7 +243,8 @@ class MainWindow(Frame):
                         txt_user_wl.config(state=NORMAL)
                         txt_user_wl.insert(END, '{:<50} \t {:<89}'.format(i['FacebookName'], i['FacebookUrl']))
                         chk_select_user_wl = Checkbutton(txt_user_wl, cursor='hand2')
-                        btn_choose_url = ttk.Button(txt_user_wl, text='⮜', width=2, cursor='hand2', command=lambda url=i['FacebookUrl']: choose_url(url))
+                        btn_choose_url = ttk.Button(txt_user_wl, text='⮜', width=2, cursor='hand2',
+                                                    command=lambda url=i['FacebookUrl']: choose_url(url))
                         txt_user_wl.window_create(txt_user_wl.index('end'), window=chk_select_user_wl)
                         txt_user_wl.window_create(txt_user_wl.index('end'), window=btn_choose_url)
                         txt_user_wl.insert(END, '\n')
@@ -341,7 +347,7 @@ class MainWindow(Frame):
                 if scroll_down > 20:
                     write_warning_info('Tối đa 20 lần cuộn trang')
                     return
-            except:
+            except EXCEPTION:
                 write_error_info('Số lần cuộn trang không hợp lệ')
                 return
             selection = int(select_type.get())
@@ -368,6 +374,7 @@ class MainWindow(Frame):
 
             # start crawl data
             btn_crawl_cr['state'] = 'disabled'
+            btn_crawl_list_cr['state'] = 'disabled'
             write_runtime_info('Đang tiến hành thu thập...')
             try:
                 status = crawl(url, scroll_down, selection)
@@ -381,10 +388,45 @@ class MainWindow(Frame):
                     write_error_info('Có lỗi xảy ra ở server!')
                 else:
                     write_error_info('Kết nối server thất bại!')
-            except:
+            except EXCEPTION:
                 write_error_info('Thực thi thất bại!')
             # status = crawl(url, scroll_down, selection)
             btn_crawl_cr['state'] = 'enable'
+            btn_crawl_list_cr['state'] = 'enable'
+
+        def thread_start_crawl_list():
+            t = threading.Thread(target=start_crawl_list)
+            t.start()
+
+        def start_crawl_list():
+            global list_url
+            if not list_url:
+                write_warning_info('Danh sách thu thập trống')
+                return
+            try:
+                scroll_down = int(spn_numpage_cr.get())
+                if scroll_down > 20:
+                    write_warning_info('Tối đa 20 lần cuộn trang')
+                    return
+            except EXCEPTION:
+                write_error_info('Số lần cuộn trang không hợp lệ')
+                return
+            btn_crawl_cr['state'] = 'disabled'
+            btn_crawl_list_cr['state'] = 'disabled'
+            count = 1
+            for i in list_url:
+                write_runtime_info('Đang thu thập link thứ ' + str(count) + '/' + str(len(list_url)) + '...')
+                try:
+                    if 'groups' in i:
+                        status = crawl(i, scroll_down, 2)
+                    else:
+                        status = crawl(i, scroll_down, 1)
+
+                except EXCEPTION:
+                    write_error_info('Kết nối server thất bại!')
+                count += 1
+            btn_crawl_cr['state'] = 'enable'
+            btn_crawl_list_cr['state'] = 'enable'
 
         select_type = IntVar()
         # login_option = BooleanVar()
@@ -419,7 +461,7 @@ class MainWindow(Frame):
 
         btn_crawl_cr = ttk.Button(frm_top_cr, text='Thu thập 1 link', cursor='hand2', command=thread_start_crawl)
         btn_crawl_cr.grid(column=1, row=3, sticky='w', pady=(10, 0))
-        btn_crawl_list_cr = ttk.Button(frm_top_cr, text='Thu thập list', cursor='hand2')
+        btn_crawl_list_cr = ttk.Button(frm_top_cr, text='Thu thập list', cursor='hand2', command=thread_start_crawl_list)
         btn_crawl_list_cr.grid(column=1, row=3, sticky='w', padx=(110, 0), pady=(10, 0))
         btn_show_log_cr = ttk.Button(frm_top_cr, text='Xem log', cursor='hand2', command=open_log)
         btn_show_log_cr.grid(column=1, row=3, sticky='w', padx=(210, 0), pady=(10, 0))
