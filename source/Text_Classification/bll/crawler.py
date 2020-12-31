@@ -7,16 +7,15 @@ import re
 import bll.config_log
 from datetime import datetime
 import logging
+
 # global variable
 total_post_crawled = 0
+stop_flag = False
 
 
-def get_child_attribute(element, selector, attr):
-    try:
-        element = element.find_element_by_css_selector(selector)
-        return str(element.get_attribute(attr))
-    except:
-        return ''
+def set_stop_flag(state):
+    global stop_flag
+    stop_flag = state
 
 
 def count_crawled_post():
@@ -32,6 +31,9 @@ def crawl_page(url, scroll_down):
     global total_post_crawled
     total_post_crawled = 0
     for post in get_posts(facebook_id, pages=scroll_down, extra_info=True):
+        global stop_flag
+        if stop_flag:
+            break
         if str(post['post_id']) == 'None':
             post_url = None
         else:
@@ -74,6 +76,9 @@ def crawl_group(url, scroll_down):
     global total_post_crawled
     total_post_crawled = 0
     for post in get_posts(group=facebook_id, pages=scroll_down, extra_info=True):
+        global stop_flag
+        if stop_flag:
+            break
         if str(post['post_id']) == 'None':
             post_url = None
         else:
@@ -113,7 +118,7 @@ def crawl_group(url, scroll_down):
 def crawl(url, scroll_down, selection):
     if selection == 1:
         logging.info('Selection = Page ' + 'Scroll down = ' + str(scroll_down))
-        return crawl_page(url, scroll_down*6)
+        return crawl_page(url, scroll_down * 6)
     elif selection == 2:
         logging.info('Selection = Group ' + 'Scroll down = ' + str(scroll_down))
         return crawl_group(url, scroll_down)
