@@ -7,7 +7,7 @@ from tkcalendar import DateEntry
 import babel.numbers
 from bll.text_classification import predict, convert_label_to_text
 from bll.preprocessor import text_preprocess
-from bll.crawler import crawl, count_crawled_post
+from bll.crawler import crawl, count_crawled_post, set_stop_flag
 from bll.call_api import *
 from threading import Thread
 import threading
@@ -19,6 +19,7 @@ import logging
 
 # ---Global variable---
 list_url = []
+
 # username = ''
 # password = ''
 
@@ -326,15 +327,15 @@ class MainWindow(Frame):
             btn_cancel_awl.grid(column=1, row=4, sticky='w', padx=(80, 0), pady=(15, 0))
 
         def thread_start_crawl():
-            t1 = threading.Thread(target=start_crawl)
-            t1.start()
+            t = threading.Thread(target=start_crawl)
+            t.start()
 
         def start_crawl():
-            write_runtime_info('Kiểm tra thông tin url...')
             url = ent_url_cr.get()
             if len(url) <= 0:
-                write_warning_info('Link FB không được để trống!')
+                write_warning_info('Link FB trống!')
                 return
+            write_runtime_info('Kiểm tra thông tin url...')
             # check valid url
             if validators.url(url) and 'facebook.com' in url:
                 pass
@@ -375,6 +376,8 @@ class MainWindow(Frame):
             # start crawl data
             btn_crawl_cr['state'] = 'disabled'
             btn_crawl_list_cr['state'] = 'disabled'
+            btn_stop_crawl_cr['state'] = 'enable'
+            set_stop_flag(False)  # set flag to false -> continue crawl
             write_runtime_info('Đang tiến hành thu thập...')
             try:
                 status = crawl(url, scroll_down, selection)
@@ -393,6 +396,7 @@ class MainWindow(Frame):
             # status = crawl(url, scroll_down, selection)
             btn_crawl_cr['state'] = 'enable'
             btn_crawl_list_cr['state'] = 'enable'
+            btn_stop_crawl_cr['state'] = 'disabled'
 
         def thread_start_crawl_list():
             t = threading.Thread(target=start_crawl_list)
@@ -413,20 +417,36 @@ class MainWindow(Frame):
                 return
             btn_crawl_cr['state'] = 'disabled'
             btn_crawl_list_cr['state'] = 'disabled'
+            btn_stop_crawl_cr['state'] = 'enable'
+            set_stop_flag(False)  # set flag to false -> continue crawl
             count = 1
             for i in list_url:
-                write_runtime_info('Đang thu thập link thứ ' + str(count) + '/' + str(len(list_url)) + '...')
+                write_runtime_info('Đang thu thập ' + '(' + str(count) + '/' + str(len(list_url)) + ')' + ' URL: ' + i + ' ...')
                 try:
                     if 'groups' in i:
                         status = crawl(i, scroll_down, 2)
                     else:
                         status = crawl(i, scroll_down, 1)
-
+                    # show status
+                    if status == 0:
+                        write_success_info('Tổng số bài viết thu thập: ' + str(count_crawled_post()))
+                    elif status == -1:
+                        write_warning_info('Hủy')
+                    elif status == -4:
+                        write_error_info('Có lỗi xảy ra ở server!')
+                    else:
+                        write_error_info('Kết nối server thất bại!')
                 except EXCEPTION:
                     write_error_info('Kết nối server thất bại!')
                 count += 1
+            write_success_info('Xong!')
             btn_crawl_cr['state'] = 'enable'
             btn_crawl_list_cr['state'] = 'enable'
+            btn_stop_crawl_cr['state'] = 'disabled'
+
+        def stop_crawl():
+            set_stop_flag(True)  # set flag to true -> stop crawl
+            write_runtime_info('Đang hủy tiến trình thu thập dữ liệu...')
 
         select_type = IntVar()
         # login_option = BooleanVar()
@@ -459,14 +479,17 @@ class MainWindow(Frame):
         #                                offvalue=False, command=login)
         # chk_login_cr.grid(column=1, row=2, sticky='w', pady=(10, 0))
 
-        btn_crawl_cr = ttk.Button(frm_top_cr, text='Thu thập 1 link', cursor='hand2', command=thread_start_crawl)
-        btn_crawl_cr.grid(column=1, row=3, sticky='w', pady=(10, 0))
-        btn_crawl_list_cr = ttk.Button(frm_top_cr, text='Thu thập list', cursor='hand2', command=thread_start_crawl_list)
-        btn_crawl_list_cr.grid(column=1, row=3, sticky='w', padx=(110, 0), pady=(10, 0))
-        btn_show_log_cr = ttk.Button(frm_top_cr, text='Xem log', cursor='hand2', command=open_log)
-        btn_show_log_cr.grid(column=1, row=3, sticky='w', padx=(210, 0), pady=(10, 0))
-        btn_clear_info_cr = ttk.Button(frm_top_cr, text='Xóa thông báo', cursor='hand2', command=clear_info)
-        btn_clear_info_cr.grid(column=1, row=3, sticky='w', padx=(310, 0), pady=(10, 0))
+        btn_show_log_cr = ttk.Button(frm_top_cr, text='Xem log', cursor='hand2', width=15, command=open_log)
+        btn_show_log_cr.grid(column=1, row=3, sticky='w', pady=(10, 0))
+        btn_clear_info_cr = ttk.Button(frm_top_cr, text='Xóa thông báo', cursor='hand2', width=15, command=clear_info)
+        btn_clear_info_cr.grid(column=1, row=3, sticky='w', padx=(120, 0), pady=(10, 0))
+        btn_crawl_cr = ttk.Button(frm_top_cr, text='Thu thập 1 link', cursor='hand2', width=15, command=thread_start_crawl)
+        btn_crawl_cr.grid(column=1, row=4, sticky='w', pady=(10, 0))
+        btn_crawl_list_cr = ttk.Button(frm_top_cr, text='Thu thập list', cursor='hand2', width=15, command=thread_start_crawl_list)
+        btn_crawl_list_cr.grid(column=1, row=4, sticky='w', padx=(120, 0), pady=(10, 0))
+        btn_stop_crawl_cr = ttk.Button(frm_top_cr, text='Hủy thu thập', cursor='hand2', width=15, command=stop_crawl)
+        btn_stop_crawl_cr.grid(column=1, row=4, sticky='w', padx=(240, 0), pady=(10, 0))
+        btn_stop_crawl_cr['state'] = 'disabled'
 
         prg_cr = ttk.Progressbar(frm_crawler, length=200)
         prg_cr.pack(fill=BOTH)
