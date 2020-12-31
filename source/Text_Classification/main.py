@@ -83,7 +83,7 @@ class MainWindow(Frame):
         self.init_ui()
 
     def init_ui(self):
-        self.parent.title('Tool thu thập, phân loại tin tức')
+        self.parent.title('Công cụ thu thập, phân loại tin tức')
         self.pack(fill=BOTH, expand=1)
         tab_control_m = ttk.Notebook(self)
         tab_control_m.pack(fill=BOTH, expand=1)
@@ -333,14 +333,14 @@ class MainWindow(Frame):
         def start_crawl():
             url = ent_url_cr.get()
             if len(url) <= 0:
-                write_warning_info('Link FB trống!')
+                write_warning_info('Link Facebook trống')
                 return
             write_runtime_info('Kiểm tra thông tin url...')
             # check valid url
             if validators.url(url) and 'facebook.com' in url:
                 pass
             else:
-                write_error_info('Link FB không hợp lệ!')
+                write_error_info('Link Facebook không hợp lệ')
                 return
             # check valid scroll down
             try:
@@ -362,10 +362,10 @@ class MainWindow(Frame):
             if status:
                 pass
             elif status == -2:
-                messagebox.showerror('Lỗi', 'Kiểm tra thông tin thất bại, server không phản hồi!')
+                messagebox.showerror('Lỗi', 'Kiểm tra thông tin thất bại, server không phản hồi')
                 return
             else:
-                msg_box = messagebox.askquestion('Thông báo', 'Url này chưa có trong danh sách theo dõi. Chọn Yes để thêm!')
+                msg_box = messagebox.askquestion('Thông báo', 'Url này chưa có trong danh sách theo dõi. Chọn Yes để thêm')
                 if msg_box == 'yes':
                     open_add_to_watch_list(facebook_id, url)
                     return
@@ -384,15 +384,15 @@ class MainWindow(Frame):
                 if status == 0:
                     write_success_info('Tổng số bài viết thu thập: ' + str(count_crawled_post()))
                 elif status == -1:
-                    write_error_info('Link Facebook không hợp lệ!')
+                    write_error_info('Link Facebook không hợp lệ')
                 elif status == -3:
-                    write_warning_info('Chức năng này hiện đang trong giai đoạn phát triển!')
+                    write_warning_info('Chức năng này hiện đang trong giai đoạn phát triển')
                 elif status == -4:
-                    write_error_info('Có lỗi xảy ra ở server!')
+                    write_error_info('Có lỗi xảy ra ở server')
                 else:
-                    write_error_info('Kết nối server thất bại!')
+                    write_error_info('Kết nối server thất bại')
             except EXCEPTION:
-                write_error_info('Thực thi thất bại!')
+                write_error_info('Thực thi thất bại')
             # status = crawl(url, scroll_down, selection)
             btn_crawl_cr['state'] = 'enable'
             btn_crawl_list_cr['state'] = 'enable'
@@ -433,13 +433,13 @@ class MainWindow(Frame):
                     elif status == -1:
                         write_warning_info('Hủy')
                     elif status == -4:
-                        write_error_info('Có lỗi xảy ra ở server!')
+                        write_error_info('Có lỗi xảy ra ở server')
                     else:
-                        write_error_info('Kết nối server thất bại!')
+                        write_error_info('Kết nối server thất bại')
                 except EXCEPTION:
-                    write_error_info('Kết nối server thất bại!')
+                    write_error_info('Kết nối server thất bại')
                 count += 1
-            write_success_info('Xong!')
+            write_success_info('Xong')
             btn_crawl_cr['state'] = 'enable'
             btn_crawl_list_cr['state'] = 'enable'
             btn_stop_crawl_cr['state'] = 'disabled'
@@ -454,7 +454,9 @@ class MainWindow(Frame):
         frm_top_cr = ttk.Frame(frm_crawler)
         frm_top_cr.pack(fill=BOTH, padx=15, pady=15)
         lbl_url_cr = Label(frm_top_cr, text='Facebook URL: ')
-        lbl_url_cr.grid(column=0, row=0)
+        lbl_url_cr.grid(column=0, row=0, sticky='e')
+        lbl_function_cr = Label(frm_top_cr, text='Chức năng: ')
+        lbl_function_cr.grid(column=0, row=3, sticky='e')
         ent_url_cr = ttk.Entry(frm_top_cr, width=120)
         ent_url_cr.grid(column=1, row=0)
         # button to open blacklist
