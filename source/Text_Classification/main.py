@@ -9,12 +9,16 @@ from bll.text_classification import predict, convert_label_to_text
 from bll.preprocessor import text_preprocess
 from bll.crawler import crawl, count_crawled_post
 from bll.call_api import *
+from threading import Thread
+import threading
 import subprocess
 import validators
+import time
 import bll.config_log
 import logging
 
 # ---Global variable---
+list_url = []
 # username = ''
 # password = ''
 
@@ -91,6 +95,11 @@ class MainWindow(Frame):
         # tab_control_m.add(frm_guild, text='   Hướng dẫn   ')
 
         # Facebook Crawler area
+        def write_runtime_info(message):
+            txt_info_cr.config(state=NORMAL)
+            txt_info_cr.insert(END, time_now() + '   ' + message + '\n', 'runtime')
+            txt_info_cr.config(state=DISABLED)
+
         def write_error_info(message):
             txt_info_cr.config(state=NORMAL)
             txt_info_cr.insert(END, time_now() + '   ' + 'Error: ' + message + '\n', 'error')
@@ -161,11 +170,13 @@ class MainWindow(Frame):
                 return
             win_watch_list = Toplevel(self)
             win_watch_list.title('Danh sách theo dõi')
-            center_window(win_watch_list, 854, 480)
+            center_window(win_watch_list, 1200, 480)
             win_watch_list.resizable(False, False)
             win_watch_list.grab_set()
-            tab_control_wl = ttk.Notebook(win_watch_list)
-            tab_control_wl.pack(fill=BOTH, expand=1)
+            tab_control_wl = ttk.Notebook(win_watch_list, height=480, width=1200)
+            tab_control_wl.pack(expand=1)
+            # frm_bottom_wl = Frame(win_watch_list, height=60, width=1200)
+            # frm_bottom_wl.pack()
             frm_page_wl = Frame(tab_control_wl)
             frm_group_wl = Frame(tab_control_wl)
             frm_user_wl = Frame(tab_control_wl)
@@ -176,22 +187,30 @@ class MainWindow(Frame):
             txt_page_wl = Text(frm_page_wl, wrap=WORD)
             txt_page_wl.pack(fill=BOTH, expand=True)
             txt_page_wl.tag_config('pageheader', foreground='red', background='yellow')
-            txt_page_wl.insert(END, '{:<35} \t {:<63}'.format('Tên trang', 'URL') + 'Chọn' + '\n', 'pageheader')
+            txt_page_wl.insert(END, '{:<50} \t {:<89}'.format('Tên trang', 'URL') + 'Chọn' + '\n', 'pageheader')
 
             txt_group_wl = Text(frm_group_wl, wrap=WORD)
             txt_group_wl.pack(fill=BOTH, expand=True)
             txt_group_wl.tag_config('groupheader', foreground='red', background='yellow')
-            txt_group_wl.insert(END, '{:<35} \t {:<63}'.format('Tên nhóm', 'URL') + 'Chọn' + '\n', 'groupheader')
+            txt_group_wl.insert(END, '{:<50} \t {:89}'.format('Tên nhóm', 'URL') + 'Chọn' + '\n', 'groupheader')
 
             txt_user_wl = Text(frm_user_wl, wrap=WORD)
             txt_user_wl.pack(fill=BOTH, expand=True)
             txt_user_wl.tag_config('userheader', foreground='red', background='yellow')
-            txt_user_wl.insert(END, '{:<35} \t {:<63}'.format('Tên facebook cá nhân', 'URL') + 'Chọn' + '\n', 'userheader')
+            txt_user_wl.insert(END, '{:<50} \t {:<89}'.format('Tên facebook cá nhân', 'URL') + 'Chọn' + '\n', 'userheader')
 
             def choose_url(url):
                 ent_url_cr.delete(0, END)
                 ent_url_cr.insert(0, url)
                 win_watch_list.destroy()
+
+            def select_url(url):
+                global list_url
+                if url not in list_url:
+                    list_url.append(url)
+                else:
+                    list_url.remove(url)
+                print(list_url)
 
             for i in watch_list:
                 if not i['Status']:
@@ -199,22 +218,28 @@ class MainWindow(Frame):
                 else:
                     if i['FacebookTypeID'] == 'PAGE':
                         txt_page_wl.config(state=NORMAL)
-                        txt_page_wl.insert(END, '{:<35} \t {:<65}'.format(i['FacebookName'], i['FacebookUrl']))
+                        txt_page_wl.insert(END, '{:<50} \t {:<89}'.format(i['FacebookName'], i['FacebookUrl']))
+                        chk_select_page_wl = Checkbutton(txt_page_wl, cursor='hand2', variable=i['FacebookUrl'], command=lambda url=i['FacebookUrl']: select_url(url))
                         btn_choose_url = ttk.Button(txt_page_wl, text='⮜', width=2, cursor='hand2', command=lambda url=i['FacebookUrl']: choose_url(url))
+                        txt_page_wl.window_create(txt_page_wl.index('end'), window=chk_select_page_wl)
                         txt_page_wl.window_create(txt_page_wl.index('end'), window=btn_choose_url)
                         txt_page_wl.insert(END, '\n')
                         txt_page_wl.config(state=DISABLED)
                     elif i['FacebookTypeID'] == 'GR':
                         txt_group_wl.config(state=NORMAL)
-                        txt_group_wl.insert(END, '{:<35} \t {:<65}'.format(i['FacebookName'], i['FacebookUrl']))
+                        txt_group_wl.insert(END, '{:<50} \t {:<89}'.format(i['FacebookName'], i['FacebookUrl']))
+                        chk_select_gr_wl = Checkbutton(txt_group_wl, cursor='hand2', variable=i['FacebookUrl'], command=lambda url=i['FacebookUrl']: select_url(url))
                         btn_choose_url = ttk.Button(txt_group_wl, text='⮜', width=2, cursor='hand2', command=lambda url=i['FacebookUrl']: choose_url(url))
+                        txt_group_wl.window_create(txt_group_wl.index('end'), window=chk_select_gr_wl)
                         txt_group_wl.window_create(txt_group_wl.index('end'), window=btn_choose_url)
                         txt_group_wl.insert(END, '\n')
                         txt_group_wl.config(state=DISABLED)
                     else:
                         txt_user_wl.config(state=NORMAL)
-                        txt_user_wl.insert(END, '{:<35} \t {:<65}'.format(i['FacebookName'], i['FacebookUrl']))
+                        txt_user_wl.insert(END, '{:<50} \t {:<89}'.format(i['FacebookName'], i['FacebookUrl']))
+                        chk_select_user_wl = Checkbutton(txt_user_wl, cursor='hand2')
                         btn_choose_url = ttk.Button(txt_user_wl, text='⮜', width=2, cursor='hand2', command=lambda url=i['FacebookUrl']: choose_url(url))
+                        txt_user_wl.window_create(txt_user_wl.index('end'), window=chk_select_user_wl)
                         txt_user_wl.window_create(txt_user_wl.index('end'), window=btn_choose_url)
                         txt_user_wl.insert(END, '\n')
                         txt_user_wl.config(state=DISABLED)
@@ -294,7 +319,12 @@ class MainWindow(Frame):
             btn_cancel_awl = ttk.Button(win_add_watch_list, text='Hủy', cursor='hand2', command=cancel_awl)
             btn_cancel_awl.grid(column=1, row=4, sticky='w', padx=(80, 0), pady=(15, 0))
 
+        def thread_start_crawl():
+            t1 = threading.Thread(target=start_crawl)
+            t1.start()
+
         def start_crawl():
+            write_runtime_info('Kiểm tra thông tin url...')
             url = ent_url_cr.get()
             if len(url) <= 0:
                 write_warning_info('Link FB không được để trống!')
@@ -337,6 +367,8 @@ class MainWindow(Frame):
                     return
 
             # start crawl data
+            btn_crawl_cr['state'] = 'disabled'
+            write_runtime_info('Đang tiến hành thu thập...')
             try:
                 status = crawl(url, scroll_down, selection)
                 if status == 0:
@@ -352,6 +384,7 @@ class MainWindow(Frame):
             except:
                 write_error_info('Thực thi thất bại!')
             # status = crawl(url, scroll_down, selection)
+            btn_crawl_cr['state'] = 'enable'
 
         select_type = IntVar()
         # login_option = BooleanVar()
@@ -384,12 +417,14 @@ class MainWindow(Frame):
         #                                offvalue=False, command=login)
         # chk_login_cr.grid(column=1, row=2, sticky='w', pady=(10, 0))
 
-        btn_crawl_cr = ttk.Button(frm_top_cr, text='Thu thập', cursor='hand2', command=start_crawl)
+        btn_crawl_cr = ttk.Button(frm_top_cr, text='Thu thập 1 link', cursor='hand2', command=thread_start_crawl)
         btn_crawl_cr.grid(column=1, row=3, sticky='w', pady=(10, 0))
+        btn_crawl_list_cr = ttk.Button(frm_top_cr, text='Thu thập list', cursor='hand2')
+        btn_crawl_list_cr.grid(column=1, row=3, sticky='w', padx=(110, 0), pady=(10, 0))
         btn_show_log_cr = ttk.Button(frm_top_cr, text='Xem log', cursor='hand2', command=open_log)
-        btn_show_log_cr.grid(column=1, row=3, sticky='w', padx=(100, 0), pady=(10, 0))
+        btn_show_log_cr.grid(column=1, row=3, sticky='w', padx=(210, 0), pady=(10, 0))
         btn_clear_info_cr = ttk.Button(frm_top_cr, text='Xóa thông báo', cursor='hand2', command=clear_info)
-        btn_clear_info_cr.grid(column=1, row=3, sticky='w', padx=(200, 0), pady=(10, 0))
+        btn_clear_info_cr.grid(column=1, row=3, sticky='w', padx=(310, 0), pady=(10, 0))
 
         prg_cr = ttk.Progressbar(frm_crawler, length=200)
         prg_cr.pack(fill=BOTH)
@@ -401,6 +436,7 @@ class MainWindow(Frame):
         txt_info_cr.tag_config('error', foreground='red')
         txt_info_cr.tag_config('warning', foreground='yellow')
         txt_info_cr.tag_config('success', foreground='#22ff00')
+        txt_info_cr.tag_config('runtime', foreground='white')
 
         # Word Tokenize area
         def get_preprocessor_text():
