@@ -110,7 +110,7 @@ def crawl_group(url, scroll_down):
 def crawl(url, scroll_down, selection):
     if selection == 1:
         logging.info('Selection = Page ' + 'Scroll down = ' + str(scroll_down))
-        return crawl_page(url, scroll_down)
+        return crawl_page(url, scroll_down*6)
     elif selection == 2:
         logging.info('Selection = Group ' + 'Scroll down = ' + str(scroll_down))
         return crawl_group(url, scroll_down)
