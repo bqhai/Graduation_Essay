@@ -20,7 +20,10 @@ def get_child_attribute(element, selector, attr):
 
 
 def count_crawled_post():
-    return total_post_crawled
+    global total_post_crawled
+    temp = total_post_crawled
+    total_post_crawled = 0
+    return temp
 
 
 def crawl_page(url, scroll_down):
