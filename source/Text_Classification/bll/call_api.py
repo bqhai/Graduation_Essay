@@ -8,7 +8,7 @@ import logging
 
 def add_list_json_post(data):
     try:
-        url = BASE_HOSTED_URL + 'api/Home/AddNewOrUpdateListPost/'
+        url = BASE_LOCAL_URL + 'api/Home/AddNewOrUpdateListPost/'
         logging.info('Call to api ' + url)
         response = requests.post(url, json=data, verify=False)
         print('Status code: ', response.status_code)
@@ -26,7 +26,7 @@ def add_list_json_post(data):
 
 def check_exist_post(data):
     try:
-        url = BASE_HOSTED_URL + 'api/Home/CheckExistPost/'
+        url = BASE_LOCAL_URL + 'api/Home/CheckExistPost/'
         logging.info('Call to api ' + url)
         response = requests.get(url, json=data,  verify=False)
         print('Status code: ', response.status_code)
@@ -40,7 +40,7 @@ def check_exist_post(data):
 
 def add_json_post(data):
     try:
-        url = BASE_HOSTED_URL + 'api/Home/AddNewPost/'
+        url = BASE_LOCAL_URL + 'api/Home/AddNewPost/'
         logging.info('Call to api ' + url)
         response = requests.post(url, json=data, verify=False)
         print('Status code: ', response.status_code)
@@ -58,7 +58,7 @@ def add_json_post(data):
 
 def update_json_post(data):
     try:
-        url = BASE_HOSTED_URL + 'api/Home/UpdatePost/'
+        url = BASE_LOCAL_URL + 'api/Home/UpdatePost/'
         logging.info('Call to api ' + url)
         response = requests.put(url, json=data, verify=False)
         print('Status code: ', response.status_code)
@@ -76,7 +76,7 @@ def update_json_post(data):
 
 def get_all_watch_list():
     try:
-        url = BASE_HOSTED_URL + 'api/Home/GetAllWatchList/'
+        url = BASE_LOCAL_URL + 'api/Home/GetAllWatchList/'
         logging.info('Call to api ' + url)
         response = requests.get(url, verify=False)
         print('Status code: ', response.status_code)
@@ -90,7 +90,7 @@ def get_all_watch_list():
 
 def check_exist_in_watch_list(facebook_id):
     try:
-        url = BASE_HOSTED_URL + 'api/Home/CheckExistInWatchList/' + facebook_id + '/'
+        url = BASE_LOCAL_URL + 'api/Home/CheckExistInWatchList/' + facebook_id + '/'
         logging.info('Call to api ' + url)
         response = requests.get(url, verify=False)
         print('Status code: ', response.status_code)
@@ -104,7 +104,7 @@ def check_exist_in_watch_list(facebook_id):
 
 def add_to_watch_list(watch_list):
     try:
-        url = BASE_HOSTED_URL + 'api/Home/AddToWatchList/'
+        url = BASE_LOCAL_URL + 'api/Home/AddToWatchList/'
         logging.info('Call to api ' + url)
         response = requests.post(url, json=watch_list, verify=False)
         print('Status code: ', response.status_code)
