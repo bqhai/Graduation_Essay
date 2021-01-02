@@ -26,28 +26,34 @@
             <div class="panel-body">
                 <div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-8">
                             <form method="post" action="@Url.Action("FilterPost", "Home")">
                                 <label>
                                     Nhãn:
-                                    <select class="form-control input-sm" name="newsLabelID">
+                                    <select class="form-control input-sm" id="news-label-id" name="newsLabelID">
                                         <option value="ALL">Tất cả</option>
                                         <option value="ANQG">An ninh quốc gia</option>
                                         <option value="ANTT">An ninh trật tự</option>
                                     </select>
                                     &nbsp;
                                     Mức độ:
-                                    <select class="form-control input-sm" name="sentimentLabelID">
+                                    <select class="form-control input-sm" id="sentiment-label-id" name="sentimentLabelID">
                                         <option value="ALL">Tất cả</option>
                                         <option value="POS">Tích cực</option>
                                         <option value="NEU">Bình thường</option>
                                         <option value="NEG">Tiêu cực</option>
                                     </select>
+                                    &nbsp;
+                                    Từ ngày:
+                                    <input type="date" class="form-control input-sm" name="fromdate" />
+                                    &nbsp;
+                                    Đến ngày:
+                                    <input type="date" class="form-control input-sm" name="todate" />
                                     <input type="submit" class="btn btn-sm btn-primary" value="OK" />
                                 </label>
                             </form>                  
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <div id="dataTables-examble_filter" class="dataTables_filter">
                                 <form method="post" action="@Url.Action("SearchPost", "Home")">
                                     <label>
@@ -75,10 +81,10 @@
                                     </th>
                                     <th rowspan="1" colspan="1" style="width: 300px">URL bài viết</th>
                                     <th rowspan="1" colspan="1" style="width: 500px">Nội dung bài viết</th>
-                                    <th rowspan="1" colspan="1" style="width: 150px">Ngày đăng</th>
-                                    <th rowspan="1" colspan="1" style="width: 250px">Nơi thu thập</th>
-                                    <th rowspan="1" colspan="1" style="width: 140px; text-align: center">Nhãn</th>
-                                    <th rowspan="1" colspan="1" style="width: 150px; text-align: center">Mức độ</th>
+                                    <th rowspan="1" colspan="1" style="width: 180px">Ngày đăng</th>
+                                    <th rowspan="1" colspan="1" style="width: 240px">Nơi thu thập</th>
+                                    <th rowspan="1" colspan="1" style="width: 130px; text-align: center">Nhãn</th>
+                                    <th rowspan="1" colspan="1" style="width: 140px; text-align: center">Mức độ</th>
                                     <th rowspan="1" colspan="1" style="width: 60px; text-align: center">Xem</th>
                                 </tr>
                             </thead>
@@ -257,7 +263,7 @@
             }
         });
         toggleDeleteButton();
-        //console.log(listPostID);   
+        //console.log(listPostID);
     });
     function addPostIDToArray(postID) {
         if ($('#' + postID).is(':checked')) {
@@ -267,7 +273,7 @@
             deleteItemInArray(listPostID, postID);
         }
         toggleDeleteButton();
-        //console.log(listPostID);         
+        //console.log(listPostID);
     }
     function checkEmptyArray() {
         if (listPostID.length == 0) {
@@ -312,7 +318,7 @@
                 $('#news-label').html(data.NewsLabelName);
                 if (data.Image != 'None') {
                     $('#image').attr('href', data.Image).children('img').attr('src', data.Image);
-                }             
+                }
                 if (data.SentimentLabelID == 'NEG') {
                     $('#sentiment-label').html(data.SentimentLabelName).addClass('label-danger');
                 }
@@ -322,7 +328,7 @@
                 else {
                     $('#sentiment-label').html(data.SentimentLabelName).addClass('label-primary');
                 }
-                
+
             },
             error: function () {
                 alert('Lỗi kết nối đến server!');
@@ -334,5 +340,13 @@
         $('#sentiment-label').removeClass('label-success');
         $('#sentiment-label').removeClass('label-primary');
         $('#image').attr('href', '#').children('img').attr('src', '');
-    }  
+    }
+    //display value of select (filter feature)
+    var newsLabelID = @Html.Raw(Json.Encode(ViewBag.NewsLabelID));
+    var sentimentLabelID = @Html.Raw(Json.Encode(ViewBag.SentimentLabelID));
+    if (newsLabelID != null)
+        $('#news-label-id').val(newsLabelID)
+    if (sentimentLabelID != null)
+        $('#sentiment-label-id').val(sentimentLabelID)
+    
 </script>
