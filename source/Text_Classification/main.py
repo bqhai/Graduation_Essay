@@ -56,13 +56,13 @@ def check_valid_post_url(url):
 
 def keypress_only_number(c):
     if c.isdigit():
-        print(c)
+        # print(c)
         return True
     elif c is '':
-        print(c)
+        # print(c)
         return True
     else:
-        print(c)
+        # print(c)
         return False
 
 
