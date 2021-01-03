@@ -19,6 +19,10 @@ namespace UI_NewsManagementSystem.Repository
         {
             return Client.GetAsync(url).Result;
         }
+        public HttpResponseMessage GetResponse(string url, object model)
+        {
+            return Client.PostAsJsonAsync(url, model).Result;
+        }
         public HttpResponseMessage PutResponse(string url, object model)
         {
             return Client.PutAsJsonAsync(url, model).Result;
