@@ -13,14 +13,28 @@ namespace UI_NewsManagementSystem.Controllers
     public class HomeController : Controller
     {
         private ApiService _apiService = new ApiService();
+        private int pageSize;
+        public ActionResult SetPageSize(int displayNumber)
+        {
+            pageSize = displayNumber;
+            return Redirect(Request.UrlReferrer.ToString());
+        }
+        //public int GetPageSize()
+        //{
+        //    if (pageSize == 0)
+        //        return 11;
+        //    else
+        //        return pageSize;
+        //}
         public ActionResult Index()
         {
             if (Session["Account"] == null)
                 return RedirectToAction("Login", "Account");
             return View();
         }
+
         #region WatchList
-        public List<WatchList> GetWatchList()
+        private List<WatchList> GetWatchList()
         {
             var response = _apiService.GetResponse("api/Home/GetAllWatchList");
             if (response.IsSuccessStatusCode)
@@ -160,7 +174,7 @@ namespace UI_NewsManagementSystem.Controllers
         #endregion
 
         #region Post
-        public List<Post> GetAllPost()
+        private List<Post> GetAllPost()
         {
             var response = _apiService.GetResponse("api/Home/GetAllPost");
             if (response.IsSuccessStatusCode)
@@ -169,7 +183,7 @@ namespace UI_NewsManagementSystem.Controllers
             }
             return null;
         }
-        public ActionResult Post(int pageIndex = 1, int pageSize = 11)
+        public ActionResult Post(int pageIndex = 1)
         {
             if (Session["Account"] == null)
                 return RedirectToAction("Login", "Account");
@@ -183,24 +197,33 @@ namespace UI_NewsManagementSystem.Controllers
             TempData["DangerMessage"] = Message.ConnectFailed();
             return RedirectToAction("Index", "Home");
         }
-        public ActionResult FilterPost(string newsLabelID, string sentimentLabelID, int pageIndex = 1, int pageSize = 11)
+        public ActionResult FilterPost(string newsLabelID, string sentimentLabelID, Nullable<DateTime> startDate, Nullable<DateTime> endDate,  int pageIndex = 1)
         {
             if (Session["Account"] == null)
                 return RedirectToAction("Login", "Account");
-            var response = _apiService.GetResponse("api/Home/FilterPost/" + newsLabelID + "/" + sentimentLabelID + "/");
+            Models.Filter filter = new Models.Filter
+            {
+                NewsLabelID = newsLabelID,
+                SentimentLabelID = sentimentLabelID,
+                StartDate = startDate,
+                EndDate = endDate
+            };
+            var response = _apiService.GetResponse("api/Home/FilterPost/", filter);
             if (response.IsSuccessStatusCode)
             {
                 var result = response.Content.ReadAsAsync<List<Post>>().Result;
                 ViewBag.Count = result.Count;
                 ViewBag.NewsLabelID = newsLabelID;
                 ViewBag.SentimentLabelID = sentimentLabelID;
+                ViewBag.StartDate = startDate;
+                ViewBag.EndDate = endDate;
                 ViewBag.State = "Filter";
                 return View("~/Views/Home/Post.cshtml", result.ToPagedList(pageIndex, pageSize));
             }
             TempData["DangerMessage"] = Message.ConnectFailed();
             return RedirectToAction("Index", "Home");
         }
-        public ActionResult SearchPost(string keyword, string searchOption, int pageIndex = 1, int pageSize = 11)
+        public ActionResult SearchPost(string keyword, string searchOption, int pageIndex = 1)
         {
             if (Session["Account"] == null)
                 return RedirectToAction("Login", "Account");
@@ -220,7 +243,7 @@ namespace UI_NewsManagementSystem.Controllers
         #endregion
 
         #region Analysis
-        public List<Post> GetListPostByFacebookID(string facebookID)
+        private List<Post> GetListPostByFacebookID(string facebookID)
         {
             var response = _apiService.GetResponse("api/Home/GetListPostByFacebookID/" + facebookID + "/");
             if (response.IsSuccessStatusCode)

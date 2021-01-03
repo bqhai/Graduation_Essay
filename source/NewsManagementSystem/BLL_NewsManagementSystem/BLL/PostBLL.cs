@@ -9,6 +9,7 @@ using Models_NewsManagementSystem.MappingClass;
 using Models_NewsManagementSystem.Repository;
 using BLL_NewsManagementSystem.Lib;
 using DAL_NewsManagementSystem.JoinningTable;
+using Models_NewsManagementSystem.DTO;
 
 namespace BLL_NewsManagementSystem.BLL
 {
@@ -31,23 +32,55 @@ namespace BLL_NewsManagementSystem.BLL
             }
             return postDTOs;
         }
-        public List<PostDTO> FilterPost(string newsLabelID, string sentimentLabelID)
+        public List<PostDTO> FilterPost(FilterDTO filterDto)
         {
-            if (newsLabelID.Equals("ALL", StringComparison.InvariantCultureIgnoreCase) && sentimentLabelID.Equals("ALL", StringComparison.InvariantCultureIgnoreCase))
+            if (filterDto.NewsLabelID.Equals("ALL", StringComparison.InvariantCultureIgnoreCase) && filterDto.SentimentLabelID.Equals("ALL", StringComparison.InvariantCultureIgnoreCase))
             {
-                return GetAllPost();
+                if (filterDto.StartDate == null || filterDto.EndDate == null)
+                {
+                    return GetAllPost();
+                }
+                else
+                {
+                    return GetAllPost().Where(po => po.UploadTime >= filterDto.StartDate && po.UploadTime <= filterDto.EndDate).ToList();
+                }
+                
             }
-            if (newsLabelID.Equals("ALL", StringComparison.InvariantCultureIgnoreCase))
+            if (filterDto.NewsLabelID.Equals("ALL", StringComparison.InvariantCultureIgnoreCase))
             {
-                return GetAllPost().Where(po => po.NewsLabelID == po.NewsLabelID && po.SentimentLabelID == sentimentLabelID).ToList();
+                if (filterDto.StartDate == null || filterDto.EndDate == null)
+                {
+                    return GetAllPost().Where(po => po.NewsLabelID == po.NewsLabelID && po.SentimentLabelID == filterDto.SentimentLabelID).ToList();
+                }
+                else
+                {
+                    return GetAllPost().Where(po => po.NewsLabelID == po.NewsLabelID && po.SentimentLabelID == filterDto.SentimentLabelID && po.UploadTime >= filterDto.StartDate && po.UploadTime <= filterDto.EndDate).ToList();
+                }
+                
             }
-            else if (sentimentLabelID.Equals("ALL", StringComparison.InvariantCultureIgnoreCase))
+            else if (filterDto.SentimentLabelID.Equals("ALL", StringComparison.InvariantCultureIgnoreCase))
             {
-                return GetAllPost().Where(po => po.NewsLabelID == newsLabelID && po.SentimentLabelID == po.SentimentLabelID).ToList();
+                if (filterDto.StartDate == null || filterDto.EndDate == null)
+                {
+                    return GetAllPost().Where(po => po.NewsLabelID == filterDto.NewsLabelID && po.SentimentLabelID == po.SentimentLabelID).ToList();
+                }
+                else
+                {
+                    return GetAllPost().Where(po => po.NewsLabelID == filterDto.NewsLabelID && po.SentimentLabelID == po.SentimentLabelID && po.UploadTime >= filterDto.StartDate && po.UploadTime <= filterDto.EndDate).ToList();
+                }
+                
             }
             else
             {
-                return GetAllPost().Where(po => po.NewsLabelID == newsLabelID && po.SentimentLabelID == sentimentLabelID).ToList();
+                if (filterDto.StartDate == null || filterDto.EndDate == null)
+                {
+                    return GetAllPost().Where(po => po.NewsLabelID == filterDto.NewsLabelID && po.SentimentLabelID == filterDto.SentimentLabelID).ToList();
+                }
+                else
+                {
+                    return GetAllPost().Where(po => po.NewsLabelID == filterDto.NewsLabelID && po.SentimentLabelID == filterDto.SentimentLabelID && po.UploadTime >= filterDto.StartDate && po.UploadTime <= filterDto.EndDate).ToList();
+                }
+                
             }
         }
         public List<PostDTO> SearchPost(string keyword, string searchOption)

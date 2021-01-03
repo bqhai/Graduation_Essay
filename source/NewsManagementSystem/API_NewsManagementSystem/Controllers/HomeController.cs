@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Results;
 using BLL_NewsManagementSystem.BLL;
+using Models_NewsManagementSystem.DTO;
 using Models_NewsManagementSystem.MappingClass;
 
 namespace API_NewsManagementSystem.Controllers
@@ -79,11 +80,11 @@ namespace API_NewsManagementSystem.Controllers
             return Json(_bllPost.GetAllPost());
         }
 
-        [HttpGet]
-        [Route("FilterPost/{newsLabelID}/{sentimentLabelID}")]
-        public JsonResult<List<PostDTO>> FilterPost(string newsLabelID, string sentimentLabelID)
+        [HttpPost]
+        [Route("FilterPost")]
+        public JsonResult<List<PostDTO>> FilterPost(FilterDTO filterDto)
         {
-            return Json(_bllPost.FilterPost(newsLabelID, sentimentLabelID));
+            return Json(_bllPost.FilterPost(filterDto));
         }
 
         [HttpGet]

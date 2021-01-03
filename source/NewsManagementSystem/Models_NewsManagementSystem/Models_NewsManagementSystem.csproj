@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTO\FilterDTO.cs" />
     <Compile Include="DTO\WatchListDTO.cs" />
     <Compile Include="DTO\PostDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

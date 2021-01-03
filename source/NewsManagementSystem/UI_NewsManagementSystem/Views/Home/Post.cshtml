@@ -15,10 +15,26 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="row">
-                    <div class="col-sm-6">
-                        <i class="fa fa-table fa-2x"></i>
+                    <div class="col-sm-9 form-inline" style="height: 30px">    
+                        <form method="post" action="@Url.Action("SetPageSize", "Home")">
+                            <label>
+                                Hiển thị:
+                                <select class="form-control input-sm" id="display-number" name="displayNumber">
+                                    <option value="10">10</option>
+                                    <option value="20">20</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                    <option value="200">200</option>
+                                    <option value="500">500</option>
+                                </select>
+                                &nbsp;
+                                bài
+                                &nbsp;
+                                <input type="submit" class="btn btn-sm btn-primary" value="OK" />
+                            </label>
+                        </form>                       
                     </div>
-                    <div class="col-sm-6" style="text-align:right">
+                    <div class="col-sm-3" style="text-align:right">                     
                         <button id="delete-post" class="btn btn-sm btn-danger" onclick="deletePost()" disabled>Xóa&nbsp;<i class="fa fa-trash"></i></button>
                     </div>
                 </div>
@@ -45,11 +61,11 @@
                                     </select>
                                     &nbsp;
                                     Từ ngày:
-                                    <input type="date" class="form-control input-sm" name="fromdate" />
+                                    <input type="date" class="form-control input-sm" id="start-date" name="startDate" />
                                     &nbsp;
                                     Đến ngày:
-                                    <input type="date" class="form-control input-sm" name="todate" />
-                                    <input type="submit" class="btn btn-sm btn-primary" value="OK" />
+                                    <input type="date" class="form-control input-sm" id="end-date" name="endDate"/>
+                                    <input type="submit" class="btn btn-sm btn-primary" value="Lọc" />
                                 </label>
                             </form>                  
                         </div>
@@ -99,7 +115,7 @@
                                             <span><a href="@item.PostUrl" target="_blank">@item.PostUrl</a></span>                                           
                                         </td>
                                         <td class="ellipsis"><span>@item.PostContent</span></td>
-                                        <td>@item.UploadTime</td>
+                                        <td>@item.UploadTime.Value.ToString("dd/MM/yyyy HH:mm:ss")</td>
                                         <td class="ellipsis">
                                             <span><a href="@item.FacebookUrl" target="_blank">@item.FacebookName</a></span>
                                         </td>
@@ -142,7 +158,7 @@
                                     }
                                     else if (ViewBag.State.Equals("Filter"))
                                     {
-                                        @Html.PagedListPager(Model, pageIndex => Url.Action("FilterPost", "Home", new { pageIndex, newsLabelID = ViewBag.NewsLabelID, sentimentLabelID = ViewBag.SentimentLabelID }))
+                                        @Html.PagedListPager(Model, pageIndex => Url.Action("FilterPost", "Home", new { pageIndex, newsLabelID = ViewBag.NewsLabelID, sentimentLabelID = ViewBag.SentimentLabelID, startDate = ViewBag.StartDate, endDate = ViewBag.EndDate }))
                                     }
                                     else
                                     {
@@ -341,12 +357,28 @@
         $('#sentiment-label').removeClass('label-primary');
         $('#image').attr('href', '#').children('img').attr('src', '');
     }
+    //function formatDate(date) {
+    //    const monthNames = ["January", "February", "March", "April", "May", "June",
+    //        "July", "August", "September", "October", "November", "December"];
+    //    const dateObj = new Date();
+    //    const month = monthNames[dateObj.getMonth()];
+    //    const day = String(dateObj.getDate()).padStart(2, '0');
+    //    const year = dateObj.getFullYear();
+    //    const output = month + '\n' + day + ',' + year;
+    //}
     //display value of select (filter feature)
     var newsLabelID = @Html.Raw(Json.Encode(ViewBag.NewsLabelID));
     var sentimentLabelID = @Html.Raw(Json.Encode(ViewBag.SentimentLabelID));
+    var startDate = @Html.Raw(Json.Encode(ViewBag.StartDate));
+    var endDate = @Html.Raw(Json.Encode(ViewBag.EndDate));
+    //console.log(startDate, endDate);
     if (newsLabelID != null)
-        $('#news-label-id').val(newsLabelID)
+        $('#news-label-id').val(newsLabelID);
     if (sentimentLabelID != null)
-        $('#sentiment-label-id').val(sentimentLabelID)
-    
+        $('#sentiment-label-id').val(sentimentLabelID);
+    if (startDate != null)
+        $('#start-date').val(moment(startDate).format("yyyy-MM-DD"));
+    if (endDate != null)
+        $('#end-date').val(moment(endDate).format("yyyy-MM-DD"));
+
 </script>
