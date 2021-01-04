@@ -13,19 +13,25 @@ namespace UI_NewsManagementSystem.Controllers
     public class HomeController : Controller
     {
         private ApiService _apiService = new ApiService();
-        private int pageSize;
-        public ActionResult SetPageSize(int displayNumber)
+        public ActionResult SetPageSize(int pageSize)
         {
-            pageSize = displayNumber;
+            HttpCookie cookie = new HttpCookie("PageSize", pageSize.ToString());
+            cookie.Expires.AddDays(7);
+            Response.Cookies.Add(cookie);
             return Redirect(Request.UrlReferrer.ToString());
         }
-        //public int GetPageSize()
-        //{
-        //    if (pageSize == 0)
-        //        return 11;
-        //    else
-        //        return pageSize;
-        //}
+        private int GetPageSize()
+        {
+            HttpCookie cookie = Request.Cookies["PageSize"];
+            if (cookie == null)
+            {
+                return 11;
+            }
+            else
+            {
+                return Convert.ToInt32(cookie.Value);
+            }
+        }
         public ActionResult Index()
         {
             if (Session["Account"] == null)
@@ -98,7 +104,7 @@ namespace UI_NewsManagementSystem.Controllers
             TempData["DangerMessage"] = Message.ConnectFailed();
             return RedirectToAction("Index", "Home");
         }
-        public string GetIdFromUrl(string url)
+        private string GetIdFromUrl(string url)
         {
             var arr = url.Split('/');
             if (arr[arr.Length - 1] == string.Empty)
@@ -110,7 +116,7 @@ namespace UI_NewsManagementSystem.Controllers
                 return arr[arr.Length - 1];
             }
         }
-        public int CheckExistInWatchList(string facebookUrl)
+        private int CheckExistInWatchList(string facebookUrl)
         {
             string facebookID = GetIdFromUrl(facebookUrl);
             var response = _apiService.GetResponse("api/Home/CheckExistInWatchList/" + facebookID + "/");
@@ -188,10 +194,12 @@ namespace UI_NewsManagementSystem.Controllers
             if (Session["Account"] == null)
                 return RedirectToAction("Login", "Account");
             var listPost = GetAllPost();
+            var pageSize = GetPageSize();
             if (listPost != null)
             {
                 ViewBag.Count = listPost.Count;
                 ViewBag.State = "All";
+                ViewBag.PageSize = pageSize;
                 return View(listPost.ToPagedList(pageIndex, pageSize));
             }
             TempData["DangerMessage"] = Message.ConnectFailed();
@@ -209,6 +217,7 @@ namespace UI_NewsManagementSystem.Controllers
                 EndDate = endDate
             };
             var response = _apiService.GetResponse("api/Home/FilterPost/", filter);
+            var pageSize = GetPageSize();
             if (response.IsSuccessStatusCode)
             {
                 var result = response.Content.ReadAsAsync<List<Post>>().Result;
@@ -218,6 +227,7 @@ namespace UI_NewsManagementSystem.Controllers
                 ViewBag.StartDate = startDate;
                 ViewBag.EndDate = endDate;
                 ViewBag.State = "Filter";
+                ViewBag.PageSize = pageSize;
                 return View("~/Views/Home/Post.cshtml", result.ToPagedList(pageIndex, pageSize));
             }
             TempData["DangerMessage"] = Message.ConnectFailed();
@@ -228,6 +238,7 @@ namespace UI_NewsManagementSystem.Controllers
             if (Session["Account"] == null)
                 return RedirectToAction("Login", "Account");
             var response = _apiService.GetResponse("api/Home/SearchPost/" + keyword + "/" + searchOption + "/");
+            var pageSize = GetPageSize();
             if (response.IsSuccessStatusCode)
             {
                 var result = response.Content.ReadAsAsync<List<Post>>().Result;
@@ -235,6 +246,7 @@ namespace UI_NewsManagementSystem.Controllers
                 ViewBag.Keyword = keyword;
                 ViewBag.SearchOption = searchOption;
                 ViewBag.State = "Search";
+                ViewBag.PageSize = pageSize;
                 return View("~/Views/Home/Post.cshtml", result.ToPagedList(pageIndex, pageSize));
             }
             TempData["DangerMessage"] = Message.ConnectFailed();
