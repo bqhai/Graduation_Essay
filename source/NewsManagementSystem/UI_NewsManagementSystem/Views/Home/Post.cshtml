@@ -19,7 +19,7 @@
                         <form method="post" action="@Url.Action("SetPageSize", "Home")">
                             <label>
                                 Hiển thị:
-                                <select class="form-control input-sm" id="display-number" name="displayNumber">
+                                <select class="form-control input-sm" id="page-size" name="pageSize">
                                     <option value="10">10</option>
                                     <option value="20">20</option>
                                     <option value="50">50</option>
@@ -357,21 +357,14 @@
         $('#sentiment-label').removeClass('label-primary');
         $('#image').attr('href', '#').children('img').attr('src', '');
     }
-    //function formatDate(date) {
-    //    const monthNames = ["January", "February", "March", "April", "May", "June",
-    //        "July", "August", "September", "October", "November", "December"];
-    //    const dateObj = new Date();
-    //    const month = monthNames[dateObj.getMonth()];
-    //    const day = String(dateObj.getDate()).padStart(2, '0');
-    //    const year = dateObj.getFullYear();
-    //    const output = month + '\n' + day + ',' + year;
-    //}
-    //display value of select (filter feature)
+    var pageSize = @Html.Raw(Json.Encode(ViewBag.PageSize));
     var newsLabelID = @Html.Raw(Json.Encode(ViewBag.NewsLabelID));
     var sentimentLabelID = @Html.Raw(Json.Encode(ViewBag.SentimentLabelID));
     var startDate = @Html.Raw(Json.Encode(ViewBag.StartDate));
     var endDate = @Html.Raw(Json.Encode(ViewBag.EndDate));
     //console.log(startDate, endDate);
+    if(pageSize != null)
+        $('#page-size').val(pageSize);
     if (newsLabelID != null)
         $('#news-label-id').val(newsLabelID);
     if (sentimentLabelID != null)
