@@ -47,7 +47,9 @@ def start(url='', scroll_down=0, username='', password=''):
     #     print('Click Not Now button')
     #     click(btn_notnow[0].web_element.text)
     time.sleep(5)
+    load_more_posts()
     for i in range(scroll_down):
+        time.sleep(1)
         print('Load more posts times', i + 1, '/', scroll_down)
         load_more_posts()
         logging.info('Load more posts times ' + str(i + 1) + '/' + str(scroll_down))
