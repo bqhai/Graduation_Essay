@@ -36,12 +36,14 @@ def get_child_attribute(element, selector, attr):
 
 def get_fb_id(url):
     split_url = url.split('fbid=')[1]
-    return split_url[0:15]
+    split_url = split_url.split('&')[0]
+    return split_url
 
 
 def get_user_id(url):
     split_url = url.split('&id=')[1]
-    return split_url[0:15]
+    split_url = split_url.split('&')[0]
+    return split_url
 
 
 def convert_intractive(input_str):
@@ -158,7 +160,7 @@ def crawl_group(url, scroll_down):
 
 def crawl_user(url, scroll_down, username, password):
     facebook_id = url.split('/')[3]
-    load_page.start(url, scroll_down, username, password)
+    load_page.start(url.replace('www', 'm'), scroll_down, username, password)
     driver = load_page.driver
     global total_post_crawled
     list_json_post = []
@@ -250,6 +252,6 @@ def crawl(url, scroll_down, selection, username, password):
     elif selection == 2:
         logging.info('Selection = Group ' + 'Scroll down = ' + str(scroll_down))
         return crawl_group(url, scroll_down)
-    else:
+    elif selection == 3:
         logging.info('Selection = User ' + 'Scroll down = ' + str(scroll_down))
         return crawl_user(url, scroll_down, username, password)
