@@ -21,8 +21,7 @@ def start(url='', scroll_down=0, username='', password=''):
     logging.info('Go to page ' + url)
     driver = start_chrome(url, headless=False)
 
-    btn_login = find_all(S(
-        '[class="_54k8 _56bs _4n44 _6gg6 _901w _56bv _52jh"]'))
+    btn_login = find_all(S('[class="_54k8 _56bs _4n44 _6gg6 _901w _56bv _52jh"]'))
     if btn_login:
         click(btn_login[0])
         time.sleep(6)
@@ -47,7 +46,7 @@ def start(url='', scroll_down=0, username='', password=''):
     # if btn_notnow:
     #     print('Click Not Now button')
     #     click(btn_notnow[0].web_element.text)
-
+    time.sleep(5)
     for i in range(scroll_down):
         print('Load more posts times', i + 1, '/', scroll_down)
         load_more_posts()
