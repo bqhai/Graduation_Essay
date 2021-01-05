@@ -18,7 +18,9 @@ import bll.config_log
 import logging
 
 # ---Global variable---
-list_url = []
+list_page_url = []
+list_group_url = []
+list_user_url = []
 
 username = ''
 password = ''
@@ -206,13 +208,29 @@ class MainWindow(Frame):
                 ent_url_cr.insert(0, url)
                 win_watch_list.destroy()
 
-            def select_url(url):
-                global list_url
-                if url not in list_url:
-                    list_url.append(url)
+            def select_page_url(url):
+                global list_page_url
+                if url not in list_page_url:
+                    list_page_url.append(url)
                 else:
-                    list_url.remove(url)
-                print(list_url)
+                    list_page_url.remove(url)
+                print(list_page_url)
+
+            def select_group_url(url):
+                global list_group_url
+                if url not in list_group_url:
+                    list_group_url.append(url)
+                else:
+                    list_group_url.remove(url)
+                print(list_group_url)
+
+            def select_user_url(url):
+                global list_user_url
+                if url not in list_user_url:
+                    list_user_url.append(url)
+                else:
+                    list_user_url.remove(url)
+                print(list_user_url)
 
             for i in watch_list:
                 if not i['Status']:
@@ -221,10 +239,8 @@ class MainWindow(Frame):
                     if i['FacebookTypeID'] == 'PAGE':
                         txt_page_wl.config(state=NORMAL)
                         txt_page_wl.insert(END, '{:<50} \t {:<89}'.format(i['FacebookName'], i['FacebookUrl']))
-                        chk_select_page_wl = Checkbutton(txt_page_wl, cursor='hand2', variable=i['FacebookUrl'],
-                                                         command=lambda url=i['FacebookUrl']: select_url(url))
-                        btn_choose_url = ttk.Button(txt_page_wl, text='⮜', width=2, cursor='hand2',
-                                                    command=lambda url=i['FacebookUrl']: choose_url(url))
+                        chk_select_page_wl = Checkbutton(txt_page_wl, cursor='hand2', variable=i['FacebookUrl'], command=lambda url=i['FacebookUrl']: select_page_url(url))
+                        btn_choose_url = ttk.Button(txt_page_wl, text='⮜', width=2, cursor='hand2', command=lambda url=i['FacebookUrl']: choose_url(url))
                         txt_page_wl.window_create(txt_page_wl.index('end'), window=chk_select_page_wl)
                         txt_page_wl.window_create(txt_page_wl.index('end'), window=btn_choose_url)
                         txt_page_wl.insert(END, '\n')
@@ -232,10 +248,8 @@ class MainWindow(Frame):
                     elif i['FacebookTypeID'] == 'GR':
                         txt_group_wl.config(state=NORMAL)
                         txt_group_wl.insert(END, '{:<50} \t {:<89}'.format(i['FacebookName'], i['FacebookUrl']))
-                        chk_select_gr_wl = Checkbutton(txt_group_wl, cursor='hand2', variable=i['FacebookUrl'],
-                                                       command=lambda url=i['FacebookUrl']: select_url(url))
-                        btn_choose_url = ttk.Button(txt_group_wl, text='⮜', width=2, cursor='hand2',
-                                                    command=lambda url=i['FacebookUrl']: choose_url(url))
+                        chk_select_gr_wl = Checkbutton(txt_group_wl, cursor='hand2', variable=i['FacebookUrl'], command=lambda url=i['FacebookUrl']: select_group_url(url))
+                        btn_choose_url = ttk.Button(txt_group_wl, text='⮜', width=2, cursor='hand2', command=lambda url=i['FacebookUrl']: choose_url(url))
                         txt_group_wl.window_create(txt_group_wl.index('end'), window=chk_select_gr_wl)
                         txt_group_wl.window_create(txt_group_wl.index('end'), window=btn_choose_url)
                         txt_group_wl.insert(END, '\n')
@@ -243,9 +257,8 @@ class MainWindow(Frame):
                     else:
                         txt_user_wl.config(state=NORMAL)
                         txt_user_wl.insert(END, '{:<50} \t {:<89}'.format(i['FacebookName'], i['FacebookUrl']))
-                        chk_select_user_wl = Checkbutton(txt_user_wl, cursor='hand2')
-                        btn_choose_url = ttk.Button(txt_user_wl, text='⮜', width=2, cursor='hand2',
-                                                    command=lambda url=i['FacebookUrl']: choose_url(url))
+                        chk_select_user_wl = Checkbutton(txt_user_wl, cursor='hand2', variable=i['FacebookUrl'], command=lambda url=i['FacebookUrl']: select_user_url(url))
+                        btn_choose_url = ttk.Button(txt_user_wl, text='⮜', width=2, cursor='hand2', command=lambda url=i['FacebookUrl']: choose_url(url))
                         txt_user_wl.window_create(txt_user_wl.index('end'), window=chk_select_user_wl)
                         txt_user_wl.window_create(txt_user_wl.index('end'), window=btn_choose_url)
                         txt_user_wl.insert(END, '\n')
@@ -408,7 +421,20 @@ class MainWindow(Frame):
             t.start()
 
         def start_crawl_list():
-            global list_url
+            global list_page_url
+            global list_group_url
+            global list_user_url
+            global username, password
+            selection = int(select_type.get())
+            if selection == 1:
+                list_url = list_page_url
+            elif selection == 2:
+                list_url = list_group_url
+            else:
+                if not username or not password:
+                    write_warning_info('Yêu cầu đăng nhập...')
+                    return
+                list_url = list_user_url
             if not list_url:
                 write_warning_info('Danh sách thu thập trống')
                 return
@@ -428,10 +454,7 @@ class MainWindow(Frame):
             for i in list_url:
                 write_runtime_info('Đang thu thập ' + '(' + str(count) + '/' + str(len(list_url)) + ')' + ' URL: ' + i + ' ...')
                 try:
-                    if 'groups' in i:
-                        status = crawl(i, scroll_down, 2)
-                    else:
-                        status = crawl(i, scroll_down, 1)
+                    status = crawl(i, scroll_down, selection, username, password)
                     # show status
                     if status == 0:
                         write_success_info('Tổng số bài viết thu thập: ' + str(count_crawled_post()))
