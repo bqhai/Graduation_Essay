@@ -20,8 +20,8 @@ import logging
 # ---Global variable---
 list_url = []
 
-# username = ''
-# password = ''
+username = ''
+password = ''
 
 
 def time_now():
@@ -122,47 +122,47 @@ class MainWindow(Frame):
             txt_info_cr.delete('1.0', END)
             txt_info_cr.config(state=DISABLED)
 
-        # def login():
-        #     if login_option.get():
-        #         def login_ok():
-        #             global username
-        #             global password
-        #             username = ent_username_lg.get()
-        #             password = ent_password_lg.get()
-        #             if len(username) <= 0 or len(password) <= 0:
-        #                 messagebox.showwarning('Thông báo', 'Thông tin đăng nhập không được để trống')
-        #                 return
-        #             login_option.set(True)
-        #             win_login.destroy()
-        #
-        #         def login_cancel():
-        #             login_option.set(False)
-        #             win_login.destroy()
-        #
-        #         win_login = Toplevel(self)
-        #         win_login.title('Đăng nhập')
-        #         win_login.geometry('390x150')
-        #         win_login.resizable(False, False)
-        #         win_login.grab_set()
-        #         lbl_username_lg = Label(win_login, text='Email hoặc SĐT: ')
-        #         lbl_username_lg.grid(column=0, row=0, sticky='w', padx=15, pady=(15, 0))
-        #         lbl_password_lg = Label(win_login, text='Mật khẩu: ')
-        #         lbl_password_lg.grid(column=0, row=1, sticky='w', padx=15, pady=(15, 0))
-        #         ent_username_lg = ttk.Entry(win_login, width=40)
-        #         ent_username_lg.grid(column=1, row=0, pady=(15, 0))
-        #         ent_password_lg = ttk.Entry(win_login, width=40)
-        #         ent_password_lg.grid(column=1, row=1, pady=(15, 0))
-        #         btn_login_lg = ttk.Button(win_login, text='OK', cursor='hand2', command=login_ok)
-        #         btn_login_lg.grid(column=1, row=2, sticky='w', pady=(15, 0))
-        #         btn_cancel_lg = ttk.Button(win_login, text='Hủy', cursor='hand2', command=login_cancel)
-        #         btn_cancel_lg.grid(column=1, row=2, sticky='w', padx=(80, 0), pady=(15, 0))
-        #         login_option.set(False)
-        #     else:
-        #         global username
-        #         global password
-        #         username = ''
-        #         password = ''
-        #         login_option.set(False)
+        def login():
+            if login_option.get():
+                def login_ok():
+                    global username
+                    global password
+                    username = ent_username_lg.get()
+                    password = ent_password_lg.get()
+                    if len(username) <= 0 or len(password) <= 0:
+                        messagebox.showwarning('Thông báo', 'Thông tin đăng nhập không được để trống')
+                        return
+                    login_option.set(True)
+                    win_login.destroy()
+
+                def login_cancel():
+                    login_option.set(False)
+                    win_login.destroy()
+
+                win_login = Toplevel(self)
+                win_login.title('Đăng nhập')
+                center_window(win_login, 390, 130)
+                win_login.resizable(False, False)
+                win_login.grab_set()
+                lbl_username_lg = Label(win_login, text='Email hoặc SĐT: ')
+                lbl_username_lg.grid(column=0, row=0, sticky='w', padx=15, pady=(15, 0))
+                lbl_password_lg = Label(win_login, text='Mật khẩu: ')
+                lbl_password_lg.grid(column=0, row=1, sticky='w', padx=15, pady=(15, 0))
+                ent_username_lg = ttk.Entry(win_login, width=40)
+                ent_username_lg.grid(column=1, row=0, pady=(15, 0))
+                ent_password_lg = ttk.Entry(win_login, width=40)
+                ent_password_lg.grid(column=1, row=1, pady=(15, 0))
+                btn_login_lg = ttk.Button(win_login, text='OK', cursor='hand2', command=login_ok)
+                btn_login_lg.grid(column=1, row=2, sticky='w', pady=(15, 0))
+                btn_cancel_lg = ttk.Button(win_login, text='Hủy', cursor='hand2', command=login_cancel)
+                btn_cancel_lg.grid(column=1, row=2, sticky='w', padx=(80, 0), pady=(15, 0))
+                login_option.set(False)
+            else:
+                global username
+                global password
+                username = ''
+                password = ''
+                login_option.set(False)
 
         def open_watch_list():
             watch_list = get_all_watch_list()
@@ -372,7 +372,12 @@ class MainWindow(Frame):
                 else:
                     write_warning_info('Đã hủy thao tác thu thập dữ liệu')
                     return
-
+            # check login if selection = 3 (crawl user)
+            global username, password
+            if selection == 3:
+                if not username or not password:
+                    write_warning_info('Yêu cầu đăng nhập...')
+                    return
             # start crawl data
             btn_crawl_cr['state'] = 'disabled'
             btn_crawl_list_cr['state'] = 'disabled'
@@ -380,7 +385,7 @@ class MainWindow(Frame):
             set_stop_flag(False)  # set flag to false -> continue crawl
             write_runtime_info('Đang tiến hành thu thập...')
             try:
-                status = crawl(url, scroll_down, selection)
+                status = crawl(url, scroll_down, selection, username, password)
                 if status == 0:
                     write_success_info('Tổng số bài viết thu thập: ' + str(count_crawled_post()))
                 elif status == -1:
@@ -449,7 +454,7 @@ class MainWindow(Frame):
             write_runtime_info('Đang hủy tiến trình thu thập dữ liệu...')
 
         select_type = IntVar()
-        # login_option = BooleanVar()
+        login_option = BooleanVar()
 
         frm_top_cr = ttk.Frame(frm_crawler)
         frm_top_cr.pack(fill=BOTH, padx=15, pady=15)
@@ -477,9 +482,9 @@ class MainWindow(Frame):
         rad_user_cr = ttk.Radiobutton(frm_fbtype_cr, text='User', cursor='hand2', variable=select_type, value=3)
         rad_user_cr.grid(column=2, row=0, padx=(0, 15))
 
-        # chk_login_cr = ttk.Checkbutton(frm_top_cr, text='Đăng nhập', variable=login_option, onvalue=True,
-        #                                offvalue=False, command=login)
-        # chk_login_cr.grid(column=1, row=2, sticky='w', pady=(10, 0))
+        chk_login_cr = ttk.Checkbutton(frm_top_cr, text='Đăng nhập (Chỉ dùng cho chức năng thu thập từ user)', variable=login_option, onvalue=True,
+                                       offvalue=False, command=login)
+        chk_login_cr.grid(column=1, row=2, sticky='w', pady=(10, 0))
 
         btn_show_log_cr = ttk.Button(frm_top_cr, text='Xem log', cursor='hand2', width=17, command=open_log)
         btn_show_log_cr.grid(column=1, row=3, sticky='w', pady=(10, 0))
