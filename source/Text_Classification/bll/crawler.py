@@ -71,7 +71,7 @@ def crawl_page(url, scroll_down):
         for post in get_posts(facebook_id, pages=scroll_down, extra_info=True):
             global stop_flag
             if stop_flag:
-                break
+                return -5
             if str(post['post_id']) == 'None':
                 post_url = None
             else:
@@ -119,7 +119,7 @@ def crawl_group(url, scroll_down):
         for post in get_posts(group=facebook_id, pages=scroll_down, extra_info=True):
             global stop_flag
             if stop_flag:
-                break
+                return -5
             if str(post['post_id']) == 'None':
                 post_url = None
             else:
@@ -159,6 +159,9 @@ def crawl_group(url, scroll_down):
 
 
 def crawl_user(url, scroll_down, username, password):
+    global stop_flag
+    if stop_flag:
+        return -5
     facebook_id = url.split('/')[3]
     load_page.start(url.replace('www', 'm'), scroll_down, username, password)
     driver = load_page.driver
@@ -242,6 +245,7 @@ def crawl_user(url, scroll_down, username, password):
     else:
         # load_page.stop_and_save('data/facebook_user_post_crawled.json', list_json_post)
         logging.info('Finished crawling ' + str(total_post_crawled) + ' posts')
+        load_page.stop()
         return add_list_json_post(list_json_post)
 
 
