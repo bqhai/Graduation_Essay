@@ -107,5 +107,14 @@ namespace DAL_NewsManagementSystem.DAL
             _db.Posts.Remove(post);
             _db.SaveChanges();
         }
+        public void RemovePost(string[] lstpostID)
+        {
+            foreach (var item in lstpostID)
+            {
+                Post post = _db.Posts.SingleOrDefault(p => p.PostID == item);
+                _db.Posts.Remove(post);
+            }
+            _db.SaveChanges();
+        }
     }
 }
