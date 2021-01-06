@@ -7,6 +7,10 @@ using System.Web.Mvc;
 using UI_NewsManagementSystem.Models;
 using UI_NewsManagementSystem.Repository;
 using PagedList;
+using System.Web.UI.WebControls;
+using System.IO;
+using System.Web.UI;
+using System.Text;
 
 namespace UI_NewsManagementSystem.Controllers
 {
@@ -200,6 +204,7 @@ namespace UI_NewsManagementSystem.Controllers
                 ViewBag.Count = listPost.Count;
                 ViewBag.State = "All";
                 ViewBag.PageSize = pageSize;
+                Session["Post"] = listPost.ToPagedList(pageIndex, pageSize);
                 return View(listPost.ToPagedList(pageIndex, pageSize));
             }
             TempData["DangerMessage"] = Message.ConnectFailed();
@@ -228,6 +233,7 @@ namespace UI_NewsManagementSystem.Controllers
                 ViewBag.EndDate = endDate;
                 ViewBag.State = "Filter";
                 ViewBag.PageSize = pageSize;
+                Session["Post"] = result.ToPagedList(pageIndex, pageSize);
                 return View("~/Views/Home/Post.cshtml", result.ToPagedList(pageIndex, pageSize));
             }
             TempData["DangerMessage"] = Message.ConnectFailed();
@@ -247,10 +253,79 @@ namespace UI_NewsManagementSystem.Controllers
                 ViewBag.SearchOption = searchOption;
                 ViewBag.State = "Search";
                 ViewBag.PageSize = pageSize;
+                Session["Post"] = result.ToPagedList(pageIndex, pageSize);
                 return View("~/Views/Home/Post.cshtml", result.ToPagedList(pageIndex, pageSize));
             }
             TempData["DangerMessage"] = Message.ConnectFailed();
             return RedirectToAction("Index", "Home");
+        }
+        public ActionResult ExcelExport()
+        {
+            var gv = new GridView();
+            gv.DataSource = Session["Post"];
+            gv.DataBind();
+            Response.ClearContent();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment; filename=DanhSachBaiViet.xls");
+            Response.ContentType = "application/ms-excel";
+            Response.Charset = "";
+            StringWriter objStringWriter = new StringWriter();
+            HtmlTextWriter objHtmlTextWriter = new HtmlTextWriter(objStringWriter);
+            gv.RenderControl(objHtmlTextWriter);
+            Response.Write(objStringWriter.ToString());
+            Response.Flush();
+            Response.End();
+            return Redirect(Request.UrlReferrer.ToString());
+        }
+        public ActionResult CsvExport()
+        {
+            var sb = new StringBuilder();
+            var listPost = (Session["Post"] as IPagedList<Post>);           
+            sb.AppendFormat("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14}", 
+                "ID bài viết", 
+                "URL bài viết", 
+                "URL người đăng", 
+                "Nội dung", 
+                "URL hình ảnh", 
+                "Thời gian đăng", 
+                "Thời gian thu thập",
+                "Like",
+                "Comment",
+                "Share",
+                "Nơi thu thập",
+                "URL Nơi thu thập",
+                "Nhãn bài viết",
+                "Mức độ",
+                Environment.NewLine);
+            foreach (var item in listPost)
+            {
+                sb.AppendFormat("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14}", 
+                    item.PostID,
+                    item.PostUrl,
+                    item.UserUrl,
+                    item.PostContent,
+                    item.Image,
+                    item.UploadTime,
+                    item.CrawledTime,
+                    item.TotalLikes,
+                    item.TotalComment,
+                    item.TotalShare,
+                    item.FacebookName,
+                    item.FacebookUrl,
+                    item.NewsLabelName,
+                    item.SentimentLabelName,
+                    Environment.NewLine);
+            }
+            var response = System.Web.HttpContext.Current.Response;
+            response.BufferOutput = true;
+            response.Clear();
+            response.ClearHeaders();
+            response.ContentEncoding = Encoding.UTF8;
+            response.AddHeader("content-disposition", "attachment;filename=DanhSachBaiViet.csv");
+            response.ContentType = "text/plain";
+            response.Write(sb.ToString());
+            response.End();
+            return Redirect(Request.UrlReferrer.ToString());
         }
         #endregion
 
