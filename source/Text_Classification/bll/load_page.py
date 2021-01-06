@@ -60,4 +60,7 @@ def stop_and_save(file_name, list_posts):
     print('Save crawled data...')
     with open(file_name, 'w', encoding='utf-8') as file:
         json.dump(list_posts, file, ensure_ascii=False, indent=4)
-# kill_browser()
+
+
+def stop():
+    kill_browser()
