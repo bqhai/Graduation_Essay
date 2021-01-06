@@ -407,6 +407,8 @@ class MainWindow(Frame):
                     write_warning_info('Chức năng này hiện đang trong giai đoạn phát triển')
                 elif status == -4:
                     write_error_info('Có lỗi xảy ra ở server')
+                elif status == -5:
+                    write_warning_info('Hủy')
                 else:
                     write_error_info('Kết nối server thất bại')
             except EXCEPTION:
