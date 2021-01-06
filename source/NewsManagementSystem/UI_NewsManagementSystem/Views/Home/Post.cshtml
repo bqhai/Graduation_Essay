@@ -15,7 +15,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="row">
-                    <div class="col-sm-9 form-inline" style="height: 30px">    
+                    <div class="col-sm-9 form-inline" style="height: 30px">
                         <form method="post" action="@Url.Action("SetPageSize", "Home")">
                             <label>
                                 Hiển thị:
@@ -32,10 +32,16 @@
                                 &nbsp;
                                 <input type="submit" class="btn btn-sm btn-primary" value="OK" />
                             </label>
-                        </form>                       
+                        </form>
                     </div>
-                    <div class="col-sm-3" style="text-align:right">                     
+                    <div class="col-sm-3" style="text-align:right">
+                        @*<a href="@Url.Action("ExcelExport", "Home")"><input class="btn btn-sm btn-success" value="Excel"/></a>*@
+                        <button id="excel-export" class="btn btn-sm btn-success" onclick="location.href='@Url.Action("ExcelExport", "Home")'">
+                            Xuất excel&nbsp;
+                            <i class="fa fa-table"></i>
+                        </button>
                         <button id="delete-post" class="btn btn-sm btn-danger" onclick="deletePost()" disabled>Xóa&nbsp;<i class="fa fa-trash"></i></button>
+                        <div id="loader" class="loader" style="float: right; margin-left: 10px" hidden></div>
                     </div>
                 </div>
             </div>
@@ -64,10 +70,11 @@
                                     <input type="date" class="form-control input-sm" id="start-date" name="startDate" />
                                     &nbsp;
                                     Đến ngày:
-                                    <input type="date" class="form-control input-sm" id="end-date" name="endDate"/>
+                                    <input type="date" class="form-control input-sm" id="end-date" name="endDate" />
                                     <input type="submit" class="btn btn-sm btn-primary" value="Lọc" />
+
                                 </label>
-                            </form>                  
+                            </form>
                         </div>
                         <div class="col-sm-4">
                             <div id="dataTables-examble_filter" class="dataTables_filter">
@@ -106,13 +113,13 @@
                             </thead>
                             <tbody>
                                 @foreach (var item in Model)
-                                {                                   
+                                {
                                     <tr role="row">
-                                        <td>                                          
+                                        <td>
                                             <input type="checkbox" id="@item.PostID" name="SelectPost" class="checkbox" onchange="addPostIDToArray('@item.PostID')" style="margin-bottom: 3px; cursor: pointer" />
                                         </td>
                                         <td class="ellipsis">
-                                            <span><a href="@item.PostUrl" target="_blank">@item.PostUrl</a></span>                                           
+                                            <span><a href="@item.PostUrl" target="_blank" name="PostUrl">@item.PostUrl</a></span>
                                         </td>
                                         <td class="ellipsis"><span>@item.PostContent</span></td>
                                         <td>@item.UploadTime.Value.ToString("dd/MM/yyyy HH:mm:ss")</td>
@@ -162,7 +169,7 @@
                                     }
                                     else
                                     {
-                                        @Html.PagedListPager(Model, pageIndex => Url.Action("SearchPost", "Home", new { pageIndex, keyword = ViewBag.Keyword, searchOption = ViewBag.SearchOption}))
+                                        @Html.PagedListPager(Model, pageIndex => Url.Action("SearchPost", "Home", new { pageIndex, keyword = ViewBag.Keyword, searchOption = ViewBag.SearchOption }))
                                     }
 
                                 </li>
@@ -209,7 +216,7 @@
                             <br />
                             <a href="#" id="image">
                                 <img src="~/Content/img/No_image_available.png" width="400" height="200" />
-                            </a>                         
+                            </a>
                         </div>
                     </div>
                     <div class="col-sm-6">
@@ -250,7 +257,7 @@
 </div>
 <script>
     var baseUrl = 'http://kltn262020api.somee.com/';
-    var listPostID = []; //list postID for delete button
+    var listPostID = []; //list postID for delete button and export excel
     function deleteItemInArray(arr, item) {
         for (var i = 0; i < arr.length; i++) {
             if (arr[i] === item) {
@@ -259,12 +266,14 @@
             }
         }
     };
-    function toggleDeleteButton() {
+    function toggleButton() {
         if (checkEmptyArray()) {
             $('#delete-post').prop('disabled', true);
+            //$('#excel-export').prop('disabled', true);
         }
         else {
             $('#delete-post').prop('disabled', false);
+            //$('#excel-export').prop('disabled', false);
         }
     };
     $('#select-all-post').click(function (e) {
@@ -278,7 +287,7 @@
                 deleteItemInArray(listPostID, $(this).attr('id'));
             }
         });
-        toggleDeleteButton();
+        toggleButton();
         //console.log(listPostID);
     });
     function addPostIDToArray(postID) {
@@ -288,7 +297,7 @@
         else {
             deleteItemInArray(listPostID, postID);
         }
-        toggleDeleteButton();
+        toggleButton();
         //console.log(listPostID);
     }
     function checkEmptyArray() {
@@ -297,23 +306,26 @@
         }
         return false;
     }
-    function deletePost() {
+    async function deletePost() {
+        $('#loader').show();
         for (var i = 0; i < listPostID.length; i++) {
             //console.log(i);
-            $.ajax({
+            await $.ajax({
                 url: 'https://localhost:44347/api/Home/RemovePost/' + listPostID[i] + '/',
                 //url: baseUrl + 'api/Home/RemovePost/' + listPostID[i] + '/',
                 type: 'delete',
                 dataType: 'json',
                 success: function (data) {
-                    console.log(data);
-                    location.reload();
+                    //console.log(data);
+                    
                 },
                 error: function () {
                     console.log('Connect failled');
                 }
             });
         }
+        $('#loader').hide();
+        location.reload();
     }
     function viewPostDetail(postID) {
         $.ajax({
@@ -325,9 +337,9 @@
                 //console.log(data);
                 $('#post-url').attr('href', data.PostUrl).children('p').html(data.PostUrl);
                 $('#user-url').attr('href', data.UserUrl).children('p').html(data.UserUrl);
-                $('#upload-time').html(data.UploadTime);
+                $('#upload-time').html(moment(data.UploadTime).format("DD-MM-yyyy HH:mm:ss"));
                 $('#post-content').html(data.PostContent);
-                $('#crawled-time').html(data.CrawledTime);
+                $('#crawled-time').html(moment(data.CrawledTime).format("DD-MM-yyyy HH:mm:ss"));
                 $('#like').html(data.TotalLikes);
                 $('#comment').html(data.TotalComment);
                 $('#share').html(data.TotalShare);
