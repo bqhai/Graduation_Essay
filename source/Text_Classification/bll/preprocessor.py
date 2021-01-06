@@ -6,7 +6,6 @@ import bll.config_log
 import bll.ViTokenizer
 
 
-
 # --Standardized Vietnamese charset--
 def load_dict_char():
     dic = {}
