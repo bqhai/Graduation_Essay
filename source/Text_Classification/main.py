@@ -459,9 +459,11 @@ class MainWindow(Frame):
                     if status == 0:
                         write_success_info('Tổng số bài viết thu thập: ' + str(count_crawled_post()))
                     elif status == -1:
-                        write_warning_info('Hủy')
+                        write_warning_info('Link Facebook không hợp lệ')
                     elif status == -4:
                         write_error_info('Có lỗi xảy ra ở server')
+                    elif status == -5:
+                        write_warning_info('Hủy')
                     else:
                         write_error_info('Kết nối server thất bại')
                 except EXCEPTION:
