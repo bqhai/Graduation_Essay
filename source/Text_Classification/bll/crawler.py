@@ -83,7 +83,6 @@ def crawl_page(url, scroll_down):
             total_react = post['likes']
             total_shares = post['shares']
             total_cmts = post['comments']
-
             list_json_post.append({
                 'PostUrl': post_url,
                 'UserUrl': user_url,
@@ -115,40 +114,36 @@ def crawl_group(url, scroll_down):
     list_json_post = []
     global total_post_crawled
     total_post_crawled = 0
-    try:
-        for post in get_posts(group=facebook_id, pages=scroll_down, extra_info=True):
-            global stop_flag
-            if stop_flag:
-                return -5
-            if str(post['post_id']) == 'None':
-                post_url = None
-            else:
-                post_url = 'https://www.facebook.com/groups/' + facebook_id + '/permalink/' + str(post['post_id']) + '/'
-            time = str(post['time'])
-            user_url = 'https://www.facebook.com/' + str(post['user_id'])
-            post_text = str(post['text'])
-            image = str(post['image'])
-            total_react = post['likes']
-            total_shares = post['shares']
-            total_cmts = post['comments']
-
-            list_json_post.append({
-                'PostUrl': post_url,
-                'UserUrl': user_url,
-                'UploadTime': time,
-                'CrawledTime': (datetime.now()).strftime("%Y/%m/%d %H:%M:%S"),
-                'PostContent': post_text,
-                'Image': image,
-                'TotalLikes': total_react,
-                'TotalComment': total_cmts,
-                'TotalShare': total_shares,
-                'FacebookID': facebook_id,
-                'NewsLabelID': convert_label_to_text(predict(post_text))[0],
-                'SentimentLabelID': convert_label_to_text(predict(post_text))[2]
-            })
-            total_post_crawled += 1
-    except:
-        return -1
+    for post in get_posts(group=facebook_id, pages=scroll_down, extra_info=True):
+        global stop_flag
+        if stop_flag:
+            return -5
+        if str(post['post_id']) == 'None':
+            post_url = None
+        else:
+            post_url = 'https://www.facebook.com/groups/' + facebook_id + '/permalink/' + str(post['post_id']) + '/'
+        time = str(post['time'])
+        user_url = 'https://www.facebook.com/' + str(post['user_id'])
+        post_text = str(post['text'])
+        image = str(post['image'])
+        total_react = post['likes']
+        total_shares = post['shares']
+        total_cmts = post['comments']
+        list_json_post.append({
+            'PostUrl': post_url,
+            'UserUrl': user_url,
+            'UploadTime': time,
+            'CrawledTime': (datetime.now()).strftime("%Y/%m/%d %H:%M:%S"),
+            'PostContent': post_text,
+            'Image': image,
+            'TotalLikes': total_react,
+            'TotalComment': total_cmts,
+            'TotalShare': total_shares,
+            'FacebookID': facebook_id,
+            'NewsLabelID': convert_label_to_text(predict(post_text))[0],
+            'SentimentLabelID': convert_label_to_text(predict(post_text))[2]
+        })
+        total_post_crawled += 1
     if not list_json_post:
         logging.info('Group does not exits')
         return -1
