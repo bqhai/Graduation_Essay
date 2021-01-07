@@ -3,6 +3,9 @@ __author__ = 'Hai Bui'
 from helium import *
 import json
 import time
+import sys
+import os
+from selenium import webdriver
 import bll.config_log
 import logging
 
@@ -39,13 +42,6 @@ def start(url='', scroll_down=0, username='', password=''):
         btn_login_2 = find_all(S('[name="login"]'))
         click(btn_login_2[0])
 
-    # print('Load more posts and check for Not Now button')
-    # load_more_posts()
-    # logging.info('Load more posts and check for Not Now button')
-    # btn_notnow = find_all(S('#expanding_cta_close_button'))
-    # if btn_notnow:
-    #     print('Click Not Now button')
-    #     click(btn_notnow[0].web_element.text)
     time.sleep(5)
     load_more_posts()
     for i in range(scroll_down):
