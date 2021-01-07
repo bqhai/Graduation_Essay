@@ -30,7 +30,7 @@ namespace BLL_NewsManagementSystem.BLL
             {
                 postDTOs.Add(_mapToPostDto.Translate(item));
             }
-            return postDTOs;
+            return postDTOs.OrderByDescending(po => po.UploadTime).ToList();
         }
         public List<PostDTO> FilterPost(FilterDTO filterDto)
         {
