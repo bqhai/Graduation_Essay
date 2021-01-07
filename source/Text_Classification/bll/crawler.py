@@ -153,6 +153,7 @@ def crawl_group(url, scroll_down):
         return add_list_json_post(list_json_post)
 
 
+
 def crawl_user(url, scroll_down, username, password):
     global stop_flag
     if stop_flag:
