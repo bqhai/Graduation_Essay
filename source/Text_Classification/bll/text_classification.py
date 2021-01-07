@@ -40,7 +40,15 @@ def predict(input_data):
 
 
 def convert_label_to_text(label):
-    if Counter(label) == Counter(['__label__công_nghệ']):
+    if Counter(label) == Counter(['__label__an_ninh_trật_tự_neg']):
+        return ['ANTT', 'AN NINH TRẬT TỰ', 'NEG', 'TIÊU CỰC']
+    elif Counter(label) == Counter(['__label__an_ninh_trật_tự_pos']):
+        return ['ANTT', 'AN NINH TRẬT TỰ', 'POS', 'TÍCH CỰC']
+    elif Counter(label) == Counter(['__label__an_ninh_quốc_gia_neg']):
+        return ['ANQG', 'AN NINH QUỐC GIA', 'NEG', 'TIÊU CỰC']
+    elif Counter(label) == Counter(['__label__an_ninh_quốc_gia_pos']):
+        return ['ANQG', 'AN NINH QUỐC GIA', 'POS', 'TÍCH CỰC']
+    elif Counter(label) == Counter(['__label__công_nghệ']):
         return ['CN', 'CÔNG NGHỆ', 'NEU', 'BÌNH THƯỜNG']
     elif Counter(label) == Counter(['__label__thể_thao']):
         return ['TTH', 'THỂ THAO', 'NEU', 'BÌNH THƯỜNG']
@@ -62,9 +70,4 @@ def convert_label_to_text(label):
         return ['AT', 'ẨM THỰC', 'NEU', 'BÌNH THƯỜNG']
     elif Counter(label) == Counter(['__label__sức_khỏe']):
         return ['SK', 'SỨC KHỎE', 'NEU', 'BÌNH THƯỜNG']
-    elif Counter(label) == Counter(['__label__an_ninh_trật_tự']):
-        return ['ANTT', 'AN NINH TRẬT TỰ', 'NEU', 'BÌNH THƯỜNG']
-    elif Counter(label) == Counter(['__label__an_ninh_quốc_gia_neg']):
-        return ['ANQG', 'AN NINH QUỐC GIA', 'NEG', 'TIÊU CỰC']
-    elif Counter(label) == Counter(['__label__an_ninh_quốc_gia_pos']):
-        return ['ANQG', 'AN NINH QUỐC GIA', 'POS', 'TÍCH CỰC']
+
