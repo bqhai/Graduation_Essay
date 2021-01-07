@@ -140,7 +140,7 @@
                                             <td style="text-align: center"><span class="label label-primary">@item.SentimentLabelName</span></td>
                                         }
                                         <td style="text-align: center">
-                                            <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#view-post-detail" onclick="viewPostDetail('@item.PostID')">
+                                            <button id="btn-view-post-detail" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#view-post-detail" onclick="viewPostDetail('@item.PostID')">
                                                 <i class="fa fa-eye"></i>
                                             </button>
                                         </td>
@@ -362,6 +362,9 @@
                 alert('Lỗi kết nối đến server!');
             }
         });
+        //data - toggle="modal" data - target="#view-post-detail"
+        //$('#btn-view-post-detail').attr('data-toggle').val('modal');
+        //$('#btn-view-post-detail').attr('data-target').val('#view-post-detail');
     }
     function clearLabelColor() {
         $('#sentiment-label').removeClass('label-danger');
