@@ -20,7 +20,7 @@ class ViTokenizer:
     if sys.version_info[0] == 3:
         model_file = 'models/pyvi3.pkl'
 
-    with open('data/Viet32K.txt', 'r', encoding='utf-8') as fin:
+    with open('data/Viet74K.txt', 'r', encoding='utf-8') as fin:
         for token in fin.read().split('\n'):
             tmp = token.split(' ')
             if len(tmp) == 2:
