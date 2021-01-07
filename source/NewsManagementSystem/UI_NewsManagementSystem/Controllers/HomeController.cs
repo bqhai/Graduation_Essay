@@ -358,7 +358,7 @@ namespace UI_NewsManagementSystem.Controllers
                 if (listPostByID.Count > 0)
                 {
                     ViewBag.ListPost = listPostByID;
-                    ViewBag.TopInteractive = listPostByID.OrderByDescending(po => po.TotalLikes + po.TotalComment + po.TotalShare).Take(5).ToList();
+                    ViewBag.TopInteractive = listPostByID.OrderByDescending(po => po.TotalLikes + po.TotalComment + po.TotalShare).Take(8).ToList();
                     ViewBag.FacebookName = listPostByID.Select(po => po.FacebookName).Take(1).ToList()[0];
                 }                  
                 else
