@@ -18,7 +18,7 @@ label = []
 if not os.path.exists(c.MODEL_PATH):
     os.makedirs(c.MODEL_PATH)
 
-for line in open('../data/news_categories_v4.prep', encoding='utf8'):
+for line in open('../data/news_categories_v5.prep', encoding='utf8'):
     words = line.strip().split()
     label.append(words[0])
     text.append(' '.join(words[1:]))
@@ -45,4 +45,4 @@ train_time = time.time() - start_time
 print('Done training Naive Bayes in', train_time, 'seconds.')
 
 # Save model
-pickle.dump(text_clf, open(os.path.join(c.MODEL_PATH, 'naive_bayes_v4.pkl'), 'wb'))
+pickle.dump(text_clf, open(os.path.join(c.MODEL_PATH, 'naive_bayes_v5.pkl'), 'wb'))
