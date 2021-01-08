@@ -105,5 +105,17 @@ namespace BLL_NewsManagementSystem.BLL
                 return false;
             }
         }
+        public bool Follow(string facebookID)
+        {
+            try
+            {
+                _dalWatchList.Follow(facebookID);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }
