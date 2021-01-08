@@ -66,10 +66,11 @@ namespace UI_NewsManagementSystem.Controllers
         {
             if(Session["Account"] == null)
                 return RedirectToAction("Login", "Account");
-            var watchList = GetWatchList();
+            var watchList = GetWatchList().Where(wl => wl.Status == true).ToList();
             if (watchList != null)
             {
                 ViewBag.Count = watchList.Count;
+                ViewBag.Status = true;
                 ViewBag.State = "All";
                 return View(watchList.Where(wl => wl.Status == true).ToPagedList(pageIndex, pageSize));
             }
