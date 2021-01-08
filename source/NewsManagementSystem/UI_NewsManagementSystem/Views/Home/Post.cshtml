@@ -40,8 +40,11 @@
                             Xuất excel&nbsp;
                             <i class="fa fa-table"></i>
                         </button>
-                        <button id="delete-post" class="btn btn-sm btn-danger" onclick="deletePost()" disabled>Xóa&nbsp;<i class="fa fa-trash"></i></button>
-                        <div id="loader" class="loader" style="float: right; margin-left: 10px" hidden></div>
+                        <button id="delete-post" class="btn btn-sm btn-danger" onclick="deletePost()" disabled>
+                            Xóa&nbsp;
+                            <i id="fa-trash" class="fa fa-trash"></i>
+                            <div id="loader" class="loader" style="float: right; margin-top: 1px; margin-left: 2px; margin-right: 1.35px" hidden></div>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -214,7 +217,7 @@
                         <div class="form-group">
                             <label>Hình ảnh</label>
                             <br />
-                            <a href="#" id="image">
+                            <a href="#" target="_blank" id="image">
                                 <img src="~/Content/img/No_image_available.png" width="400" height="200" />
                             </a>
                         </div>
@@ -307,6 +310,8 @@
         return false;
     }
     async function deletePost() {
+        $('#delete-post').prop('disabled', true);
+        $('#fa-trash').hide();
         $('#loader').show();
         for (var i = 0; i < listPostID.length; i++) {
             //console.log(i);
@@ -317,7 +322,7 @@
                 dataType: 'json',
                 success: function (data) {
                     //console.log(data);
-                    
+
                 },
                 error: function () {
                     console.log('Connect failled');
@@ -325,10 +330,11 @@
             });
         }
         $('#loader').hide();
+        $('#fa-trash').show();
         location.reload();
     }
-    function viewPostDetail(postID) {
-        $.ajax({
+    async function viewPostDetail(postID) {
+        await $.ajax({
             url: 'https://localhost:44347/api/Home/GetPostByID/' + postID + '/',
             //url: baseUrl + 'api/Home/GetPostByID/' + postID + '/',
             type: 'GET',
@@ -362,9 +368,6 @@
                 alert('Lỗi kết nối đến server!');
             }
         });
-        //data - toggle="modal" data - target="#view-post-detail"
-        //$('#btn-view-post-detail').attr('data-toggle').val('modal');
-        //$('#btn-view-post-detail').attr('data-target').val('#view-post-detail');
     }
     function clearLabelColor() {
         $('#sentiment-label').removeClass('label-danger');
