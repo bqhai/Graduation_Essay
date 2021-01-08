@@ -73,6 +73,13 @@ namespace API_NewsManagementSystem.Controllers
             return Json(_bllWatchList.Unfollow(facebookID));
         }
 
+        [HttpPut]
+        [Route("Follow/{facebookID}")]
+        public JsonResult<bool> Follow(string facebookID)
+        {
+            return Json(_bllWatchList.Follow(facebookID));
+        }
+
         [HttpGet]
         [Route("GetAllPost")]
         public JsonResult<List<PostDTO>> GetAllPost()
