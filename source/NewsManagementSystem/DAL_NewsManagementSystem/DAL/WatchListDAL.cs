@@ -77,5 +77,14 @@ namespace DAL_NewsManagementSystem.DAL
                 _db.SaveChanges();
             }
         }
+        public void Follow(string facebookID)
+        {
+            WatchList wl = _db.WatchLists.SingleOrDefault(w => w.FacebookID == facebookID);
+            if (wl != null)
+            {
+                wl.Status = true;
+                _db.SaveChanges();
+            }
+        }
     }
 }
