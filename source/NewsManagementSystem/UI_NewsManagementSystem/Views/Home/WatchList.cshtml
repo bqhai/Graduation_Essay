@@ -18,7 +18,16 @@
                     </div>
                     <div class="col-sm-6" style="text-align:right">
                         <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#add-to-watch-list">Thêm mới&nbsp;<i class="fa fa-plus"></i></button>
-                        <button class="btn btn-sm btn-danger" id="unfollow" onclick="unfollow()" disabled>Hủy theo dõi&nbsp;<i class="fa fa-minus"></i></button>
+                        <button class="btn btn-sm btn-success" id="follow" onclick="follow()" disabled>
+                            Theo dõi&nbsp;
+                            <i id="fa-plus-circle" class="fa fa-plus-circle"></i>
+                            <div id="follow-loader" class="loader" style="float: right; margin-top: 1px; margin-left: 2px; margin-right: 1.34px" hidden></div>
+                        </button>
+                        <button class="btn btn-sm btn-danger" id="unfollow" onclick="unfollow()" disabled>
+                            Hủy theo dõi&nbsp;
+                            <i id="fa-pause-circle" class="fa fa-pause-circle"></i>
+                            <div id="unfollow-loader" class="loader" style="float: right; margin-top: 1px; margin-left: 2px; margin-right: 1.34px" hidden></div>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -29,7 +38,7 @@
                             <form method="post" action="@Url.Action("FilterWatchList", "Home")">
                                 <label>
                                     Loại:
-                                    <select class="form-control input-sm" name="facebookTypeID">
+                                    <select class="form-control input-sm" id="facebook-type-id" name="facebookTypeID">
                                         <option value="ALL">Tất cả</option>
                                         <option value="PAGE">Trang</option>
                                         <option value="GR">Nhóm công khai</option>
@@ -37,7 +46,7 @@
                                     </select>
                                     &nbsp;
                                     Trạng thái
-                                    <select class="form-control input-sm" name="status">
+                                    <select class="form-control input-sm" id="status" name="status">
                                         <option value="ALL">Tất cả</option>
                                         <option value="true">Đang theo dõi</option>
                                         <option value="false">Hủy theo dõi</option>
@@ -229,45 +238,80 @@
             }
         }
     };
-    function toggleUnfollowButton() {
+    function findFacebookID(arr, item) {
+        for (var i = 0; i < arr.length; i++) {
+            if (arr[i] === item) {
+                return true;
+            }
+        }
+    }
+    function toggleButton() {
         if (listFacebookID.length == 0) {
             $('#unfollow').prop('disabled', true);
+            $('#follow').prop('disabled', true);
         }
         else {
             $('#unfollow').prop('disabled', false);
+            $('#follow').prop('disabled', false);
         }
     };
     function addFacebookIDToArray(facebookID) {
-        if ($('#' + facebookID).is(':checked')) {
+        if (!findFacebookID(listFacebookID, facebookID)) {
             listFacebookID.push(facebookID);
         }
         else {
             deleteItemInArray(listFacebookID, facebookID);
         }
-        toggleUnfollowButton();
-        console.log(listFacebookID);
+        toggleButton();
+        //console.log(listFacebookID);
     }
-    function unfollow() {
+    async function unfollow() {
+        $('#unfollow').prop('disabled', true);
+        $('#fa-pause-circle').hide();
+        $('#unfollow-loader').show();
         for (var i = 0; i < listFacebookID.length; i++) {
-            console.log(i);
-            $.ajax({
-                url: 'https://localhost:44347/api/Home/Unfollow/' + listFacebookID[i],
+            await $.ajax({
+                url: 'https://localhost:44347/api/Home/Unfollow/' + listFacebookID[i] + '/',
                 //url: baseUrl + 'api/Home/Unfollow/' + listFacebookID[i],
                 type: 'put',
                 dataType: 'json',
                 success: function (data) {
-                    console.log(data);
-                    location.reload();
+                    //console.log(data);                   
                 },
                 error: function () {
                     console.log('Connect failled');
                 },
             });
         }
+        $('#unfollow-loader').hide();
+        $('#fa-pause-circle').show();
+        location.reload();
+    }
+    async function follow() {
+        $('#follow').prop('disabled', true);
+        $('#fa-plus-circle').hide();
+        $('#follow-loader').show();
+        for (var i = 0; i < listFacebookID.length; i++) {
+            await $.ajax({
+                url: 'https://localhost:44347/api/Home/Follow/' + listFacebookID[i] + '/',
+                //url: baseUrl + 'api/Home/Unfollow/' + listFacebookID[i],
+                type: 'put',
+                dataType: 'json',
+                success: function (data) {
+                    //console.log(data);                   
+                },
+                error: function () {
+                    console.log('Connect failled');
+                },
+            });
+        }
+        $('#follow-loader').hide();
+        $('#fa-plus-circle').show();
+        location.reload();
     }
 
-    function editItemInWatchList(facebookID) {
-        $.ajax({
+    async function editItemInWatchList(facebookID) {
+        await $.ajax({
             url: 'https://localhost:44347/api/Home/GetWatchListItemByID/' + facebookID + "/",
             //url: baseUrl + 'api/Home/GetWatchListItemByID/' + facebookID + "/",
             type: 'GET',
@@ -335,4 +379,11 @@
         $("#add-facebook-url").val('');
         $("#add-facebook-type-id").val('PAGE');
     }
+    var facebookTypeID = @Html.Raw(Json.Encode(ViewBag.FacebookTypeID));
+    var status = @Html.Raw(Json.Encode(ViewBag.Status));
+    //console.log(facebookTypeID, status);
+    if (facebookTypeID != null)
+        $('#facebook-type-id').val(facebookTypeID);
+    if (status != "null")
+        $('#status').val(status);
 </script>
