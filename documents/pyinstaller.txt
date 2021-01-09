@@ -1,1 +1,2 @@
 pyinstaller --onefile --add-binary "helium/_impl/webdrivers/windows/chromedriver.exe;helium/_impl/webdrivers/windows" main.py
+pyinstaller --onefile -w --add-binary "helium/_impl/webdrivers/windows/chromedriver.exe;helium/_impl/webdrivers/windows" main.py
