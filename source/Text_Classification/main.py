@@ -509,7 +509,7 @@ class MainWindow(Frame):
         rad_user_cr = ttk.Radiobutton(frm_fbtype_cr, text='User', cursor='hand2', variable=select_type, value=3)
         rad_user_cr.grid(column=2, row=0, padx=(0, 15))
 
-        chk_login_cr = ttk.Checkbutton(frm_top_cr, text='Đăng nhập (Chỉ dùng cho chức năng thu thập từ user)', variable=login_option, onvalue=True,
+        chk_login_cr = ttk.Checkbutton(frm_top_cr, text='Đăng nhập (Dùng cho chức năng thu thập từ cá nhân)', variable=login_option, onvalue=True,
                                        offvalue=False, command=login)
         chk_login_cr.grid(column=1, row=2, sticky='w', pady=(10, 0))
 
