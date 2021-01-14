@@ -6,6 +6,7 @@ import time
 import sys
 import os
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 import bll.config_log
 import logging
 
@@ -22,7 +23,9 @@ def start(url='', scroll_down=0, username='', password=''):
     global driver
     print('Go to page', url)
     logging.info('Go to page ' + url)
-    driver = start_chrome(url, headless=False)
+    option = Options()
+    option.binary_location = 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'
+    driver = start_chrome(url, headless=False, options=option)
 
     btn_login = find_all(S('[class="_54k8 _56bs _4n44 _6gg6 _901w _56bv _52jh"]'))
     if btn_login:
