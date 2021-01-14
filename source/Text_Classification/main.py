@@ -152,7 +152,7 @@ class MainWindow(Frame):
                 lbl_password_lg.grid(column=0, row=1, sticky='w', padx=15, pady=(15, 0))
                 ent_username_lg = ttk.Entry(win_login, width=40)
                 ent_username_lg.grid(column=1, row=0, pady=(15, 0))
-                ent_password_lg = ttk.Entry(win_login, width=40)
+                ent_password_lg = ttk.Entry(win_login, show='*', width=40)
                 ent_password_lg.grid(column=1, row=1, pady=(15, 0))
                 btn_login_lg = ttk.Button(win_login, text='OK', cursor='hand2', command=login_ok)
                 btn_login_lg.grid(column=1, row=2, sticky='w', pady=(15, 0))
