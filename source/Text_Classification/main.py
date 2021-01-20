@@ -93,7 +93,7 @@ class MainWindow(Frame):
         frm_word_tokenizer = ttk.Frame(tab_control_m)
         frm_text_classification = ttk.Frame(tab_control_m)
         tab_control_m.add(frm_crawler, text='   Thu thập dữ liệu   ')
-        tab_control_m.add(frm_word_tokenizer, text='   Công cụ tách từ   ')
+        tab_control_m.add(frm_word_tokenizer, text='   Công cụ tiền xử lý   ')
         tab_control_m.add(frm_text_classification, text='   Phân loại văn bản   ')
 
         # tab_control_m.add(frm_guild, text='   Hướng dẫn   ')
@@ -565,7 +565,7 @@ class MainWindow(Frame):
         frm_bottom_wt = ttk.Frame(frm_word_tokenizer)
         frm_bottom_wt.grid(column=0, row=1, columnspan=2)
 
-        btn_wt = ttk.Button(frm_bottom_wt, text='Tách từ', cursor='hand2', command=get_preprocessor_text)
+        btn_wt = ttk.Button(frm_bottom_wt, text='Tiền xử lý', cursor='hand2', command=get_preprocessor_text)
         btn_wt.pack(side=RIGHT, padx=5, pady=5)
         btn_clear_wt = ttk.Button(frm_bottom_wt, text='Xóa text', cursor='hand2', command=clear_text_wt)
         btn_clear_wt.pack(side=RIGHT, padx=5, pady=5)
