@@ -187,7 +187,7 @@ class MainWindow(Frame):
             frm_user_wl = Frame(tab_control_wl)
             frm_pgroup_wl = Frame(tab_control_wl)
             tab_control_wl.add(frm_page_wl, text='  Trang  ')
-            tab_control_wl.add(frm_group_wl, text='  Nhóm  ')
+            tab_control_wl.add(frm_group_wl, text='  Nhóm công khai ')
             tab_control_wl.add(frm_pgroup_wl, text='  Nhóm kín ')
             tab_control_wl.add(frm_user_wl, text='  Cá nhân  ')
 
@@ -203,8 +203,8 @@ class MainWindow(Frame):
 
             txt_pgroup_wl = Text(frm_pgroup_wl, wrap=WORD)
             txt_pgroup_wl.pack(fill=BOTH, expand=True)
-            txt_pgroup_wl.tag_config('groupheader', foreground='red', background='yellow')
-            txt_pgroup_wl.insert(END, '{:<50} \t {:89}'.format('Tên nhóm', 'URL') + 'Chọn' + '\n', 'groupheader')
+            txt_pgroup_wl.tag_config('pgroupheader', foreground='red', background='yellow')
+            txt_pgroup_wl.insert(END, '{:<50} \t {:89}'.format('Tên nhóm', 'URL') + 'Chọn' + '\n', 'pgroupheader')
 
             txt_user_wl = Text(frm_user_wl, wrap=WORD)
             txt_user_wl.pack(fill=BOTH, expand=True)
@@ -301,8 +301,10 @@ class MainWindow(Frame):
                 facebook_name = ent_facebook_name_awl.get()
                 if facebook_type.get() == 'Trang':
                     fb_type = 'PAGE'
-                elif facebook_type.get() == 'Nhóm':
+                elif facebook_type.get() == 'Nhóm công khai':
                     fb_type = 'GR'
+                elif facebook_type.get() == 'Nhóm kín':
+                    fb_type = 'PGR'
                 else:
                     fb_type = 'USER'
 
@@ -343,7 +345,7 @@ class MainWindow(Frame):
             lbl_facebook_type_awl.grid(column=0, row=3, sticky='w', padx=15, pady=(15, 0))
 
             facebook_type = StringVar(win_add_watch_list)
-            choices = ['Trang', 'Nhóm', 'Cá nhân']
+            choices = ['Trang', 'Nhóm công khai', 'Nhóm kín', 'Cá nhân']
             facebook_type.set('Trang')
             ent_facebook_id_awl = ttk.Entry(win_add_watch_list, width=65)
             ent_facebook_id_awl.grid(column=1, row=0, pady=(15, 0))
@@ -533,7 +535,7 @@ class MainWindow(Frame):
         rad_page_cr = ttk.Radiobutton(frm_fbtype_cr, text='Trang', cursor='hand2', variable=select_type, value=1)
         rad_page_cr.grid(column=0, row=0, padx=(0, 15))
         select_type.set(1)
-        rad_group_cr = ttk.Radiobutton(frm_fbtype_cr, text='Nhóm', cursor='hand2', variable=select_type, value=2)
+        rad_group_cr = ttk.Radiobutton(frm_fbtype_cr, text='Nhóm công khai', cursor='hand2', variable=select_type, value=2)
         rad_group_cr.grid(column=1, row=0, padx=(0, 15))
         rad_pgroup_cr = ttk.Radiobutton(frm_fbtype_cr, text='Nhóm kín', cursor='hand2', variable=select_type, value=3)
         rad_pgroup_cr.grid(column=2, row=0, padx=(0, 15))
