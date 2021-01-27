@@ -241,7 +241,7 @@ def crawl_pgroup(url, scroll_down, username, password):
         logging.info('Nothing crawled')
         return -1
     else:
-        load_page.stop_and_save('data/facebook_pgroup_post_crawled.json', list_json_post)
+        # load_page.stop_and_save('data/facebook_pgroup_post_crawled.json', list_json_post)
         logging.info('Finished crawling ' + str(total_post_crawled) + ' posts')
         load_page.stop()
         return add_list_json_post(list_json_post)
