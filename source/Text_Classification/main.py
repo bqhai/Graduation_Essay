@@ -20,6 +20,7 @@ import logging
 # ---Global variable---
 list_page_url = []
 list_group_url = []
+list_pgroup_url = []
 list_user_url = []
 
 username = ''
@@ -184,9 +185,11 @@ class MainWindow(Frame):
             frm_page_wl = Frame(tab_control_wl)
             frm_group_wl = Frame(tab_control_wl)
             frm_user_wl = Frame(tab_control_wl)
-            tab_control_wl.add(frm_page_wl, text='  Page  ')
-            tab_control_wl.add(frm_group_wl, text='  Group  ')
-            tab_control_wl.add(frm_user_wl, text='  User  ')
+            frm_pgroup_wl = Frame(tab_control_wl)
+            tab_control_wl.add(frm_page_wl, text='  Trang  ')
+            tab_control_wl.add(frm_group_wl, text='  Nhóm  ')
+            tab_control_wl.add(frm_pgroup_wl, text='  Nhóm kín ')
+            tab_control_wl.add(frm_user_wl, text='  Cá nhân  ')
 
             txt_page_wl = Text(frm_page_wl, wrap=WORD)
             txt_page_wl.pack(fill=BOTH, expand=True)
@@ -197,6 +200,11 @@ class MainWindow(Frame):
             txt_group_wl.pack(fill=BOTH, expand=True)
             txt_group_wl.tag_config('groupheader', foreground='red', background='yellow')
             txt_group_wl.insert(END, '{:<50} \t {:89}'.format('Tên nhóm', 'URL') + 'Chọn' + '\n', 'groupheader')
+
+            txt_pgroup_wl = Text(frm_pgroup_wl, wrap=WORD)
+            txt_pgroup_wl.pack(fill=BOTH, expand=True)
+            txt_pgroup_wl.tag_config('groupheader', foreground='red', background='yellow')
+            txt_pgroup_wl.insert(END, '{:<50} \t {:89}'.format('Tên nhóm', 'URL') + 'Chọn' + '\n', 'groupheader')
 
             txt_user_wl = Text(frm_user_wl, wrap=WORD)
             txt_user_wl.pack(fill=BOTH, expand=True)
@@ -223,6 +231,14 @@ class MainWindow(Frame):
                 else:
                     list_group_url.remove(url)
                 print(list_group_url)
+
+            def select_pgroup_url(url):
+                global list_pgroup_url
+                if url not in list_pgroup_url:
+                    list_pgroup_url.append(url)
+                else:
+                    list_pgroup_url.remove(url)
+                print(list_pgroup_url)
 
             def select_user_url(url):
                 global list_user_url
@@ -254,6 +270,15 @@ class MainWindow(Frame):
                         txt_group_wl.window_create(txt_group_wl.index('end'), window=btn_choose_url)
                         txt_group_wl.insert(END, '\n')
                         txt_group_wl.config(state=DISABLED)
+                    elif i['FacebookTypeID'] == 'PGR':
+                        txt_pgroup_wl.config(state=NORMAL)
+                        txt_pgroup_wl.insert(END, '{:<50} \t {:<89}'.format(i['FacebookName'], i['FacebookUrl']))
+                        chk_select_pgr_wl = Checkbutton(txt_pgroup_wl, cursor='hand2', variable=i['FacebookUrl'], command=lambda url=i['FacebookUrl']: select_pgroup_url(url))
+                        btn_choose_url = ttk.Button(txt_pgroup_wl, text='⮜', width=2, cursor='hand2', command=lambda url=i['FacebookUrl']: choose_url(url))
+                        txt_pgroup_wl.window_create(txt_pgroup_wl.index('end'), window=chk_select_pgr_wl)
+                        txt_pgroup_wl.window_create(txt_pgroup_wl.index('end'), window=btn_choose_url)
+                        txt_pgroup_wl.insert(END, '\n')
+                        txt_pgroup_wl.config(state=DISABLED)
                     else:
                         txt_user_wl.config(state=NORMAL)
                         txt_user_wl.insert(END, '{:<50} \t {:<89}'.format(i['FacebookName'], i['FacebookUrl']))
@@ -385,9 +410,9 @@ class MainWindow(Frame):
                 else:
                     write_warning_info('Đã hủy thao tác thu thập dữ liệu')
                     return
-            # check login if selection = 3 (crawl user)
+            # check login if selection = 3 or 4 (crawl user)
             global username, password
-            if selection == 3:
+            if selection == 3 or selection == 4:
                 if not username or not password:
                     write_warning_info('Yêu cầu đăng nhập...')
                     return
@@ -425,6 +450,7 @@ class MainWindow(Frame):
         def start_crawl_list():
             global list_page_url
             global list_group_url
+            global list_pgroup_url
             global list_user_url
             global username, password
             selection = int(select_type.get())
@@ -436,7 +462,10 @@ class MainWindow(Frame):
                 if not username or not password:
                     write_warning_info('Yêu cầu đăng nhập...')
                     return
-                list_url = list_user_url
+                if selection == 3:
+                    list_url = list_pgroup_url
+                if selection == 4:
+                    list_url = list_user_url
             if not list_url:
                 write_warning_info('Danh sách thu thập trống')
                 return
@@ -501,15 +530,17 @@ class MainWindow(Frame):
         spn_numpage_cr.insert(1, 1)
         frm_fbtype_cr = ttk.Frame(frm_top_cr)
         frm_fbtype_cr.grid(column=1, row=1, sticky='w', pady=(10, 0))
-        rad_page_cr = ttk.Radiobutton(frm_fbtype_cr, text='Page', cursor='hand2', variable=select_type, value=1)
+        rad_page_cr = ttk.Radiobutton(frm_fbtype_cr, text='Trang', cursor='hand2', variable=select_type, value=1)
         rad_page_cr.grid(column=0, row=0, padx=(0, 15))
         select_type.set(1)
-        rad_group_cr = ttk.Radiobutton(frm_fbtype_cr, text='Group', cursor='hand2', variable=select_type, value=2)
+        rad_group_cr = ttk.Radiobutton(frm_fbtype_cr, text='Nhóm', cursor='hand2', variable=select_type, value=2)
         rad_group_cr.grid(column=1, row=0, padx=(0, 15))
-        rad_user_cr = ttk.Radiobutton(frm_fbtype_cr, text='User', cursor='hand2', variable=select_type, value=3)
-        rad_user_cr.grid(column=2, row=0, padx=(0, 15))
+        rad_pgroup_cr = ttk.Radiobutton(frm_fbtype_cr, text='Nhóm kín', cursor='hand2', variable=select_type, value=3)
+        rad_pgroup_cr.grid(column=2, row=0, padx=(0, 15))
+        rad_user_cr = ttk.Radiobutton(frm_fbtype_cr, text='Cá nhân', cursor='hand2', variable=select_type, value=4)
+        rad_user_cr.grid(column=3, row=0, padx=(0, 15))
 
-        chk_login_cr = ttk.Checkbutton(frm_top_cr, text='Đăng nhập (Dùng cho chức năng thu thập từ cá nhân)', variable=login_option, onvalue=True,
+        chk_login_cr = ttk.Checkbutton(frm_top_cr, text='Đăng nhập (Cào nhóm kín & trang cá nhân)', variable=login_option, onvalue=True,
                                        offvalue=False, command=login)
         chk_login_cr.grid(column=1, row=2, sticky='w', pady=(10, 0))
 

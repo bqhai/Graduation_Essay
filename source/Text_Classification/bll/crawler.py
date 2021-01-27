@@ -46,6 +46,12 @@ def get_user_id(url):
     return split_url
 
 
+def get_user_id_pgroup(url):
+    split_url = url.split('Acontent_owner_id_new.')[1]
+    split_url = split_url.split('%')[0]
+    return split_url
+
+
 def convert_intractive(input_str):
     if input_str.find('K') != -1:
         input_str = input_str.replace('K', '')
@@ -104,7 +110,7 @@ def crawl_page(url, scroll_down):
         logging.info('Page does not exits')
         return -1
     else:
-        # load_page.stop_and_save('../data/facebook_post_crawled.json', list_json_post)
+        # load_page.stop_and_save('data/facebook_post_crawled.json', list_json_post)
         logging.info('Finished crawling ' + str(total_post_crawled) + ' posts')
         return add_list_json_post(list_json_post)
 
@@ -152,6 +158,93 @@ def crawl_group(url, scroll_down):
         logging.info('Finished crawling ' + str(total_post_crawled) + ' posts')
         return add_list_json_post(list_json_post)
 
+
+def crawl_pgroup(url, scroll_down, username, password):
+    global stop_flag
+    if stop_flag:
+        return -5
+    facebook_id = url.split('/')[4]
+    load_page.start(url.replace('www', 'm'), scroll_down, username, password)
+    driver = load_page.driver
+    global total_post_crawled
+    list_json_post = []
+    list_html_post = driver.find_elements_by_css_selector('[class="_55wo _5rgr _5gh8 async_like"]')
+    # page does not exit
+    if len(list_html_post) == 0:
+        logging.error('Page does not exit')
+    print('Start crawling', len(list_html_post), 'posts...')
+    logging.info('Start crawling ' + str(len(list_html_post)) + ' posts')
+    for post in list_html_post:
+        base_post_url = get_child_attribute(post, '[class="_52jc _5qc4 _78cz _24u0 _36xo"] a', 'href')
+        post_url = base_post_url.split('?')[0].replace('m', 'www')
+        user_url = 'https://www.facebook.com/' + get_user_id_pgroup(base_post_url) + '/'
+        time = get_child_attribute(post, '[class="_52jc _5qc4 _78cz _24u0 _36xo"] a abbr', 'innerText')
+        post_text = get_child_attribute(post, '[class="_5rgt _5nk5 _5msi"]', 'textContent')
+        total_react = get_child_attribute(post, '[class="_1g06"]', 'innerText')
+        total_cmts_and_shares = get_child_attribute(post, '[class="_1fnt"]', 'innerText')
+        if total_react:
+            if 'others' in total_react:
+                total_react = convert_intractive(total_react.split(' ')[-2])
+            else:
+                total_react = convert_intractive(total_react)
+        else:
+            total_react = 0
+        # Get comment & share
+        if total_cmts_and_shares:
+            cmt_flag = False
+            sh_flag = False
+            if total_cmts_and_shares.find('Comment') != -1:
+                total_cmts_and_shares = total_cmts_and_shares.replace('Comment', '')
+                total_cmts_and_shares = total_cmts_and_shares.replace('s', '')
+                cmt_flag = True
+            if total_cmts_and_shares.find('Share'):
+                total_cmts_and_shares = total_cmts_and_shares.replace('Share', '')
+                total_cmts_and_shares = total_cmts_and_shares.replace('s', '')
+                sh_flag = True
+
+            if cmt_flag and sh_flag:
+                total_cmts = convert_intractive(total_cmts_and_shares.split(' ')[0])
+                total_shares = convert_intractive(total_cmts_and_shares.split(' ')[1])
+            elif not cmt_flag and sh_flag:
+                total_cmts = 0
+                total_shares = convert_intractive(total_cmts_and_shares.split(' ')[0])
+            elif cmt_flag and not sh_flag:
+                total_cmts = convert_intractive(total_cmts_and_shares.split(' ')[0])
+                total_shares = 0
+        else:
+            total_cmts = 0
+            total_shares = 0
+        if time is not None:
+            date = utils.parse_datetime(time, search=False)
+            if date:
+                time = date
+            logger.debug("Could not parse date: %s", time)
+        else:
+            logger.warning("Could not find the abbr element for the date")
+        list_json_post.append({
+            'PostUrl': post_url,
+            'UserUrl': user_url,
+            'UploadTime': str(time),
+            'CrawledTime': (datetime.now()).strftime("%Y/%m/%d %H:%M:%S"),
+            'PostContent': post_text,
+            # # 'Image': image,
+            'TotalLikes': total_react,
+            'TotalComment': total_cmts,
+            'TotalShare': total_shares,
+            'FacebookID': facebook_id,
+            'NewsLabelID': convert_label_to_text(predict(post_text))[0],
+            'SentimentLabelID': convert_label_to_text(predict(post_text))[2]
+        })
+        total_post_crawled += 1
+
+    if not list_json_post:
+        logging.info('Nothing crawled')
+        return -1
+    else:
+        load_page.stop_and_save('data/facebook_pgroup_post_crawled.json', list_json_post)
+        logging.info('Finished crawling ' + str(total_post_crawled) + ' posts')
+        load_page.stop()
+        return add_list_json_post(list_json_post)
 
 
 def crawl_user(url, scroll_down, username, password):
@@ -253,5 +346,8 @@ def crawl(url, scroll_down, selection, username, password):
         logging.info('Selection = Group ' + 'Scroll down = ' + str(scroll_down))
         return crawl_group(url, scroll_down)
     elif selection == 3:
+        logging.info('Selection = Private Group ' + 'Scroll down = ' + str(scroll_down))
+        return crawl_pgroup(url, scroll_down, username, password)
+    elif selection == 4:
         logging.info('Selection = User ' + 'Scroll down = ' + str(scroll_down))
         return crawl_user(url, scroll_down, username, password)
