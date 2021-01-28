@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Results;
+using PagedList;
 using BLL_NewsManagementSystem.BLL;
 using Models_NewsManagementSystem.DTO;
 using Models_NewsManagementSystem.MappingClass;
@@ -85,6 +86,13 @@ namespace API_NewsManagementSystem.Controllers
         public JsonResult<List<PostDTO>> GetAllPost()
         {
             return Json(_bllPost.GetAllPost());
+        }
+
+        [HttpGet]
+        [Route("GetPost/{pageIndex}/{pageSize}")]
+        public JsonResult<IPagedList<PostDTO>> GetPost(int pageIndex, int pageSize)
+        {
+            return Json(_bllPost.GetAllPost().ToPagedList(pageIndex, pageSize));
         }
 
         [HttpPost]
