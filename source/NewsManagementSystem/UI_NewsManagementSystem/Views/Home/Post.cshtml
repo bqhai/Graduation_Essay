@@ -310,25 +310,30 @@
         return false;
     }
     async function deletePost() {
+        var listPost = [];
         $('#delete-post').prop('disabled', true);
         $('#fa-trash').hide();
         $('#loader').show();
         for (var i = 0; i < listPostID.length; i++) {
-            //console.log(i);
-            await $.ajax({
-                url: 'https://localhost:44347/api/Home/RemovePost/' + listPostID[i] + '/',
-                //url: baseUrl + 'api/Home/RemovePost/' + listPostID[i] + '/',
-                type: 'delete',
-                dataType: 'json',
-                success: function (data) {
-                    //console.log(data);
-
-                },
-                error: function () {
-                    console.log('Connect failled');
-                }
-            });
+            var PostDTO = { PostID: listPostID[i] };
+            listPost.push(PostDTO);
         }
+        var dataToSend = JSON.stringify(listPost);
+        //console.log(dataToSend);
+        await $.ajax({
+            url: 'https://localhost:44347/api/home/RemovePost/',
+            //url: baseurl + 'api/home/removepost/',
+            type: 'delete',     
+            data: dataToSend,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            success: function (data) {
+                //console.log(data);
+            },
+            error: function () {
+                console.log('connect failled');
+            }
+        });
         $('#loader').hide();
         $('#fa-trash').show();
         location.reload();
