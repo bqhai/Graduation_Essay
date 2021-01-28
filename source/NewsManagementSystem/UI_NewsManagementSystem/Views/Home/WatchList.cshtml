@@ -273,7 +273,7 @@
         for (var i = 0; i < listFacebookID.length; i++) {
             await $.ajax({
                 url: 'https://localhost:44347/api/Home/Unfollow/' + listFacebookID[i] + '/',
-                //url: baseUrl + 'api/Home/Unfollow/' + listFacebookID[i] + '/',
+                //url: baseurl + 'api/home/unfollow/' + listfacebookid[i] + '/',
                 type: 'put',
                 dataType: 'json',
                 success: function (data) {
@@ -313,7 +313,7 @@
 
     async function editItemInWatchList(facebookID) {
         await $.ajax({
-            url: 'https://localhost:44347/api/Home/GetWatchListItemByID/' + facebookID + "/",
+            url: 'https://localhost:44347/api/Home/GetWatchListItemByID/' + facebookID + '/',
             //url: baseUrl + 'api/Home/GetWatchListItemByID/' + facebookID + '/',
             type: 'GET',
             dataType: 'json',
