@@ -158,5 +158,19 @@ namespace API_NewsManagementSystem.Controllers
         {
             return Json(_bllPost.RemovePost(postID));
         }
+
+        //[HttpDelete]
+        //[Route("RemovePost")]
+        //public JsonResult<bool> RemovePost(string[] listPostID)
+        //{
+        //    return Json(_bllPost.RemovePost(listPostID));
+        //}
+
+        [HttpDelete]
+        [Route("RemovePost")]
+        public JsonResult<bool> RemovePost(IEnumerable<PostDTO> postDtos)
+        {
+            return Json(_bllPost.RemovePost(postDtos));
+        }
     }
 }
