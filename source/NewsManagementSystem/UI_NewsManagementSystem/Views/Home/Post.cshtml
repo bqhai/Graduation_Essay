@@ -321,8 +321,8 @@
         var dataToSend = JSON.stringify(listPost);
         //console.log(dataToSend);
         await $.ajax({
-            //url: 'https://localhost:44347/api/Home/RemovePost/',
-            url: baseUrl + 'api/Home/RemovePost/',
+            url: 'https://localhost:44347/api/Home/RemovePost/',
+            //url: baseUrl + 'api/Home/RemovePost/',
             type: 'delete',     
             data: dataToSend,
             contentType: "application/json; charset=utf-8",
@@ -340,8 +340,8 @@
     }
     async function viewPostDetail(postID) {
         await $.ajax({
-            //url: 'https://localhost:44347/api/Home/GetPostByID/' + postID + '/',
-            url: baseUrl + 'api/Home/GetPostByID/' + postID + '/',
+            url: 'https://localhost:44347/api/Home/GetPostByID/' + postID + '/',
+            //url: baseUrl + 'api/Home/GetPostByID/' + postID + '/',
             type: 'GET',
             dataType: 'json',
             success: function (data) {
