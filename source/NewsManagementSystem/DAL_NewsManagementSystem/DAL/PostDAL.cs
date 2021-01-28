@@ -47,30 +47,30 @@ namespace DAL_NewsManagementSystem.DAL
         public JPost GetPostByID(string postID)
         {
             var query = (from po in _db.Posts
-                        join wl in _db.WatchLists on po.FacebookID equals wl.FacebookID
-                        join nlb in _db.NewsLabels on po.NewsLabelID equals nlb.NewsLabelID
-                        join slb in _db.SentimentLabels on po.SentimentLabelID equals slb.SentimentLabelID
-                        where po.PostID == postID
-                        select new JPost
-                        {
-                            PostID = po.PostID,
-                            PostUrl = po.PostUrl,
-                            UserUrl = po.UserUrl,
-                            PostContent = po.PostContent,
-                            Image = po.Image,
-                            UploadTime = po.UploadTime,
-                            CrawledTime = po.CrawledTime,
-                            TotalLikes = po.TotalLikes,
-                            TotalComment = po.TotalComment,
-                            TotalShare = po.TotalShare,
-                            FacebookID = po.FacebookID,
-                            FacebookName = wl.FacebookName,
-                            NewsLabelID = po.NewsLabelID,
-                            FacebookUrl = wl.FacebookUrl,
-                            NewsLabelName = nlb.NewsLabelName,
-                            SentimentLabelID = po.SentimentLabelID,
-                            SentimentLabelName = slb.SentimentLabelName
-                        }).SingleOrDefault();
+                         join wl in _db.WatchLists on po.FacebookID equals wl.FacebookID
+                         join nlb in _db.NewsLabels on po.NewsLabelID equals nlb.NewsLabelID
+                         join slb in _db.SentimentLabels on po.SentimentLabelID equals slb.SentimentLabelID
+                         where po.PostID == postID
+                         select new JPost
+                         {
+                             PostID = po.PostID,
+                             PostUrl = po.PostUrl,
+                             UserUrl = po.UserUrl,
+                             PostContent = po.PostContent,
+                             Image = po.Image,
+                             UploadTime = po.UploadTime,
+                             CrawledTime = po.CrawledTime,
+                             TotalLikes = po.TotalLikes,
+                             TotalComment = po.TotalComment,
+                             TotalShare = po.TotalShare,
+                             FacebookID = po.FacebookID,
+                             FacebookName = wl.FacebookName,
+                             NewsLabelID = po.NewsLabelID,
+                             FacebookUrl = wl.FacebookUrl,
+                             NewsLabelName = nlb.NewsLabelName,
+                             SentimentLabelID = po.SentimentLabelID,
+                             SentimentLabelName = slb.SentimentLabelName
+                         }).SingleOrDefault();
             return query;
         }
         public void AddNewPost(Post post)
@@ -95,7 +95,7 @@ namespace DAL_NewsManagementSystem.DAL
         public bool CheckExistPost(string postUrl)
         {
             Post po = _db.Posts.SingleOrDefault(p => p.PostUrl == postUrl);
-            if(po != null)
+            if (po != null)
             {
                 return true;
             }
@@ -107,13 +107,23 @@ namespace DAL_NewsManagementSystem.DAL
             _db.Posts.Remove(post);
             _db.SaveChanges();
         }
-        public void RemovePost(string[] lstpostID)
+        public void RemovePost(string[] listPostID)
         {
-            foreach (var item in lstpostID)
+            foreach (var item in listPostID)
             {
                 Post post = _db.Posts.SingleOrDefault(p => p.PostID == item);
                 _db.Posts.Remove(post);
+            }       
+            _db.SaveChanges();
+        }
+        public void RemovePost(Post post)
+        {
+            Post po = _db.Posts.SingleOrDefault(p => p.PostID == post.PostID);
+            if(po != null)
+            {
+                _db.Posts.Remove(po);
             }
+                
             _db.SaveChanges();
         }
     }
