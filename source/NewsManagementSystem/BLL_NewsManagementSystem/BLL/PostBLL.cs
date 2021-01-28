@@ -168,5 +168,33 @@ namespace BLL_NewsManagementSystem.BLL
                 return false;
             }
         }
+        public bool RemovePost(string[] listPostID)
+        {
+            try
+            {
+                _dalPost.RemovePost(listPostID);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public bool RemovePost(IEnumerable<PostDTO> postDtos)
+        {
+            try
+            {
+                foreach (var item in postDtos)
+                {
+                    Post post = _mapToPost.Translate(item);
+                    _dalPost.RemovePost(post);
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }
