@@ -273,7 +273,7 @@
         for (var i = 0; i < listFacebookID.length; i++) {
             await $.ajax({
                 url: 'https://localhost:44347/api/Home/Unfollow/' + listFacebookID[i] + '/',
-                //url: baseurl + 'api/home/unfollow/' + listfacebookid[i] + '/',
+                //url: baseUrl + 'api/Home/Unfollow/' + listFacebookID[i] + '/',
                 type: 'put',
                 dataType: 'json',
                 success: function (data) {
@@ -295,7 +295,7 @@
         for (var i = 0; i < listFacebookID.length; i++) {
             await $.ajax({
                 url: 'https://localhost:44347/api/Home/Follow/' + listFacebookID[i] + '/',
-                //url: baseUrl + 'api/Home/Unfollow/' + listFacebookID[i] + '/',
+                //url: baseUrl + 'api/Home/Follow/' + listFacebookID[i] + '/',
                 type: 'put',
                 dataType: 'json',
                 success: function (data) {
