@@ -24,7 +24,7 @@ def start(url='', scroll_down=0, username='', password=''):
     print('Go to page', url)
     logging.info('Go to page ' + url)
     option = Options()
-    option.binary_location = 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'
+    option.binary_location = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
     driver = start_chrome(url, headless=False, options=option)
 
     btn_chk_login_user = find_all(S('[class="_54k8 _56bs _4n44 _6gg6 _901w _56bv _52jh"]'))
