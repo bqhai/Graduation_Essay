@@ -229,7 +229,7 @@
     </div>
 </div>
 <script>
-    var baseUrl = 'http://kltn26lv2020api.somee.com/';
+    var baseUrl = 'http://localhost:2999/';
     listFacebookID = [];
     function deleteItemInArray(arr, item) {
         for (var i = 0; i < arr.length; i++) {
@@ -272,8 +272,8 @@
         $('#unfollow-loader').show();
         for (var i = 0; i < listFacebookID.length; i++) {
             await $.ajax({
-                url: 'https://localhost:44347/api/Home/Unfollow/' + listFacebookID[i] + '/',
-                //url: baseUrl + 'api/Home/Unfollow/' + listFacebookID[i] + '/',
+                //url: 'https://localhost:44347/api/Home/Unfollow/' + listFacebookID[i] + '/',
+                url: baseUrl + 'api/Home/Unfollow/' + listFacebookID[i] + '/',
                 type: 'put',
                 dataType: 'json',
                 success: function (data) {
@@ -294,8 +294,8 @@
         $('#follow-loader').show();
         for (var i = 0; i < listFacebookID.length; i++) {
             await $.ajax({
-                url: 'https://localhost:44347/api/Home/Follow/' + listFacebookID[i] + '/',
-                //url: baseUrl + 'api/Home/Follow/' + listFacebookID[i] + '/',
+                //url: 'https://localhost:44347/api/Home/Follow/' + listFacebookID[i] + '/',
+                url: baseUrl + 'api/Home/Follow/' + listFacebookID[i] + '/',
                 type: 'put',
                 dataType: 'json',
                 success: function (data) {
@@ -313,8 +313,8 @@
 
     async function editItemInWatchList(facebookID) {
         await $.ajax({
-            url: 'https://localhost:44347/api/Home/GetWatchListItemByID/' + facebookID + '/',
-            //url: baseUrl + 'api/Home/GetWatchListItemByID/' + facebookID + '/',
+            //url: 'https://localhost:44347/api/Home/GetWatchListItemByID/' + facebookID + '/',
+            url: baseUrl + 'api/Home/GetWatchListItemByID/' + facebookID + '/',
             type: 'GET',
             dataType: 'json',
             success: function (data) {

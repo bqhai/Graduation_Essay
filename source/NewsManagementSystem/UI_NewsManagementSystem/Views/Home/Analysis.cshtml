@@ -195,7 +195,7 @@
     </div>
 </div>
 <script>
-    var baseUrl = 'http://kltn26lv2020api.somee.com/';
+    var baseUrl = 'http://localhost:2999/';
     var anqgPost = 0;
     var anttPost = 0;
     var anotherPost = 0;
@@ -231,8 +231,8 @@
     $(document).ready(function () {
         var watchlist = $('#watch-list');
         $.ajax({
-            url: 'https://localhost:44347/api/Home/GetAllWatchList/',
-            //url: baseUrl + 'api/Home/GetAllWatchList/',
+            //url: 'https://localhost:44347/api/Home/GetAllWatchList/',
+            url: baseUrl + 'api/Home/GetAllWatchList/',
             type: 'get',
             dataType: 'json',
             success: function (data) {
