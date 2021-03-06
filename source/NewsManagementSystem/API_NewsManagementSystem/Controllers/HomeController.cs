@@ -9,6 +9,7 @@ using PagedList;
 using BLL_NewsManagementSystem.BLL;
 using Models_NewsManagementSystem.DTO;
 using Models_NewsManagementSystem.MappingClass;
+using System.Web.Http.Cors;
 
 namespace API_NewsManagementSystem.Controllers
 {
@@ -17,6 +18,7 @@ namespace API_NewsManagementSystem.Controllers
     {
         private WatchListBLL _bllWatchList = new WatchListBLL();
         private PostBLL _bllPost = new PostBLL();
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
 
         [HttpGet]
         [Route("GetAllWatchList")]
