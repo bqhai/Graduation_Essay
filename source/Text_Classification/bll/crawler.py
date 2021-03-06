@@ -62,19 +62,22 @@ def get_user_id_pgroup(url):
 
 
 def convert_intractive(input_str):
-    if input_str.find('K') != -1:
-        input_str = input_str.replace('K', '')
-        if input_str.find('.') != -1:
-            input_str = input_str.replace('.', '')
-            input_str = int(input_str[0]) * 1000 + int(input_str[1]) * 100
+    try:
+        if input_str.find('K') != -1:
+            input_str = input_str.replace('K', '')
+            if input_str.find('.') != -1:
+                input_str = input_str.replace('.', '')
+                input_str = int(input_str[0]) * 1000 + int(input_str[1]) * 100
+            else:
+                input_str = int(input_str) * 1000
+        elif len(input_str) <= 0:
+            input_str = 0
         else:
-            input_str = int(input_str) * 1000
-    elif len(input_str) <= 0:
-        input_str = 0
-    else:
-        # convert like to int if like < 1000
-        input_str = int(input_str)
-    return input_str
+            # convert like to int if like < 1000
+            input_str = int(input_str)
+        return input_str
+    except:
+        return 1
 
 
 def crawl_page(url, scroll_down):
