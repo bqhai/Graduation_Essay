@@ -274,7 +274,7 @@
             await $.ajax({
                 //url: 'https://localhost:44347/api/Home/Unfollow/' + listFacebookID[i] + '/',
                 url: baseUrl + 'api/Home/Unfollow/' + listFacebookID[i] + '/',
-                type: 'put',
+                type: 'post',
                 dataType: 'json',
                 success: function (data) {
                     //console.log(data);                   
@@ -296,7 +296,7 @@
             await $.ajax({
                 //url: 'https://localhost:44347/api/Home/Follow/' + listFacebookID[i] + '/',
                 url: baseUrl + 'api/Home/Follow/' + listFacebookID[i] + '/',
-                type: 'put',
+                type: 'post',
                 dataType: 'json',
                 success: function (data) {
                     //console.log(data);                   

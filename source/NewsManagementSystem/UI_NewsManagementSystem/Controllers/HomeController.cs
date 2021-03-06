@@ -168,7 +168,7 @@ namespace UI_NewsManagementSystem.Controllers
         {
             if (Session["Account"] == null)
                 return RedirectToAction("Login", "Account");
-            var response = _apiService.PutResponse("api/Home/UpdateToWatchList", watchList);
+            var response = _apiService.PostResponse("api/Home/UpdateToWatchList", watchList);
             if (response.IsSuccessStatusCode)
             {
                 var result = response.Content.ReadAsAsync<bool>().Result;

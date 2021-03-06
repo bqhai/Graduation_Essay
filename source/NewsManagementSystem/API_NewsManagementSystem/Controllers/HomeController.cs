@@ -62,21 +62,21 @@ namespace API_NewsManagementSystem.Controllers
             return Json(_bllWatchList.AddToWatchList(watchListDto));
         }
 
-        [HttpPut]
+        [HttpPost]
         [Route("UpdateToWatchList")]
         public JsonResult<bool> UpdateToWatchList(WatchListDTO watchListDto)
         {
             return Json(_bllWatchList.UpdateToWatchList(watchListDto));
         }
 
-        [HttpPut]
+        [HttpPost]
         [Route("Unfollow/{facebookID}")]
         public JsonResult<bool> Unfollow(string facebookID)
         {
             return Json(_bllWatchList.Unfollow(facebookID));
         }
 
-        [HttpPut]
+        [HttpPost]
         [Route("Follow/{facebookID}")]
         public JsonResult<bool> Follow(string facebookID)
         {
@@ -168,7 +168,7 @@ namespace API_NewsManagementSystem.Controllers
         //    return Json(_bllPost.RemovePost(listPostID));
         //}
 
-        [HttpDelete]
+        [HttpPost]
         [Route("RemovePost")]
         public JsonResult<bool> RemovePost(IEnumerable<PostDTO> postDtos)
         {
