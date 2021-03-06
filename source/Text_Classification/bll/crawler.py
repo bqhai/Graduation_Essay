@@ -35,21 +35,30 @@ def get_child_attribute(element, selector, attr):
 
 
 def get_fb_id(url):
-    split_url = url.split('fbid=')[1]
-    split_url = split_url.split('&')[0]
-    return split_url
+    try:
+        split_url = url.split('fbid=')[1]
+        split_url = split_url.split('&')[0]
+        return split_url
+    except:
+        return ''
 
 
 def get_user_id(url):
-    split_url = url.split('&id=')[1]
-    split_url = split_url.split('&')[0]
-    return split_url
+    try:
+        split_url = url.split('&id=')[1]
+        split_url = split_url.split('&')[0]
+        return split_url
+    except:
+        return ''
 
 
 def get_user_id_pgroup(url):
-    split_url = url.split('Acontent_owner_id_new.')[1]
-    split_url = split_url.split('%')[0]
-    return split_url
+    try:
+        split_url = url.split('Acontent_owner_id_new.')[1]
+        split_url = split_url.split('%')[0]
+        return split_url
+    except:
+        return ''
 
 
 def convert_intractive(input_str):
