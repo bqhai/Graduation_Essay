@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API_NewsManagementSystem", "API_NewsManagementSystem\API_NewsManagementSystem.csproj", "{E1A5927C-19DB-4813-9D7E-639D424F389A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8CB60B36-5281-4804-AE1E-5709CF13E50D} = {8CB60B36-5281-4804-AE1E-5709CF13E50D}
+		{FB9A79CF-31C4-4AA1-9659-167AF366E728} = {FB9A79CF-31C4-4AA1-9659-167AF366E728}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL_NewsManagementSystem", "DAL_NewsManagementSystem\DAL_NewsManagementSystem.csproj", "{E3179A93-A9CB-4918-BB80-8FA038A3C126}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL_NewsManagementSystem", "BLL_NewsManagementSystem\BLL_NewsManagementSystem.csproj", "{FB9A79CF-31C4-4AA1-9659-167AF366E728}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8CB60B36-5281-4804-AE1E-5709CF13E50D} = {8CB60B36-5281-4804-AE1E-5709CF13E50D}
+		{E3179A93-A9CB-4918-BB80-8FA038A3C126} = {E3179A93-A9CB-4918-BB80-8FA038A3C126}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models_NewsManagementSystem", "Models_NewsManagementSystem\Models_NewsManagementSystem.csproj", "{8CB60B36-5281-4804-AE1E-5709CF13E50D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E3179A93-A9CB-4918-BB80-8FA038A3C126} = {E3179A93-A9CB-4918-BB80-8FA038A3C126}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI_NewsManagementSystem", "UI_NewsManagementSystem\UI_NewsManagementSystem.csproj", "{A02E1B36-7DA4-4C7E-B439-FD14761223BA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E1A5927C-19DB-4813-9D7E-639D424F389A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1A5927C-19DB-4813-9D7E-639D424F389A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1A5927C-19DB-4813-9D7E-639D424F389A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1A5927C-19DB-4813-9D7E-639D424F389A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3179A93-A9CB-4918-BB80-8FA038A3C126}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3179A93-A9CB-4918-BB80-8FA038A3C126}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3179A93-A9CB-4918-BB80-8FA038A3C126}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3179A93-A9CB-4918-BB80-8FA038A3C126}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB9A79CF-31C4-4AA1-9659-167AF366E728}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB9A79CF-31C4-4AA1-9659-167AF366E728}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB9A79CF-31C4-4AA1-9659-167AF366E728}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB9A79CF-31C4-4AA1-9659-167AF366E728}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CB60B36-5281-4804-AE1E-5709CF13E50D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CB60B36-5281-4804-AE1E-5709CF13E50D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CB60B36-5281-4804-AE1E-5709CF13E50D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CB60B36-5281-4804-AE1E-5709CF13E50D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A02E1B36-7DA4-4C7E-B439-FD14761223BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A02E1B36-7DA4-4C7E-B439-FD14761223BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A02E1B36-7DA4-4C7E-B439-FD14761223BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A02E1B36-7DA4-4C7E-B439-FD14761223BA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {35E9250C-4BBB-4C67-88F6-014AC2583AEA}
+	EndGlobalSection
+EndGlobal

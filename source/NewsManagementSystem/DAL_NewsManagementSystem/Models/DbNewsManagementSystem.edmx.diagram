@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="04c1392eba01410f9c52ee9235b94d24" Name="Diagram1">
+        <EntityTypeShape EntityType="NewsManagementSystemModel.Account" Width="1.5" PointX="0.875" PointY="2.625" />
+        <EntityTypeShape EntityType="NewsManagementSystemModel.FacebookType" Width="1.5" PointX="0.875" PointY="4.625" />
+        <EntityTypeShape EntityType="NewsManagementSystemModel.NewsLabel" Width="1.5" PointX="7.5" PointY="2.375" />
+        <EntityTypeShape EntityType="NewsManagementSystemModel.Post" Width="1.5" PointX="5.25" PointY="2.375" />
+        <EntityTypeShape EntityType="NewsManagementSystemModel.SentimentLabel" Width="1.5" PointX="7.5" PointY="4.375" />
+        <EntityTypeShape EntityType="NewsManagementSystemModel.WatchList" Width="1.5" PointX="3" PointY="4.125" />
+        <AssociationConnector Association="NewsManagementSystemModel.FK__WatchList__Statu__15502E78" />
+        <AssociationConnector Association="NewsManagementSystemModel.FK__Post__NewsLabelI__1CF15040" />
+        <AssociationConnector Association="NewsManagementSystemModel.FK__Post__FacebookID__1BFD2C07" />
+        <AssociationConnector Association="NewsManagementSystemModel.FK__Post__SentimentL__1DE57479" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

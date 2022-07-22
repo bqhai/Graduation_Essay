@@ -1,0 +1,285 @@
+﻿
+@{
+    ViewBag.Title = "Thống kê - Đánh giá";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model UI_NewsManagementSystem.Models.Analysis
+<div class="row">
+    <div class="col-lg-12">
+        <h2 class="page-header">Thống kê chung</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-users fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">
+                            <span>@Model.NumberOfWatchList</span>
+                        </div>
+                        <div>
+                            Đối tượng đang theo dõi
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a href="@Url.Action("WatchList", "Home")">
+                <div class="panel-footer">
+                    <span class="pull-left">Xem chi tiết</span>
+                    <span class="pull-right">
+                        <i class="fa fa-arrow-circle-right"></i>
+                    </span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-yellow">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-file-text fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">
+                            <span>@Model.NumberOfPost</span>
+                        </div>
+                        <div>
+                            Tổng bài viết đã thu thập
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a href="@Url.Action("Post", "Home")">
+                <div class="panel-footer">
+                    <span class="pull-left">Xem chi tiết</span>
+                    <span class="pull-right">
+                        <i class="fa fa-arrow-circle-right"></i>
+                    </span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-red">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-times-circle fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">
+                            <span>@Model.NumberOfNegativePost</span>
+                        </div>
+                        <div>
+                            Bài viết có nội dung tiêu cực
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a href="@Url.Action("FilterPost", "Home", new { newsLabelID = "ALL", sentimentLabelID = "NEG" })">
+                <div class="panel-footer">
+                    <span class="pull-left">Xem chi tiết</span>
+                    <span class="pull-right">
+                        <i class="fa fa-arrow-circle-right"></i>
+                    </span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-green">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-check-circle fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">
+                            <span>@Model.NumberOfPositivePost</span>
+                        </div>
+                        <div>
+                            Bài viết có nội dung tích cực
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a href="@Url.Action("FilterPost", "Home", new { newsLabelID = "ALL", sentimentLabelID = "POS" })">
+                <div class="panel-footer">
+                    <span class="pull-left">Xem chi tiết</span>
+                    <span class="pull-right">
+                        <i class="fa fa-arrow-circle-right"></i>
+                    </span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <h2 class="page-header" style="margin-top: 20px;">Thống kê - Đánh giá trên từng đối tượng</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-sm-6">
+                        @*<i class="fa fa-bar-chart fa-2x"></i>&emsp;&emsp;*@<label>@ViewBag.FacebookName</label>   
+                    </div>
+                    <div class="col-sm-6" style="text-align: right; height: 30px">                       
+                        <form method="post" action="@Url.Action("Analysis", "Home")">
+                            <label>
+                                Đối tượng:
+                                <select class="form-control" id="watch-list" name="facebookID" style="width: 280px">
+                                    <option value="" disabled selected>Chọn đối tượng</option>
+                                </select>
+                                <button type="submit" class="btn btn-sm btn-primary">Thống kê</button>
+                            </label>
+                        </form>               
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div style="text-align: center"><strong style="font-size: 18px">Số lượng bài viết / nhãn</strong></div>
+                        <div id="bar-chart" style="height: 390px; width: 100%;"></div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div style="text-align: center"><strong style="font-size: 18px">Tỉ lệ mức độ bài viết</strong></div>
+                        <div id="pie-chart" style="height: 390px; width: 100%;"></div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div style="text-align: center"><strong style="font-size: 18px">Top bài viết có tương tác cao nhất</strong></div>
+                        <table class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th style="width: 25%">URL</th>
+                                    <th style="width: 25%">Thích</th>
+                                    <th style="width: 25%">Bình luận</th>
+                                    <th style="width: 25%">Chia sẻ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (ViewBag.TopInteractive != null)
+                                {
+                                    foreach (var item in ViewBag.TopInteractive)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <a href="@item.PostUrl" target="_blank">Link</a>                                                
+                                            </td>
+                                            <td>@item.TotalLikes</td>
+                                            <td>@item.TotalComment</td>
+                                            <td>@item.TotalShare</td>
+                                        </tr>
+                                    }
+                                }                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>             
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var baseUrl = 'http://localhost:2999/';
+    var anqgPost = 0;
+    var anttPost = 0;
+    var anotherPost = 0;
+    var posPost = 0;
+    var negPost = 0;
+    var neuPost = 0;
+    var listPost = @Html.Raw(Json.Encode(ViewBag.ListPost));
+    if (listPost != null) {
+        for (var i = 0; i < listPost.length; i++) {
+            if (listPost[i].NewsLabelID == 'ANQG')
+                anqgPost++;
+            else if (listPost[i].NewsLabelID == 'ANTT')
+                anttPost++;
+            else
+                anotherPost++;
+
+            if (listPost[i].SentimentLabelID == 'POS')
+                posPost++;
+            else if (listPost[i].SentimentLabelID == 'NEG')
+                negPost++;
+            else
+                neuPost++;
+        }
+        posPost = (posPost * 100) / listPost.length;
+        negPost = (negPost * 100) / listPost.length;
+        neuPost = 100 - posPost - negPost;
+        //console.log(posPost.toFixed(2), negPost.toFixed(2), neuPost.toFixed(2));
+    }
+
+    $('#watch-list').select2({
+        allowClear: true
+    });
+    $(document).ready(function () {
+        var watchlist = $('#watch-list');
+        $.ajax({
+            //url: 'https://localhost:44347/api/Home/GetAllWatchList/',
+            url: baseUrl + 'api/Home/GetAllWatchList/',
+            type: 'get',
+            dataType: 'json',
+            success: function (data) {
+                $.each(data, function (key, value) {
+                    watchlist.append($('<option></option>').val(value.FacebookID).html(value.FacebookName));
+                });
+            },
+            error: function () {
+                console.log('ajax error');
+            }
+        });
+    });
+    var barChart = {
+        animationEnabled: true,
+        axisY: {
+            title: 'Số lượng bài viết',
+            suffix: ''
+        },
+        data: [{
+            type: "column",
+            yValueFormatString: "#,##0.0#" % "",
+            dataPoints: [
+                { label: 'An ninh quốc gia', y: anqgPost },
+                { label: 'An ninh trật tự', y: anttPost },
+                { label: 'Khác', y: anotherPost },
+            ]
+        }]
+    }
+    var pieChart = {
+        theme: 'light2',
+        animationEnabled: true,
+        data: [{
+            type: 'pie',
+            startAngle: 25,
+            toolTipContent: '<b>{label}</b>: {y}%',
+            showInLegend: 'true',
+            legendText: '{label}',
+            indexLabelFontSize: 16,
+            indexLabel: '{label} - {y}%',
+            dataPoints: [
+                { y: neuPost.toFixed(2), label: 'Bình thường' },
+                { y: posPost.toFixed(2), label: 'Tích cực' },
+                { y: negPost.toFixed(2), label: 'Tiêu cực' },
+            ]
+        }]
+    }
+    $('#bar-chart').CanvasJSChart(barChart);
+    $('#pie-chart').CanvasJSChart(pieChart);
+
+</script>

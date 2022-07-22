@@ -1,0 +1,373 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="NewsManagementSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Username" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="AccountType" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FacebookType">
+          <Key>
+            <PropertyRef Name="FacebookTypeID" />
+          </Key>
+          <Property Name="FacebookTypeID" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="FacebookTypeName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="NewsLabel">
+          <Key>
+            <PropertyRef Name="NewsLabelID" />
+          </Key>
+          <Property Name="NewsLabelID" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="NewsLabelName" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Post">
+          <Key>
+            <PropertyRef Name="PostID" />
+          </Key>
+          <Property Name="PostID" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="PostUrl" Type="nvarchar" MaxLength="500" />
+          <Property Name="UserUrl" Type="nvarchar" MaxLength="500" />
+          <Property Name="PostContent" Type="nvarchar(max)" />
+          <Property Name="Image" Type="nvarchar(max)" />
+          <Property Name="UploadTime" Type="datetime" />
+          <Property Name="CrawledTime" Type="datetime" />
+          <Property Name="TotalLikes" Type="int" />
+          <Property Name="TotalComment" Type="int" />
+          <Property Name="TotalShare" Type="int" />
+          <Property Name="FacebookID" Type="nvarchar" MaxLength="100" />
+          <Property Name="NewsLabelID" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="SentimentLabelID" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SentimentLabel">
+          <Key>
+            <PropertyRef Name="SentimentLabelID" />
+          </Key>
+          <Property Name="SentimentLabelID" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="SentimentLabelName" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WatchList">
+          <Key>
+            <PropertyRef Name="FacebookID" />
+          </Key>
+          <Property Name="FacebookID" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="FacebookName" Type="nvarchar" MaxLength="500" />
+          <Property Name="FacebookUrl" Type="nvarchar" MaxLength="500" />
+          <Property Name="FacebookTypeID" Type="nvarchar" MaxLength="100" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Post__FacebookID__1BFD2C07">
+          <End Role="WatchList" Type="Self.WatchList" Multiplicity="0..1" />
+          <End Role="Post" Type="Self.Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WatchList">
+              <PropertyRef Name="FacebookID" />
+            </Principal>
+            <Dependent Role="Post">
+              <PropertyRef Name="FacebookID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Post__NewsLabelI__1CF15040">
+          <End Role="NewsLabel" Type="Self.NewsLabel" Multiplicity="1" />
+          <End Role="Post" Type="Self.Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NewsLabel">
+              <PropertyRef Name="NewsLabelID" />
+            </Principal>
+            <Dependent Role="Post">
+              <PropertyRef Name="NewsLabelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Post__SentimentL__1DE57479">
+          <End Role="SentimentLabel" Type="Self.SentimentLabel" Multiplicity="1" />
+          <End Role="Post" Type="Self.Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SentimentLabel">
+              <PropertyRef Name="SentimentLabelID" />
+            </Principal>
+            <Dependent Role="Post">
+              <PropertyRef Name="SentimentLabelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__WatchList__Statu__15502E78">
+          <End Role="FacebookType" Type="Self.FacebookType" Multiplicity="0..1" />
+          <End Role="WatchList" Type="Self.WatchList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FacebookType">
+              <PropertyRef Name="FacebookTypeID" />
+            </Principal>
+            <Dependent Role="WatchList">
+              <PropertyRef Name="FacebookTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="NewsManagementSystemModelStoreContainer">
+          <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FacebookType" EntityType="Self.FacebookType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NewsLabel" EntityType="Self.NewsLabel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Post" EntityType="Self.Post" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SentimentLabel" EntityType="Self.SentimentLabel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WatchList" EntityType="Self.WatchList" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Post__FacebookID__1BFD2C07" Association="Self.FK__Post__FacebookID__1BFD2C07">
+            <End Role="WatchList" EntitySet="WatchList" />
+            <End Role="Post" EntitySet="Post" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Post__NewsLabelI__1CF15040" Association="Self.FK__Post__NewsLabelI__1CF15040">
+            <End Role="NewsLabel" EntitySet="NewsLabel" />
+            <End Role="Post" EntitySet="Post" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Post__SentimentL__1DE57479" Association="Self.FK__Post__SentimentL__1DE57479">
+            <End Role="SentimentLabel" EntitySet="SentimentLabel" />
+            <End Role="Post" EntitySet="Post" />
+          </AssociationSet>
+          <AssociationSet Name="FK__WatchList__Statu__15502E78" Association="Self.FK__WatchList__Statu__15502E78">
+            <End Role="FacebookType" EntitySet="FacebookType" />
+            <End Role="WatchList" EntitySet="WatchList" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="NewsManagementSystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="NewsManagementSystemEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Accounts" EntityType="NewsManagementSystemModel.Account" />
+          <EntitySet Name="FacebookTypes" EntityType="NewsManagementSystemModel.FacebookType" />
+          <EntitySet Name="NewsLabels" EntityType="NewsManagementSystemModel.NewsLabel" />
+          <EntitySet Name="Posts" EntityType="NewsManagementSystemModel.Post" />
+          <EntitySet Name="SentimentLabels" EntityType="NewsManagementSystemModel.SentimentLabel" />
+          <EntitySet Name="WatchLists" EntityType="NewsManagementSystemModel.WatchList" />
+          <AssociationSet Name="FK__WatchList__Statu__15502E78" Association="NewsManagementSystemModel.FK__WatchList__Statu__15502E78">
+            <End Role="FacebookType" EntitySet="FacebookTypes" />
+            <End Role="WatchList" EntitySet="WatchLists" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Post__NewsLabelI__1CF15040" Association="NewsManagementSystemModel.FK__Post__NewsLabelI__1CF15040">
+            <End Role="NewsLabel" EntitySet="NewsLabels" />
+            <End Role="Post" EntitySet="Posts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Post__FacebookID__1BFD2C07" Association="NewsManagementSystemModel.FK__Post__FacebookID__1BFD2C07">
+            <End Role="WatchList" EntitySet="WatchLists" />
+            <End Role="Post" EntitySet="Posts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Post__SentimentL__1DE57479" Association="NewsManagementSystemModel.FK__Post__SentimentL__1DE57479">
+            <End Role="SentimentLabel" EntitySet="SentimentLabels" />
+            <End Role="Post" EntitySet="Posts" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="AccountType" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FacebookType">
+          <Key>
+            <PropertyRef Name="FacebookTypeID" />
+          </Key>
+          <Property Name="FacebookTypeID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FacebookTypeName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="WatchLists" Relationship="NewsManagementSystemModel.FK__WatchList__Statu__15502E78" FromRole="FacebookType" ToRole="WatchList" />
+        </EntityType>
+        <EntityType Name="NewsLabel">
+          <Key>
+            <PropertyRef Name="NewsLabelID" />
+          </Key>
+          <Property Name="NewsLabelID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="NewsLabelName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Posts" Relationship="NewsManagementSystemModel.FK__Post__NewsLabelI__1CF15040" FromRole="NewsLabel" ToRole="Post" />
+        </EntityType>
+        <EntityType Name="Post">
+          <Key>
+            <PropertyRef Name="PostID" />
+          </Key>
+          <Property Name="PostID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PostUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="UserUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="PostContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UploadTime" Type="DateTime" Precision="3" />
+          <Property Name="CrawledTime" Type="DateTime" Precision="3" />
+          <Property Name="TotalLikes" Type="Int32" />
+          <Property Name="TotalComment" Type="Int32" />
+          <Property Name="TotalShare" Type="Int32" />
+          <Property Name="FacebookID" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="NewsLabelID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SentimentLabelID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="NewsLabel" Relationship="NewsManagementSystemModel.FK__Post__NewsLabelI__1CF15040" FromRole="Post" ToRole="NewsLabel" />
+          <NavigationProperty Name="WatchList" Relationship="NewsManagementSystemModel.FK__Post__FacebookID__1BFD2C07" FromRole="Post" ToRole="WatchList" />
+          <NavigationProperty Name="SentimentLabel" Relationship="NewsManagementSystemModel.FK__Post__SentimentL__1DE57479" FromRole="Post" ToRole="SentimentLabel" />
+        </EntityType>
+        <EntityType Name="SentimentLabel">
+          <Key>
+            <PropertyRef Name="SentimentLabelID" />
+          </Key>
+          <Property Name="SentimentLabelID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SentimentLabelName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Posts" Relationship="NewsManagementSystemModel.FK__Post__SentimentL__1DE57479" FromRole="SentimentLabel" ToRole="Post" />
+        </EntityType>
+        <EntityType Name="WatchList">
+          <Key>
+            <PropertyRef Name="FacebookID" />
+          </Key>
+          <Property Name="FacebookID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FacebookName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="FacebookUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="FacebookTypeID" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="FacebookType" Relationship="NewsManagementSystemModel.FK__WatchList__Statu__15502E78" FromRole="WatchList" ToRole="FacebookType" />
+          <NavigationProperty Name="Posts" Relationship="NewsManagementSystemModel.FK__Post__FacebookID__1BFD2C07" FromRole="WatchList" ToRole="Post" />
+        </EntityType>
+        <Association Name="FK__WatchList__Statu__15502E78">
+          <End Type="NewsManagementSystemModel.FacebookType" Role="FacebookType" Multiplicity="0..1" />
+          <End Type="NewsManagementSystemModel.WatchList" Role="WatchList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FacebookType">
+              <PropertyRef Name="FacebookTypeID" />
+            </Principal>
+            <Dependent Role="WatchList">
+              <PropertyRef Name="FacebookTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Post__NewsLabelI__1CF15040">
+          <End Type="NewsManagementSystemModel.NewsLabel" Role="NewsLabel" Multiplicity="1" />
+          <End Type="NewsManagementSystemModel.Post" Role="Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NewsLabel">
+              <PropertyRef Name="NewsLabelID" />
+            </Principal>
+            <Dependent Role="Post">
+              <PropertyRef Name="NewsLabelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Post__FacebookID__1BFD2C07">
+          <End Type="NewsManagementSystemModel.WatchList" Role="WatchList" Multiplicity="0..1" />
+          <End Type="NewsManagementSystemModel.Post" Role="Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WatchList">
+              <PropertyRef Name="FacebookID" />
+            </Principal>
+            <Dependent Role="Post">
+              <PropertyRef Name="FacebookID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Post__SentimentL__1DE57479">
+          <End Type="NewsManagementSystemModel.SentimentLabel" Role="SentimentLabel" Multiplicity="1" />
+          <End Type="NewsManagementSystemModel.Post" Role="Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SentimentLabel">
+              <PropertyRef Name="SentimentLabelID" />
+            </Principal>
+            <Dependent Role="Post">
+              <PropertyRef Name="SentimentLabelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="NewsManagementSystemModelStoreContainer" CdmEntityContainer="NewsManagementSystemEntities">
+          <EntitySetMapping Name="Accounts">
+            <EntityTypeMapping TypeName="NewsManagementSystemModel.Account">
+              <MappingFragment StoreEntitySet="Account">
+                <ScalarProperty Name="AccountType" ColumnName="AccountType" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FacebookTypes">
+            <EntityTypeMapping TypeName="NewsManagementSystemModel.FacebookType">
+              <MappingFragment StoreEntitySet="FacebookType">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="FacebookTypeName" ColumnName="FacebookTypeName" />
+                <ScalarProperty Name="FacebookTypeID" ColumnName="FacebookTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NewsLabels">
+            <EntityTypeMapping TypeName="NewsManagementSystemModel.NewsLabel">
+              <MappingFragment StoreEntitySet="NewsLabel">
+                <ScalarProperty Name="NewsLabelName" ColumnName="NewsLabelName" />
+                <ScalarProperty Name="NewsLabelID" ColumnName="NewsLabelID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Posts">
+            <EntityTypeMapping TypeName="NewsManagementSystemModel.Post">
+              <MappingFragment StoreEntitySet="Post">
+                <ScalarProperty Name="SentimentLabelID" ColumnName="SentimentLabelID" />
+                <ScalarProperty Name="NewsLabelID" ColumnName="NewsLabelID" />
+                <ScalarProperty Name="FacebookID" ColumnName="FacebookID" />
+                <ScalarProperty Name="TotalShare" ColumnName="TotalShare" />
+                <ScalarProperty Name="TotalComment" ColumnName="TotalComment" />
+                <ScalarProperty Name="TotalLikes" ColumnName="TotalLikes" />
+                <ScalarProperty Name="CrawledTime" ColumnName="CrawledTime" />
+                <ScalarProperty Name="UploadTime" ColumnName="UploadTime" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="PostContent" ColumnName="PostContent" />
+                <ScalarProperty Name="UserUrl" ColumnName="UserUrl" />
+                <ScalarProperty Name="PostUrl" ColumnName="PostUrl" />
+                <ScalarProperty Name="PostID" ColumnName="PostID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SentimentLabels">
+            <EntityTypeMapping TypeName="NewsManagementSystemModel.SentimentLabel">
+              <MappingFragment StoreEntitySet="SentimentLabel">
+                <ScalarProperty Name="SentimentLabelName" ColumnName="SentimentLabelName" />
+                <ScalarProperty Name="SentimentLabelID" ColumnName="SentimentLabelID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WatchLists">
+            <EntityTypeMapping TypeName="NewsManagementSystemModel.WatchList">
+              <MappingFragment StoreEntitySet="WatchList">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="FacebookTypeID" ColumnName="FacebookTypeID" />
+                <ScalarProperty Name="FacebookUrl" ColumnName="FacebookUrl" />
+                <ScalarProperty Name="FacebookName" ColumnName="FacebookName" />
+                <ScalarProperty Name="FacebookID" ColumnName="FacebookID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
