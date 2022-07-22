@@ -1,0 +1,400 @@
+﻿
+@{
+    ViewBag.Title = "Danh sách bài viết";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using PagedList.Mvc
+@model PagedList.IPagedList<UI_NewsManagementSystem.Models.Post>
+<div class="row">
+    <div class="col-lg-12">
+        <h2 class="page-header">Danh sách bài viết</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-sm-9 form-inline" style="height: 30px">
+                        <form method="post" action="@Url.Action("SetPageSize", "Home")">
+                            <label>
+                                Hiển thị:
+                                <select class="form-control input-sm" id="page-size" name="pageSize">
+                                    <option value="10">10</option>
+                                    <option value="20">20</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                    <option value="200">200</option>
+                                    <option value="500">500</option>
+                                </select>
+                                &nbsp;
+                                bài
+                                &nbsp;
+                                <input type="submit" class="btn btn-sm btn-primary" value="OK" />
+                            </label>
+                        </form>
+                    </div>
+                    <div class="col-sm-3" style="text-align:right">
+                        @*<a href="@Url.Action("ExcelExport", "Home")"><input class="btn btn-sm btn-success" value="Excel"/></a>*@
+                        <button id="excel-export" class="btn btn-sm btn-success" onclick="location.href='@Url.Action("ExcelExport", "Home")'">
+                            Xuất excel&nbsp;
+                            <i class="fa fa-table"></i>
+                        </button>
+                        <button id="delete-post" class="btn btn-sm btn-danger" onclick="deletePost()" disabled>
+                            Xóa&nbsp;
+                            <i id="fa-trash" class="fa fa-trash"></i>
+                            <div id="loader" class="loader" style="float: right; margin-top: 1px; margin-left: 2px; margin-right: 1.35px" hidden></div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <form method="post" action="@Url.Action("FilterPost", "Home")">
+                                <label>
+                                    Nhãn:
+                                    <select class="form-control input-sm" id="news-label-id" name="newsLabelID">
+                                        <option value="ALL">Tất cả</option>
+                                        <option value="ANQG">An ninh quốc gia</option>
+                                        <option value="ANTT">An ninh trật tự</option>
+                                    </select>
+                                    &nbsp;
+                                    Mức độ:
+                                    <select class="form-control input-sm" id="sentiment-label-id" name="sentimentLabelID">
+                                        <option value="ALL">Tất cả</option>
+                                        <option value="POS">Tích cực</option>
+                                        <option value="NEU">Bình thường</option>
+                                        <option value="NEG">Tiêu cực</option>
+                                    </select>
+                                    &nbsp;
+                                    Từ ngày:
+                                    <input type="date" class="form-control input-sm" id="start-date" name="startDate" />
+                                    &nbsp;
+                                    Đến ngày:
+                                    <input type="date" class="form-control input-sm" id="end-date" name="endDate" />
+                                    <input type="submit" class="btn btn-sm btn-primary" value="Lọc" />
+
+                                </label>
+                            </form>
+                        </div>
+                        <div class="col-sm-4">
+                            <div id="dataTables-examble_filter" class="dataTables_filter">
+                                <form method="post" action="@Url.Action("SearchPost", "Home")">
+                                    <label>
+                                        Tìm kiếm:
+                                        <input type="search" class="form-control input-sm" name="keyword" placeholder="Nhập từ khóa cần tìm" required />
+                                        theo&nbsp;
+                                        <select class="form-control input-sm" name="searchOption">
+                                            <option value="post">Nội dung bài viết</option>
+                                            <option value="place">Nơi thu thập</option>
+                                        </select>
+                                        <button class="btn btn-sm btn-primary" type="submit"><i class="fa fa-search"></i></button>
+                                    </label>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" id="dataTables-post">
+                            <thead>
+                                <tr role="row">
+                                    <th aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 30px">
+                                        <input type="checkbox" id="select-all-post" class="checkbox" style="margin-bottom: 3px; cursor: pointer" />
+                                    </th>
+                                    <th rowspan="1" colspan="1" style="width: 300px">URL bài viết</th>
+                                    <th rowspan="1" colspan="1" style="width: 500px">Nội dung bài viết</th>
+                                    <th rowspan="1" colspan="1" style="width: 180px">Ngày đăng</th>
+                                    <th rowspan="1" colspan="1" style="width: 240px">Nơi thu thập</th>
+                                    <th rowspan="1" colspan="1" style="width: 130px; text-align: center">Nhãn</th>
+                                    <th rowspan="1" colspan="1" style="width: 140px; text-align: center">Mức độ</th>
+                                    <th rowspan="1" colspan="1" style="width: 60px; text-align: center">Xem</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr role="row">
+                                        <td>
+                                            <input type="checkbox" id="@item.PostID" name="SelectPost" class="checkbox" onchange="addPostIDToArray('@item.PostID')" style="margin-bottom: 3px; cursor: pointer" />
+                                        </td>
+                                        <td class="ellipsis">
+                                            <span><a href="@item.PostUrl" target="_blank" name="PostUrl">@item.PostUrl</a></span>
+                                        </td>
+                                        <td class="ellipsis"><span>@item.PostContent</span></td>
+                                        <td>@item.UploadTime.Value.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                                        <td class="ellipsis">
+                                            <span><a href="@item.FacebookUrl" target="_blank">@item.FacebookName</a></span>
+                                        </td>
+                                        <td style="text-align: center">@item.NewsLabelName</td>
+                                        @if (item.SentimentLabelID == "NEG")
+                                        {
+                                            <td style="text-align: center"><span class="label label-danger">@item.SentimentLabelName</span></td>
+                                        }
+                                        else if (item.SentimentLabelID == "POS")
+                                        {
+                                            <td style="text-align: center"><span class="label label-success">@item.SentimentLabelName</span></td>
+                                        }
+                                        else
+                                        {
+                                            <td style="text-align: center"><span class="label label-primary">@item.SentimentLabelName</span></td>
+                                        }
+                                        <td style="text-align: center">
+                                            <button id="btn-view-post-detail" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#view-post-detail" onclick="viewPostDetail('@item.PostID')">
+                                                <i class="fa fa-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <strong>Tổng cộng: @ViewBag.Count</strong>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="dataTables_paginate paging_simple_numbers">
+                            <ul class="pagination">
+                                <li class="paginate_button active" aria-controls="dataTables-example" tabindex="0">
+                                    @if (ViewBag.State.Equals("All"))
+                                    {
+                                        @Html.PagedListPager(Model, pageIndex => Url.Action("Post", "Home", new { pageIndex }))
+
+                                    }
+                                    else if (ViewBag.State.Equals("Filter"))
+                                    {
+                                        @Html.PagedListPager(Model, pageIndex => Url.Action("FilterPost", "Home", new { pageIndex, newsLabelID = ViewBag.NewsLabelID, sentimentLabelID = ViewBag.SentimentLabelID, startDate = ViewBag.StartDate, endDate = ViewBag.EndDate }))
+                                    }
+                                    else
+                                    {
+                                        @Html.PagedListPager(Model, pageIndex => Url.Action("SearchPost", "Home", new { pageIndex, keyword = ViewBag.Keyword, searchOption = ViewBag.SearchOption }))
+                                    }
+
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="view-post-detail" class="modal fade">
+    <div class="modal-dialog" id="md-view-post-detail">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Thông tin bài viết</h4>
+                <button type="button" class="close" data-dismiss="modal" onclick="clearLabelColor()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Url bài viết</label>
+                    <a href="#" id="post-url" target="_blank">
+                        <p>Url bài viết</p>
+                    </a>
+                </div>
+                <div class="form-group">
+                    <label>Url người đăng</label>
+                    <a href="#" id="user-url" target="_blank">
+                        <p>Url người đăng</p>
+                    </a>
+                </div>
+                <div class="form-group">
+                    <label>Thời gian đăng</label>
+                    <p id="upload-time">Thời gian đăng</p>
+                </div>
+                <div class="form-group">
+                    <label>Nội dung bài viết</label>
+                    <textarea id="post-content" class="form-control" rows="10" style="max-width:850px !important;" readonly></textarea>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Hình ảnh</label>
+                            <br />
+                            <a href="#" target="_blank" id="image">
+                                <img src="~/Content/img/No_image_available.png" width="400" height="200" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Tương tác</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <br />
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <strong><i class="fa fa-thumbs-up"></i>&nbsp;Thích:&nbsp;</strong><span id="like">15</span>
+                                </div>
+                                <div class="col-sm-4">
+                                    <strong><i class="fa fa-comment"></i>&nbsp;Bình luận:&nbsp;</strong><span id="comment">20</span>
+                                </div>
+                                <div class="col-sm-4">
+                                    <strong><i class="fa fa-share"></i>&nbsp;Chia sẻ:&nbsp;</strong><span id="share">30</span>
+                                </div>
+                            </div>
+                            (Cập nhật lúc: <span id="crawled-time">25/12/2020 21:16:13</span>)
+                            <br />
+                        </div>
+                        <div class="form-group">
+                            <label>Nhãn bài viết</label>
+                            <p id="news-label" style="font-size: 20px; color: red">Nhãn bài viết</p>
+                        </div>
+                        <div class="form-group">
+                            <label>Mức độ</label>
+                            <br />
+                            <span id="sentiment-label" class="label" style="font-size: 20px;">Mức độ</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clearLabelColor()">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var baseUrl = 'http://localhost:2999/';
+    var listPostID = []; //list postID for delete button and export excel
+    function deleteItemInArray(arr, item) {
+        for (var i = 0; i < arr.length; i++) {
+            if (arr[i] === item) {
+                arr.splice(i, 1);
+                i--;
+            }
+        }
+    };
+    function toggleButton() {
+        if (checkEmptyArray()) {
+            $('#delete-post').prop('disabled', true);
+            //$('#excel-export').prop('disabled', true);
+        }
+        else {
+            $('#delete-post').prop('disabled', false);
+            //$('#excel-export').prop('disabled', false);
+        }
+    };
+    $('#select-all-post').click(function (e) {
+        var table = $(e.target).closest('table');
+        $('td input:checkbox', table).prop('checked', this.checked);
+        $('td input:checkbox', table).each(function () {
+            if (this.checked) {
+                listPostID.push($(this).attr('id'));
+            }
+            else {
+                deleteItemInArray(listPostID, $(this).attr('id'));
+            }
+        });
+        toggleButton();
+        //console.log(listPostID);
+    });
+    function addPostIDToArray(postID) {
+        if ($('#' + postID).is(':checked')) {
+            listPostID.push(postID);
+        }
+        else {
+            deleteItemInArray(listPostID, postID);
+        }
+        toggleButton();
+        //console.log(listPostID);
+    }
+    function checkEmptyArray() {
+        if (listPostID.length == 0) {
+            return true;
+        }
+        return false;
+    }
+    async function deletePost() {
+        var listPost = [];
+        $('#delete-post').prop('disabled', true);
+        $('#fa-trash').hide();
+        $('#loader').show();
+        for (var i = 0; i < listPostID.length; i++) {
+            var PostDTO = { PostID: listPostID[i] };
+            listPost.push(PostDTO);
+        }
+        var dataToSend = JSON.stringify(listPost);
+        //console.log(dataToSend);
+        await $.ajax({
+            //url: 'https://localhost:44347/api/Home/RemovePost/',
+            url: baseUrl + 'api/Home/RemovePost/',
+            type: 'post',     
+            data: dataToSend,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            success: function (data) {
+                //console.log(data);
+            },
+            error: function () {
+                console.log('connect failled');
+            }
+        });
+        $('#loader').hide();
+        $('#fa-trash').show();
+        location.reload();
+    }
+    async function viewPostDetail(postID) {
+        await $.ajax({
+            //url: 'https://localhost:44347/api/Home/GetPostByID/' + postID + '/',
+            url: baseUrl + 'api/Home/GetPostByID/' + postID + '/',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                //console.log(data);
+                $('#post-url').attr('href', data.PostUrl).children('p').html(data.PostUrl);
+                $('#user-url').attr('href', data.UserUrl).children('p').html(data.UserUrl);
+                $('#upload-time').html(moment(data.UploadTime).format("DD-MM-yyyy HH:mm:ss"));
+                $('#post-content').html(data.PostContent);
+                $('#crawled-time').html(moment(data.CrawledTime).format("DD-MM-yyyy HH:mm:ss"));
+                $('#like').html(data.TotalLikes);
+                $('#comment').html(data.TotalComment);
+                $('#share').html(data.TotalShare);
+                $('#news-label').html(data.NewsLabelName);
+                if (data.Image != 'None') {
+                    $('#image').attr('href', data.Image).children('img').attr('src', data.Image);
+                }
+                if (data.SentimentLabelID == 'NEG') {
+                    $('#sentiment-label').html(data.SentimentLabelName).addClass('label-danger');
+                }
+                else if (data.SentimentLabelID == 'POS') {
+                    $('#sentiment-label').html(data.SentimentLabelName).addClass('label-success');
+                }
+                else {
+                    $('#sentiment-label').html(data.SentimentLabelName).addClass('label-primary');
+                }
+
+            },
+            error: function () {
+                alert('Lỗi kết nối đến server!');
+            }
+        });
+    }
+    function clearLabelColor() {
+        $('#sentiment-label').removeClass('label-danger');
+        $('#sentiment-label').removeClass('label-success');
+        $('#sentiment-label').removeClass('label-primary');
+        $('#image').attr('href', '#').children('img').attr('src', '');
+    }
+    var pageSize = @Html.Raw(Json.Encode(ViewBag.PageSize));
+    var newsLabelID = @Html.Raw(Json.Encode(ViewBag.NewsLabelID));
+    var sentimentLabelID = @Html.Raw(Json.Encode(ViewBag.SentimentLabelID));
+    var startDate = @Html.Raw(Json.Encode(ViewBag.StartDate));
+    var endDate = @Html.Raw(Json.Encode(ViewBag.EndDate));
+    //console.log(startDate, endDate);
+    if(pageSize != null)
+        $('#page-size').val(pageSize);
+    if (newsLabelID != null)
+        $('#news-label-id').val(newsLabelID);
+    if (sentimentLabelID != null)
+        $('#sentiment-label-id').val(sentimentLabelID);
+    if (startDate != null)
+        $('#start-date').val(moment(startDate).format("yyyy-MM-DD"));
+    if (endDate != null)
+        $('#end-date').val(moment(endDate).format("yyyy-MM-DD"));
+
+</script>

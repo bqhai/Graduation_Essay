@@ -1,0 +1,56 @@
+1.api/Home/GetAllWatchList
+- Get all record in WatchList table 
+	+ Param: None
+	+ Return: list json 
+
+1.1.api/Home/GetWatchListItemByID/{facebookID}
+- Get record in WatchList table by facebookID
+	+ Param: facebookID
+	+ Return: json 
+
+2.api/Home/CheckExistInWatchList/{facebookID}
+- Use to check url exits in watchlist or not.
+	+ Param: facebookID
+	+ Return: true or false 
+- Ex: api/Home/CheckExistInWatchList/viettan
+
+3.api/Home/AddToWatchList
+	+ Param: json object {FacebookID: '', FacebookUrl: '', FacebookName: '', FacebookTypeID: ''}
+	+ Return: true or false
+
+4.api/Home/UpdateToWatchList
+	+ Param: json object {FacebookName: '', Status: '', InBlackList: ''}
+	+ Return: true or false
+
+5.api/Home/GetAllPost
+- Get all record in Post table 
+	+ Param: None
+	+ Return: list json 
+
+5.1.api/Home/GetPostByID/{postID}
+- Get post by ID
+	+ Param: postID
+	+ Return: json
+-Ex: api/Home/GetPostByID/2012202000041566375
+
+6.api/Home/CheckExistPost
+- Use to check post exits in Post table or not.
+	+ Param: json object
+	+ Return: true or false 
+
+8.api/Home/AddNewPost
+	+ Param: json object
+	+ Return: true or false 
+
+9.api/Home/UpdatePost
+	+ Param: json object
+	+ Return: true or false 
+
+10.api/Home/AddNewOrUpdateListPost
+	+ Param: list json object
+	+ Return: true or false 
+
+11.api/Home/RemovePost/{postID}
+	+ Param: postID
+	+ Return: true or false 
+- Ex: api/Home/RemovePost/20201211125403123456

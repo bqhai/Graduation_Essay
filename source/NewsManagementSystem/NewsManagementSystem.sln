@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models_NewsManagementSystem
 		{E3179A93-A9CB-4918-BB80-8FA038A3C126} = {E3179A93-A9CB-4918-BB80-8FA038A3C126}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI_NewsManagementSystem", "UI_NewsManagementSystem\UI_NewsManagementSystem.csproj", "{A02E1B36-7DA4-4C7E-B439-FD14761223BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,10 @@ Global
 		{8CB60B36-5281-4804-AE1E-5709CF13E50D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CB60B36-5281-4804-AE1E-5709CF13E50D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CB60B36-5281-4804-AE1E-5709CF13E50D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A02E1B36-7DA4-4C7E-B439-FD14761223BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A02E1B36-7DA4-4C7E-B439-FD14761223BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A02E1B36-7DA4-4C7E-B439-FD14761223BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A02E1B36-7DA4-4C7E-B439-FD14761223BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

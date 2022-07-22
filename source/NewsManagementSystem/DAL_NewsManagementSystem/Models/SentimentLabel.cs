@@ -17,16 +17,13 @@ namespace DAL_NewsManagementSystem.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public SentimentLabel()
         {
-            this.AutoCrawledPosts = new HashSet<AutoCrawledPost>();
-            this.ManualCrawledPosts = new HashSet<ManualCrawledPost>();
+            this.Posts = new HashSet<Post>();
         }
     
         public string SentimentLabelID { get; set; }
         public string SentimentLabelName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AutoCrawledPost> AutoCrawledPosts { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ManualCrawledPost> ManualCrawledPosts { get; set; }
+        public virtual ICollection<Post> Posts { get; set; }
     }
 }

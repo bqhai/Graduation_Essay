@@ -3,29 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace BLL_NewsManagementSystem.Lib
 {
     public static class AutoGenerate
     {
-        public static string ID(string headID, string lastID)
-        {
-            string ID = headID;
-            if (lastID == null)
-            {
-                ID += "100000";
-            }
-            else
-            {
-                int k = Convert.ToInt32(lastID.Substring(8, 6));
-                k++;
-                ID += k.ToString();
-            }
-            return ID;
-        }
+        private static Random random = new Random();
         public static string PostID()
         {
-            return DateTime.Now.ToString("ddMMyyyyHHmmssffffff");
+            Thread.Sleep(5);
+            return DateTime.Now.ToString("ddMMyyyyHHmmss") + RandomString(6);
+        }
+        public static string RandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }
 }

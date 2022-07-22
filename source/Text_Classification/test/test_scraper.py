@@ -31,6 +31,6 @@ from bll import load_page
 # for post in get_posts('viettan', pages=2, extra_info=True):
 #     print(post)
 
-for post in get_posts(group='nhabaocongdan', pages=2, extra_info=True):
-    print(post)
+for post in get_posts(group='nhabaocongdan', pages=6, extra_info=True):
+    print(post['time'])
 

@@ -2,11 +2,8 @@ __author__ = 'Hai Bui'
 
 import regex as re
 import bll.config_log
-import logging
-from underthesea import word_tokenize
-
-# uniChars = "àáảãạâầấẩẫậăằắẳẵặèéẻẽẹêềếểễệđìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵÀÁẢÃẠÂẦẤẨẪẬĂẰẮẲẴẶÈÉẺẼẸÊỀẾỂỄỆĐÌÍỈĨỊÒÓỎÕỌÔỒỐỔỖỘƠỜỚỞỠỢÙÚỦŨỤƯỪỨỬỮỰỲÝỶỸỴÂĂĐÔƠƯ"
-# unsignChars = "aaaaaaaaaaaaaaaaaeeeeeeeeeeediiiiiooooooooooooooooouuuuuuuuuuuyyyyyAAAAAAAAAAAAAAAAAEEEEEEEEEEEDIIIOOOOOOOOOOOOOOOOOOOUUUUUUUUUUUYYYYYAADOOU"
+# from underthesea import word_tokenize
+import bll.ViTokenizer
 
 
 # --Standardized Vietnamese charset--
@@ -149,7 +146,7 @@ def text_preprocess(document):
     # standardized typing Vietnamese accents
     document = standardized_vietnamese_accent_sentence(document)
     # word tokenize
-    document = word_tokenize(document, format="text")
+    document = bll.ViTokenizer.tokenize(document)
     # convert to lower
     document = document.lower()
     # remove unnecessary char

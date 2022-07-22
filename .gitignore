@@ -612,3 +612,11 @@ dmypy.json
 # End of https://www.toptal.com/developers/gitignore/api/pycharm,python
 source/Text_Classification/.idea/Text_Classification.iml
 source/Text_Classification/.idea/misc.xml
+source/Text_Classification/models/naive_bayes.pkl
+source/Text_Classification/.idea/misc.xml
+source/Text_Classification/.idea/Text_Classification.iml
+source/NewsManagementSystem/UI_NewsManagementSystem/UI_NewsManagementSystem.csproj
+realse/HeThongThuThap_PhanLoaiTinTuc/main.exe
+realse/HeThongThuThap_PhanLoaiTinTuc/models/naive_bayes_v4.pkl
+realse/HeThongThuThap_PhanLoaiTinTuc/models/pyvi.pkl
+realse/HeThongThuThap_PhanLoaiTinTuc/models/pyvi3.pkl

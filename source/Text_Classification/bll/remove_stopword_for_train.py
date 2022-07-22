@@ -1,18 +1,18 @@
 __author__ = 'Hai Bui'
 
-total_label = 18
+total_label = 14
 vocab = {}
 label_vocab = {}
 count = {}
 # Count by label
-for line in open('../data/news_categories.txt', encoding='utf8'):
+for line in open('../data/news_categories_v5.txt', encoding='utf8'):
     key = line.split()[0]
     count[key] = count.get(key, 0) + 1
 
 for key in count:
     print(key, count[key])
 
-for line in open('../data/news_categories.txt', encoding='utf8'):
+for line in open('../data/news_categories_v5.txt', encoding='utf8'):
     words = line.split()
     # first word is label
     label = words[0]
@@ -50,7 +50,7 @@ def remove_stopwords(line):
     return ' '.join(words)
 
 
-with open('../data/news_categories.prep', 'w', encoding='utf8') as fp:
-    for line in open('../data/news_categories.txt', encoding='utf8'):
+with open('../data/news_categories_v5.prep', 'w', encoding='utf8') as fp:
+    for line in open('../data/news_categories_v5.txt', encoding='utf8'):
         line = remove_stopwords(line)
         fp.write(line + '\n')

@@ -3,6 +3,10 @@ __author__ = 'Hai Bui'
 from helium import *
 import json
 import time
+import sys
+import os
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 import bll.config_log
 import logging
 
@@ -15,40 +19,32 @@ def load_more_posts():
         pass
 
 
-def start(url='', scroll_down=0, selection=0, login_option=False, username='', password=''):
+def start(url='', scroll_down=0, username='', password=''):
     global driver
     print('Go to page', url)
     logging.info('Go to page ' + url)
-    driver = start_chrome(url, headless=False)
+    option = Options()
+    option.binary_location = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
+    driver = start_chrome(url, headless=False, options=option)
 
-    # start for FB page
-    if selection == 1:
-        btn_close = find_all(S('[class="autofocus  layerCancel _4jy0 _4jy3 _4jy1 _51sy selected _42ft"]'))
-        if btn_close:
-            print('Click Close button')
-            click(btn_close[0])
-            logging.info('Click Close button at page')
+    btn_chk_login_user = find_all(S('[class="_54k8 _56bs _4n44 _6gg6 _901w _56bv _52jh"]'))
+    btn_chk_login_pgroup = find_all(S('[class="_54k8 _56bs _4n43 _6gg6 _901w _56bu _52jh"]'))
+    if btn_chk_login_user:
+        click(btn_chk_login_user[0])
+    elif btn_chk_login_pgroup:
+        click(btn_chk_login_pgroup[0])
+    time.sleep(6)
+    write(username, into='Số di động hoặc email')
+    time.sleep(6)
+    write(password, into='Mật Khẩu')
+    time.sleep(6)
+    btn_login = find_all(S('[name="login"]'))
+    click(btn_login[0])
 
-        print('Load more posts and check for Not Now button')
-        load_more_posts()
-        logging.info('Load more posts and check for Not Now button')
-        btn_notnow = find_all(S('#expanding_cta_close_button'))
-        if btn_notnow:
-            print('Click Not Now button')
-            click(btn_notnow[0].web_element.text)
-
-    # start for FB group
-    if selection == 2:
-        btn_close = find_all(S(
-            '[class="oajrlxb2 s1i5eluu gcieejh5 bn081pho humdl8nn izx4hr6d rq0escxv nhd2j8a9 j83agx80 p7hjln8o kvgmc6g5 cxmmr5t8 oygrvhab hcukyx3x jb3vyjys d1544ag0 qt6c0cv9 tw6a2znq i1ao9s8h esuyzwwr f1sip0of lzcic4wl l9j0dhe7 abiwlrkh p8dawk7l beltcj47 p86d2i9g aot14ch1 kzx2olss cbu4d94t taijpn5t ni8dbmo4 stjgntxs k4urcfbm tv7at329"]'))
-        if btn_close:
-            print('Click Close button')
-            click(btn_close[0])
-        if login_option:
-            write(username, into='Email hoặc điện thoại')
-            write(password, into='Mật Khẩu')
-            click('Accessible login button')
+    time.sleep(5)
+    load_more_posts()
     for i in range(scroll_down):
+        time.sleep(1)
         print('Load more posts times', i + 1, '/', scroll_down)
         load_more_posts()
         logging.info('Load more posts times ' + str(i + 1) + '/' + str(scroll_down))
@@ -59,4 +55,7 @@ def stop_and_save(file_name, list_posts):
     print('Save crawled data...')
     with open(file_name, 'w', encoding='utf-8') as file:
         json.dump(list_posts, file, ensure_ascii=False, indent=4)
-# kill_browser()
+
+
+def stop():
+    kill_browser()
